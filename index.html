@@ -1089,6 +1089,100 @@
     }
 
     /* ========================================
+       WRITING / NOTES
+    ======================================== */
+    #writing {
+      padding: 100px 24px;
+    }
+
+    .writing-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .writing-header {
+      margin-bottom: 56px;
+    }
+
+    .writing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .writing-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .writing-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .writing-card:hover::before {
+      opacity: 1;
+    }
+
+    .writing-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(168,255,110,0.25);
+      box-shadow: 0 8px 32px rgba(168,255,110,0.08);
+    }
+
+    .writing-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .writing-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .writing-excerpt {
+      font-size: 13px;
+      color: var(--text-sec);
+      line-height: 1.65;
+    }
+
+    .writing-read {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .writing-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
        CTA SECTION
     ======================================== */
     #cta {
@@ -1288,6 +1382,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="#writing">Writing</a></li>
         <li><a href="#cta">Contact</a></li>
       </ul>
       <div class="nav-cta">
@@ -1303,6 +1398,7 @@
         <li><a href="#about" style="font-size:15px;font-weight:600;color:var(--text-sec);" onclick="document.getElementById('mobile-menu').style.display='none'">About</a></li>
         <li><a href="#projects" style="font-size:15px;font-weight:600;color:var(--text-sec);" onclick="document.getElementById('mobile-menu').style.display='none'">Projects</a></li>
         <li><a href="#skills" style="font-size:15px;font-weight:600;color:var(--text-sec);" onclick="document.getElementById('mobile-menu').style.display='none'">Skills</a></li>
+        <li><a href="#writing" style="font-size:15px;font-weight:600;color:var(--text-sec);" onclick="document.getElementById('mobile-menu').style.display='none'">Writing</a></li>
         <li><a href="#cta" style="font-size:15px;font-weight:600;color:var(--text-sec);" onclick="document.getElementById('mobile-menu').style.display='none'">Contact</a></li>
         <li><a href="mailto:vkas145@gmail.com" class="btn-primary" style="width:max-content;">Connect on LinkedIn</a></li>
       </ul>
@@ -1327,15 +1423,8 @@
           <em>SMB Customers.</em>
         </h1>
         <p class="hero-subtitle">
-          AI Backed 360 Digital Marketing
+          Tele-sales, field sales, and AI, run as one growth engine.
         </p>
-        <div class="hero-tags">
-          <span class="pill-tag">💼 Naukri.com · InfoEdge</span>
-          <span class="pill-tag">🤝 IndiaMART Intermesh</span>
-          <span class="pill-tag">🇮🇳 Digital India · NeGP</span>
-          <span class="pill-tag">🤖 AI &amp; ML Growth</span>
-          <span class="pill-tag">🎓 IIM-A Guest Speaker</span>
-        </div>
         <div class="hero-btns">
           <a href="#about" class="btn-primary">Explore More</a>
         </div>
@@ -1393,7 +1482,7 @@
       <!-- LEFT PHOTO -->
       <div class="about-photo-col">
         <div class="about-photo-card">
-          <img src="vikas.jpg" alt="Vikas Omprakash GoyalVP B2B Product Marketing" />
+          <img src="vikas.jpg" alt="Vikas Omprakash Goyal | VP B2B Product Marketing" />
           <div class="about-yrs-badge">
             14<span style="font-size:0.7em;">+</span>
             <small>Yrs B2B</small>
@@ -1407,10 +1496,10 @@
         <h2 class="about-name">Vikas Omprakash Goyal</h2>
         <div class="about-title">VP B2B Product Marketing · Naukri.com · InfoEdge India</div>
         <p class="about-bio">
-          I help B2B SaaS businesses acquire and grow SMB customers, combining AI-powered growth marketing and high-velocity sales to drive measurable revenue growth. Currently VP, B2B Product Marketing at Naukri.com, I own new SMB customer acquisition across digital, tele-sales, and feet-on-street channels within India's largest recruitment and talent ecosystem. Previously at IndiaMART, I led GTM and acquisition strategy for MSMEs across channel sales, digital, and direct sales teams.
+          Currently VP, B2B Product Marketing at Naukri.com (InfoEdge), I own new SMB customer acquisition across digital, tele-sales, and feet-on-street channels. Previously at IndiaMART, I led GTM and acquisition strategy for MSMEs across channel sales, digital, and direct sales teams.
         </p>
         <p class="about-bio" style="margin-top:14px;">
-          Apart from work, I'm a mathematician by training, the author of <a href="https://www.amazon.in/date-numbers-interesting-equations-expressing-ebook/dp/B07VFW8FNV" target="_blank" rel="noopener" style="color:#A8FF6E;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(168,255,110,0.4);">A Date with Numbers</a>, featured in <a href="https://www.newindianexpress.com/cities/bengaluru/2019/sep/25/number-game-2038634.html" target="_blank" rel="noopener" style="color:#A8FF6E;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(168,255,110,0.4);">New Indian Express</a>, and the founder of <a href="https://www.boloaurlikho.com" target="_blank" rel="noopener" style="color:#A8FF6E;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(168,255,110,0.4);">Bolo Aur Likho</a>, a free AI-powered speech-to-text tool supporting 99+ languages.
+          A mathematician by training, the author of <a href="https://www.amazon.in/date-numbers-interesting-equations-expressing-ebook/dp/B07VFW8FNV" target="_blank" rel="noopener" style="color:#A8FF6E;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(168,255,110,0.4);">A Date with Numbers</a>, featured in <a href="https://www.newindianexpress.com/cities/bengaluru/2019/sep/25/number-game-2038634.html" target="_blank" rel="noopener" style="color:#A8FF6E;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(168,255,110,0.4);">New Indian Express</a>, and the founder of <a href="https://www.boloaurlikho.com" target="_blank" rel="noopener" style="color:#A8FF6E;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(168,255,110,0.4);">Bolo Aur Likho</a>, a free AI-powered speech-to-text tool supporting 99+ languages.
         </p>
         <div class="about-quote">
           <p>"I bring the rigour of a mathematician, the instincts of an operator, and the perspective of someone who's scaled B2B businesses from 0 to 1 and 1 to 100, inside India's most competitive markets."</p>
@@ -1645,6 +1734,26 @@
           <span class="project-award">🇮🇳 National e-Governance Programme · Digital India Impact</span>
         </div>
 
+        <!-- Project 5 -->
+        <div class="project-card">
+          <div class="project-meta">
+            <span class="project-company">Bolo Aur Likho · Founder</span>
+            <span class="project-dot"></span>
+            <span class="project-dept">AI Product</span>
+          </div>
+          <h3 class="project-title">Building a Free AI Speech-to-Text Tool</h3>
+          <p class="project-desc">Built and launched <a href="https://www.boloaurlikho.com" target="_blank" rel="noopener" style="color:#A8FF6E;text-decoration:none;font-weight:600;">Bolo Aur Likho</a>, a free AI-powered transcription tool supporting 99+ languages, powered by OpenAI Whisper. Designed for India-first accessibility with no sign-up required.</p>
+          <div class="project-metrics">
+            <div class="project-metrics-label">Key Metrics</div>
+            <ul class="project-metric-list">
+              <li>99+ languages supported including all major Indian languages</li>
+              <li>Zero-cost, no sign-up, fully browser-based</li>
+              <li>SEO-optimised with 50+ landing pages for organic discovery</li>
+            </ul>
+          </div>
+          <span class="project-award">🤖 Founder-built AI product, from idea to live users</span>
+        </div>
+
       </div>
     </div>
   </section>
@@ -1723,6 +1832,44 @@
   </section>
 
   <!-- ========================================
+       WRITING / NOTES
+  ======================================== -->
+  <section id="writing">
+    <div class="writing-inner">
+      <div class="writing-header">
+        <div class="section-label"><span>Writing</span></div>
+        <h2 class="section-heading">How I Think About Growth</h2>
+        <p class="section-sub">Notes from 14+ years of building and scaling B2B sales engines across India.</p>
+      </div>
+
+      <div class="writing-grid">
+
+        <a href="https://www.linkedin.com/in/vikas-g-91252860/recent-activity/articles/" target="_blank" rel="noopener" class="writing-card">
+          <span class="writing-tag">SMB Strategy</span>
+          <h3 class="writing-title">How I Think About SMB Acquisition in India</h3>
+          <p class="writing-excerpt">India's SMB market isn't one market. It's 50 different markets stitched together by language, geography, and trust. Here's the playbook that actually works when you're selling to a shop owner in Tier-3 India.</p>
+          <span class="writing-read">Read on LinkedIn →</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/vikas-g-91252860/recent-activity/articles/" target="_blank" rel="noopener" class="writing-card">
+          <span class="writing-tag">Sales Operations</span>
+          <h3 class="writing-title">Why Tele-Sales Isn't Dead</h3>
+          <p class="writing-excerpt">Everyone said tele-sales was over. Meanwhile, we scaled a 300+ FTE call centre to 65% higher conversions using data-driven targeting and AI. The phone still works if you pair it with the right data.</p>
+          <span class="writing-read">Read on LinkedIn →</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/vikas-g-91252860/recent-activity/articles/" target="_blank" rel="noopener" class="writing-card">
+          <span class="writing-tag">Channel Sales</span>
+          <h3 class="writing-title">What IndiaMART Taught Me About Channel Partners</h3>
+          <p class="writing-excerpt">Managing 10+ channel partners contributing 55% of paid seller acquisitions taught me that partner success isn't about incentives alone. It's about shared scorecards and ruthless alignment.</p>
+          <span class="writing-read">Read on LinkedIn →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
        CTA SECTION
   ======================================== -->
   <section id="cta">
@@ -1730,7 +1877,8 @@
     <div class="cta-inner">
       <div class="section-label" style="justify-content:center;"><span>Get In Touch</span></div>
       <h2 class="cta-h2">Ready to Scale Your<br>India B2B Growth?</h2>
-      <p class="cta-sub">Let's have a sharp, no-fluff conversation about your India B2B growth opportunity, whether you're at 0→1 or 1→100.</p>
+      <p class="cta-sub">I'm open to full-time leadership roles, advisory engagements with early-stage B2B SaaS targeting SMBs in India, and select speaking opportunities.</p>
+      <p style="color:var(--text-muted);font-size:14px;margin-top:8px;margin-bottom:0;">Founders, recruiters, and conference organisers, let's talk.</p>
       <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:8px;">
         <a href="mailto:vkas145@gmail.com" style="display:inline-flex;align-items:center;gap:10px;background:rgba(168,255,110,0.1);border:1px solid rgba(168,255,110,0.3);border-radius:12px;padding:16px 28px;text-decoration:none;transition:all 0.2s;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A8FF6E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -1758,6 +1906,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="#writing">Writing</a></li>
         <li><a href="#cta">Contact</a></li>
       </ul>
       <div class="footer-copy">© 2026 Vikas Omprakash Goyal &nbsp;·&nbsp; India B2B Growth</div>
