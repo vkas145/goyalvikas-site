@@ -622,6 +622,89 @@
     }
 
     /* ========================================
+       IMAGE SLIDER
+    ======================================== */
+    .img-slider {
+      padding: 48px 0;
+      overflow: hidden;
+      position: relative;
+      background: rgba(10,11,20,0.6);
+      border-top: 1px solid rgba(168,255,110,0.06);
+      border-bottom: 1px solid rgba(168,255,110,0.06);
+    }
+
+    .img-slider::before,
+    .img-slider::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .img-slider::before {
+      left: 0;
+      background: linear-gradient(to right, #0A0B14, transparent);
+    }
+
+    .img-slider::after {
+      right: 0;
+      background: linear-gradient(to left, #0A0B14, transparent);
+    }
+
+    .img-slider-track {
+      display: flex;
+      gap: 28px;
+      animation: slider-scroll 35s linear infinite;
+      width: max-content;
+    }
+
+    .img-slider-track:hover {
+      animation-play-state: paused;
+    }
+
+    .img-slider-item {
+      flex-shrink: 0;
+      width: 260px;
+      height: 195px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(168,255,110,0.12);
+      background: #12131F;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .img-slider-item:hover {
+      transform: scale(1.04);
+      border-color: rgba(168,255,110,0.35);
+    }
+
+    .img-slider-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    @keyframes slider-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    @media (max-width: 768px) {
+      .img-slider-item {
+        width: 200px;
+        height: 150px;
+      }
+      .img-slider {
+        padding: 32px 0;
+      }
+    }
+
+    /* ========================================
        STATS BAND
     ======================================== */
     #stats {
@@ -1355,6 +1438,31 @@
         </ul>
 
       </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       IMAGE SLIDER
+  ======================================== -->
+  <section class="img-slider">
+    <div class="img-slider-track">
+      <div class="img-slider-item"><img src="9999.jpg" alt="IndiaMART Best Performer of the Year 2016-17" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="99.jpg" alt="IndiaMART NSD Best Performer of the Year 2018-19" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="11.jpg" alt="IndiaMART Employee of the Year 2022" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="777.jpg" alt="A Date with Numbers, Book by Vikas Omprakash Goyal" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="666.jpg" alt="MAT Score Card, All India Topper, 99.87 Percentile" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="333.jpg" alt="Guest Speaker at IIM Ahmedabad Alumni Association" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="22.jpg" alt="Vikas Goyal with Hon. Railway Minister Ashwini Vaishnaw" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="555.jpg" alt="Vikas Goyal at Radio City 91.1 FM" loading="lazy" /></div>
+      <!-- Duplicate set for seamless infinite loop -->
+      <div class="img-slider-item"><img src="9999.jpg" alt="IndiaMART Best Performer of the Year 2016-17" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="99.jpg" alt="IndiaMART NSD Best Performer of the Year 2018-19" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="11.jpg" alt="IndiaMART Employee of the Year 2022" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="777.jpg" alt="A Date with Numbers, Book by Vikas Omprakash Goyal" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="666.jpg" alt="MAT Score Card, All India Topper, 99.87 Percentile" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="333.jpg" alt="Guest Speaker at IIM Ahmedabad Alumni Association" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="22.jpg" alt="Vikas Goyal with Hon. Railway Minister Ashwini Vaishnaw" loading="lazy" /></div>
+      <div class="img-slider-item"><img src="555.jpg" alt="Vikas Goyal at Radio City 91.1 FM" loading="lazy" /></div>
     </div>
   </section>
 
