@@ -2356,44 +2356,142 @@
         body.scrollTop = body.scrollHeight;
       }
 
+      // KB entries: phrases (multi-word, weighted x3) and keys (whole-word match)
       var KB = [
-        { keys: ['who','about','yourself','introduce','vikas'],
-          a: "I'm Vikas Omprakash Goyal — VP, SMB & New BD Head at Naukri.com (InfoEdge). 13+ years scaling B2B SMB businesses across India at IndiaMART, Naukri, and Digital India programmes." },
-        { keys: ['experience','career','work','years','background','company','companies'],
-          a: "13+ years across India's biggest B2B platforms: Naukri.com / InfoEdge (2024–present), IndiaMART (2015–2023), and Digital India / NeGP / SREI Sahaj (2012–2015)." },
-        { keys: ['skill','expertise','tool','toolkit','stack'],
-          a: "Four core areas: AI & Agentic AI (Python, LangChain, RAG, Whisper), Digital Marketing (Google/Meta Ads, SEO, WhatsApp Business API), GTM & Sales Enablement (3,500+ field reps, 300+ tele-sales), and Data Analytics (Power BI, SQL, Lean Six Sigma Black Belt)." },
-        { keys: ['ai','agentic','llm','gpt','chatbot','bot','rag'],
-          a: "Yes — I build with OpenAI, LangChain, RAG pipelines, Whisper STT and conversational AI bots. At Naukri I deployed AI calling bots that lifted lead-to-sale conversion by 47%." },
-        { keys: ['naukri','infoedge'],
-          a: "At Naukri (InfoEdge) I lead SMB & New BD — drove 120K+ new users in FY26 at 80% YoY growth. Won the InfoEdge Merit Award (Gold)." },
-        { keys: ['indiamart','mart'],
-          a: "At IndiaMART I was AVP, GTM Head for MSME acquisition. Scaled paid sellers from 50K to 125K+, ran a 3,500+ field/tele-sales org and 10+ channel partners. Employee of the Year 2022 (top 1% of 5,000+)." },
-        { keys: ['hire','hiring','job','role','opportunity','open','available','consult','advisor','advisory'],
-          a: "I'm open to full-time leadership roles, advisory engagements with early-stage B2B SaaS targeting India SMBs, and select speaking opportunities. Best to DM me on WhatsApp or LinkedIn." },
-        { keys: ['contact','reach','email','phone','call','connect','linkedin','whatsapp'],
-          a: "📧 vkas145@gmail.com<br>📱 +91 9560732111 (WhatsApp)<br>🔗 LinkedIn: vikas-g-91252860<br><br>Tap the WhatsApp icon (bottom right) to message me directly.",
+        { id: 'contact',
+          phrases: ['contact details','contact info','reach you','get in touch','how to contact','how do i contact'],
+          keys: ['contact','email','phone','whatsapp','reach','connect'],
+          a: "Here's how to reach me directly:<br><br>📧 <b>vkas145@gmail.com</b><br>📱 <b>+91 9560732111</b> (WhatsApp)<br>🔗 LinkedIn: linkedin.com/in/vikas-g-91252860<br>🌐 www.goyalvikas.com<br>📚 www.boloaurlikho.com<br><br>Tap the green WhatsApp button (bottom-right) to message me right now.",
           html: true },
-        { keys: ['speak','speaker','conference','talk','keynote','event'],
-          a: "Yes, I take select speaking opportunities on India B2B GTM, SMB acquisition, and AI in sales. Send the details on WhatsApp." },
-        { keys: ['location','based','where','city','delhi','noida','india'],
+
+        { id: 'who',
+          phrases: ['about vikas','about you','about yourself','tell me about','who are you','who is vikas','your background','your bio'],
+          keys: ['about','who','yourself','introduce','bio','vikas'],
+          a: "I'm <b>Vikas Omprakash Goyal</b> — Vice President, SMB & New BD Head at Naukri.com (InfoEdge India). A senior B2B sales and GTM leader with <b>13+ years</b> building and scaling SMB businesses on India's largest digital platforms — Naukri and IndiaMART. I've built national field sales orgs of 3,500+ people, transformed commercial models from free → subscription/prepaid, and led AI-powered lead qualification at scale.",
+          html: true },
+
+        { id: 'experience',
+          phrases: ['your experience','work experience','career history','years of experience','how many years','past companies','previous roles','work history'],
+          keys: ['experience','career','years','history','background'],
+          a: "<b>13+ years</b> across India's biggest B2B platforms:<br>• <b>Naukri.com / InfoEdge</b> — VP, SMB & New BD Head (Jan 2024–Present)<br>• <b>IndiaMART InterMESH</b> — AVP, GTM Head & Senior PM (Aug 2015–Jan 2023)<br>• <b>SREI Sahaj e-Village (NeGP)</b> — Asst. Manager, Channel Partner Sales (May 2012–Aug 2015)",
+          html: true },
+
+        { id: 'skills',
+          phrases: ['your skills','your expertise','what can you do','core skills','your toolkit','tech stack','your stack'],
+          keys: ['skill','skills','expertise','toolkit','competency','competencies','strengths'],
+          a: "Four core areas:<br><br><b>1. SMB B2B GTM & Sales</b> — counter-penetration strategy, subscription/prepaid model design<br><b>2. AI & Agentic AI</b> — Python, LangChain, RAG pipelines, Whisper STT, conversational bots, AI-led lead qualification<br><b>3. Digital Marketing</b> — Google/Meta Ads, SEO/SEM, WhatsApp Business API, ROAS optimisation<br><b>4. Data & Analytics</b> — Power BI, SQL, propensity modelling, Lean Six Sigma Black Belt (ASQ)",
+          html: true },
+
+        { id: 'naukri',
+          phrases: ['at naukri','your role at naukri','about naukri','infoedge'],
+          keys: ['naukri','infoedge'],
+          a: "At <b>Naukri.com (InfoEdge)</b> I'm VP, SMB & New BD Head — driving new recruiter growth at scale on India's #1 job platform.<br><br>• Grew SMB customer base by <b>120K+ new users in FY26</b> at <b>80% YoY growth</b><br>• Owned the Customer Growth P&L (CAC, LTV, ROAS) and led a 30+ member cross-functional team across tele-sales, field sales, digital marketing, and AI bots<br>• Drove 32% traffic growth and 47% improvement in lead-to-sale conversion<br>• Won the <b>InfoEdge Merit Award (Gold)</b> for 'Cracking the SMB Code' — top 10 projects across InfoEdge",
+          html: true },
+
+        { id: 'indiamart',
+          phrases: ['at indiamart','your role at indiamart','about indiamart'],
+          keys: ['indiamart','intermesh'],
+          a: "At <b>IndiaMART</b> (Aug 2015–Jan 2023) I rose from Campaign Manager → Senior PM → AVP, GTM Head:<br><br>• Headed GTM for <b>125K+ new paid seller acquisitions/year</b> (ARPU ₹40K), leading 12 managers driving a 3,500+ field & tele-sales org<br>• Managed 10+ channel partners contributing <b>55% of new paid sellers</b><br>• Scaled paid subscriptions from <b>50K (FY19) → 125K+ (FY23)</b> by converting 6M+ free-listed merchants<br>• <b>Employee of the Year 2022</b> — top 1% of 5,000+ employees<br>• <b>Employee of the Year 2020</b> — top 1% of 4,500+ employees<br>• Best Performer 2017 — top 2% of 3,000+ employees",
+          html: true },
+
+        { id: 'srei',
+          phrases: ['at srei','sahaj','digital india','negp','e-governance','e governance'],
+          keys: ['srei','sahaj','negp','egovernance'],
+          a: "At <b>SREI Sahaj e-Village (National e-Governance Plan)</b>, May 2012–Aug 2015, I was Assistant Manager for Channel Partner Sales — e-Learning. Led sales across <b>100+ districts in 6 states</b>, managing 20,000+ Common Service Centres and 800+ employees and partners. Won the <b>Top Strategist Award</b> (out of 500+) for a data-driven strategy presented to the CEO.",
+          html: true },
+
+        { id: 'ai',
+          phrases: ['ai work','ai experience','agentic ai','ai bots','ai calling','llm','rag','do you build ai','use ai'],
+          keys: ['agentic','llm','gpt','rag','langchain','whisper','openai'],
+          a: "Yes — I build with OpenAI, LangChain, RAG pipelines, Whisper STT and conversational AI. At Naukri I deployed <b>AI calling bots</b> that lifted lead-to-sale conversion by <b>47%</b>, and ran AI-led B2B marketing campaigns that drove 1.4x traffic growth. I also run AI-led lead qualification on inbound SMB pipelines.",
+          html: true },
+
+        { id: 'education',
+          phrases: ['your education','where did you study','your degree','your college','your school','academic'],
+          keys: ['education','degree','college','school','study','studied','academics','pgdm','mba','xim','ximb','ldce'],
+          a: "<b>PGDM</b> — Xavier Institute of Management, Bhubaneswar (XIMB), 2010–2012, 71%<br><b>B.E. (IT)</b> — LD College of Engineering, Ahmedabad (LDCE), 2005–2009, 73%",
+          html: true },
+
+        { id: 'certifications',
+          phrases: ['your certifications','your certificates','what certifications'],
+          keys: ['certification','certifications','certificate','certified','course','courses','darden','asq','iiit'],
+          a: "• <b>AI in Marketing</b> — Darden School of Business, UVA<br>• <b>Lean Six Sigma Black Belt</b> — ASQ, USA<br>• <b>Data Science & Analytics</b> — IIIT Bengaluru (pursuing)<br>• <b>Google Digital Marketing & Analytics</b> — Certified",
+          html: true },
+
+        { id: 'achievements',
+          phrases: ['your achievements','your awards','notable achievements','accomplishments','recognition','what awards'],
+          keys: ['achievement','achievements','award','awards','accolade','accolades','recognition'],
+          a: "🏆 <b>Ranked 1st out of 80,000+ candidates</b> in MAT (perfect 800/800)<br>🎓 Delivered guest lecture on ML & Math at <b>IIM Ahmedabad</b><br>📘 Published author — <b>'A Date with Numbers'</b> (Amazon/Flipkart)<br>📊 Ranked 10th out of 50,000+ in Gujarat CET (GCET)<br>🥇 Employee of the Year 2022 & 2020 (IndiaMART) · InfoEdge Merit Award Gold (2025)",
+          html: true },
+
+        { id: 'book',
+          phrases: ['your book','what book','date with numbers','published author'],
+          keys: ['book','author','published','flipkart','amazon'],
+          a: "I'm the published author of <b>'A Date with Numbers'</b>, available on Amazon and Flipkart. I also run <b>www.boloaurlikho.com</b>, a writing initiative.",
+          html: true },
+
+        { id: 'hire',
+          phrases: ['are you hiring','are you available','open to work','open for opportunities','looking for','full time','full-time','hire you','consulting','advisor role','advisory role'],
+          keys: ['hiring','hire','recruit','recruiting','vacancy','opportunity','opportunities','consult','consulting','advisor','advisory','available'],
+          a: "Yes — I'm open to:<br>• <b>Full-time leadership roles</b> in B2B SMB GTM / Sales / Growth<br>• <b>Advisory engagements</b> with early-stage B2B SaaS targeting India SMBs<br>• Select <b>speaking opportunities</b><br><br>Founders, recruiters, and conference organisers — tap the WhatsApp button to talk.",
+          html: true },
+
+        { id: 'speaking',
+          phrases: ['speaking engagement','keynote','conference talk','speak at'],
+          keys: ['speak','speaker','speaking','keynote','conference','panel'],
+          a: "Yes, I take select speaking opportunities on India B2B GTM, SMB acquisition, sales-org building, and AI in sales. Send the details on WhatsApp." },
+
+        { id: 'location',
+          phrases: ['where are you based','where do you live','your location','your city'],
+          keys: ['location','based','city','delhi','noida'],
           a: "Based in India, working with B2B teams across the country." },
-        { keys: ['hi','hello','hey','hola','namaste'],
-          a: "Hi 👋 I'm Vikas's assistant. Ask me about my background, skills, current role, or how to get in touch." },
-        { keys: ['thank','thanks','thx'],
+
+        { id: 'team',
+          phrases: ['team size','how many people','sales team','field sales','tele sales','tele-sales'],
+          keys: ['team','telesales','field','reps','headcount','fte','ftes'],
+          a: "Built and managed national sales orgs ranging from <b>100 to 3,500+</b> people:<br>• 3,500+ field & tele-sales org at IndiaMART (12 managers, 10+ channel partners)<br>• 300+ FTE tele-sales operation at IndiaMART (CAC down 15%, agent efficiency 2.5X)<br>• 30+ cross-functional team at Naukri spanning tele/field/digital/AI bots",
+          html: true },
+
+        { id: 'pnl',
+          phrases: ['p&l','pnl','revenue','cac','ltv','roas'],
+          keys: ['pnl','revenue','cac','ltv','roas','nps','metrics'],
+          a: "Owned full Customer Growth P&L at Naukri (CAC, LTV, ROAS, NPS). Track record: 47% lead-to-sale uplift, 73% paid-seller activation improvement (IndiaMART), 65% tele-sales conversion lift, CAC reduced 15%, agent efficiency 2.5X.",
+          html: true },
+
+        { id: 'greet',
+          phrases: ['hi there','hello','hey vikas','good morning','good evening','namaste'],
+          keys: ['hi','hello','hey','hola','namaste'],
+          a: "Hi 👋 I'm Vikas's assistant. Ask me about my background, current role, skills, education, achievements, or how to get in touch." },
+
+        { id: 'thanks',
+          phrases: ['thank you','thanks a lot','appreciate'],
+          keys: ['thanks','thank','thx'],
           a: "You're welcome! Tap the green WhatsApp button anytime to talk to me directly." }
       ];
 
+      function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
       function answer(q) {
-        var lower = q.toLowerCase();
+        var lower = q.toLowerCase().trim();
         var best = null, bestScore = 0;
         KB.forEach(function (entry) {
           var score = 0;
-          entry.keys.forEach(function (k) { if (lower.indexOf(k) !== -1) score++; });
+          // phrase match (weighted heavily)
+          if (entry.phrases) {
+            entry.phrases.forEach(function (p) {
+              if (lower.indexOf(p.toLowerCase()) !== -1) score += 10;
+            });
+          }
+          // whole-word key match
+          if (entry.keys) {
+            entry.keys.forEach(function (k) {
+              var re = new RegExp('\\b' + escapeRegex(k.toLowerCase()) + '\\b');
+              if (re.test(lower)) score += 1;
+            });
+          }
           if (score > bestScore) { bestScore = score; best = entry; }
         });
-        if (best) return best;
-        return null;
+        return best;
       }
 
       function handleUser(text) {
