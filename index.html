@@ -1739,6 +1739,24 @@
       }
     }
 
+  
+    /* Education & Certification */
+    #education { padding: 60px 24px 40px; }
+    .education-inner { max-width: 1100px; margin: 0 auto; }
+    .education-header { text-align: center; margin-bottom: 40px; }
+    .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+    .edu-card { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; transition: border-color 0.2s, transform 0.2s; }
+    .edu-card:hover { border-color: rgba(168,255,110,0.3); transform: translateY(-2px); }
+    .edu-icon { font-size: 28px; line-height: 1; flex-shrink: 0; }
+    .edu-meta { flex: 1; min-width: 0; }
+    .edu-degree { color: #fff; font-size: 16px; font-weight: 600; line-height: 1.35; margin-bottom: 4px; }
+    .edu-school { color: var(--accent); font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .edu-note { color: var(--text-muted); font-size: 13px; line-height: 1.4; }
+    @media (max-width: 640px) {
+      #education { padding: 40px 20px 24px; }
+      .edu-grid { grid-template-columns: 1fr; }
+    }
+
   </style>
 </head>
 <body>
@@ -1924,6 +1942,123 @@
   </section>
 
   <!-- ========================================
+       WORK
+  ======================================== -->
+  <section id="work">
+    <div class="work-inner">
+      <div class="work-header">
+        <div class="section-label"><span>Work</span></div>
+        <h2 class="section-heading">Where I've Built</h2>
+      </div>
+
+      <div class="work-timeline">
+        <article class="work-card">
+          <div class="work-period">2024 &middot; Present</div>
+          <h3 class="work-company">Naukri.com &middot; InfoEdge India</h3>
+          <div class="work-role">Vice President, SMB &amp; New BD Head</div>
+          <p class="work-impact">Built India's recruiter SMB engine from a standing start. Wrote the playbook, hired the team, scaled the funnel.</p>
+          <ul class="work-highlights">
+            <li>120K+ new SMB users in FY26</li>
+            <li>Customer Growth P&amp;L across digital, tele-sales, field, and AI bots</li>
+            <li>InfoEdge Merit Award (Gold) for Cracking the SMB Code</li>
+          </ul>
+        </article>
+
+        <article class="work-card">
+          <div class="work-period">2015 &middot; 2023</div>
+          <h3 class="work-company">IndiaMART InterMESH</h3>
+          <div class="work-role">AVP &middot; GTM Head, MSME Acquisition</div>
+          <p class="work-impact">Took India's largest B2B marketplace from 50K paid sellers to 125K+ by turning a free directory into a subscription business.</p>
+          <ul class="work-highlights">
+            <li>3,500+ field and tele-sales org, 10+ channel partners contributing 55% of new sellers</li>
+            <li>Two-time Employee of the Year (2022, 2020)</li>
+            <li>Best Performer 2017, top 2% of 3,000+ employees</li>
+          </ul>
+        </article>
+
+        <article class="work-card">
+          <div class="work-period">2012 &middot; 2015</div>
+          <h3 class="work-company">SREI Sahaj e-Village &middot; Digital India</h3>
+          <div class="work-role">Asst. Manager, Channel Partner Sales</div>
+          <p class="work-impact">Took e-Learning into 100+ districts via 20,000 Common Service Centres, and learned how India's smallest towns actually buy.</p>
+          <ul class="work-highlights">
+            <li>Top Strategist Award, presented to CEO, out of 500+ employees</li>
+            <li>Top Management Trainee, 2012 batch</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       EDUCATION & CERTIFICATION
+  ======================================== -->
+  <section id="education">
+    <div class="education-inner">
+      <div class="education-header">
+        <div class="section-label"><span>Education</span></div>
+        <h2 class="section-heading">Education &amp; Certification</h2>
+      </div>
+
+      <div class="edu-grid">
+        <article class="edu-card">
+          <div class="edu-icon">🎓</div>
+          <div class="edu-meta">
+            <div class="edu-degree">PGDM, Marketing &amp; Operations</div>
+            <div class="edu-school">Xavier Institute of Management Bhubaneswar (XIMB)</div>
+            <div class="edu-note">Top 1% in Marketing &amp; Operations electives</div>
+          </div>
+        </article>
+
+        <article class="edu-card">
+          <div class="edu-icon">⚙️</div>
+          <div class="edu-meta">
+            <div class="edu-degree">B.E., Mechanical Engineering</div>
+            <div class="edu-school">L.D. College of Engineering, Ahmedabad</div>
+            <div class="edu-note">Gujarat Technological University</div>
+          </div>
+        </article>
+
+        <article class="edu-card">
+          <div class="edu-icon">🥇</div>
+          <div class="edu-meta">
+            <div class="edu-degree">All India MAT Topper</div>
+            <div class="edu-school">800/800, 1st of 80,000+ candidates</div>
+            <div class="edu-note">National rank holder, MAT entrance exam</div>
+          </div>
+        </article>
+
+        <article class="edu-card">
+          <div class="edu-icon">📊</div>
+          <div class="edu-meta">
+            <div class="edu-degree">Lean Six Sigma Black Belt</div>
+            <div class="edu-school">American Society for Quality (ASQ)</div>
+            <div class="edu-note">Process excellence &amp; statistical quality control</div>
+          </div>
+        </article>
+
+        <article class="edu-card">
+          <div class="edu-icon">🤖</div>
+          <div class="edu-meta">
+            <div class="edu-degree">Applied AI &amp; Machine Learning</div>
+            <div class="edu-school">Self-directed, project-based</div>
+            <div class="edu-note">Python, LangChain, RAG, Agentic AI workflows</div>
+          </div>
+        </article>
+
+        <article class="edu-card">
+          <div class="edu-icon">📈</div>
+          <div class="edu-meta">
+            <div class="edu-degree">Google Ads &amp; Analytics Certified</div>
+            <div class="edu-school">Google Skillshop</div>
+            <div class="edu-note">Search, Display, GA4, Tag Manager</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
        SKILLS - GTM TOOLKIT
   ======================================== -->
   <section id="skills">
@@ -2011,55 +2146,6 @@
           </div>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================
-       WORK
-  ======================================== -->
-  <section id="work">
-    <div class="work-inner">
-      <div class="work-header">
-        <div class="section-label"><span>Work</span></div>
-        <h2 class="section-heading">Where I've Built</h2>
-      </div>
-
-      <div class="work-timeline">
-        <article class="work-card">
-          <div class="work-period">2024 &middot; Present</div>
-          <h3 class="work-company">Naukri.com &middot; InfoEdge India</h3>
-          <div class="work-role">Vice President, SMB &amp; New BD Head</div>
-          <p class="work-impact">Built India's recruiter SMB engine from a standing start. Wrote the playbook, hired the team, scaled the funnel.</p>
-          <ul class="work-highlights">
-            <li>120K+ new SMB users in FY26</li>
-            <li>Customer Growth P&amp;L across digital, tele-sales, field, and AI bots</li>
-            <li>InfoEdge Merit Award (Gold) for Cracking the SMB Code</li>
-          </ul>
-        </article>
-
-        <article class="work-card">
-          <div class="work-period">2015 &middot; 2023</div>
-          <h3 class="work-company">IndiaMART InterMESH</h3>
-          <div class="work-role">AVP &middot; GTM Head, MSME Acquisition</div>
-          <p class="work-impact">Took India's largest B2B marketplace from 50K paid sellers to 125K+ by turning a free directory into a subscription business.</p>
-          <ul class="work-highlights">
-            <li>3,500+ field and tele-sales org, 10+ channel partners contributing 55% of new sellers</li>
-            <li>Two-time Employee of the Year (2022, 2020)</li>
-            <li>Best Performer 2017, top 2% of 3,000+ employees</li>
-          </ul>
-        </article>
-
-        <article class="work-card">
-          <div class="work-period">2012 &middot; 2015</div>
-          <h3 class="work-company">SREI Sahaj e-Village &middot; Digital India</h3>
-          <div class="work-role">Asst. Manager, Channel Partner Sales</div>
-          <p class="work-impact">Took e-Learning into 100+ districts via 20,000 Common Service Centres, and learned how India's smallest towns actually buy.</p>
-          <ul class="work-highlights">
-            <li>Top Strategist Award, presented to CEO, out of 500+ employees</li>
-            <li>Top Management Trainee, 2012 batch</li>
-          </ul>
-        </article>
       </div>
     </div>
   </section>
