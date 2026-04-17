@@ -1,6 +1,6 @@
 // Vivaan Quiz — Service Worker (offline-first for chapter pages + assets)
 // Bump CACHE_VER when shipping new chapter content so clients refresh.
-const CACHE_VER = 'vivaan-2026-04-18-a';
+const CACHE_VER = 'vivaan-2026-04-18-b';
 
 const PRECACHE = [
   '/vivaan/',
@@ -9,8 +9,9 @@ const PRECACHE = [
   '/vivaan/quiz-engine.js',
   '/vivaan/manifest.json',
   '/vivaan/icon.svg',
-  '/vivaan/icon-192.svg',
-  '/vivaan/icon-512.svg',
+  '/vivaan/icon-192.png',
+  '/vivaan/icon-512.png',
+  '/vivaan/og.png',
   '/vivaan/math-ch1.html',
   '/vivaan/math-ch2.html',
   '/vivaan/math-ch3.html',
