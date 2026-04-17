@@ -1,7 +1,7 @@
 {
-  "name": "Quiz Time · Grade 2A Somerville",
-  "short_name": "Grade 2A Quiz",
-  "description": "Grade 2 Mathemagics quiz aligned to Somerville Section A syllabus. No sign-up, no data collected.",
+  "name": "Mathemagics · Grade 2 Quiz",
+  "short_name": "Mathemagics",
+  "description": "Mathemagics quiz aligned to a standard Grade 2 student. No sign-up, no data collected.",
   "start_url": "/vivaan/",
   "scope": "/vivaan/",
   "display": "standalone",

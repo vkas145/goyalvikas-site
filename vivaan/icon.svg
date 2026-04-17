@@ -8,8 +8,8 @@
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
   <rect x="26" y="26" width="460" height="460" rx="94" fill="none" stroke="#2B1B4A" stroke-width="14" opacity="0.18"/>
-  <text x="256" y="226" text-anchor="middle" font-family="Fredoka, 'Segoe UI', system-ui, sans-serif" font-size="112" font-weight="700" fill="#2B1B4A" letter-spacing="-3">Quiz</text>
-  <text x="256" y="360" text-anchor="middle" font-family="Fredoka, 'Segoe UI', system-ui, sans-serif" font-size="150" font-weight="700" fill="#FFFFFF" letter-spacing="-4" stroke="#2B1B4A" stroke-width="6" paint-order="stroke">2A</text>
+  <text x="256" y="236" text-anchor="middle" font-family="Fredoka, 'Segoe UI', system-ui, sans-serif" font-size="104" font-weight="700" fill="#2B1B4A" letter-spacing="-3">Math</text>
+  <text x="256" y="372" text-anchor="middle" font-family="Fredoka, 'Segoe UI', system-ui, sans-serif" font-size="154" font-weight="700" fill="#FFFFFF" letter-spacing="-4" stroke="#2B1B4A" stroke-width="6" paint-order="stroke">G2</text>
   <circle cx="108" cy="404" r="16" fill="#FFFFFF" stroke="#2B1B4A" stroke-width="6"/>
   <circle cx="404" cy="108" r="16" fill="#FFFFFF" stroke="#2B1B4A" stroke-width="6"/>
 </svg>
