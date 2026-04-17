@@ -1,473 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz Time · Grade 2A · Somerville</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quiz Time · Grade 2A · Somerville</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
-  <!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<!-- End Google Tag Manager -->
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<style>
+  :root{
+    --radius-card: 28px;
+    --radius-pill: 999px;
+    --ease-pop: cubic-bezier(.34,1.56,.64,1);
 
-    :root {
-      --bg-1: #ffe7ae;
-      --bg-2: #ffb3c6;
-      --bg-3: #a0e7e5;
-      --bg-4: #b4f8c8;
-      --ink: #2d1b4a;
-      --ink-soft: #5b4a7a;
-      --accent: #ff7b54;
-      --accent-2: #ffc947;
-      --pink: #ff5ea8;
-      --blue: #47b5ff;
-      --green: #22c55e;
-      --purple: #a855f7;
-    }
+    --bg: #FFF7E6;
+    --bg-2: #FFECC7;
+    --ink: #2B1B4A;
+    --ink-2: #5B4B7E;
+    --muted: #8A7AAB;
+    --card: #FFFFFF;
+    --card-border: #2B1B4A;
+    --shadow: 0 6px 0 rgba(43,27,74,0.15), 0 10px 30px rgba(43,27,74,0.08);
+    --shadow-hard: 0 6px 0 #2B1B4A;
 
-    body {
-      font-family: 'Nunito', sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #fff7df 0%, #ffe7f1 45%, #e0faf8 100%);
-      color: var(--ink);
-      overflow-x: hidden;
-    }
+    --coral: #FF6B6B;
+    --yellow: #FFC93C;
+    --green: #4CC38A;
+    --sky: #4BA8FF;
+    --grape: #A06CD5;
+    --peach: #FFB07A;
+    --accent: var(--coral);
 
-    /* Floating playful shapes */
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(40px);
-      opacity: 0.55;
-      pointer-events: none;
-      z-index: 0;
-      animation: float 14s ease-in-out infinite;
-    }
-    .blob.b1 { width:260px; height:260px; background:#ffb3c6; top:-80px; left:-60px; }
-    .blob.b2 { width:220px; height:220px; background:#a0e7e5; bottom:-60px; right:-40px; animation-delay:-4s; }
-    .blob.b3 { width:180px; height:180px; background:#ffe58a; top:45%; left:65%; animation-delay:-8s; }
-    @keyframes float {
-      0%,100% { transform: translate(0,0) scale(1); }
-      50%     { transform: translate(-20px,30px) scale(1.08); }
-    }
+    --display: 'Fredoka', system-ui, sans-serif;
 
-    /* Floating emoji decorations */
-    .deco {
-      position: fixed;
-      font-size: 38px;
-      pointer-events: none;
-      z-index: 0;
-      animation: wiggle 6s ease-in-out infinite;
-      opacity: .8;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,.08));
-    }
-    .deco.d1 { top:90px;  left:6%;  animation-delay:0s; }
-    .deco.d2 { top:120px; right:8%; animation-delay:-2s; }
-    .deco.d3 { bottom:180px; left:9%; animation-delay:-4s; }
-    .deco.d4 { bottom:120px; right:6%; animation-delay:-1s; }
-    @keyframes wiggle {
-      0%,100% { transform: translateY(0) rotate(-6deg); }
-      50%     { transform: translateY(-14px) rotate(8deg); }
-    }
+    --gap: 20px;
+    --card-pad: 22px;
+  }
 
-    /* Layout */
-    .page {
-      position: relative;
-      z-index: 1;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 24px 18px 60px;
-    }
+  *,*::before,*::after{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family: 'Nunito', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse at 0% 0%, #FFD8A8 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 0%, #FFE1E1 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, #D7F0FF 0%, transparent 55%),
+      var(--bg);
+  }
+  button{ font-family: inherit; cursor: pointer; border: none; background: none; }
+  a{ text-decoration: none; color: inherit; }
 
-    /* ═══ HERO ═══ */
-    .hero {
-      text-align: center;
-      padding: 32px 14px 18px;
-      animation: popIn .7s cubic-bezier(.34,1.56,.64,1) both;
-    }
-    @keyframes popIn {
-      from { opacity:0; transform: scale(.85); }
-      to   { opacity:1; transform: scale(1); }
-    }
-    .school-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #fff;
-      border: 2px solid #fff;
-      box-shadow: 0 6px 22px rgba(255,123,84,.22), 0 2px 6px rgba(0,0,0,.06);
-      padding: 8px 16px;
-      border-radius: 40px;
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: .9rem;
-      color: var(--accent);
-      margin-bottom: 22px;
-      letter-spacing: .3px;
-    }
-    .school-badge .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 0 0 rgba(34,197,94,.6);
-      animation: pulse-dot 1.8s infinite;
-    }
-    @keyframes pulse-dot {
-      0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.6); }
-      70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
-      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-    }
-    .hero-mascot {
-      font-size: 4rem;
-      display: block;
-      margin: 0 auto 10px;
-      animation: bounce 1.8s ease-in-out infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0) rotate(-3deg); }
-      50%       { transform: translateY(-16px) rotate(5deg); }
-    }
-    .hero h2 {
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: clamp(1.6rem, 4.2vw, 2.3rem);
-      color: var(--ink);
-      margin-bottom: 10px;
-      line-height: 1.18;
-    }
-    .hero h2 .accent { color: var(--accent); }
-    .hero-sub {
-      font-size: 1rem;
-      color: var(--ink-soft);
-      font-weight: 600;
-      max-width: 520px;
-      margin: 0 auto;
-      line-height: 1.5;
-    }
-    .hero-pill-row {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-    .hero-pill {
-      background: rgba(255,255,255,.85);
-      border: 2px dashed rgba(255,123,84,.35);
-      padding: 7px 14px;
-      border-radius: 30px;
-      font-size: .8rem;
-      font-weight: 800;
-      color: var(--ink-soft);
-    }
-    .hero-pill strong { color: var(--accent); }
+  /* ───────── Layout ───────── */
+  .page{ position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 24px 20px 80px; }
 
-    /* ═══ MASTER SCOREBOARD ═══ */
-    .scoreboard {
-      background: linear-gradient(135deg,#fff 0%,#fff7ee 100%);
-      border-radius: 28px;
-      padding: 20px 20px 18px;
-      margin: 24px 0 30px;
-      box-shadow: 0 10px 40px rgba(255,123,84,.15), 0 2px 8px rgba(0,0,0,.04);
-      border: 2px solid #fff;
-      animation: popIn .7s .1s cubic-bezier(.34,1.56,.64,1) both;
-    }
-    .sb-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      gap: 10px;
-    }
-    .sb-title {
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: 1.15rem;
-      color: var(--ink);
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .sb-reset {
-      background: rgba(255,255,255,.7);
-      border: 1px solid rgba(0,0,0,.06);
-      color: var(--ink-soft);
-      font-weight: 700;
-      font-size: .73rem;
-      padding: 6px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-family: inherit;
-    }
-    .sb-reset:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .sb-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-    @media (max-width: 520px) { .sb-stats { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
-    .sb-stat {
-      background: rgba(255,255,255,.65);
-      border-radius: 16px;
-      padding: 12px 8px;
-      text-align: center;
-      border: 1.5px solid rgba(255,255,255,.9);
-    }
-    .sb-stat .num {
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: 1.6rem;
-      line-height: 1;
-      color: var(--accent);
-    }
-    .sb-stat .lbl {
-      font-size: .72rem;
-      font-weight: 800;
-      color: var(--ink-soft);
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      margin-top: 6px;
-    }
-    .sb-stat:nth-child(2) .num { color: var(--green); }
-    .sb-stat:nth-child(3) .num { color: var(--blue); }
-    .sb-stat:nth-child(4) .num { color: var(--purple); }
-    .sb-progress {
-      margin-top: 14px;
-      height: 10px;
-      background: rgba(45,27,74,.08);
-      border-radius: 20px;
-      overflow: hidden;
-    }
-    .sb-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg,var(--accent) 0%,var(--accent-2) 50%,var(--green) 100%);
-      border-radius: 20px;
-      width: 0%;
-      transition: width .6s ease;
-    }
-    .sb-empty {
-      text-align: center;
-      color: var(--ink-soft);
-      font-weight: 700;
-      font-size: .9rem;
-      padding: 10px 0 4px;
-    }
+  /* Topbar */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 30px; gap: 14px; flex-wrap: wrap;
+  }
+  .brand{
+    display:flex; align-items:center; gap:12px;
+    font-family: var(--display); font-weight: 600;
+    font-size: 20px; letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .brand-logo{
+    width:46px; height:46px; border-radius: 14px;
+    display:grid; place-items:center; font-size: 26px;
+    background: linear-gradient(135deg, var(--yellow), var(--coral));
+    box-shadow: var(--shadow-hard);
+    transform: rotate(-4deg);
+    flex-shrink: 0;
+  }
+  .brand-lines .l1{ font-size: 19px; font-weight: 600; }
+  .brand-lines .l2{ font-size: 13px; font-weight: 600; color: var(--ink-2); }
 
-    /* ═══ SECTION TITLE ═══ */
-    .section-title {
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: 1.45rem;
-      color: var(--ink);
-      margin: 30px 0 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .section-title .emo {
-      font-size: 1.5rem;
-      display: inline-block;
-      animation: bounce 1.8s ease-in-out infinite;
-    }
+  .chip{
+    display:inline-flex; align-items:center; gap:6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    background: var(--card);
+    border: 2px solid var(--card-border);
+    font-weight: 800; font-size: 13px; color: var(--ink);
+    box-shadow: 0 3px 0 var(--card-border);
+  }
+  .chip .dot{ width:8px; height:8px; border-radius:50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse-dot 1.8s infinite; }
+  @keyframes pulse-dot{
+    0%   { box-shadow: 0 0 0 0 rgba(76,195,138,.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(76,195,138,0); }
+    100% { box-shadow: 0 0 0 0 rgba(76,195,138,0); }
+  }
 
-    /* ═══ CHAPTER GRID ═══ */
-    .chapter-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    @media (min-width: 560px) {
-      .chapter-grid { grid-template-columns: 1fr 1fr; }
-    }
+  /* Hero */
+  .hero{
+    text-align:center;
+    padding: 24px 16px 10px;
+    position: relative;
+  }
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 7px 16px; border-radius: var(--radius-pill);
+    background: var(--card); border: 2px solid var(--card-border);
+    font-weight: 800; font-size: 13px; color: var(--ink);
+    box-shadow: 0 3px 0 var(--card-border);
+    margin-bottom: 22px;
+  }
+  .hero h1{
+    font-family: var(--display);
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+  .hero h1 .spark{
+    display:inline-block;
+    color: var(--yellow);
+    animation: wiggle 2s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes wiggle{ 0%,100%{transform:rotate(-8deg)} 50%{transform:rotate(10deg) scale(1.1)} }
 
-    .card {
-      background: #fff;
-      border: 3px solid #fff;
-      border-radius: 24px;
-      padding: 20px 20px 18px;
-      transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
-      position: relative;
-      overflow: hidden;
-      animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
-      box-shadow: 0 4px 18px rgba(45,27,74,.06);
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      cursor: pointer;
-    }
-    .card::before {
-      content:'';
-      position:absolute;
-      top:0; left:0; right:0;
-      height: 6px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-    }
+  .hero p.sub{
+    font-size: 17px; color: var(--ink-2);
+    max-width: 580px; margin: 0 auto;
+    font-weight: 600; line-height: 1.5;
+  }
 
-    .card:nth-child(1)::before  { background: linear-gradient(90deg,#ff7b54,#ffc947); }
-    .card:nth-child(2)::before  { background: linear-gradient(90deg,#47b5ff,#a0e7e5); }
-    .card:nth-child(3)::before  { background: linear-gradient(90deg,#ff5ea8,#ffb3c6); }
-    .card:nth-child(4)::before  { background: linear-gradient(90deg,#22c55e,#b4f8c8); }
-    .card:nth-child(5)::before  { background: linear-gradient(90deg,#a855f7,#d8b4fe); }
-    .card:nth-child(6)::before  { background: linear-gradient(90deg,#fb923c,#fed7aa); }
-    .card:nth-child(7)::before  { background: linear-gradient(90deg,#06b6d4,#a5f3fc); }
-    .card:nth-child(8)::before  { background: linear-gradient(90deg,#ec4899,#fbcfe8); }
-    .card:nth-child(9)::before  { background: linear-gradient(90deg,#84cc16,#d9f99d); }
-    .card:nth-child(10)::before { background: linear-gradient(90deg,#f59e0b,#fde68a); }
-    .card:nth-child(11)::before { background: linear-gradient(90deg,#6366f1,#c7d2fe); }
+  /* Mascot row */
+  .mascot-row{
+    display:flex; align-items:center; justify-content:center; gap: 16px;
+    margin: 22px auto 8px;
+    max-width: 640px;
+    flex-wrap: wrap;
+  }
+  .mascot{
+    width: 78px; height: 78px; flex: 0 0 78px;
+    border-radius: 24px;
+    display:grid; place-items:center;
+    font-size: 46px;
+    background: linear-gradient(135deg, var(--yellow), var(--peach));
+    border: 3px solid var(--card-border);
+    box-shadow: 0 6px 0 var(--card-border);
+    animation: bob 3s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  .speech{
+    position: relative;
+    background: var(--card);
+    padding: 12px 18px;
+    border-radius: 18px;
+    border: 2px solid var(--card-border);
+    font-weight: 700; font-size: 14px;
+    box-shadow: 0 3px 0 var(--card-border);
+    max-width: 360px;
+    text-align: left;
+  }
+  .speech::before{
+    content:''; position:absolute; left: -10px; top: 50%; transform: translateY(-50%);
+    width:0; height:0; border-top: 10px solid transparent; border-bottom: 10px solid transparent;
+    border-right: 12px solid var(--card-border);
+  }
+  .speech::after{
+    content:''; position:absolute; left: -7px; top: 50%; transform: translateY(-50%);
+    width:0; height:0; border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+    border-right: 10px solid var(--card);
+  }
 
-    .card:nth-child(1)  { animation-delay: .04s; }
-    .card:nth-child(2)  { animation-delay: .08s; }
-    .card:nth-child(3)  { animation-delay: .12s; }
-    .card:nth-child(4)  { animation-delay: .16s; }
-    .card:nth-child(5)  { animation-delay: .20s; }
-    .card:nth-child(6)  { animation-delay: .24s; }
-    .card:nth-child(7)  { animation-delay: .28s; }
-    .card:nth-child(8)  { animation-delay: .32s; }
-    .card:nth-child(9)  { animation-delay: .36s; }
-    .card:nth-child(10) { animation-delay: .40s; }
-    .card:nth-child(11) { animation-delay: .44s; }
+  /* Scoreboard */
+  .scoreboard{
+    margin: 30px 0 26px;
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    border-radius: var(--radius-card);
+    padding: 22px 22px 18px;
+    box-shadow: 0 6px 0 var(--card-border);
+  }
+  .sb-head{
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; gap: 10px;
+  }
+  .sb-title{
+    font-family: var(--display); font-weight: 600;
+    font-size: 20px; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sb-reset{
+    padding: 6px 14px; border-radius: var(--radius-pill);
+    background: var(--card); border: 2px solid var(--card-border);
+    color: var(--ink); font-weight: 800; font-size: 12px;
+    box-shadow: 0 2px 0 var(--card-border);
+    transition: all .15s var(--ease-pop);
+  }
+  .sb-reset:hover{ background: var(--coral); color: #fff; transform: translateY(-1px); }
+  .sb-stats{
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  }
+  @media (max-width: 520px){ .sb-stats{ grid-template-columns: repeat(2, 1fr); } }
+  .sb-stat{
+    background: color-mix(in oklab, var(--accent-stat, var(--coral)), transparent 90%);
+    border: 2px solid color-mix(in oklab, var(--accent-stat, var(--coral)), transparent 60%);
+    border-radius: 18px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .sb-stat:nth-child(1){ --accent-stat: var(--coral); }
+  .sb-stat:nth-child(2){ --accent-stat: var(--green); }
+  .sb-stat:nth-child(3){ --accent-stat: var(--sky); }
+  .sb-stat:nth-child(4){ --accent-stat: var(--grape); }
+  .sb-stat .num{
+    font-family: var(--display); font-weight: 700;
+    font-size: 28px; line-height: 1;
+    color: var(--accent-stat);
+  }
+  .sb-stat .lbl{
+    margin-top: 6px; font-size: 11px; font-weight: 800;
+    color: var(--ink-2);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .sb-progress{
+    margin-top: 16px;
+    height: 12px;
+    background: color-mix(in oklab, var(--card-border), transparent 92%);
+    border: 2px solid var(--card-border);
+    border-radius: 999px; overflow: hidden;
+  }
+  .sb-progress-fill{
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--coral), var(--yellow) 50%, var(--green));
+    transition: width .6s ease;
+  }
+  .sb-empty{
+    margin-top: 10px;
+    text-align:center; font-weight: 700; font-size: 14px;
+    color: var(--ink-2);
+  }
 
-    .card:hover {
-      transform: translateY(-4px) rotate(-.5deg);
-      box-shadow: 0 16px 32px rgba(255,123,84,.22), 0 4px 10px rgba(0,0,0,.06);
-    }
-    .card:active { transform: translateY(-2px) scale(.99); }
+  /* Subject tabs */
+  .subject-tabs{
+    display:flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 22px;
+    padding: 8px;
+    background: var(--card);
+    border: 2px solid var(--card-border);
+    border-radius: 22px;
+    box-shadow: 0 4px 0 var(--card-border);
+  }
+  .subject-tab{
+    flex: 1 1 0; min-width: 130px;
+    padding: 11px 14px;
+    border-radius: 16px;
+    display:flex; align-items:center; justify-content:center; gap: 7px;
+    font-weight: 800; font-size: 14px;
+    color: var(--ink-2);
+    transition: all .2s var(--ease-pop);
+    white-space: nowrap;
+    position: relative;
+  }
+  .subject-tab:hover:not(.locked){ background: rgba(0,0,0,0.04); color: var(--ink); }
+  .subject-tab.active{
+    background: var(--coral);
+    color: #FFF;
+    box-shadow: 0 3px 0 var(--card-border);
+  }
+  .subject-tab.locked{ opacity: .6; cursor: default; }
+  .subject-tab .tab-emoji{ font-size: 19px; }
+  .subject-tab .soon-pill{
+    position: absolute; top: -8px; right: 4px;
+    font-size: 9px; font-weight: 900; letter-spacing: .04em;
+    background: var(--yellow); color: var(--ink);
+    padding: 2px 8px; border-radius: 999px;
+    border: 1.5px solid var(--card-border);
+  }
 
-    .ch-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .ch-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px; height: 34px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #fff;
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: .95rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(255,123,84,.35);
-      flex-shrink: 0;
-    }
-    .ch-icon {
-      font-size: 1.7rem;
-      margin-left: auto;
-      animation: wobble 3s ease-in-out infinite;
-    }
-    @keyframes wobble {
-      0%,100% { transform: rotate(-6deg); }
-      50%     { transform: rotate(8deg); }
-    }
-    .card-title {
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: 1.45rem;
-      color: var(--ink);
-      line-height: 1.2;
-      margin-bottom: 6px;
-    }
-    .card-desc {
-      font-size: .82rem;
-      color: var(--ink-soft);
-      line-height: 1.45;
-      margin-bottom: 16px;
-      font-weight: 600;
-    }
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .card-score {
-      font-size: .78rem;
-      font-weight: 800;
-      color: var(--ink-soft);
-    }
-    .card-score .tick { color: var(--green); }
-    .play-btn {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #fff;
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: .82rem;
-      padding: 7px 14px;
-      border-radius: 22px;
-      border: none;
-      box-shadow: 0 3px 10px rgba(255,123,84,.35);
-      letter-spacing: .3px;
-    }
-    .card:hover .play-btn {
-      transform: scale(1.06);
-    }
+  /* Section head */
+  .section-head{
+    display:flex; align-items:end; justify-content:space-between; gap: 16px;
+    margin-bottom: 18px;
+  }
+  .section-head h2{
+    font-family: var(--display);
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-head h2 .lead{
+    width: 40px; height: 40px; border-radius: 12px;
+    display: grid; place-items: center;
+    font-size: 22px;
+    background: var(--card);
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+  }
 
-    /* ═══ OTHER SUBJECTS ═══ */
-    .subjects-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 4px;
-    }
-    @media (min-width: 560px) {
-      .subjects-row { grid-template-columns: repeat(4, 1fr); }
-    }
-    .subj-card {
-      background: #fff;
-      border-radius: 20px;
-      padding: 18px 12px 14px;
-      text-align: center;
-      border: 2px dashed rgba(45,27,74,.12);
-      opacity: .75;
-      animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both;
-    }
-    .subj-card:nth-child(1) { animation-delay: .1s; }
-    .subj-card:nth-child(2) { animation-delay: .15s; }
-    .subj-card:nth-child(3) { animation-delay: .2s; }
-    .subj-card:nth-child(4) { animation-delay: .25s; }
-    .subj-icon { font-size: 2.2rem; display: block; margin-bottom: 6px; animation: wobble 3.5s ease-in-out infinite; }
-    .subj-name {
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .subj-soon {
-      font-size: .7rem;
-      color: var(--ink-soft);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      background: rgba(255,123,84,.12);
-      color: var(--accent);
-      padding: 3px 9px;
-      border-radius: 20px;
-      display: inline-block;
-    }
+  /* Chapter grid */
+  .chapter-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+  }
+  @media (max-width: 860px){ .chapter-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .chapter-grid{ grid-template-columns: 1fr; } }
 
-    /* ═══ FOOTER ═══ */
-    footer {
-      text-align: center;
-      padding: 34px 12px 10px;
-      font-size: .78rem;
-      color: var(--ink-soft);
-      font-weight: 700;
-      position: relative;
-      z-index: 1;
-      opacity: .7;
-    }
-    footer a { color: var(--accent); text-decoration: none; }
-  </style>
+  .chapter{
+    position: relative;
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    border-radius: var(--radius-card);
+    padding: var(--card-pad);
+    box-shadow: 0 6px 0 var(--card-border);
+    transition: transform .15s var(--ease-pop), box-shadow .15s var(--ease-pop);
+    display:flex; flex-direction: column; gap: 14px;
+    overflow: hidden;
+    animation: popIn .5s var(--ease-pop) both;
+  }
+  @keyframes popIn{ from{opacity:0; transform: scale(.9);} to{opacity:1; transform: scale(1);} }
+  .chapter:nth-child(1)  { animation-delay: .04s; }
+  .chapter:nth-child(2)  { animation-delay: .08s; }
+  .chapter:nth-child(3)  { animation-delay: .12s; }
+  .chapter:nth-child(4)  { animation-delay: .16s; }
+  .chapter:nth-child(5)  { animation-delay: .20s; }
+  .chapter:nth-child(6)  { animation-delay: .24s; }
+  .chapter:nth-child(7)  { animation-delay: .28s; }
+  .chapter:nth-child(8)  { animation-delay: .32s; }
+  .chapter:nth-child(9)  { animation-delay: .36s; }
+  .chapter:nth-child(10) { animation-delay: .40s; }
+  .chapter:nth-child(11) { animation-delay: .44s; }
+
+  .chapter:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 10px 0 var(--card-border);
+  }
+  .chapter::before{
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: var(--accent-ch, var(--accent));
+  }
+
+  .chapter-head{
+    display:flex; align-items:flex-start; justify-content:space-between; gap: 10px;
+  }
+  .ch-tag{
+    display:inline-flex; align-items:center; gap:4px;
+    padding: 5px 12px; border-radius: var(--radius-pill);
+    background: color-mix(in oklab, var(--accent-ch, var(--accent)), transparent 82%);
+    color: var(--accent-ch, var(--accent));
+    font-weight: 900; font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .ch-emoji{
+    width: 54px; height: 54px; flex:0 0 54px;
+    border-radius: 18px;
+    background: color-mix(in oklab, var(--accent-ch, var(--accent)), transparent 85%);
+    display:grid; place-items:center;
+    font-size: 30px;
+    transform: rotate(-4deg);
+    transition: transform .2s var(--ease-pop);
+  }
+  .chapter:hover .ch-emoji{ transform: rotate(6deg) scale(1.05); }
+
+  .chapter h3{
+    font-family: var(--display); font-weight: 700;
+    font-size: 22px; letter-spacing: -0.01em;
+    margin: 0; color: var(--ink);
+    line-height: 1.15;
+  }
+  .chapter p.desc{
+    margin: 0; font-size: 14px; color: var(--ink-2);
+    font-weight: 600; line-height: 1.45;
+  }
+
+  /* Toon panel */
+  .toon{
+    margin-top: 4px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px;
+    border-radius: 18px;
+    background: color-mix(in oklab, var(--accent-ch, var(--accent)), transparent 90%);
+    border: 1.5px dashed color-mix(in oklab, var(--accent-ch, var(--accent)), transparent 55%);
+  }
+  .toon-face{
+    width: 50px; height: 50px; flex: 0 0 50px;
+    border-radius: 16px;
+    display:grid; place-items:center;
+    font-size: 30px;
+    background: #FFF;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    transform: rotate(-5deg);
+    transition: transform .2s var(--ease-pop);
+  }
+  .chapter:hover .toon-face{ transform: rotate(6deg) scale(1.08); }
+  .toon-name{
+    font-family: var(--display); font-weight: 700;
+    font-size: 15px; letter-spacing: -0.01em;
+    color: var(--ink); line-height: 1.1;
+  }
+  .toon-line{
+    font-size: 12px; font-weight: 700; color: var(--ink-2);
+    margin-top: 3px; line-height: 1.3;
+  }
+
+  /* Chapter footer (score + play) */
+  .ch-footer{
+    display:flex; flex-direction: column; gap: 8px;
+    margin-top: auto; padding-top: 2px;
+  }
+  .ch-score{
+    font-size: 12px; font-weight: 800;
+    color: var(--ink-2);
+    text-align: center;
+  }
+  .ch-score .done{ color: var(--green); }
+  .play-btn{
+    width: 100%; justify-content: center;
+    padding: 12px 18px; border-radius: var(--radius-pill);
+    background: var(--accent-ch, var(--accent));
+    color: #FFF;
+    font-weight: 900; font-size: 15px;
+    display:inline-flex; align-items:center; gap: 6px;
+    box-shadow: 0 3px 0 var(--card-border);
+    transition: all .15s var(--ease-pop);
+    border: 2px solid var(--card-border);
+  }
+  .chapter:hover .play-btn{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 var(--card-border);
+  }
+  .play-btn:active{ transform: translateY(1px); box-shadow: 0 2px 0 var(--card-border); }
+
+  /* Launching-soon subject panel */
+  .soon-panel{
+    background: var(--card);
+    border: 2.5px dashed var(--card-border);
+    border-radius: var(--radius-card);
+    padding: 36px 20px;
+    text-align: center;
+    opacity: .85;
+  }
+  .soon-panel .big-emoji{
+    font-size: 56px; margin-bottom: 12px;
+    animation: bob 3s ease-in-out infinite;
+    display: inline-block;
+  }
+  .soon-panel h3{
+    font-family: var(--display); font-weight: 700;
+    font-size: 26px; margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .soon-panel p{
+    font-size: 15px; font-weight: 700; color: var(--ink-2);
+    margin: 0;
+  }
+  .soon-panel .tag{
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 12px; font-weight: 900;
+    background: var(--yellow); color: var(--ink);
+    padding: 6px 14px; border-radius: 999px;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 2px 0 var(--card-border);
+    letter-spacing: .06em;
+  }
+
+  /* Footer */
+  .foot{
+    margin-top: 44px; text-align:center;
+    color: var(--muted); font-weight: 700; font-size: 13px;
+  }
+  .foot a{ color: var(--coral); }
+</style>
 </head>
 <body>
 
@@ -476,36 +497,35 @@
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<!-- Floating background -->
-<div class="blob b1"></div>
-<div class="blob b2"></div>
-<div class="blob b3"></div>
-<span class="deco d1">⭐</span>
-<span class="deco d2">🎈</span>
-<span class="deco d3">🚀</span>
-<span class="deco d4">🌈</span>
+<main class="page">
 
-<div class="page">
-
-  <!-- ═══ HERO ═══ -->
-  <section class="hero">
-    <div class="school-badge">
-      <span class="dot"></span>
-      Grade 2 · Section A · Somerville
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">🎯</div>
+      <div class="brand-lines">
+        <div class="l1">Quiz Time</div>
+        <div class="l2">Somerville · Grade 2A</div>
+      </div>
     </div>
-    <div class="hero-mascot">🦁</div>
-    <h2>Hey Grade 2<span class="accent">A</span>! Ready to quiz? 🎉</h2>
-    <p class="hero-sub">Quiz on the topic and content aligned to whats taught in our school.</p>
-    <div class="hero-pill-row">
-      <div class="hero-pill">⭐ <strong>Beginner</strong> & 🔥 <strong>Pro</strong></div>
-      <div class="hero-pill"><strong>4 sets</strong> each level</div>
-      <div class="hero-pill">⏱ <strong>Timed</strong> fun</div>
+    <div class="chip"><span class="dot"></span> Class 2</div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">✨ Let's learn, let's play!</div>
+    <h1>Hey Grade 2<span class="spark">A</span>, ready to quiz?</h1>
+    <p class="sub">Quiz on the topic and content aligned to whats taught in our school.</p>
+
+    <div class="mascot-row">
+      <div class="mascot">🦉</div>
+      <div class="speech">Hi friends! Pick a chapter, tap <b>Start Quiz</b>, and see how many stars you can collect today! 🌟</div>
     </div>
   </section>
 
-  <!-- ═══ MASTER SCOREBOARD ═══ -->
+  <!-- Master Scoreboard -->
   <section class="scoreboard" id="scoreboard">
-    <div class="sb-header">
+    <div class="sb-head">
       <div class="sb-title">🏆 My Scoreboard</div>
       <button class="sb-reset" id="sbReset" type="button">Reset</button>
     </div>
@@ -519,126 +539,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="sb-empty" id="sbEmpty">Start your first quiz to see your stats! 🚀</div>
   </section>
 
-  <!-- ═══ MATHEMATICS ═══ -->
-  <div class="section-title"><span class="emo">🔢</span> Mathematics</div>
+  <!-- Subject tabs -->
+  <nav class="subject-tabs">
+    <button class="subject-tab active" data-subject="maths"><span class="tab-emoji">🔢</span>Maths</button>
+    <button class="subject-tab locked" data-subject="english" type="button"><span class="tab-emoji">📚</span>English<span class="soon-pill">Soon</span></button>
+    <button class="subject-tab locked" data-subject="evs" type="button"><span class="tab-emoji">🌿</span>EVS<span class="soon-pill">Soon</span></button>
+    <button class="subject-tab locked" data-subject="hindi" type="button"><span class="tab-emoji">🪔</span>Hindi<span class="soon-pill">Soon</span></button>
+    <button class="subject-tab locked" data-subject="gk" type="button"><span class="tab-emoji">🌍</span>GK<span class="soon-pill">Soon</span></button>
+  </nav>
 
-  <div class="chapter-grid">
-    <a href="./math-ch1.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 1</div><span class="ch-icon">🔢</span></div>
-      <div class="card-title">Numbers &amp; Numeration</div>
-      <div class="card-desc">Number names, place value, abacus &amp; more</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch1"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch2.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 2</div><span class="ch-icon">➕</span></div>
-      <div class="card-title">Addition</div>
-      <div class="card-desc">Carrying over, multi-digit sums &amp; word problems</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch2"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch3.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 3</div><span class="ch-icon">➖</span></div>
-      <div class="card-title">Subtraction</div>
-      <div class="card-desc">Borrowing, regrouping &amp; difference problems</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch3"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch4.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 4</div><span class="ch-icon">✖️</span></div>
-      <div class="card-title">Multiplication</div>
-      <div class="card-desc">Times tables, arrays &amp; repeated addition</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch4"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch5.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 5</div><span class="ch-icon">➗</span></div>
-      <div class="card-title">Division</div>
-      <div class="card-desc">Equal sharing, grouping &amp; division facts</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch5"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch6.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 6</div><span class="ch-icon">🍕</span></div>
-      <div class="card-title">Fractions</div>
-      <div class="card-desc">Halves, quarters, thirds &amp; comparing fractions</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch6"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch7.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 7</div><span class="ch-icon">📏</span></div>
-      <div class="card-title">Length</div>
-      <div class="card-desc">cm, metres, comparing &amp; unit conversion</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch7"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch8.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 8</div><span class="ch-icon">⚖️</span></div>
-      <div class="card-title">Weight</div>
-      <div class="card-desc">Grams, kilograms, scales &amp; word problems</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch8"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch9.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 9</div><span class="ch-icon">🥤</span></div>
-      <div class="card-title">Capacity</div>
-      <div class="card-desc">Millilitres, litres &amp; container comparisons</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch9"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch10.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 10</div><span class="ch-icon">⏰</span></div>
-      <div class="card-title">Time &amp; Calendar</div>
-      <div class="card-desc">Clocks, o'clock, half past, days &amp; months</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch10"></div><span class="play-btn">Play ▶</span></div>
-    </a>
-
-    <a href="./math-ch11.html" class="card">
-      <div class="ch-row"><div class="ch-num">Ch 11</div><span class="ch-icon">💰</span></div>
-      <div class="card-title">Money</div>
-      <div class="card-desc">Indian coins &amp; notes, adding money &amp; change</div>
-      <div class="card-footer"><div class="card-score" data-ch="ch11"></div><span class="play-btn">Play ▶</span></div>
-    </a>
+  <!-- Maths panel -->
+  <div id="panel-maths">
+    <div class="section-head">
+      <h2><span class="lead">🔢</span>Mathematics · 11 chapters</h2>
+    </div>
+    <div class="chapter-grid" id="chapterGrid"></div>
   </div>
 
-  <!-- ═══ OTHER SUBJECTS ═══ -->
-  <div class="section-title"><span class="emo">📚</span> More Subjects</div>
-
-  <div class="subjects-row">
-    <div class="subj-card">
-      <span class="subj-icon">🔤</span>
-      <div class="subj-name">Hindi</div>
-      <div class="subj-soon">Launching Soon</div>
-    </div>
-    <div class="subj-card">
-      <span class="subj-icon">📖</span>
-      <div class="subj-name">English</div>
-      <div class="subj-soon">Launching Soon</div>
-    </div>
-    <div class="subj-card">
-      <span class="subj-icon">🌿</span>
-      <div class="subj-name">EVS</div>
-      <div class="subj-soon">Launching Soon</div>
-    </div>
-    <div class="subj-card">
-      <span class="subj-icon">🌍</span>
-      <div class="subj-name">GK</div>
-      <div class="subj-soon">Launching Soon</div>
+  <!-- Soon panel (shared) -->
+  <div id="panel-soon" style="display:none;">
+    <div class="soon-panel">
+      <div class="big-emoji" id="soonEmo">📚</div>
+      <h3 id="soonTitle">Coming Soon</h3>
+      <p id="soonDesc">Vivaan's team is packing this subject with fun quizzes — check back shortly!</p>
+      <div class="tag">🛠 Launching Soon</div>
     </div>
   </div>
 
-</div>
+  <div class="foot">Made with 💛 for Grade 2A · <a href="https://goyalvikas.com">goyalvikas.com</a></div>
 
-<footer>
-  Made with ❤️ for Grade 2A &bull; <a href="https://goyalvikas.com">goyalvikas.com</a>
-</footer>
+</main>
 
 <script>
-(function(){
-  // ── Gather all quiz results from localStorage
+  // ─── Chapter data (Grade 2 maths syllabus, matches existing chapter HTML files) ──
+  const CHAPTERS = [
+    { n:1,  t:'Numbers & Numeration', d:'Number names, place value, abacus & more',            e:'🔢', color:'sky',    toon:'🐻', toonName:'Benny Bear',     toonLine:"Let's count honey jars!",        href:'./math-ch1.html' },
+    { n:2,  t:'Addition',              d:'Carrying over, multi-digit sums & word problems',    e:'➕', color:'coral',  toon:'🦊', toonName:'Foxy Finn',      toonLine:'Add up my apples 🍎',           href:'./math-ch2.html' },
+    { n:3,  t:'Subtraction',           d:'Borrowing, regrouping & difference problems',        e:'➖', color:'yellow', toon:'🐰', toonName:'Hoppy Rabbit',   toonLine:"Carrots missing? Let's find out!", href:'./math-ch3.html' },
+    { n:4,  t:'Multiplication',        d:'Times tables 2–10, arrays & repeated addition',      e:'✖️', color:'grape',  toon:'🦸', toonName:'Captain Times',  toonLine:'Multiply my super power!',       href:'./math-ch4.html' },
+    { n:5,  t:'Division',              d:'Equal sharing, grouping & division facts',           e:'➗', color:'green',  toon:'🐯', toonName:'Tara Tiger',     toonLine:'Share the stripes equally 🐾',   href:'./math-ch5.html' },
+    { n:6,  t:'Fractions',             d:'Halves, quarters, thirds & comparing fractions',     e:'🍕', color:'peach',  toon:'🐼', toonName:'Pip Panda',      toonLine:'Slice the bamboo pizza!',        href:'./math-ch6.html' },
+    { n:7,  t:'Length',                d:'cm, metres, comparing & unit conversion',            e:'📏', color:'sky',    toon:'🦒', toonName:'Gigi Giraffe',   toonLine:'How tall can you measure?',      href:'./math-ch7.html' },
+    { n:8,  t:'Weight',                d:'Grams, kilograms, scales & word problems',           e:'⚖️', color:'coral',  toon:'🐘', toonName:'Ellie Elephant', toonLine:'Guess who weighs more!',         href:'./math-ch8.html' },
+    { n:9,  t:'Capacity',              d:'Millilitres, litres & container comparisons',        e:'🥤', color:'yellow', toon:'🐸', toonName:'Froggy Jug',     toonLine:"Pour it, don't spill it!",       href:'./math-ch9.html' },
+    { n:10, t:'Time & Calendar',       d:"Clocks, o'clock, half past, days & months",          e:'⏰', color:'grape',  toon:'🦉', toonName:'Owlie the Wise', toonLine:"Tick-tock, what's the time?",    href:'./math-ch10.html' },
+    { n:11, t:'Money',                 d:'Indian coins & notes, adding money & change',        e:'💰', color:'green',  toon:'🐵', toonName:'Mo Monkey',      toonLine:"Let's go to the market!",        href:'./math-ch11.html' },
+  ];
+
+  const COLOR_VAR = { coral:'--coral', yellow:'--yellow', green:'--green', sky:'--sky', grape:'--grape', peach:'--peach' };
+
+  // ─── Scoreboard ──
   function collectScores(){
     let sets=0, correct=0, total=0;
-    const byChapter = {};
+    const byCh = {};
     for (let i=0;i<localStorage.length;i++){
       const k = localStorage.key(i);
       if (!k || !k.startsWith('vivaan_')) continue;
@@ -648,18 +601,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         sets++;
         correct += d.score;
         total += d.tq;
-        // Key shape: vivaan_<chkey>_<level>_set<N>
         const m = k.match(/^vivaan_([^_]+)_(beginner|pro)_set(\d+)$/);
         if (m){
           const ch = m[1];
-          byChapter[ch] = byChapter[ch] || {sets:0,correct:0,total:0};
-          byChapter[ch].sets++;
-          byChapter[ch].correct += d.score;
-          byChapter[ch].total += d.tq;
+          byCh[ch] = byCh[ch] || {sets:0,correct:0,total:0};
+          byCh[ch].sets++;
+          byCh[ch].correct += d.score;
+          byCh[ch].total += d.tq;
         }
       } catch(e){}
     }
-    return {sets, correct, total, byChapter};
+    return {sets,correct,total,byCh};
+  }
+
+  function renderChapters(scoreBy){
+    const grid = document.getElementById('chapterGrid');
+    grid.innerHTML = CHAPTERS.map(c => {
+      const cvar = `var(${COLOR_VAR[c.color]})`;
+      const s = scoreBy[`ch${c.n}`];
+      const scoreHtml = (s && s.total)
+        ? `<div class="ch-score"><span class="done">✓ ${s.sets} set${s.sets!==1?'s':''}</span> · ${Math.round(s.correct/s.total*100)}%</div>`
+        : `<div class="ch-score">Not played yet</div>`;
+      return `
+        <a href="${c.href}" class="chapter" style="--accent-ch:${cvar};">
+          <div class="chapter-head">
+            <div><div class="ch-tag">Chapter ${c.n}</div></div>
+            <div class="ch-emoji">${c.e}</div>
+          </div>
+          <div>
+            <h3>${c.t}</h3>
+            <p class="desc">${c.d}</p>
+          </div>
+          <div class="toon">
+            <div class="toon-face">${c.toon}</div>
+            <div>
+              <div class="toon-name">${c.toonName}</div>
+              <div class="toon-line">${c.toonLine}</div>
+            </div>
+          </div>
+          <div class="ch-footer">
+            ${scoreHtml}
+            <span class="play-btn">▶ Play Now</span>
+          </div>
+        </a>
+      `;
+    }).join('');
   }
 
   function renderScoreboard(){
@@ -671,17 +657,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('sbPct').textContent = pct+'%';
     document.getElementById('sbFill').style.width = pct+'%';
     document.getElementById('sbEmpty').style.display = s.sets ? 'none' : 'block';
-    // Per-chapter mini-score
-    document.querySelectorAll('.card-score').forEach(el => {
-      const ch = el.dataset.ch;
-      const d = s.byChapter[ch];
-      if (d && d.total){
-        const p = Math.round(d.correct/d.total*100);
-        el.innerHTML = `<span class="tick">✓</span> ${d.sets} set${d.sets!==1?'s':''} · ${p}%`;
-      } else {
-        el.textContent = 'Not yet played';
-      }
-    });
+    renderChapters(s.byCh);
   }
 
   document.getElementById('sbReset').addEventListener('click', function(){
@@ -695,9 +671,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     renderScoreboard();
   });
 
+  // ─── Subject tab switching ──
+  const SOON = {
+    english: { emo:'📚', title:'English · Launching Soon', desc:'Phonics, nouns, verbs and reading adventures — coming shortly!' },
+    evs:     { emo:'🌿', title:'EVS · Launching Soon',     desc:'Plants, animals, our body and our Earth — coming shortly!' },
+    hindi:   { emo:'🪔', title:'Hindi · शीघ्र आ रहा है',   desc:'वर्णमाला, शब्द और कहानियाँ — जल्द ही!' },
+    gk:      { emo:'🌍', title:'GK · Launching Soon',      desc:'India, world, festivals and fun facts — coming shortly!' },
+  };
+  document.querySelectorAll('.subject-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const sub = tab.dataset.subject;
+      const pMaths = document.getElementById('panel-maths');
+      const pSoon  = document.getElementById('panel-soon');
+      if (sub === 'maths'){
+        pMaths.style.display = '';
+        pSoon.style.display  = 'none';
+      } else {
+        pMaths.style.display = 'none';
+        pSoon.style.display  = '';
+        const c = SOON[sub] || SOON.english;
+        document.getElementById('soonEmo').textContent   = c.emo;
+        document.getElementById('soonTitle').textContent = c.title;
+        document.getElementById('soonDesc').textContent  = c.desc;
+      }
+    });
+  });
+
   renderScoreboard();
   window.addEventListener('focus', renderScoreboard);
-})();
 </script>
 
 </body>
