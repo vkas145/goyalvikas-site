@@ -4,6 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Quiz Time · Grade 2A · Somerville</title>
+<meta name="description" content="Grade 2 Mathemagics quiz, aligned to Somerville Section A syllabus. No sign-up, no data collected — scores stay in your device.">
+<meta name="theme-color" content="#FF6B6B">
+<link rel="manifest" href="/vivaan/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/vivaan/icon.svg">
+<link rel="apple-touch-icon" href="/vivaan/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -102,6 +107,106 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     0%   { box-shadow: 0 0 0 0 rgba(76,195,138,.6); }
     70%  { box-shadow: 0 0 0 10px rgba(76,195,138,0); }
     100% { box-shadow: 0 0 0 0 rgba(76,195,138,0); }
+  }
+  .hud{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  button.chip{
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transition: all .15s var(--ease-pop);
+  }
+  button.chip:hover{ transform: translateY(-2px); box-shadow: 0 5px 0 var(--card-border); }
+  .chip.user .chip-caret{ opacity: .5; margin-left: 2px; font-size: 10px; }
+  .chip.install{ background: var(--yellow); color: var(--ink); }
+
+  /* Profile modal */
+  .modal-ov{
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(43,27,74,0.55);
+    display: none; align-items: center; justify-content: center;
+    padding: 18px;
+  }
+  .modal-ov.show{ display:flex; animation: modalIn .25s ease; }
+  @keyframes modalIn{ from{opacity:0} to{opacity:1} }
+  .modal-box{
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    border-radius: var(--radius-card);
+    box-shadow: 0 6px 0 var(--card-border);
+    padding: 22px 22px 18px;
+    width: 100%; max-width: 440px;
+    max-height: 90vh; overflow-y: auto;
+    animation: modalPop .35s var(--ease-pop);
+  }
+  @keyframes modalPop{ from{opacity:0; transform: scale(.9)} to{opacity:1; transform: scale(1)} }
+  .modal-head{
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .modal-emo{
+    width: 54px; height: 54px; flex: 0 0 54px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--yellow), var(--coral));
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    display: grid; place-items: center;
+    font-size: 30px;
+    transform: rotate(-4deg);
+  }
+  .modal-title{
+    font-family: var(--display); font-weight: 700;
+    font-size: 22px; color: var(--ink);
+    letter-spacing: -0.01em; line-height: 1.2;
+  }
+  .modal-sub{
+    font-size: 13px; font-weight: 700; color: var(--ink-2);
+    margin-top: 4px; line-height: 1.4;
+  }
+  .modal-label{
+    font-size: 11px; font-weight: 800; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .profile-existing{ margin-bottom: 14px; }
+  .profile-pills{ display: flex; gap: 8px; flex-wrap: wrap; }
+  .profile-pill{
+    padding: 7px 14px; border-radius: var(--radius-pill);
+    background: color-mix(in oklab, var(--sky), transparent 82%);
+    border: 2px solid color-mix(in oklab, var(--sky), transparent 55%);
+    color: var(--sky); font-weight: 800; font-size: 13px;
+    cursor: pointer; font-family: 'Nunito', sans-serif;
+    transition: all .15s var(--ease-pop);
+  }
+  .profile-pill:hover{ transform: translateY(-1px); background: var(--sky); color: #fff; }
+  .profile-pill.active{ background: var(--sky); color: #fff; }
+  .profile-pill .rm{
+    margin-left: 6px; opacity: .6; font-size: 11px;
+    display: inline-block;
+  }
+  .profile-pill .rm:hover{ opacity: 1; color: var(--coral); }
+
+  .profile-form{
+    display: flex; gap: 8px; margin-bottom: 10px;
+  }
+  .profile-form input{
+    flex: 1; padding: 12px 14px; border-radius: 14px;
+    background: var(--card); border: 2px solid var(--card-border);
+    box-shadow: 0 2px 0 var(--card-border);
+    font-family: var(--display); font-weight: 600;
+    font-size: 18px; color: var(--ink);
+  }
+  .profile-form input:focus{ outline: none; border-color: var(--coral); }
+  .profile-go{
+    padding: 10px 20px; border-radius: var(--radius-pill);
+    background: var(--coral); color: #fff;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 14px;
+    cursor: pointer; transition: all .15s var(--ease-pop);
+  }
+  .profile-go:hover{ transform: translateY(-2px); box-shadow: 0 5px 0 var(--card-border); }
+  .profile-note{
+    font-size: 11px; font-weight: 700; color: var(--muted);
+    line-height: 1.5; margin-top: 8px;
   }
 
   /* Hero */
@@ -505,8 +610,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: var(--ink-2); line-height: 1.55;
   }
   .foot-note strong{ color: var(--coral); }
-  .foot-privacy{ font-size: 12px; background: color-mix(in oklab, var(--green), transparent 92%); border-color: color-mix(in oklab, var(--green), transparent 55%); }
-  .foot-privacy strong{ color: var(--green); }
+  .foot-privacy{
+    padding: 18px 20px;
+    text-align: left;
+    font-size: 13px;
+    background: color-mix(in oklab, var(--green), transparent 92%);
+    border-color: color-mix(in oklab, var(--green), transparent 55%);
+  }
+  .foot-privacy .fp-title{
+    font-family: var(--display); font-weight: 700;
+    font-size: 16px; color: var(--green);
+    margin-bottom: 10px;
+  }
+  .foot-privacy ul.fp-list{
+    list-style: none; padding: 0; margin: 0 0 10px;
+  }
+  .foot-privacy ul.fp-list li{
+    padding: 6px 0 6px 22px;
+    position: relative;
+    line-height: 1.55;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  .foot-privacy ul.fp-list li::before{
+    content:'✓';
+    position: absolute; left: 0; top: 6px;
+    color: var(--green); font-weight: 900;
+  }
+  .foot-privacy ul.fp-list li strong{ color: var(--ink); font-weight: 800; }
+  .foot-privacy .fp-foot{
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    padding-top: 10px; border-top: 1.5px dashed color-mix(in oklab, var(--green), transparent 60%);
+    line-height: 1.5;
+  }
   .foot a{ color: var(--coral); font-weight: 900; text-decoration: none; }
 </style>
 </head>
@@ -528,7 +665,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="l2">Somerville · Grade 2A</div>
       </div>
     </div>
-    <div class="chip"><span class="dot"></span> Class 2</div>
+    <div class="hud">
+      <button id="installBtn" class="chip install" type="button" style="display:none;">⬇ Install</button>
+      <button id="userChip" class="chip user" type="button">
+        <span class="dot"></span>
+        <span id="userChipName">Set up your name</span>
+        <span class="chip-caret">▾</span>
+      </button>
+    </div>
   </header>
 
   <!-- Hero -->
@@ -571,15 +715,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="subj-card"><div class="subj-emoji">🌍</div><div class="subj-name">GK</div><div class="subj-tag">Launching Soon</div></div>
   </div>
 
+  <!-- Profile picker modal -->
+  <div class="modal-ov" id="profileModal" role="dialog" aria-modal="true" aria-label="Pick your profile">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-emo">👦</div>
+        <div>
+          <div class="modal-title">Who's playing?</div>
+          <div class="modal-sub">Pick a name so your scores stay on this device only.</div>
+        </div>
+      </div>
+
+      <div class="profile-existing" id="profileExisting" style="display:none;">
+        <div class="modal-label">Existing profiles on this device</div>
+        <div class="profile-pills" id="profilePills"></div>
+      </div>
+
+      <div class="modal-label">New name (or type over to add a new one)</div>
+      <form id="profileForm" class="profile-form">
+        <input id="profileInput" type="text" autocomplete="off" spellcheck="false" maxlength="20" placeholder="Your first name" required>
+        <button type="submit" class="profile-go">Start ▶</button>
+      </form>
+      <div class="profile-note">
+        Nothing is sent anywhere. Names live only inside this browser on this phone/tablet/laptop.
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="foot">
     <div class="foot-note">
       Designed by <a href="https://goyalvikas.com">Goyal Vikas</a> · Only for learning purpose · Exclusive for <strong>2A, Somerville Students, Noida</strong>
     </div>
+
     <div class="foot-privacy">
-      🔒 <strong>Privacy:</strong> Nothing you do here is sent anywhere or stored on any server.
-      Scores live only in your own browser and you can wipe them any time with the <em>Reset</em> button above.
-      Built with ❤️ out of love for our kids.
+      <div class="fp-title">🔒 Simple Privacy Policy</div>
+      <ul class="fp-list">
+        <li><strong>No sign-up, no login.</strong> Just pick a first name so scores don't mix up on a shared phone. No passwords, no email, no phone number ever asked.</li>
+        <li><strong>Nothing leaves your device.</strong> The quiz is a static page served by Netlify. Your answers, your name, your scores — all stay in <em>localStorage</em> on this browser. We run no database, no server, no cloud sync.</li>
+        <li><strong>Who can see your scores?</strong> Only whoever uses this browser on this device. Not the teacher, not the parent on another phone, not Goyal Vikas, not anyone.</li>
+        <li><strong>Analytics.</strong> We use Google Tag Manager for anonymous, aggregated page-view counts only — it records things like "someone in India opened Chapter 3", never your name or answers.</li>
+        <li><strong>Deleting your data.</strong> Tap <em>Reset</em> on the scoreboard to wipe scores, or clear browser data in Settings. That's it — there is no "delete my account" form because there is no account.</li>
+        <li><strong>Built for kids.</strong> Designed for 7-year-olds of Somerville 2A. No ads, no trackers beyond the analytics above, no links off to social media.</li>
+      </ul>
+      <div class="fp-foot">
+        Questions? Reach out on <a href="https://goyalvikas.com">goyalvikas.com</a>. Made with ❤️ out of love for our kids — not for money, not for data.
+      </div>
     </div>
   </footer>
 
@@ -588,35 +769,73 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
   // ─── Chapter data (Grade 2 maths syllabus, matches existing chapter HTML files) ──
   const CHAPTERS = [
-    { n:1,  t:'Numbers & Numeration', d:'Number names, place value, abacus & more',            e:'🔢', color:'sky',    toon:'🐻',  toonName:'Bear',      toonLine:"Let's count honey jars!",        href:'./math-ch1.html' },
-    { n:2,  t:'Addition',              d:'Carrying over, multi-digit sums & word problems',    e:'➕', color:'coral',  toon:'👧',  toonName:'Masha',     toonLine:'Add up my apples 🍎',           href:'./math-ch2.html' },
-    { n:3,  t:'Subtraction',           d:'Borrowing, regrouping & difference problems',        e:'➖', color:'yellow', toon:'🦁',  toonName:'Simba',     toonLine:"Roar! Let's find what's missing!", href:'./math-ch3.html' },
-    { n:4,  t:'Multiplication',        d:'Times tables 2–10, arrays & repeated addition',      e:'✖️', color:'grape',  toon:'🕷️', toonName:'Spidermen', toonLine:'Multiply my super power!',       href:'./math-ch4.html' },
-    { n:5,  t:'Division',              d:'Equal sharing, grouping & division facts',           e:'➗', color:'green',  toon:'🐱',  toonName:'Tom',       toonLine:'Share the stripes equally 🐾',   href:'./math-ch5.html' },
-    { n:6,  t:'Fractions',             d:'Halves, quarters, thirds & comparing fractions',     e:'🍕', color:'peach',  toon:'🐭',  toonName:'Jerry',     toonLine:'Slice the cheese into parts!',    href:'./math-ch6.html' },
-    { n:7,  t:'Length',                d:'cm, metres, comparing & unit conversion',            e:'📏', color:'sky',    toon:'🦊',  toonName:'Zootopia',  toonLine:'How tall can you measure?',      href:'./math-ch7.html' },
-    { n:8,  t:'Weight',                d:'Grams, kilograms, scales & word problems',           e:'⚖️', color:'coral',  toon:'🐧',  toonName:'Penguin',   toonLine:'Guess who weighs more!',         href:'./math-ch8.html' },
-    { n:9,  t:'Capacity',              d:'Millilitres, litres & container comparisons',        e:'🥤', color:'yellow', toon:'🐷',  toonName:'Peppa',     toonLine:"Pour it, don't spill it!",       href:'./math-ch9.html' },
-    { n:10, t:'Time & Calendar',       d:"Clocks, o'clock, half past, days & months",          e:'⏰', color:'grape',  toon:'🦖',  toonName:'George',    toonLine:"Tick-tock, what's the time?",    href:'./math-ch10.html' },
-    { n:11, t:'Money',                 d:'Indian coins & notes, adding money & change',        e:'💰', color:'green',  toon:'🐼',  toonName:'Panda',     toonLine:"Let's go to the market!",        href:'./math-ch11.html' },
+    { n:1,  t:'Numbers & Numeration', d:'Number names, place value, abacus & more',            e:'🔢', color:'sky',    toon:'🐻',  toonName:'Bear',      toonLine:"Let's count honey jars!",        href:'/vivaan/math-ch1.html' },
+    { n:2,  t:'Addition',              d:'Carrying over, multi-digit sums & word problems',    e:'➕', color:'coral',  toon:'👧',  toonName:'Masha',     toonLine:'Add up my apples 🍎',           href:'/vivaan/math-ch2.html' },
+    { n:3,  t:'Subtraction',           d:'Borrowing, regrouping & difference problems',        e:'➖', color:'yellow', toon:'🦁',  toonName:'Simba',     toonLine:"Roar! Let's find what's missing!", href:'/vivaan/math-ch3.html' },
+    { n:4,  t:'Multiplication',        d:'Times tables 2–10, arrays & repeated addition',      e:'✖️', color:'grape',  toon:'🕷️', toonName:'Spidermen', toonLine:'Multiply my super power!',       href:'/vivaan/math-ch4.html' },
+    { n:5,  t:'Division',              d:'Equal sharing, grouping & division facts',           e:'➗', color:'green',  toon:'🐱',  toonName:'Tom',       toonLine:'Share the stripes equally 🐾',   href:'/vivaan/math-ch5.html' },
+    { n:6,  t:'Fractions',             d:'Halves, quarters, thirds & comparing fractions',     e:'🍕', color:'peach',  toon:'🐭',  toonName:'Jerry',     toonLine:'Slice the cheese into parts!',    href:'/vivaan/math-ch6.html' },
+    { n:7,  t:'Length',                d:'cm, metres, comparing & unit conversion',            e:'📏', color:'sky',    toon:'🦊',  toonName:'Zootopia',  toonLine:'How tall can you measure?',      href:'/vivaan/math-ch7.html' },
+    { n:8,  t:'Weight',                d:'Grams, kilograms, scales & word problems',           e:'⚖️', color:'coral',  toon:'🐧',  toonName:'Penguin',   toonLine:'Guess who weighs more!',         href:'/vivaan/math-ch8.html' },
+    { n:9,  t:'Capacity',              d:'Millilitres, litres & container comparisons',        e:'🥤', color:'yellow', toon:'🐷',  toonName:'Peppa',     toonLine:"Pour it, don't spill it!",       href:'/vivaan/math-ch9.html' },
+    { n:10, t:'Time & Calendar',       d:"Clocks, o'clock, half past, days & months",          e:'⏰', color:'grape',  toon:'🦖',  toonName:'George',    toonLine:"Tick-tock, what's the time?",    href:'/vivaan/math-ch10.html' },
+    { n:11, t:'Money',                 d:'Indian coins & notes, adding money & change',        e:'💰', color:'green',  toon:'🐼',  toonName:'Panda',     toonLine:"Let's go to the market!",        href:'/vivaan/math-ch11.html' },
   ];
 
   const COLOR_VAR = { coral:'--coral', yellow:'--yellow', green:'--green', sky:'--sky', grape:'--grape', peach:'--peach' };
 
-  // ─── Scoreboard ──
+  // ─── Profiles ──
+  // Score key shape: vivaan_<user>_<chKey>_<level>_set<N>
+  const USER_STORE_KEY = 'vivaan_user';
+  function userSlug(name){ return (name||'').toLowerCase().trim().replace(/[^a-z0-9]/g,''); }
+  function prettyName(name){ return (name||'').trim().replace(/\b\w/g, c => c.toUpperCase()); }
+  function getUser(){ return (localStorage.getItem(USER_STORE_KEY) || '').trim(); }
+  function setUser(name){
+    const clean = prettyName(name);
+    if (!clean) return;
+    localStorage.setItem(USER_STORE_KEY, clean);
+    renderUserChip();
+    renderScoreboard();
+  }
+  function listProfiles(){
+    const set = new Set();
+    for (let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if (!k || !k.startsWith('vivaan_') || k === USER_STORE_KEY) continue;
+      const m = k.match(/^vivaan_([a-z0-9]+)_ch\d+_(beginner|pro)_set\d+$/);
+      if (m) set.add(m[1]);
+    }
+    const me = userSlug(getUser());
+    if (me) set.add(me);
+    return [...set].sort();
+  }
+  function deleteProfile(slug){
+    const keys = [];
+    for (let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if (k && k.startsWith(`vivaan_${slug}_`)) keys.push(k);
+    }
+    keys.forEach(k => localStorage.removeItem(k));
+    if (userSlug(getUser()) === slug) localStorage.removeItem(USER_STORE_KEY);
+  }
+
+  // ─── Scoreboard (scoped to current user) ──
   function collectScores(){
+    const slug = userSlug(getUser()) || 'default';
+    const prefix = `vivaan_${slug}_`;
     let sets=0, correct=0, total=0;
     const byCh = {};
     for (let i=0;i<localStorage.length;i++){
       const k = localStorage.key(i);
-      if (!k || !k.startsWith('vivaan_')) continue;
+      if (!k || !k.startsWith(prefix)) continue;
       try {
         const d = JSON.parse(localStorage.getItem(k));
         if (!d || typeof d.score!=='number' || typeof d.tq!=='number') continue;
         sets++;
         correct += d.score;
         total += d.tq;
-        const m = k.match(/^vivaan_([^_]+)_(beginner|pro)_set(\d+)$/);
+        const rest = k.slice(prefix.length);
+        const m = rest.match(/^(ch\d+)_(beginner|pro)_set(\d+)$/);
         if (m){
           const ch = m[1];
           byCh[ch] = byCh[ch] || {sets:0,correct:0,total:0};
@@ -676,18 +895,101 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   document.getElementById('sbReset').addEventListener('click', function(){
-    if (!confirm('Reset all quiz scores? This cannot be undone.')) return;
+    const name = getUser() || 'this profile';
+    if (!confirm(`Reset scores for "${name}"? This cannot be undone.`)) return;
+    const slug = userSlug(getUser()) || 'default';
+    const prefix = `vivaan_${slug}_`;
     const keys = [];
     for (let i=0;i<localStorage.length;i++){
       const k = localStorage.key(i);
-      if (k && k.startsWith('vivaan_')) keys.push(k);
+      if (k && k.startsWith(prefix)) keys.push(k);
     }
     keys.forEach(k => localStorage.removeItem(k));
     renderScoreboard();
   });
 
+  // ─── User chip + modal wiring ──
+  function renderUserChip(){
+    const name = getUser();
+    document.getElementById('userChipName').textContent = name ? `👤 ${name}` : 'Set up your name';
+  }
+  function openProfileModal(){
+    renderProfileModalList();
+    document.getElementById('profileModal').classList.add('show');
+    setTimeout(() => document.getElementById('profileInput').focus(), 60);
+  }
+  function closeProfileModal(){
+    document.getElementById('profileModal').classList.remove('show');
+  }
+  function renderProfileModalList(){
+    const profs = listProfiles();
+    const wrap  = document.getElementById('profileExisting');
+    const pills = document.getElementById('profilePills');
+    if (!profs.length){ wrap.style.display = 'none'; return; }
+    wrap.style.display = '';
+    const me = userSlug(getUser());
+    pills.innerHTML = profs.map(slug => `
+      <button type="button" class="profile-pill${slug===me?' active':''}" data-slug="${slug}">
+        ${slug.charAt(0).toUpperCase()+slug.slice(1)}
+        <span class="rm" data-slug="${slug}" title="Delete this profile">✕</span>
+      </button>
+    `).join('');
+    pills.querySelectorAll('.profile-pill').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (e.target.classList.contains('rm')){
+          const slug = e.target.dataset.slug;
+          if (confirm(`Delete profile "${slug}" and all its scores? This cannot be undone.`)){
+            deleteProfile(slug);
+            renderProfileModalList();
+            renderUserChip();
+            renderScoreboard();
+          }
+          return;
+        }
+        const slug = btn.dataset.slug;
+        setUser(slug.charAt(0).toUpperCase()+slug.slice(1));
+        closeProfileModal();
+      });
+    });
+  }
+  document.getElementById('userChip').addEventListener('click', openProfileModal);
+  document.getElementById('profileForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const v = document.getElementById('profileInput').value.trim();
+    if (!v) return;
+    setUser(v);
+    document.getElementById('profileInput').value = '';
+    closeProfileModal();
+  });
+  document.getElementById('profileModal').addEventListener('click', function(e){
+    if (e.target === this) closeProfileModal();
+  });
+
+  // First-visit prompt
+  renderUserChip();
+  if (!getUser()) openProfileModal();
   renderScoreboard();
   window.addEventListener('focus', renderScoreboard);
+
+  // ─── PWA: install prompt + service worker ──
+  let deferredInstallPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    document.getElementById('installBtn').style.display = '';
+  });
+  document.getElementById('installBtn').addEventListener('click', async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    document.getElementById('installBtn').style.display = 'none';
+  });
+  if ('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/vivaan/sw.js').catch(()=>{});
+    });
+  }
 </script>
 
 </body>

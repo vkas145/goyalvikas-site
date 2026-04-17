@@ -29,7 +29,8 @@ let quizReady=false; // true once user clicks "Start Quiz" for current set
 // ─── Utilities ────────────────────────────────────────────────
 const rand=a=>a[Math.floor(Math.random()*a.length)];
 const shuffle=a=>{const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;};
-const scoreKey=(l,si)=>`vivaan_${CHAPTER.key}_${l}_set${si}`;
+const userSlug=()=>((localStorage.getItem('vivaan_user')||'default').toLowerCase().replace(/[^a-z0-9]/g,''))||'default';
+const scoreKey=(l,si)=>`vivaan_${userSlug()}_${CHAPTER.key}_${l}_set${si}`;
 // Normalise set shape: some chapters use [{name,questions:[...]},...] wrapper; others use a flat array.
 const setArr=(l,si)=>{const s=SETS[l][si];return Array.isArray(s)?s:(s&&s.questions)||[];};
 const curQ=()=>setArr(level,setIdx)[qIdx];
@@ -43,7 +44,10 @@ function renderTimer(){const m=Math.floor(timerSecs/60),s=timerSecs%60;const el=
 // ─── UI builders ──────────────────────────────────────────────
 function initNav(){
   const el=document.getElementById('navTitle');
-  if(el)el.textContent=CHAPTER.title;
+  if(el){
+    const who=(localStorage.getItem('vivaan_user')||'').trim();
+    el.innerHTML=`${CHAPTER.title}${who?` <span style="display:inline-block;margin-left:8px;padding:3px 10px;border-radius:999px;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:800;border:1.5px solid var(--card-border);">👤 ${who}</span>`:''}`;
+  }
 }
 function buildSetRow(){
   const el=document.getElementById('setRow');if(!el)return;el.innerHTML='';
