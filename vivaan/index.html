@@ -448,35 +448,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .play-btn:active{ transform: translateY(1px); box-shadow: 0 2px 0 var(--card-border); }
 
-  /* Launching-soon subject panel */
-  .soon-panel{
+  /* More subjects grid (below chapters) */
+  .subjects-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gap);
+  }
+  @media (max-width: 720px){ .subjects-grid{ grid-template-columns: repeat(2, 1fr); } }
+  .subj-card{
     background: var(--card);
     border: 2.5px dashed var(--card-border);
     border-radius: var(--radius-card);
-    padding: 36px 20px;
+    padding: 22px 14px;
     text-align: center;
-    opacity: .85;
+    opacity: .9;
+    transition: transform .15s var(--ease-pop);
   }
-  .soon-panel .big-emoji{
-    font-size: 56px; margin-bottom: 12px;
+  .subj-card:hover{ transform: translateY(-2px); }
+  .subj-emoji{
+    font-size: 44px;
+    margin-bottom: 10px;
+    display: inline-block;
     animation: bob 3s ease-in-out infinite;
-    display: inline-block;
   }
-  .soon-panel h3{
+  .subj-name{
     font-family: var(--display); font-weight: 700;
-    font-size: 26px; margin: 0 0 6px;
+    font-size: 18px; color: var(--ink);
     letter-spacing: -0.01em;
+    margin-bottom: 8px;
   }
-  .soon-panel p{
-    font-size: 15px; font-weight: 700; color: var(--ink-2);
-    margin: 0;
-  }
-  .soon-panel .tag{
+  .subj-tag{
     display: inline-block;
-    margin-top: 14px;
-    font-size: 12px; font-weight: 900;
+    font-size: 11px; font-weight: 900;
     background: var(--yellow); color: var(--ink);
-    padding: 6px 14px; border-radius: 999px;
+    padding: 4px 12px; border-radius: 999px;
     border: 2px solid var(--card-border);
     box-shadow: 0 2px 0 var(--card-border);
     letter-spacing: .06em;
@@ -484,10 +489,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* Footer */
   .foot{
-    margin-top: 44px; text-align:center;
-    color: var(--muted); font-weight: 700; font-size: 13px;
+    margin-top: 44px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
   }
-  .foot a{ color: var(--coral); }
+  .foot-note,
+  .foot-privacy{
+    background: var(--card);
+    border: 2px solid var(--card-border);
+    border-radius: 18px;
+    box-shadow: 0 3px 0 var(--card-border);
+    padding: 14px 18px;
+    text-align: center;
+    max-width: 680px;
+    font-weight: 700; font-size: 13px;
+    color: var(--ink-2); line-height: 1.55;
+  }
+  .foot-note strong{ color: var(--coral); }
+  .foot-privacy{ font-size: 12px; background: color-mix(in oklab, var(--green), transparent 92%); border-color: color-mix(in oklab, var(--green), transparent 55%); }
+  .foot-privacy strong{ color: var(--green); }
+  .foot a{ color: var(--coral); font-weight: 900; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -514,13 +534,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- Hero -->
   <section class="hero">
     <div class="hero-badge">✨ Let's learn, let's play!</div>
-    <h1>Hey Grade 2<span class="spark">A</span>, ready to quiz?</h1>
+    <h1>Let's have some fun, with <span class="spark">Mathemagics</span></h1>
     <p class="sub">Quiz on the topic and content aligned to whats taught in our school.</p>
-
-    <div class="mascot-row">
-      <div class="mascot">🦉</div>
-      <div class="speech">Hi friends! Pick a chapter, tap <b>Start Quiz</b>, and see how many stars you can collect today! 🌟</div>
-    </div>
   </section>
 
   <!-- Master Scoreboard -->
@@ -539,51 +554,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="sb-empty" id="sbEmpty">Start your first quiz to see your stats! 🚀</div>
   </section>
 
-  <!-- Subject tabs -->
-  <nav class="subject-tabs">
-    <button class="subject-tab active" data-subject="maths"><span class="tab-emoji">🔢</span>Maths</button>
-    <button class="subject-tab locked" data-subject="english" type="button"><span class="tab-emoji">📚</span>English<span class="soon-pill">Soon</span></button>
-    <button class="subject-tab locked" data-subject="evs" type="button"><span class="tab-emoji">🌿</span>EVS<span class="soon-pill">Soon</span></button>
-    <button class="subject-tab locked" data-subject="hindi" type="button"><span class="tab-emoji">🪔</span>Hindi<span class="soon-pill">Soon</span></button>
-    <button class="subject-tab locked" data-subject="gk" type="button"><span class="tab-emoji">🌍</span>GK<span class="soon-pill">Soon</span></button>
-  </nav>
+  <!-- Mathematics -->
+  <div class="section-head">
+    <h2><span class="lead">🔢</span>Mathematics · 11 chapters</h2>
+  </div>
+  <div class="chapter-grid" id="chapterGrid"></div>
 
-  <!-- Maths panel -->
-  <div id="panel-maths">
-    <div class="section-head">
-      <h2><span class="lead">🔢</span>Mathematics · 11 chapters</h2>
-    </div>
-    <div class="chapter-grid" id="chapterGrid"></div>
+  <!-- More Subjects (below Maths chapters, launching soon) -->
+  <div class="section-head" style="margin-top:40px;">
+    <h2><span class="lead">📚</span>More Subjects</h2>
+  </div>
+  <div class="subjects-grid">
+    <div class="subj-card"><div class="subj-emoji">🔤</div><div class="subj-name">Hindi</div><div class="subj-tag">Launching Soon</div></div>
+    <div class="subj-card"><div class="subj-emoji">📖</div><div class="subj-name">English</div><div class="subj-tag">Launching Soon</div></div>
+    <div class="subj-card"><div class="subj-emoji">🌿</div><div class="subj-name">EVS / Science</div><div class="subj-tag">Launching Soon</div></div>
+    <div class="subj-card"><div class="subj-emoji">🌍</div><div class="subj-name">GK</div><div class="subj-tag">Launching Soon</div></div>
   </div>
 
-  <!-- Soon panel (shared) -->
-  <div id="panel-soon" style="display:none;">
-    <div class="soon-panel">
-      <div class="big-emoji" id="soonEmo">📚</div>
-      <h3 id="soonTitle">Coming Soon</h3>
-      <p id="soonDesc">Vivaan's team is packing this subject with fun quizzes — check back shortly!</p>
-      <div class="tag">🛠 Launching Soon</div>
+  <!-- Footer -->
+  <footer class="foot">
+    <div class="foot-note">
+      Designed by <a href="https://goyalvikas.com">Goyal Vikas</a> · Only for learning purpose · Exclusive for <strong>2A, Somerville Students, Noida</strong>
     </div>
-  </div>
-
-  <div class="foot">Made with 💛 for Grade 2A · <a href="https://goyalvikas.com">goyalvikas.com</a></div>
+    <div class="foot-privacy">
+      🔒 <strong>Privacy:</strong> Nothing you do here is sent anywhere or stored on any server.
+      Scores live only in your own browser and you can wipe them any time with the <em>Reset</em> button above.
+      Built with ❤️ out of love for our kids.
+    </div>
+  </footer>
 
 </main>
 
 <script>
   // ─── Chapter data (Grade 2 maths syllabus, matches existing chapter HTML files) ──
   const CHAPTERS = [
-    { n:1,  t:'Numbers & Numeration', d:'Number names, place value, abacus & more',            e:'🔢', color:'sky',    toon:'🐻', toonName:'Benny Bear',     toonLine:"Let's count honey jars!",        href:'./math-ch1.html' },
-    { n:2,  t:'Addition',              d:'Carrying over, multi-digit sums & word problems',    e:'➕', color:'coral',  toon:'🦊', toonName:'Foxy Finn',      toonLine:'Add up my apples 🍎',           href:'./math-ch2.html' },
-    { n:3,  t:'Subtraction',           d:'Borrowing, regrouping & difference problems',        e:'➖', color:'yellow', toon:'🐰', toonName:'Hoppy Rabbit',   toonLine:"Carrots missing? Let's find out!", href:'./math-ch3.html' },
-    { n:4,  t:'Multiplication',        d:'Times tables 2–10, arrays & repeated addition',      e:'✖️', color:'grape',  toon:'🦸', toonName:'Captain Times',  toonLine:'Multiply my super power!',       href:'./math-ch4.html' },
-    { n:5,  t:'Division',              d:'Equal sharing, grouping & division facts',           e:'➗', color:'green',  toon:'🐯', toonName:'Tara Tiger',     toonLine:'Share the stripes equally 🐾',   href:'./math-ch5.html' },
-    { n:6,  t:'Fractions',             d:'Halves, quarters, thirds & comparing fractions',     e:'🍕', color:'peach',  toon:'🐼', toonName:'Pip Panda',      toonLine:'Slice the bamboo pizza!',        href:'./math-ch6.html' },
-    { n:7,  t:'Length',                d:'cm, metres, comparing & unit conversion',            e:'📏', color:'sky',    toon:'🦒', toonName:'Gigi Giraffe',   toonLine:'How tall can you measure?',      href:'./math-ch7.html' },
-    { n:8,  t:'Weight',                d:'Grams, kilograms, scales & word problems',           e:'⚖️', color:'coral',  toon:'🐘', toonName:'Ellie Elephant', toonLine:'Guess who weighs more!',         href:'./math-ch8.html' },
-    { n:9,  t:'Capacity',              d:'Millilitres, litres & container comparisons',        e:'🥤', color:'yellow', toon:'🐸', toonName:'Froggy Jug',     toonLine:"Pour it, don't spill it!",       href:'./math-ch9.html' },
-    { n:10, t:'Time & Calendar',       d:"Clocks, o'clock, half past, days & months",          e:'⏰', color:'grape',  toon:'🦉', toonName:'Owlie the Wise', toonLine:"Tick-tock, what's the time?",    href:'./math-ch10.html' },
-    { n:11, t:'Money',                 d:'Indian coins & notes, adding money & change',        e:'💰', color:'green',  toon:'🐵', toonName:'Mo Monkey',      toonLine:"Let's go to the market!",        href:'./math-ch11.html' },
+    { n:1,  t:'Numbers & Numeration', d:'Number names, place value, abacus & more',            e:'🔢', color:'sky',    toon:'🐻',  toonName:'Bear',      toonLine:"Let's count honey jars!",        href:'./math-ch1.html' },
+    { n:2,  t:'Addition',              d:'Carrying over, multi-digit sums & word problems',    e:'➕', color:'coral',  toon:'👧',  toonName:'Masha',     toonLine:'Add up my apples 🍎',           href:'./math-ch2.html' },
+    { n:3,  t:'Subtraction',           d:'Borrowing, regrouping & difference problems',        e:'➖', color:'yellow', toon:'🦁',  toonName:'Simba',     toonLine:"Roar! Let's find what's missing!", href:'./math-ch3.html' },
+    { n:4,  t:'Multiplication',        d:'Times tables 2–10, arrays & repeated addition',      e:'✖️', color:'grape',  toon:'🕷️', toonName:'Spidermen', toonLine:'Multiply my super power!',       href:'./math-ch4.html' },
+    { n:5,  t:'Division',              d:'Equal sharing, grouping & division facts',           e:'➗', color:'green',  toon:'🐱',  toonName:'Tom',       toonLine:'Share the stripes equally 🐾',   href:'./math-ch5.html' },
+    { n:6,  t:'Fractions',             d:'Halves, quarters, thirds & comparing fractions',     e:'🍕', color:'peach',  toon:'🐭',  toonName:'Jerry',     toonLine:'Slice the cheese into parts!',    href:'./math-ch6.html' },
+    { n:7,  t:'Length',                d:'cm, metres, comparing & unit conversion',            e:'📏', color:'sky',    toon:'🦊',  toonName:'Zootopia',  toonLine:'How tall can you measure?',      href:'./math-ch7.html' },
+    { n:8,  t:'Weight',                d:'Grams, kilograms, scales & word problems',           e:'⚖️', color:'coral',  toon:'🐧',  toonName:'Penguin',   toonLine:'Guess who weighs more!',         href:'./math-ch8.html' },
+    { n:9,  t:'Capacity',              d:'Millilitres, litres & container comparisons',        e:'🥤', color:'yellow', toon:'🐷',  toonName:'Peppa',     toonLine:"Pour it, don't spill it!",       href:'./math-ch9.html' },
+    { n:10, t:'Time & Calendar',       d:"Clocks, o'clock, half past, days & months",          e:'⏰', color:'grape',  toon:'🦖',  toonName:'George',    toonLine:"Tick-tock, what's the time?",    href:'./math-ch10.html' },
+    { n:11, t:'Money',                 d:'Indian coins & notes, adding money & change',        e:'💰', color:'green',  toon:'🐼',  toonName:'Panda',     toonLine:"Let's go to the market!",        href:'./math-ch11.html' },
   ];
 
   const COLOR_VAR = { coral:'--coral', yellow:'--yellow', green:'--green', sky:'--sky', grape:'--grape', peach:'--peach' };
@@ -669,34 +684,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     keys.forEach(k => localStorage.removeItem(k));
     renderScoreboard();
-  });
-
-  // ─── Subject tab switching ──
-  const SOON = {
-    english: { emo:'📚', title:'English · Launching Soon', desc:'Phonics, nouns, verbs and reading adventures — coming shortly!' },
-    evs:     { emo:'🌿', title:'EVS · Launching Soon',     desc:'Plants, animals, our body and our Earth — coming shortly!' },
-    hindi:   { emo:'🪔', title:'Hindi · शीघ्र आ रहा है',   desc:'वर्णमाला, शब्द और कहानियाँ — जल्द ही!' },
-    gk:      { emo:'🌍', title:'GK · Launching Soon',      desc:'India, world, festivals and fun facts — coming shortly!' },
-  };
-  document.querySelectorAll('.subject-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const sub = tab.dataset.subject;
-      const pMaths = document.getElementById('panel-maths');
-      const pSoon  = document.getElementById('panel-soon');
-      if (sub === 'maths'){
-        pMaths.style.display = '';
-        pSoon.style.display  = 'none';
-      } else {
-        pMaths.style.display = 'none';
-        pSoon.style.display  = '';
-        const c = SOON[sub] || SOON.english;
-        document.getElementById('soonEmo').textContent   = c.emo;
-        document.getElementById('soonTitle').textContent = c.title;
-        document.getElementById('soonDesc').textContent  = c.desc;
-      }
-    });
   });
 
   renderScoreboard();
