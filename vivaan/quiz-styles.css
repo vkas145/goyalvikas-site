@@ -229,7 +229,8 @@ body::before{content:'';position:fixed;inset:0;background:
 .res-btn.next{background:linear-gradient(135deg,var(--green),#00b09b);color:#fff}
 
 /* ── FAB + Modal ── */
-.fab{position:fixed;bottom:20px;right:20px;z-index:100;background:linear-gradient(135deg,var(--accent),#ff9f43);color:#0f0c29;border:none;border-radius:50px;padding:10px 17px;font-size:13px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 18px rgba(247,201,72,.4);display:flex;align-items:center;gap:6px}
+/* Per-chapter scores FAB hidden — master scoreboard lives on hub (/vivaan/) */
+.fab{display:none!important}
 .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
 .modal-ov.show{display:flex}
 .modal-box{background:#1a1740;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:20px 16px;width:100%;max-width:460px;max-height:80vh;overflow-y:auto;position:relative}
@@ -245,6 +246,17 @@ body::before{content:'';position:fixed;inset:0;background:
 .empty-msg{font-size:12px;color:#8884b0;text-align:center;padding:18px}
 
 #confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999}
+
+/* ── Start screen (shown before timer starts) ── */
+.start-screen{display:flex;flex-direction:column;align-items:center;text-align:center;padding:32px 16px 18px;animation:ssIn .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes ssIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.start-emo{font-size:64px;animation:bounce 1.4s ease-in-out infinite;margin-bottom:10px;filter:drop-shadow(0 6px 14px rgba(247,201,72,.35))}
+.start-title{font-size:28px;font-weight:900;color:var(--accent);margin-bottom:8px;letter-spacing:-.5px}
+.start-desc{font-size:13px;color:rgba(255,255,255,.7);font-weight:600;margin-bottom:22px;line-height:1.55;max-width:340px}
+.start-btn{background:linear-gradient(135deg,#ff7b54,#f7c948);color:#fff;border:none;border-radius:50px;padding:15px 36px;font-size:17px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 6px 22px rgba(255,123,84,.5),0 2px 6px rgba(0,0,0,.2);letter-spacing:.5px;transition:transform .2s;animation:sbpulse 1.8s ease-in-out infinite}
+.start-btn:hover{transform:scale(1.05)}
+.start-btn:active{transform:scale(.97)}
+@keyframes sbpulse{0%,100%{box-shadow:0 6px 22px rgba(255,123,84,.5),0 2px 6px rgba(0,0,0,.2)}50%{box-shadow:0 8px 30px rgba(255,123,84,.7),0 2px 6px rgba(0,0,0,.2)}}
 
 /* ── Responsive ── */
 @media(max-width:540px){

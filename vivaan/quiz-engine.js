@@ -24,13 +24,16 @@ let results=[], char=null, timerSecs=0, timerInt=null, timerStarted=false;
 let sortSel=[], tapAllSel=new Set(), typeVal='';
 let matchState={selectedLeft:null,connections:{},rightUsed:new Set()};
 let classifyState={held:null,placements:{}};
+let quizReady=false; // true once user clicks "Start Quiz" for current set
 
 // ─── Utilities ────────────────────────────────────────────────
 const rand=a=>a[Math.floor(Math.random()*a.length)];
 const shuffle=a=>{const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;};
 const scoreKey=(l,si)=>`vivaan_${CHAPTER.key}_${l}_set${si}`;
-const curQ=()=>SETS[level][setIdx][qIdx];
-const totalQ=()=>SETS[level][setIdx].length;
+// Normalise set shape: some chapters use [{name,questions:[...]},...] wrapper; others use a flat array.
+const setArr=(l,si)=>{const s=SETS[l][si];return Array.isArray(s)?s:(s&&s.questions)||[];};
+const curQ=()=>setArr(level,setIdx)[qIdx];
+const totalQ=()=>setArr(level,setIdx).length;
 
 // ─── Timer (starts on first interaction) ──────────────────────
 function ensureTimer(){if(!timerStarted){timerStarted=true;timerInt=setInterval(()=>{timerSecs++;renderTimer();},1000);}}
@@ -79,18 +82,55 @@ function switchLevel(l){
 }
 
 // ─── Start / Render ───────────────────────────────────────────
+function reorderSetNoMatchFirst(){
+  // Ensure current set's first question is NOT type:'match' (too intimidating as an opener)
+  const qs=setArr(level,setIdx);
+  if(!qs||qs.length<2)return;
+  if(qs[0]&&qs[0].type==='match'){
+    const swap=qs.findIndex(q=>q&&q.type!=='match');
+    if(swap>0){[qs[0],qs[swap]]=[qs[swap],qs[0]];}
+  }
+}
 function startSet(){
   qIdx=0;score=0;answered=false;
+  reorderSetNoMatchFirst();
   results=new Array(totalQ()).fill(null);
   char=CHARS[Math.floor(Math.random()*CHARS.length)];
   timerSecs=0;timerStarted=false;stopTimer();renderTimer();
+  quizReady=false;
   const rs=document.getElementById('resultScreen');if(rs)rs.classList.remove('show');
   const qb=document.getElementById('quizBody');if(qb)qb.style.display='block';
   const tq=document.getElementById('totalQ');if(tq)tq.textContent=totalQ();
   const rtq=document.getElementById('resTotalQ');if(rtq)rtq.textContent=totalQ();
   const ls=document.getElementById('liveScore');if(ls)ls.textContent='0';
   const pb=document.getElementById('pbar');if(pb)pb.style.width='0%';
-  buildSidebar();renderQ();setCharNeutral();
+  buildSidebar();
+  showStartScreen();
+}
+
+function showStartScreen(){
+  const qn=document.getElementById('qnum');if(qn)qn.textContent=`Set ${setIdx+1} · ${level==='pro'?'🔥 Pro':'⭐ Beginner'}`;
+  const qt=document.getElementById('qtext');if(qt)qt.textContent='';
+  const tt=document.getElementById('topicTag');if(tt)tt.textContent='Ready to start?';
+  const fb=document.getElementById('feedback');if(fb)fb.className='feedback';
+  const nb=document.getElementById('nextBtn');if(nb)nb.className='next-btn';
+  setCharNeutral();
+  const cm=document.getElementById('charMood');if(cm){cm.className='cmood neutral';cm.textContent='Ready when you are!';}
+  const cg=document.getElementById('charMsg');if(cg)cg.textContent=`Tap START — the timer begins then. 🎯`;
+  const area=document.getElementById('interactionArea');if(!area)return;
+  area.innerHTML=`<div class="start-screen">
+    <div class="start-emo">🚀</div>
+    <div class="start-title">Ready, ${char?char.n:'champ'}?</div>
+    <div class="start-desc">${totalQ()} questions &bull; Take your time &bull; Timer starts on click</div>
+    <button class="start-btn" onclick="beginQuiz()">▶ Start Quiz</button>
+  </div>`;
+}
+
+function beginQuiz(){
+  if(quizReady)return;
+  quizReady=true;
+  renderQ();
+  ensureTimer();
 }
 
 function renderQ(){

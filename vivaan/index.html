@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vivaan's Quiz World 👑</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <title>Quiz Time · Grade 2A · Somerville</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -17,342 +17,456 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg-1: #ffe7ae;
+      --bg-2: #ffb3c6;
+      --bg-3: #a0e7e5;
+      --bg-4: #b4f8c8;
+      --ink: #2d1b4a;
+      --ink-soft: #5b4a7a;
+      --accent: #ff7b54;
+      --accent-2: #ffc947;
+      --pink: #ff5ea8;
+      --blue: #47b5ff;
+      --green: #22c55e;
+      --purple: #a855f7;
+    }
+
     body {
       font-family: 'Nunito', sans-serif;
       min-height: 100vh;
-      background: #0f0c29;
-      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-      background-attachment: fixed;
-      color: #fff;
+      background: linear-gradient(135deg, #fff7df 0%, #ffe7f1 45%, #e0faf8 100%);
+      color: var(--ink);
       overflow-x: hidden;
     }
 
-    /* ── Starfield ── */
-    body::before, body::after {
-      content: '';
+    /* Floating playful shapes */
+    .blob {
       position: fixed;
-      inset: 0;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.55;
       pointer-events: none;
       z-index: 0;
+      animation: float 14s ease-in-out infinite;
     }
-    body::before {
-      background:
-        radial-gradient(1px 1px at 10% 15%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 22% 72%, #fff 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 35% 40%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 47% 88%, rgba(255,255,255,.7) 0%, transparent 100%),
-        radial-gradient(1px 1px at 58% 5%, #fff 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 67% 55%, rgba(255,255,255,.8) 0%, transparent 100%),
-        radial-gradient(1px 1px at 75% 30%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 83% 78%, rgba(255,255,255,.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 91% 18%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 4%  62%, rgba(255,255,255,.7) 0%, transparent 100%),
-        radial-gradient(1px 1px at 15% 48%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 29% 92%, rgba(255,255,255,.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 43% 22%, #fff 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 54% 67%, rgba(255,255,255,.9) 0%, transparent 100%),
-        radial-gradient(1px 1px at 63% 44%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 78% 11%, rgba(255,255,255,.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 88% 90%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 96% 50%, rgba(255,255,255,.7) 0%, transparent 100%);
-      opacity: 0.6;
-    }
-    body::after {
-      background:
-        radial-gradient(1px 1px at 7%  33%, rgba(255,255,255,.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 18% 80%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 31% 12%, rgba(255,255,255,.6) 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 44% 58%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 56% 27%, rgba(255,255,255,.8) 0%, transparent 100%),
-        radial-gradient(1px 1px at 69% 70%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 81% 42%, rgba(255,255,255,.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 93% 8%,  #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 3%  95%, rgba(255,255,255,.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 37% 75%, rgba(255,255,255,.7) 0%, transparent 100%),
-        radial-gradient(1px 1px at 72% 88%, #fff 0%, transparent 100%),
-        radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,.5) 0%, transparent 100%);
-      opacity: 0.4;
+    .blob.b1 { width:260px; height:260px; background:#ffb3c6; top:-80px; left:-60px; }
+    .blob.b2 { width:220px; height:220px; background:#a0e7e5; bottom:-60px; right:-40px; animation-delay:-4s; }
+    .blob.b3 { width:180px; height:180px; background:#ffe58a; top:45%; left:65%; animation-delay:-8s; }
+    @keyframes float {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50%     { transform: translate(-20px,30px) scale(1.08); }
     }
 
-    /* ── Layout wrapper ── */
-    .page-wrap {
+    /* Floating emoji decorations */
+    .deco {
+      position: fixed;
+      font-size: 38px;
+      pointer-events: none;
+      z-index: 0;
+      animation: wiggle 6s ease-in-out infinite;
+      opacity: .8;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.08));
+    }
+    .deco.d1 { top:90px;  left:6%;  animation-delay:0s; }
+    .deco.d2 { top:120px; right:8%; animation-delay:-2s; }
+    .deco.d3 { bottom:180px; left:9%; animation-delay:-4s; }
+    .deco.d4 { bottom:120px; right:6%; animation-delay:-1s; }
+    @keyframes wiggle {
+      0%,100% { transform: translateY(0) rotate(-6deg); }
+      50%     { transform: translateY(-14px) rotate(8deg); }
+    }
+
+    /* Layout */
+    .page {
       position: relative;
       z-index: 1;
-      max-width: 840px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 0 20px 60px;
+      padding: 24px 18px 60px;
     }
 
-    /* ── Keyframes ── */
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-14px); }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 12px 2px rgba(247,201,72,.35); }
-      50%       { box-shadow: 0 0 28px 6px rgba(247,201,72,.65); }
-    }
-    @keyframes shimmer {
-      0%   { background-position: -200% center; }
-      100% { background-position:  200% center; }
-    }
-
-    /* ── Header ── */
-    header {
+    /* ═══ HERO ═══ */
+    .hero {
       text-align: center;
-      padding: 52px 20px 36px;
-      animation: fadeInUp .7s ease both;
+      padding: 32px 14px 18px;
+      animation: popIn .7s cubic-bezier(.34,1.56,.64,1) both;
     }
-    .crown {
-      font-size: 3rem;
-      display: inline-block;
-      animation: bounce 1.6s ease-in-out infinite;
-      margin-bottom: 8px;
+    @keyframes popIn {
+      from { opacity:0; transform: scale(.85); }
+      to   { opacity:1; transform: scale(1); }
     }
-    header h1 {
-      font-size: clamp(1.9rem, 5vw, 3rem);
-      font-weight: 900;
-      color: #f7c948;
-      text-shadow: 0 0 24px rgba(247,201,72,.45);
-      letter-spacing: -0.5px;
-      line-height: 1.15;
-    }
-    header p {
-      margin-top: 12px;
-      font-size: 1.1rem;
+    .school-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px solid #fff;
+      box-shadow: 0 6px 22px rgba(255,123,84,.22), 0 2px 6px rgba(0,0,0,.06);
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-family: 'Fredoka', sans-serif;
       font-weight: 600;
-      color: rgba(255,255,255,.75);
+      font-size: .9rem;
+      color: var(--accent);
+      margin-bottom: 22px;
+      letter-spacing: .3px;
     }
-
-    /* ── Section titles ── */
-    .section-title {
-      font-size: 1.5rem;
+    .school-badge .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 0 rgba(34,197,94,.6);
+      animation: pulse-dot 1.8s infinite;
+    }
+    @keyframes pulse-dot {
+      0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.6); }
+      70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    }
+    .hero-mascot {
+      font-size: 4rem;
+      display: block;
+      margin: 0 auto 10px;
+      animation: bounce 1.8s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50%       { transform: translateY(-16px) rotate(5deg); }
+    }
+    .hero h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1.6rem, 4.2vw, 2.3rem);
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.18;
+    }
+    .hero h2 .accent { color: var(--accent); }
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      font-weight: 600;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+    .hero-pill-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .hero-pill {
+      background: rgba(255,255,255,.85);
+      border: 2px dashed rgba(255,123,84,.35);
+      padding: 7px 14px;
+      border-radius: 30px;
+      font-size: .8rem;
       font-weight: 800;
-      color: #f7c948;
-      margin: 40px 0 18px;
-      text-shadow: 0 0 16px rgba(247,201,72,.3);
-      animation: fadeInUp .6s ease both;
+      color: var(--ink-soft);
+    }
+    .hero-pill strong { color: var(--accent); }
+
+    /* ═══ MASTER SCOREBOARD ═══ */
+    .scoreboard {
+      background: linear-gradient(135deg,#fff 0%,#fff7ee 100%);
+      border-radius: 28px;
+      padding: 20px 20px 18px;
+      margin: 24px 0 30px;
+      box-shadow: 0 10px 40px rgba(255,123,84,.15), 0 2px 8px rgba(0,0,0,.04);
+      border: 2px solid #fff;
+      animation: popIn .7s .1s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    .sb-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+    .sb-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .sb-reset {
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(0,0,0,.06);
+      color: var(--ink-soft);
+      font-weight: 700;
+      font-size: .73rem;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .sb-reset:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .sb-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 520px) { .sb-stats { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    .sb-stat {
+      background: rgba(255,255,255,.65);
+      border-radius: 16px;
+      padding: 12px 8px;
+      text-align: center;
+      border: 1.5px solid rgba(255,255,255,.9);
+    }
+    .sb-stat .num {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1.6rem;
+      line-height: 1;
+      color: var(--accent);
+    }
+    .sb-stat .lbl {
+      font-size: .72rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-top: 6px;
+    }
+    .sb-stat:nth-child(2) .num { color: var(--green); }
+    .sb-stat:nth-child(3) .num { color: var(--blue); }
+    .sb-stat:nth-child(4) .num { color: var(--purple); }
+    .sb-progress {
+      margin-top: 14px;
+      height: 10px;
+      background: rgba(45,27,74,.08);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .sb-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg,var(--accent) 0%,var(--accent-2) 50%,var(--green) 100%);
+      border-radius: 20px;
+      width: 0%;
+      transition: width .6s ease;
+    }
+    .sb-empty {
+      text-align: center;
+      color: var(--ink-soft);
+      font-weight: 700;
+      font-size: .9rem;
+      padding: 10px 0 4px;
     }
 
-    /* ── Chapter grid ── */
+    /* ═══ SECTION TITLE ═══ */
+    .section-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1.45rem;
+      color: var(--ink);
+      margin: 30px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .emo {
+      font-size: 1.5rem;
+      display: inline-block;
+      animation: bounce 1.8s ease-in-out infinite;
+    }
+
+    /* ═══ CHAPTER GRID ═══ */
     .chapter-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 18px;
+      gap: 14px;
     }
     @media (min-width: 560px) {
       .chapter-grid { grid-template-columns: 1fr 1fr; }
     }
 
-    /* ── Card base ── */
     .card {
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 20px;
-      padding: 22px 20px 20px;
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-      animation: fadeInUp .55s ease both;
+      background: #fff;
+      border: 3px solid #fff;
+      border-radius: 24px;
+      padding: 20px 20px 18px;
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
       position: relative;
       overflow: hidden;
-    }
-
-    /* stagger delays */
-    .card:nth-child(1)  { animation-delay: .05s; }
-    .card:nth-child(2)  { animation-delay: .10s; }
-    .card:nth-child(3)  { animation-delay: .15s; }
-    .card:nth-child(4)  { animation-delay: .20s; }
-    .card:nth-child(5)  { animation-delay: .25s; }
-    .card:nth-child(6)  { animation-delay: .30s; }
-    .card:nth-child(7)  { animation-delay: .35s; }
-    .card:nth-child(8)  { animation-delay: .40s; }
-    .card:nth-child(9)  { animation-delay: .45s; }
-    .card:nth-child(10) { animation-delay: .50s; }
-    .card:nth-child(11) { animation-delay: .55s; }
-
-    /* ── Active card ── */
-    .card.active {
-      border-color: rgba(247,201,72,.35);
-      cursor: pointer;
+      animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+      box-shadow: 0 4px 18px rgba(45,27,74,.06);
       text-decoration: none;
-      display: block;
       color: inherit;
+      display: block;
+      cursor: pointer;
     }
-    .card.active:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(247,201,72,.25), 0 4px 12px rgba(0,0,0,.4);
-      border-color: rgba(247,201,72,.7);
-    }
-
-    /* ── Locked card ── */
-    .card.locked {
-      opacity: 0.4;
-      cursor: default;
+    .card::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
     }
 
-    /* ── Chapter number badge ── */
-    .ch-badge {
-      display: inline-block;
-      background: rgba(247,201,72,.18);
-      color: #f7c948;
-      font-size: .72rem;
-      font-weight: 800;
-      padding: 3px 9px;
-      border-radius: 30px;
-      border: 1px solid rgba(247,201,72,.35);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: .5px;
-    }
+    .card:nth-child(1)::before  { background: linear-gradient(90deg,#ff7b54,#ffc947); }
+    .card:nth-child(2)::before  { background: linear-gradient(90deg,#47b5ff,#a0e7e5); }
+    .card:nth-child(3)::before  { background: linear-gradient(90deg,#ff5ea8,#ffb3c6); }
+    .card:nth-child(4)::before  { background: linear-gradient(90deg,#22c55e,#b4f8c8); }
+    .card:nth-child(5)::before  { background: linear-gradient(90deg,#a855f7,#d8b4fe); }
+    .card:nth-child(6)::before  { background: linear-gradient(90deg,#fb923c,#fed7aa); }
+    .card:nth-child(7)::before  { background: linear-gradient(90deg,#06b6d4,#a5f3fc); }
+    .card:nth-child(8)::before  { background: linear-gradient(90deg,#ec4899,#fbcfe8); }
+    .card:nth-child(9)::before  { background: linear-gradient(90deg,#84cc16,#d9f99d); }
+    .card:nth-child(10)::before { background: linear-gradient(90deg,#f59e0b,#fde68a); }
+    .card:nth-child(11)::before { background: linear-gradient(90deg,#6366f1,#c7d2fe); }
 
-    /* ── Card heading ── */
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 800;
+    .card:nth-child(1)  { animation-delay: .04s; }
+    .card:nth-child(2)  { animation-delay: .08s; }
+    .card:nth-child(3)  { animation-delay: .12s; }
+    .card:nth-child(4)  { animation-delay: .16s; }
+    .card:nth-child(5)  { animation-delay: .20s; }
+    .card:nth-child(6)  { animation-delay: .24s; }
+    .card:nth-child(7)  { animation-delay: .28s; }
+    .card:nth-child(8)  { animation-delay: .32s; }
+    .card:nth-child(9)  { animation-delay: .36s; }
+    .card:nth-child(10) { animation-delay: .40s; }
+    .card:nth-child(11) { animation-delay: .44s; }
+
+    .card:hover {
+      transform: translateY(-4px) rotate(-.5deg);
+      box-shadow: 0 16px 32px rgba(255,123,84,.22), 0 4px 10px rgba(0,0,0,.06);
+    }
+    .card:active { transform: translateY(-2px) scale(.99); }
+
+    .ch-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .ch-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       color: #fff;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: .95rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(255,123,84,.35);
+      flex-shrink: 0;
+    }
+    .ch-icon {
+      font-size: 1.7rem;
+      margin-left: auto;
+      animation: wobble 3s ease-in-out infinite;
+    }
+    @keyframes wobble {
+      0%,100% { transform: rotate(-6deg); }
+      50%     { transform: rotate(8deg); }
+    }
+    .card-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1.45rem;
+      color: var(--ink);
+      line-height: 1.2;
       margin-bottom: 6px;
-      line-height: 1.3;
     }
     .card-desc {
       font-size: .82rem;
-      color: rgba(255,255,255,.6);
-      margin-bottom: 14px;
-      line-height: 1.5;
-    }
-
-    /* ── Level badges ── */
-    .level-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 6px;
-    }
-    .level-badge {
-      font-size: .75rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
-    }
-    .level-badge.beginner {
-      background: rgba(59,130,246,.25);
-      color: #93c5fd;
-      border: 1px solid rgba(59,130,246,.4);
-    }
-    .level-badge.pro {
-      background: rgba(239,68,68,.22);
-      color: #fca5a5;
-      border: 1px solid rgba(239,68,68,.4);
-    }
-    .sets-label {
-      font-size: .73rem;
-      color: rgba(255,255,255,.45);
+      color: var(--ink-soft);
+      line-height: 1.45;
       margin-bottom: 16px;
+      font-weight: 600;
     }
-
-    /* ── Play button ── */
-    .play-btn {
-      display: inline-block;
-      background: linear-gradient(90deg, #f7c948, #f4a518, #f7c948);
-      background-size: 200% auto;
-      color: #1a1440;
-      font-size: .92rem;
-      font-weight: 900;
-      padding: 11px 26px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      transition: background-position .4s ease, transform .2s ease, box-shadow .2s ease;
-      letter-spacing: .3px;
-      text-decoration: none;
-    }
-    .card.active:hover .play-btn {
-      background-position: right center;
-      transform: scale(1.04);
-      box-shadow: 0 4px 20px rgba(247,201,72,.5);
-    }
-
-    /* ── Locked overlay badge ── */
-    .lock-overlay {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: rgba(0,0,0,.45);
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 20px;
-      font-size: .72rem;
-      font-weight: 800;
-      color: rgba(255,255,255,.6);
-      padding: 4px 10px;
+    .card-footer {
       display: flex;
       align-items: center;
-      gap: 4px;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .card-score {
+      font-size: .78rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+    .card-score .tick { color: var(--green); }
+    .play-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: .82rem;
+      padding: 7px 14px;
+      border-radius: 22px;
+      border: none;
+      box-shadow: 0 3px 10px rgba(255,123,84,.35);
+      letter-spacing: .3px;
+    }
+    .card:hover .play-btn {
+      transform: scale(1.06);
     }
 
-    /* ── Other subjects section ── */
+    /* ═══ OTHER SUBJECTS ═══ */
     .subjects-row {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
       margin-top: 4px;
     }
-    .subject-card {
-      flex: 1 1 200px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.09);
+    @media (min-width: 560px) {
+      .subjects-row { grid-template-columns: repeat(4, 1fr); }
+    }
+    .subj-card {
+      background: #fff;
       border-radius: 20px;
-      padding: 28px 20px 24px;
+      padding: 18px 12px 14px;
       text-align: center;
-      opacity: 0.55;
-      animation: fadeInUp .6s ease both;
-      animation-delay: .2s;
+      border: 2px dashed rgba(45,27,74,.12);
+      opacity: .75;
+      animation: popIn .55s cubic-bezier(.34,1.56,.64,1) both;
     }
-    .subject-card:nth-child(2) { animation-delay: .3s; }
-    .subject-card:nth-child(3) { animation-delay: .4s; }
-
-    .subject-icon {
-      font-size: 2.4rem;
-      margin-bottom: 10px;
-      display: block;
-    }
-    .subject-name {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-    .subject-soon {
-      font-size: .8rem;
-      color: rgba(255,255,255,.5);
+    .subj-card:nth-child(1) { animation-delay: .1s; }
+    .subj-card:nth-child(2) { animation-delay: .15s; }
+    .subj-card:nth-child(3) { animation-delay: .2s; }
+    .subj-card:nth-child(4) { animation-delay: .25s; }
+    .subj-icon { font-size: 2.2rem; display: block; margin-bottom: 6px; animation: wobble 3.5s ease-in-out infinite; }
+    .subj-name {
+      font-family: 'Fredoka', sans-serif;
       font-weight: 600;
-      line-height: 1.5;
+      font-size: 1.05rem;
+      color: var(--ink);
+      margin-bottom: 4px;
     }
-    .subject-lock {
-      font-size: 1.4rem;
-      margin-bottom: 6px;
-      display: block;
-      opacity: .6;
+    .subj-soon {
+      font-size: .7rem;
+      color: var(--ink-soft);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      background: rgba(255,123,84,.12);
+      color: var(--accent);
+      padding: 3px 9px;
+      border-radius: 20px;
+      display: inline-block;
     }
 
-    /* ── Footer ── */
+    /* ═══ FOOTER ═══ */
     footer {
       text-align: center;
-      padding: 32px 0 8px;
-      font-size: .82rem;
-      color: rgba(255,255,255,.35);
-      font-weight: 600;
-      animation: fadeInUp .6s ease .5s both;
+      padding: 34px 12px 10px;
+      font-size: .78rem;
+      color: var(--ink-soft);
+      font-weight: 700;
       position: relative;
       z-index: 1;
+      opacity: .7;
     }
-    footer a {
-      color: rgba(247,201,72,.6);
-      text-decoration: none;
-    }
-    footer a:hover { color: #f7c948; }
+    footer a { color: var(--accent); text-decoration: none; }
   </style>
 </head>
 <body>
@@ -362,198 +476,229 @@
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<div class="page-wrap">
+<!-- Floating background -->
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+<span class="deco d1">⭐</span>
+<span class="deco d2">🎈</span>
+<span class="deco d3">🚀</span>
+<span class="deco d4">🌈</span>
 
-  <!-- ── Header ── -->
-  <header>
-    <div class="crown">👑</div>
-    <h1>Vivaan's Quiz World!</h1>
-    <p>Choose your subject and start learning! 🚀</p>
-  </header>
+<div class="page">
 
-  <!-- ── Mathematics Section ── -->
-  <div class="section-title">🔢 Mathematics Buzzz</div>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="school-badge">
+      <span class="dot"></span>
+      Grade 2 · Section A · Somerville
+    </div>
+    <div class="hero-mascot">🦁</div>
+    <h2>Hey Grade 2<span class="accent">A</span>! Ready to quiz? 🎉</h2>
+    <p class="hero-sub">Quiz on the topic and content aligned to whats taught in our school.</p>
+    <div class="hero-pill-row">
+      <div class="hero-pill">⭐ <strong>Beginner</strong> & 🔥 <strong>Pro</strong></div>
+      <div class="hero-pill"><strong>4 sets</strong> each level</div>
+      <div class="hero-pill">⏱ <strong>Timed</strong> fun</div>
+    </div>
+  </section>
+
+  <!-- ═══ MASTER SCOREBOARD ═══ -->
+  <section class="scoreboard" id="scoreboard">
+    <div class="sb-header">
+      <div class="sb-title">🏆 My Scoreboard</div>
+      <button class="sb-reset" id="sbReset" type="button">Reset</button>
+    </div>
+    <div class="sb-stats">
+      <div class="sb-stat"><div class="num" id="sbSets">0</div><div class="lbl">Sets Done</div></div>
+      <div class="sb-stat"><div class="num" id="sbCorrect">0</div><div class="lbl">Correct</div></div>
+      <div class="sb-stat"><div class="num" id="sbTotal">0</div><div class="lbl">Questions</div></div>
+      <div class="sb-stat"><div class="num" id="sbPct">0%</div><div class="lbl">Overall</div></div>
+    </div>
+    <div class="sb-progress"><div class="sb-progress-fill" id="sbFill"></div></div>
+    <div class="sb-empty" id="sbEmpty">Start your first quiz to see your stats! 🚀</div>
+  </section>
+
+  <!-- ═══ MATHEMATICS ═══ -->
+  <div class="section-title"><span class="emo">🔢</span> Mathematics</div>
 
   <div class="chapter-grid">
-
-    <!-- Ch 1 — ACTIVE -->
-    <a href="./math-ch1.html" class="card active">
-      <div class="ch-badge">Ch 1</div>
+    <a href="./math-ch1.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 1</div><span class="ch-icon">🔢</span></div>
       <div class="card-title">Numbers &amp; Numeration</div>
       <div class="card-desc">Number names, place value, abacus &amp; more</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch1"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 2 -->
-    <a href="./math-ch2.html" class="card active">
-      <div class="ch-badge">Ch 2</div>
+    <a href="./math-ch2.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 2</div><span class="ch-icon">➕</span></div>
       <div class="card-title">Addition</div>
       <div class="card-desc">Carrying over, multi-digit sums &amp; word problems</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch2"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 3 -->
-    <a href="./math-ch3.html" class="card active">
-      <div class="ch-badge">Ch 3</div>
+    <a href="./math-ch3.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 3</div><span class="ch-icon">➖</span></div>
       <div class="card-title">Subtraction</div>
       <div class="card-desc">Borrowing, regrouping &amp; difference problems</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch3"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 4 -->
-    <a href="./math-ch4.html" class="card active">
-      <div class="ch-badge">Ch 4</div>
+    <a href="./math-ch4.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 4</div><span class="ch-icon">✖️</span></div>
       <div class="card-title">Multiplication</div>
-      <div class="card-desc">Times tables 2–10, arrays &amp; repeated addition</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-desc">Times tables, arrays &amp; repeated addition</div>
+      <div class="card-footer"><div class="card-score" data-ch="ch4"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 5 -->
-    <a href="./math-ch5.html" class="card active">
-      <div class="ch-badge">Ch 5</div>
+    <a href="./math-ch5.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 5</div><span class="ch-icon">➗</span></div>
       <div class="card-title">Division</div>
       <div class="card-desc">Equal sharing, grouping &amp; division facts</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch5"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 6 -->
-    <a href="./math-ch6.html" class="card active">
-      <div class="ch-badge">Ch 6</div>
+    <a href="./math-ch6.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 6</div><span class="ch-icon">🍕</span></div>
       <div class="card-title">Fractions</div>
       <div class="card-desc">Halves, quarters, thirds &amp; comparing fractions</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch6"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 7 -->
-    <a href="./math-ch7.html" class="card active">
-      <div class="ch-badge">Ch 7</div>
-      <div class="card-title">Measurement — Length</div>
+    <a href="./math-ch7.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 7</div><span class="ch-icon">📏</span></div>
+      <div class="card-title">Length</div>
       <div class="card-desc">cm, metres, comparing &amp; unit conversion</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch7"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 8 -->
-    <a href="./math-ch8.html" class="card active">
-      <div class="ch-badge">Ch 8</div>
-      <div class="card-title">Measurement — Weight</div>
+    <a href="./math-ch8.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 8</div><span class="ch-icon">⚖️</span></div>
+      <div class="card-title">Weight</div>
       <div class="card-desc">Grams, kilograms, scales &amp; word problems</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch8"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 9 -->
-    <a href="./math-ch9.html" class="card active">
-      <div class="ch-badge">Ch 9</div>
-      <div class="card-title">Measurement — Capacity</div>
+    <a href="./math-ch9.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 9</div><span class="ch-icon">🥤</span></div>
+      <div class="card-title">Capacity</div>
       <div class="card-desc">Millilitres, litres &amp; container comparisons</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch9"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 10 -->
-    <a href="./math-ch10.html" class="card active">
-      <div class="ch-badge">Ch 10</div>
+    <a href="./math-ch10.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 10</div><span class="ch-icon">⏰</span></div>
       <div class="card-title">Time &amp; Calendar</div>
       <div class="card-desc">Clocks, o'clock, half past, days &amp; months</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch10"></div><span class="play-btn">Play ▶</span></div>
     </a>
 
-    <!-- Ch 11 -->
-    <a href="./math-ch11.html" class="card active">
-      <div class="ch-badge">Ch 11</div>
+    <a href="./math-ch11.html" class="card">
+      <div class="ch-row"><div class="ch-num">Ch 11</div><span class="ch-icon">💰</span></div>
       <div class="card-title">Money</div>
       <div class="card-desc">Indian coins &amp; notes, adding money &amp; change</div>
-      <div class="level-row">
-        <span class="level-badge beginner">⭐ Beginner</span>
-        <span class="level-badge pro">🔥 Pro</span>
-      </div>
-      <div class="sets-label">4 sets each level</div>
-      <span class="play-btn">▶ Play Now</span>
+      <div class="card-footer"><div class="card-score" data-ch="ch11"></div><span class="play-btn">Play ▶</span></div>
     </a>
+  </div>
 
-  </div><!-- /chapter-grid -->
-
-  <!-- ── Other Subjects ── -->
-  <div class="section-title" style="margin-top:52px;">More Subjects</div>
+  <!-- ═══ OTHER SUBJECTS ═══ -->
+  <div class="section-title"><span class="emo">📚</span> More Subjects</div>
 
   <div class="subjects-row">
-
-    <div class="subject-card">
-      <span class="subject-icon">📖</span>
-      <span class="subject-lock">🔒</span>
-      <div class="subject-name">English</div>
-      <div class="subject-soon">Being built for Vivaan 🛠️</div>
+    <div class="subj-card">
+      <span class="subj-icon">🔤</span>
+      <div class="subj-name">Hindi</div>
+      <div class="subj-soon">Launching Soon</div>
     </div>
-
-    <div class="subject-card">
-      <span class="subject-icon">🌿</span>
-      <span class="subject-lock">🔒</span>
-      <div class="subject-name">EVS</div>
-      <div class="subject-soon">Being built for Vivaan 🛠️</div>
+    <div class="subj-card">
+      <span class="subj-icon">📖</span>
+      <div class="subj-name">English</div>
+      <div class="subj-soon">Launching Soon</div>
     </div>
-
-    <div class="subject-card">
-      <span class="subject-icon">🌍</span>
-      <span class="subject-lock">🔒</span>
-      <div class="subject-name">GK</div>
-      <div class="subject-soon">Being built for Vivaan 🛠️</div>
+    <div class="subj-card">
+      <span class="subj-icon">🌿</span>
+      <div class="subj-name">EVS</div>
+      <div class="subj-soon">Launching Soon</div>
     </div>
+    <div class="subj-card">
+      <span class="subj-icon">🌍</span>
+      <div class="subj-name">GK</div>
+      <div class="subj-soon">Launching Soon</div>
+    </div>
+  </div>
 
-  </div><!-- /subjects-row -->
-
-</div><!-- /page-wrap -->
+</div>
 
 <footer>
-  Made with ❤️ for Vivaan &bull; <a href="https://goyalvikas.com" target="_blank" rel="noopener">goyalvikas.com</a>
+  Made with ❤️ for Grade 2A &bull; <a href="https://goyalvikas.com">goyalvikas.com</a>
 </footer>
+
+<script>
+(function(){
+  // ── Gather all quiz results from localStorage
+  function collectScores(){
+    let sets=0, correct=0, total=0;
+    const byChapter = {};
+    for (let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if (!k || !k.startsWith('vivaan_')) continue;
+      try {
+        const d = JSON.parse(localStorage.getItem(k));
+        if (!d || typeof d.score!=='number' || typeof d.tq!=='number') continue;
+        sets++;
+        correct += d.score;
+        total += d.tq;
+        // Key shape: vivaan_<chkey>_<level>_set<N>
+        const m = k.match(/^vivaan_([^_]+)_(beginner|pro)_set(\d+)$/);
+        if (m){
+          const ch = m[1];
+          byChapter[ch] = byChapter[ch] || {sets:0,correct:0,total:0};
+          byChapter[ch].sets++;
+          byChapter[ch].correct += d.score;
+          byChapter[ch].total += d.tq;
+        }
+      } catch(e){}
+    }
+    return {sets, correct, total, byChapter};
+  }
+
+  function renderScoreboard(){
+    const s = collectScores();
+    document.getElementById('sbSets').textContent = s.sets;
+    document.getElementById('sbCorrect').textContent = s.correct;
+    document.getElementById('sbTotal').textContent = s.total;
+    const pct = s.total ? Math.round(s.correct/s.total*100) : 0;
+    document.getElementById('sbPct').textContent = pct+'%';
+    document.getElementById('sbFill').style.width = pct+'%';
+    document.getElementById('sbEmpty').style.display = s.sets ? 'none' : 'block';
+    // Per-chapter mini-score
+    document.querySelectorAll('.card-score').forEach(el => {
+      const ch = el.dataset.ch;
+      const d = s.byChapter[ch];
+      if (d && d.total){
+        const p = Math.round(d.correct/d.total*100);
+        el.innerHTML = `<span class="tick">✓</span> ${d.sets} set${d.sets!==1?'s':''} · ${p}%`;
+      } else {
+        el.textContent = 'Not yet played';
+      }
+    });
+  }
+
+  document.getElementById('sbReset').addEventListener('click', function(){
+    if (!confirm('Reset all quiz scores? This cannot be undone.')) return;
+    const keys = [];
+    for (let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if (k && k.startsWith('vivaan_')) keys.push(k);
+    }
+    keys.forEach(k => localStorage.removeItem(k));
+    renderScoreboard();
+  });
+
+  renderScoreboard();
+  window.addEventListener('focus', renderScoreboard);
+})();
+</script>
 
 </body>
 </html>
