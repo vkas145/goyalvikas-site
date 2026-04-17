@@ -209,6 +209,63 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     line-height: 1.5; margin-top: 8px;
   }
 
+  /* Install modal body */
+  .install-warn{
+    background: color-mix(in oklab, var(--coral), transparent 85%);
+    border: 2px solid color-mix(in oklab, var(--coral), transparent 55%);
+    color: var(--ink);
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-weight: 700; font-size: 13px;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .install-warn strong{ color: var(--coral); }
+  .install-ok{
+    background: color-mix(in oklab, var(--green), transparent 85%);
+    border: 2px solid color-mix(in oklab, var(--green), transparent 55%);
+    color: var(--green);
+    border-radius: 14px;
+    padding: 14px;
+    font-weight: 800; font-size: 14px;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .install-steps{
+    padding-left: 22px; margin: 0 0 12px;
+    font-size: 13.5px; line-height: 1.7; color: var(--ink);
+    font-weight: 700;
+  }
+  .install-steps li{ margin-bottom: 4px; }
+  .install-steps li strong{ color: var(--coral); }
+  .install-steps .kbd{
+    display: inline-block;
+    font-family: 'Nunito', monospace;
+    padding: 2px 8px; border-radius: 6px;
+    background: var(--card); border: 1.5px solid var(--card-border);
+    box-shadow: 0 1px 0 var(--card-border);
+    font-weight: 900; font-size: 13px; color: var(--ink);
+    margin: 0 2px;
+  }
+  .install-tip{
+    font-size: 12px; color: var(--muted); font-weight: 700;
+    line-height: 1.5; padding-top: 8px;
+    border-top: 1.5px dashed color-mix(in oklab, var(--card-border), transparent 75%);
+  }
+  .native-install-btn{
+    display: block; width: 100%;
+    margin: 4px 0 14px;
+    padding: 16px 20px; border-radius: var(--radius-pill);
+    background: var(--coral); color: #fff;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 4px 0 var(--card-border);
+    font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 16px;
+    cursor: pointer; transition: all .15s var(--ease-pop);
+    letter-spacing: 0.3px;
+  }
+  .native-install-btn:hover{ transform: translateY(-2px); box-shadow: 0 6px 0 var(--card-border); }
+  .native-install-btn:active{ transform: translateY(2px); box-shadow: 0 2px 0 var(--card-border); }
+
   /* Hero */
   .hero{
     text-align:center;
@@ -676,7 +733,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
     <div class="hud">
-      <button id="installBtn" class="chip install" type="button" style="display:none;">⬇ Install</button>
+      <button id="installBtn" class="chip install" type="button">📲 Install App</button>
       <button id="userChip" class="chip user" type="button">
         <span class="dot"></span>
         <span id="userChipName">Set up your name</span>
@@ -723,6 +780,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="subj-card"><div class="subj-emoji">📖</div><div class="subj-name">English</div><div class="subj-tag">Launching Soon</div></div>
     <div class="subj-card"><div class="subj-emoji">🌿</div><div class="subj-name">EVS / Science</div><div class="subj-tag">Launching Soon</div></div>
     <div class="subj-card"><div class="subj-emoji">🌍</div><div class="subj-name">GK</div><div class="subj-tag">Launching Soon</div></div>
+  </div>
+
+  <!-- Install modal -->
+  <div class="modal-ov" id="installModal" role="dialog" aria-modal="true" aria-label="Install this app">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-emo">📲</div>
+        <div>
+          <div class="modal-title">Install as an app</div>
+          <div class="modal-sub">Adds a home-screen tile. Works offline. No app store, no sign-up.</div>
+        </div>
+      </div>
+      <div id="installBody"></div>
+      <button type="button" class="profile-go" id="installClose" style="margin-top:14px;width:100%;">Got it</button>
+    </div>
   </div>
 
   <!-- Profile picker modal -->
@@ -985,20 +1057,141 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   renderScoreboard();
   window.addEventListener('focus', renderScoreboard);
 
-  // ─── PWA: install prompt + service worker ──
+  // ─── PWA: install flow (always-on chip, platform-aware modal) ──
   let deferredInstallPrompt = null;
+
+  function detectPlatform(){
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    const isAndroid = /Android/.test(ua);
+    const standalone =
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+      window.navigator.standalone === true;
+    const isInApp =
+      /FBAN|FBAV|FB_IAB|Instagram|WhatsApp|Line|MicroMessenger|Twitter|LinkedInApp|Snapchat/i.test(ua);
+    const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPT\//.test(ua);
+    return { isIOS, isAndroid, standalone, isInApp, isSafari };
+  }
+
+  function buildInstallBody(){
+    const p = detectPlatform();
+    const body = document.getElementById('installBody');
+    let html = '';
+
+    if (p.standalone){
+      html = `<div class="install-ok">✅ Already installed — enjoy!</div>
+              <div class="install-tip">You can pin this to your dock / home screen for one-tap access.</div>`;
+      body.innerHTML = html;
+      return;
+    }
+
+    if (p.isInApp){
+      html += `<div class="install-warn">
+        ⚠️ <strong>You're inside the WhatsApp / Instagram / Facebook browser.</strong>
+        Installing from in-app browsers isn't supported.
+      </div>
+      <div class="install-steps">
+        <p style="font-weight:700;margin-bottom:8px;">Open this link in your normal browser first:</p>
+        <ol style="padding-left:20px;">
+          <li>Tap the <span class="kbd">⋮</span> or <span class="kbd">•••</span> menu at the top.</li>
+          <li>Choose <strong>"Open in Chrome"</strong> (Android) or <strong>"Open in Safari / Browser"</strong> (iPhone).</li>
+          <li>In the real browser, tap <strong>📲 Install App</strong> again.</li>
+        </ol>
+      </div>`;
+      body.innerHTML = html;
+      return;
+    }
+
+    // Native Chrome/Edge prompt captured — offer it
+    if (deferredInstallPrompt){
+      html += `<button type="button" class="native-install-btn" id="doInstallNative">⬇ Install Now</button>
+               <div class="install-tip">One tap and you're done — a tile will appear on your home screen.</div>`;
+      body.innerHTML = html;
+      const btn = document.getElementById('doInstallNative');
+      if (btn) btn.addEventListener('click', async () => {
+        try { deferredInstallPrompt.prompt(); await deferredInstallPrompt.userChoice; } catch(e){}
+        deferredInstallPrompt = null;
+        closeInstallModal();
+      });
+      return;
+    }
+
+    if (p.isIOS){
+      html += `<div class="install-steps">
+        <ol style="padding-left:20px;">
+          <li>Make sure you're in <strong>Safari</strong> (not WhatsApp or Chrome on iPhone).</li>
+          <li>Tap the <span class="kbd">Share ⎋</span> icon (bottom bar on iPhone, top-right on iPad).</li>
+          <li>Scroll down and tap <strong>Add to Home Screen</strong>.</li>
+          <li>Tap <strong>Add</strong> in the top-right.</li>
+        </ol>
+      </div>
+      <div class="install-tip">
+        💡 If a Share icon isn't visible, open <strong>goyalvikas.com/vivaan</strong> directly in Safari.
+      </div>`;
+      body.innerHTML = html;
+      return;
+    }
+
+    if (p.isAndroid){
+      html += `<div class="install-steps">
+        <ol style="padding-left:20px;">
+          <li>Make sure this page is open in <strong>Chrome</strong> (not WhatsApp).</li>
+          <li>Tap the <span class="kbd">⋮</span> menu at the top-right of Chrome.</li>
+          <li>Tap <strong>Install app</strong> (or <strong>Add to Home screen</strong>).</li>
+          <li>Confirm with <strong>Install</strong>.</li>
+        </ol>
+      </div>
+      <div class="install-tip">
+        💡 If you see "Add to Home screen" only (not "Install app"), that still works — it'll create a tile.
+      </div>`;
+      body.innerHTML = html;
+      return;
+    }
+
+    // Desktop fallback
+    html += `<div class="install-steps">
+      <p style="font-weight:700;margin-bottom:8px;">In Chrome, Edge or Brave:</p>
+      <ol style="padding-left:20px;">
+        <li>Look for the <span class="kbd">⊞</span> install icon at the right edge of the address bar.</li>
+        <li>Or open the <span class="kbd">⋮</span> menu → <strong>Install Mathemagics</strong>.</li>
+        <li>Click <strong>Install</strong>.</li>
+      </ol>
+    </div>
+    <div class="install-tip">Firefox and Safari on desktop don't support PWA install — open the page and bookmark it instead.</div>`;
+    body.innerHTML = html;
+  }
+
+  function openInstallModal(){
+    buildInstallBody();
+    document.getElementById('installModal').classList.add('show');
+  }
+  function closeInstallModal(){
+    document.getElementById('installModal').classList.remove('show');
+  }
+
+  // Hide the install chip if already in standalone (installed) mode
+  (function(){
+    const p = detectPlatform();
+    if (p.standalone) document.getElementById('installBtn').style.display = 'none';
+  })();
+
+  // Capture the native prompt if the browser offers it
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredInstallPrompt = e;
-    document.getElementById('installBtn').style.display = '';
   });
-  document.getElementById('installBtn').addEventListener('click', async () => {
-    if (!deferredInstallPrompt) return;
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
+  window.addEventListener('appinstalled', () => {
     deferredInstallPrompt = null;
     document.getElementById('installBtn').style.display = 'none';
+    closeInstallModal();
   });
+
+  document.getElementById('installBtn').addEventListener('click', openInstallModal);
+  document.getElementById('installClose').addEventListener('click', closeInstallModal);
+  document.getElementById('installModal').addEventListener('click', function(e){
+    if (e.target === this) closeInstallModal();
+  });
+
   if ('serviceWorker' in navigator){
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/vivaan/sw.js').catch(()=>{});
