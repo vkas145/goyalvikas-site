@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 3: Subtraction • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 3</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch3', title:'Ch 3: Subtraction'};
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: 2-digit subtraction without borrowing ──────
+[
+{type:'match',topic:'Subtraction',q:'Match each subtraction to its correct answer.',
+ pairs:[
+  {l:'45 - 23', r:'22'},
+  {l:'68 - 34', r:'34'},
+  {l:'79 - 41', r:'38'},
+  {l:'55 - 22', r:'33'}
+]},
+
+{type:'mcq',topic:'Subtraction',q:'What is 57 - 24?',
+ o:['33','43','23','37'],a:0},
+
+{type:'tf',topic:'Zero Property',q:'85 - 0 = 85. True or False?',answer:true},
+
+{type:'mcq',topic:'Subtraction',q:'What is 96 - 53?',
+ o:['43','53','33','46'],a:0},
+
+{type:'tapall',topic:'Subtraction',q:'Tap all differences that equal 30.',
+ pool:['50-20=30','65-35=30','48-18=30','70-35=35','44-14=30','80-45=35'],
+ correct:['50-20=30','65-35=30','48-18=30','44-14=30']},
+
+{type:'sort',topic:'Subtraction',q:'Sort these differences from SMALLEST to LARGEST.',
+ items:[24,41,13,36],order:'asc'},
+
+{type:'fillin',topic:'Subtraction',q:'Fill in the missing number:',
+ expr:'78 - ___ = 45',
+ o:['33','23','43','30'],a:0},
+
+{type:'enterval',topic:'Subtraction',q:'What is 89 - 45? Type the answer.',
+ answer:'44'},
+
+{type:'fillintext',topic:'Subtraction',q:'Complete both subtractions.',
+ template:'75 - 32 = ___ and 68 - 25 = ___.',
+ blanks:['43','43']},
+
+{type:'classify',topic:'Subtraction',q:'Sort: difference is less than 30 OR 30 and above.',
+ categories:['Less than 30','30 or more'],
+ items:[
+  {val:'45-23=22',cat:'Less than 30'},{val:'68-34=34',cat:'30 or more'},
+  {val:'55-38=17',cat:'Less than 30'},{val:'79-41=38',cat:'30 or more'},
+  {val:'40-27=13',cat:'Less than 30'},{val:'75-32=43',cat:'30 or more'}
+]}
+],
+
+// ── Beginner Set 2: Properties of subtraction ─────────────────
+[
+{type:'tf',topic:'Subtraction Properties',q:'34 - 34 = 0. True or False?',answer:true},
+
+{type:'mcq',topic:'Subtraction',q:'What is 99 - 77?',
+ o:['22','32','12','29'],a:0},
+
+{type:'match',topic:'Subtraction',q:'Match each subtraction to its answer.',
+ pairs:[
+  {l:'60 - 30', r:'30'},
+  {l:'80 - 50', r:'30'},
+  {l:'70 - 40', r:'30'},
+  {l:'90 - 60', r:'30'}
+]},
+
+{type:'mcq',topic:'Subtraction Properties',q:'What is 50 - 50?',
+ o:['0','50','100','5'],a:0},
+
+{type:'fillin',topic:'Subtraction',q:'Fill in:',
+ expr:'___ - 15 = 40',
+ o:['55','45','65','50'],a:0},
+
+{type:'sort',topic:'Subtraction',q:'Sort from SMALLEST to LARGEST difference.',
+ items:[55,31,48,22],order:'asc'},
+
+{type:'tapall',topic:'Subtraction',q:'Tap all CORRECT subtraction facts.',
+ pool:['50-20=30','75-35=40','60-25=35','88-44=44','99-66=33','70-40=30'],
+ correct:['50-20=30','75-35=40','88-44=44','99-66=33','70-40=30']},
+
+{type:'enterval',topic:'Subtraction',q:'What is 77 - 44? Type the answer.',
+ answer:'33'},
+
+{type:'tf',topic:'Subtraction',q:'65 - 0 = 65. True or False?',answer:true},
+
+{type:'fillintext',topic:'Subtraction',q:'Fill in both answers.',
+ template:'80 - 30 = ___ and 90 - 40 = ___.',
+ blanks:['50','50']}
+],
+
+// ── Beginner Set 3: 3-digit subtraction without borrowing ──────
+[
+{type:'mcq',topic:'3-Digit Subtraction',q:'What is 478 - 234?',
+ o:['244','254','234','344'],a:0},
+
+{type:'fillintext',topic:'3-Digit Subtraction',q:'Complete both subtractions.',
+ template:'600 - 300 = ___ and 785 - 432 = ___.',
+ blanks:['300','353']},
+
+{type:'match',topic:'3-Digit Subtraction',q:'Match each subtraction to its answer.',
+ pairs:[
+  {l:'500 - 200', r:'300'},
+  {l:'768 - 345', r:'423'},
+  {l:'890 - 470', r:'420'},
+  {l:'645 - 312', r:'333'}
+]},
+
+{type:'mcq',topic:'3-Digit Subtraction',q:'What is 875 - 541?',
+ o:['334','344','324','434'],a:0},
+
+{type:'tf',topic:'3-Digit Subtraction',q:'700 - 300 = 400. True or False?',answer:true},
+
+{type:'tapall',topic:'3-Digit Subtraction',q:'Tap all differences that are MORE than 300.',
+ pool:['768-345=423','500-200=300','890-470=420','645-112=533','400-200=200','875-541=334'],
+ correct:['768-345=423','890-470=420','645-112=533','875-541=334']},
+
+{type:'enterval',topic:'3-Digit Subtraction',q:'What is 697 - 354? Type the answer.',
+ answer:'343'},
+
+{type:'sort',topic:'3-Digit Subtraction',q:'Sort these differences from SMALLEST to LARGEST.',
+ items:[300,423,244,534],order:'asc'},
+
+{type:'classify',topic:'3-Digit Subtraction',q:'Sort: difference is less than 400 OR 400 and above.',
+ categories:['Less than 400','400 or more'],
+ items:[
+  {val:'768-345=423',cat:'400 or more'},{val:'500-200=300',cat:'Less than 400'},
+  {val:'645-312=333',cat:'Less than 400'},{val:'890-470=420',cat:'400 or more'},
+  {val:'478-234=244',cat:'Less than 400'},{val:'975-541=434',cat:'400 or more'}
+]},
+
+{type:'mcq',topic:'3-Digit Subtraction',q:'What is 800 - 500?',
+ o:['300','200','400','350'],a:0}
+],
+
+// ── Beginner Set 4: Mixed review & word problems ──────────────
+[
+{type:'mcq',topic:'Word Problems',q:'Riya had 65 stickers. She gave away 32. How many are left?',
+ o:['33','43','23','35'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'Sam had 89 marbles. He lost ___ to make 54 left. He lost ___ marbles.',
+ blanks:['35','35']},
+
+{type:'match',topic:'Subtraction',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'75 birds - 42 flew away', r:'33'},
+  {l:'90 pages - 56 read',      r:'34'},
+  {l:'68 apples - 35 eaten',    r:'33'},
+  {l:'80 steps - 46 walked',    r:'34'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A bag had 456 beads. 213 were taken out. How many remain?',
+ o:['243','253','233','343'],a:0},
+
+{type:'tf',topic:'Subtraction',q:'100 - 100 = 0. True or False?',answer:true},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct number sentences.',
+ pool:['50-20=30','75-35=40','60-25=36','88-44=44','99-66=34','70-40=30'],
+ correct:['50-20=30','75-35=40','88-44=44','70-40=30']},
+
+{type:'enterval',topic:'Word Problems',q:'There are 350 students. 120 went on a trip. How many stayed back?',
+ answer:'230'},
+
+{type:'sort',topic:'Word Problems',q:'Sort these remainders from SMALLEST to LARGEST.',
+ items:[43,27,56,34],order:'asc'},
+
+{type:'classify',topic:'Subtraction',q:'Sort by whether the difference is ODD or EVEN.',
+ categories:['Even Difference','Odd Difference'],
+ items:[
+  {val:'50-20=30',cat:'Even Difference'},{val:'55-22=33',cat:'Odd Difference'},
+  {val:'80-40=40',cat:'Even Difference'},{val:'79-34=45',cat:'Odd Difference'},
+  {val:'96-54=42',cat:'Even Difference'},{val:'67-24=43',cat:'Odd Difference'}
+]},
+
+{type:'mcq',topic:'3-Digit Subtraction',q:'500 - 200 - 100 = ?',
+ o:['200','300','100','250'],a:0}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: 2-digit subtraction WITH borrowing ────────────
+[
+{type:'mcq',topic:'Subtraction With Borrow',q:'What is 54 - 28?',
+ o:['26','36','16','24'],a:0},
+
+{type:'fillintext',topic:'Subtraction With Borrow',q:'Complete both subtractions (borrowing needed).',
+ template:'73 - 47 = ___ and 91 - 56 = ___.',
+ blanks:['26','35']},
+
+{type:'match',topic:'Subtraction With Borrow',q:'Match each subtraction to its correct difference.',
+ pairs:[
+  {l:'62 - 35', r:'27'},
+  {l:'83 - 47', r:'36'},
+  {l:'71 - 38', r:'33'},
+  {l:'94 - 56', r:'38'}
+]},
+
+{type:'tf',topic:'Subtraction With Borrow',q:'72 - 45 = 27. True or False?',answer:true},
+
+{type:'tapall',topic:'Subtraction With Borrow',q:'Tap all differences that are LESS than 30.',
+ pool:['54-28=26','62-35=27','83-47=36','71-43=28','94-56=38','65-39=26'],
+ correct:['54-28=26','62-35=27','71-43=28','65-39=26']},
+
+{type:'sort',topic:'Subtraction With Borrow',q:'Sort these differences from SMALLEST to LARGEST.',
+ items:[26,36,33,38],order:'asc'},
+
+{type:'fillin',topic:'Subtraction With Borrow',q:'Fill in the missing number:',
+ expr:'___ - 47 = 35',
+ o:['82','72','92','84'],a:0},
+
+{type:'enterval',topic:'Subtraction With Borrow',q:'What is 81 - 47? Type the answer.',
+ answer:'34'},
+
+{type:'mcq',topic:'Subtraction With Borrow',q:'What is 100 - 64?',
+ o:['36','46','26','34'],a:0},
+
+{type:'classify',topic:'Subtraction With Borrow',q:'Does the subtraction need borrowing or not?',
+ categories:['No Borrowing','Borrowing Needed'],
+ items:[
+  {val:'75-32=43',cat:'No Borrowing'},{val:'72-45=27',cat:'Borrowing Needed'},
+  {val:'88-41=47',cat:'No Borrowing'},{val:'63-38=25',cat:'Borrowing Needed'},
+  {val:'96-53=43',cat:'No Borrowing'},{val:'54-28=26',cat:'Borrowing Needed'}
+]}
+],
+
+// ── Pro Set 2: 3-digit subtraction WITH borrowing ────────────
+[
+{type:'mcq',topic:'3-Digit With Borrow',q:'What is 423 - 178?',
+ o:['245','255','235','345'],a:0},
+
+{type:'fillintext',topic:'3-Digit With Borrow',q:'Complete the subtractions.',
+ template:'612 - 347 = ___ and 705 - 268 = ___.',
+ blanks:['265','437']},
+
+{type:'match',topic:'3-Digit With Borrow',q:'Match each subtraction to its correct difference.',
+ pairs:[
+  {l:'423 - 178', r:'245'},
+  {l:'612 - 347', r:'265'},
+  {l:'834 - 456', r:'378'},
+  {l:'705 - 268', r:'437'}
+]},
+
+{type:'mcq',topic:'3-Digit With Borrow',q:'What is 502 - 267?',
+ o:['235','245','225','335'],a:0},
+
+{type:'tf',topic:'3-Digit With Borrow',q:'600 - 347 = 253. True or False?',answer:true},
+
+{type:'enterval',topic:'3-Digit With Borrow',q:'What is 801 - 458? Type the answer.',
+ answer:'343'},
+
+{type:'fillin',topic:'3-Digit With Borrow',q:'Find the missing number:',
+ expr:'___ - 268 = 437',
+ o:['705','605','805','735'],a:0},
+
+{type:'sort',topic:'3-Digit With Borrow',q:'Sort these differences from SMALLEST to LARGEST.',
+ items:[245,265,378,437],order:'asc'},
+
+{type:'tapall',topic:'3-Digit With Borrow',q:'Tap all differences that are MORE than 300.',
+ pool:['612-347=265','834-456=378','705-268=437','500-267=233','801-458=343','900-512=388'],
+ correct:['834-456=378','705-268=437','801-458=343','900-512=388']},
+
+{type:'classify',topic:'3-Digit With Borrow',q:'Is the difference less than 300 or 300 and above?',
+ categories:['Less than 300','300 or more'],
+ items:[
+  {val:'423-178=245',cat:'Less than 300'},{val:'834-456=378',cat:'300 or more'},
+  {val:'612-347=265',cat:'Less than 300'},{val:'705-268=437',cat:'300 or more'},
+  {val:'500-267=233',cat:'Less than 300'},{val:'801-458=343',cat:'300 or more'}
+]}
+],
+
+// ── Pro Set 3: Missing subtrahend / minuend ──────────────────
+[
+{type:'fillin',topic:'Missing Number',q:'Find the missing number:',
+ expr:'73 - ___ = 45',
+ o:['28','38','18','29'],a:0},
+
+{type:'fillin',topic:'Missing Number',q:'Find the missing number:',
+ expr:'___ - 134 = 265',
+ o:['399','389','409','299'],a:0},
+
+{type:'match',topic:'Missing Number',q:'Match each equation to its missing number.',
+ pairs:[
+  {l:'80 - ___ = 35', r:'45'},
+  {l:'___ - 27 = 45', r:'72'},
+  {l:'100 - ___ = 63', r:'37'},
+  {l:'___ - 48 = 36', r:'84'}
+]},
+
+{type:'enterval',topic:'Missing Number',q:'Find the missing number: 500 - ___ = 237.',
+ answer:'263'},
+
+{type:'mcq',topic:'Missing Number',q:'If 90 - ___ = 54, the missing number is:',
+ o:['36','46','26','34'],a:0},
+
+{type:'tf',topic:'Missing Number',q:'If ___ - 37 = 45, the missing number is 82. True or False?',answer:true},
+
+{type:'tapall',topic:'Missing Number',q:'Tap all equations where the missing number is 25.',
+ pool:['75-___=50','___-25=50','100-___=75','50-___=25','___-25=25','60-___=35'],
+ correct:['75-___=50','100-___=75','50-___=25','60-___=35']},
+
+{type:'fillintext',topic:'Missing Number',q:'Find both missing numbers.',
+ template:'90 - ___ = 45. So 90 - 45 = ___ (check).',
+ blanks:['45','45']},
+
+{type:'sort',topic:'Missing Number',q:'Sort these missing numbers from SMALLEST to LARGEST.',
+ items:[45,28,37,63],order:'asc'},
+
+{type:'mcq',topic:'Missing Number',q:'Priya had some sweets. She gave 48 away and has 37 left. How many did she start with?',
+ o:['85','75','95','84'],a:0}
+],
+
+// ── Pro Set 4: Word Problems & Multi-step ────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'A store had 523 bottles. They sold 278. How many are left?',
+ o:['245','255','235','345'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve this word problem.',
+ template:'A pond had 650 fish. 278 swam away. ___ fish remain.',
+ blanks:['372']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'500 pages - 237 read',  r:'263'},
+  {l:'750 kg - 468 kg used',  r:'282'},
+  {l:'900 m - 457 m walked',  r:'443'},
+  {l:'600 - 347',             r:'253'}
+]},
+
+{type:'mcq',topic:'Subtraction Patterns',q:'1000 - 100 - 100 = ?',
+ o:['800','700','900','600'],a:0},
+
+{type:'enterval',topic:'Word Problems',q:'A train had 425 passengers. 178 got off. How many remain?',
+ answer:'247'},
+
+{type:'tf',topic:'Word Problems',q:'If you start with 100 and subtract 37, then subtract 25 more, you have 38 left. True or False?',answer:true},
+
+{type:'sort',topic:'Word Problems',q:'Sort these remainders from SMALLEST to LARGEST.',
+ items:[247,282,263,443],order:'asc'},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct subtractions.',
+ pool:['500-237=263','750-468=282','900-457=443','600-347=253','425-178=247','800-356=444'],
+ correct:['500-237=263','750-468=282','900-457=443','600-347=253','425-178=247']},
+
+{type:'classify',topic:'Word Problems',q:'Sort: answer is more than 250 OR 250 and below.',
+ categories:['250 or less','More than 250'],
+ items:[
+  {val:'600-347=253',cat:'More than 250'},{val:'500-278=222',cat:'250 or less'},
+  {val:'900-457=443',cat:'More than 250'},{val:'400-178=222',cat:'250 or less'},
+  {val:'750-468=282',cat:'More than 250'},{val:'300-68=232',cat:'250 or less'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A farmer had 800 mangoes. He sold 356 on Monday and 178 on Tuesday. How many are left?',
+ o:['266','276','256','366'],a:0}
+]
+
+] // end pro
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

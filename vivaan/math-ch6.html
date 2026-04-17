@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 6: Fractions • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 6</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch6', title:'Ch 6: Fractions'};
+const SETS = {
+  beginner: [
+    {
+      name:'Set 1',
+      questions:[
+        {type:'mcq', topic:'Halves', q:'Which fraction shows ONE HALF?', o:['1/2','1/4','2/1','1/3'], a:0},
+        {type:'tf', topic:'Halves', q:'Half of 8 is 4.', answer:true},
+        {type:'enterval', topic:'Halves', q:'What is 1/2 of 10?', answer:'5'},
+        {type:'mcq', topic:'Quarters', q:'Which fraction shows ONE QUARTER?', o:['1/4','1/2','4/1','2/4'], a:0},
+        {type:'tf', topic:'Quarters', q:'1/4 of 8 is 4.', answer:false},
+        {type:'enterval', topic:'Quarters', q:'What is 1/4 of 12?', answer:'3'},
+        {type:'fillintext', topic:'Halves', q:'Complete the sentence about halves.', template:'1/2 of 6 is ___', blanks:['3']},
+        {type:'match', topic:'Fractions of collections', q:'Match each fraction to its answer.', pairs:[{l:'1/2 of 4',r:'2'},{l:'1/4 of 4',r:'1'},{l:'1/2 of 8',r:'4'},{l:'1/4 of 8',r:'2'}]},
+        {type:'classify', topic:'Fractions of collections', q:'Sort these answers: which are results of 1/2 and which are results of 1/4 of the same number?', categories:['Half of 8','Quarter of 8'], items:[{val:'4',cat:'Half of 8'},{val:'2',cat:'Quarter of 8'}]},
+        {type:'tapall', topic:'Halves', q:'Tap ALL the numbers that are half of an even number up to 10.', pool:[1,2,3,4,5,6,7,8,9,10], correct:[1,2,3,4,5]},
+        {type:'sort', topic:'Fractions of collections', q:'Put these in order from smallest to biggest: 1/4 of 8, 1/2 of 8, 1/4 of 4.', items:[2,4,1], order:'asc'},
+        {type:'tf', topic:'Wholes', q:'If a pizza is cut into 2 equal pieces and you have both pieces, you have the whole pizza.', answer:true}
+      ]
+    },
+    {
+      name:'Set 2',
+      questions:[
+        {type:'mcq', topic:'Halves', q:'A chocolate bar has 10 squares. Sam eats half. How many does Sam eat?', o:['5','2','4','10'], a:0},
+        {type:'tf', topic:'Halves', q:'1/2 of 6 is 2.', answer:false},
+        {type:'enterval', topic:'Halves', q:'What is 1/2 of 4?', answer:'2'},
+        {type:'mcq', topic:'Quarters', q:'There are 8 apples. Mia takes one quarter. How many does she take?', o:['2','4','1','8'], a:0},
+        {type:'tf', topic:'Quarters', q:'1/4 of 4 is 1.', answer:true},
+        {type:'enterval', topic:'Quarters', q:'What is 1/4 of 16?', answer:'4'},
+        {type:'fillintext', topic:'Quarters', q:'Complete the sentence about quarters.', template:'1/4 of 12 is ___', blanks:['3']},
+        {type:'match', topic:'Fraction of a shape', q:'Match each fraction name to its meaning.', pairs:[{l:'One half',r:'1 out of 2 equal parts'},{l:'One quarter',r:'1 out of 4 equal parts'},{l:'Two halves',r:'the whole'},{l:'Four quarters',r:'the whole'}]},
+        {type:'classify', topic:'Fraction of a shape', q:'Is each shape description showing a half or a quarter?', categories:['Half','Quarter'], items:[{val:'1 of 2 equal pieces',cat:'Half'},{val:'1 of 4 equal pieces',cat:'Quarter'},{val:'2 of 4 equal pieces',cat:'Half'},{val:'2 of 2 equal pieces',cat:'Half'}]},
+        {type:'tapall', topic:'Quarters', q:'Tap ALL numbers that equal 1/4 of a number from the 4-times table (up to 4x8).', pool:[1,2,3,4,5,6,7,8], correct:[1,2,3,4]},
+        {type:'sort', topic:'Fractions of collections', q:'Order smallest to biggest: 1/2 of 4, 1/4 of 4, 1/2 of 2.', items:[2,1,1], order:'asc'},
+        {type:'tf', topic:'Comparing fractions', q:'1/2 is greater than 1/4.', answer:true}
+      ]
+    },
+    {
+      name:'Set 3',
+      questions:[
+        {type:'mcq', topic:'Fraction of a shape', q:'A square is cut into 4 equal parts. What fraction is one part?', o:['1/4','1/2','4/4','1/3'], a:0},
+        {type:'tf', topic:'Fractions of collections', q:'1/2 of 12 is 6.', answer:true},
+        {type:'enterval', topic:'Halves', q:'What is 1/2 of 14?', answer:'7'},
+        {type:'mcq', topic:'Comparing fractions', q:'Which is bigger?', o:['1/2','1/4','They are the same','Cannot tell'], a:0},
+        {type:'tf', topic:'Fractions of collections', q:'1/4 of 20 is 4.', answer:false},
+        {type:'enterval', topic:'Quarters', q:'What is 1/4 of 20?', answer:'5'},
+        {type:'fillintext', topic:'Fractions of collections', q:'Fill in the blanks.', template:'1/2 of ___ = 5', blanks:['10']},
+        {type:'match', topic:'Fraction of a collection', q:'Match each fraction of a collection to its answer.', pairs:[{l:'1/2 of 6',r:'3'},{l:'1/4 of 16',r:'4'},{l:'1/2 of 10',r:'5'},{l:'1/4 of 4',r:'1'}]},
+        {type:'classify', topic:'Comparing fractions', q:'Put each fraction result in the right group (from the same set of 8 things).', categories:['Half of 8','Quarter of 8'], items:[{val:'4',cat:'Half of 8'},{val:'2',cat:'Quarter of 8'},{val:'4',cat:'Half of 8'},{val:'2',cat:'Quarter of 8'}]},
+        {type:'tapall', topic:'Wholes', q:'Tap ALL fractions that together make ONE WHOLE.', pool:['1/2 + 1/2','1/4 + 1/4','1/4 + 3/4','1/2 + 1/4','2/2','4/4'], correct:['1/2 + 1/2','1/4 + 3/4','2/2','4/4']},
+        {type:'sort', topic:'Number line fractions', q:'Order these fractions from smallest to biggest on a number line.', items:[0.25, 0.5, 0], order:'asc'},
+        {type:'tf', topic:'Wholes', q:'4 quarters make one whole.', answer:true}
+      ]
+    },
+    {
+      name:'Set 4',
+      questions:[
+        {type:'mcq', topic:'Fraction of a shape', q:'A circle is cut into 2 equal pieces. What fraction is each piece?', o:['1/2','1/4','2/2','1/1'], a:0},
+        {type:'tf', topic:'Fractions of collections', q:'1/4 of 8 is 2.', answer:true},
+        {type:'enterval', topic:'Halves', q:'What is 1/2 of 18?', answer:'9'},
+        {type:'mcq', topic:'Number line fractions', q:'On a number line from 0 to 1, where does 1/2 sit?', o:['In the middle','At the start','At the end','Near the end'], a:0},
+        {type:'tf', topic:'Halves', q:'Half of 7 is 3.', answer:false},
+        {type:'enterval', topic:'Quarters', q:'What is 1/4 of 8?', answer:'2'},
+        {type:'fillintext', topic:'Fractions of collections', q:'Fill in the blanks.', template:'1/4 of ___ = 3', blanks:['12']},
+        {type:'match', topic:'Fraction of a shape', q:'Match each description to the correct fraction.', pairs:[{l:'Half of a shape',r:'1/2'},{l:'One quarter of a shape',r:'1/4'},{l:'Two quarters of a shape',r:'2/4'},{l:'The whole shape',r:'4/4'}]},
+        {type:'classify', topic:'Fraction of a shape', q:'Is each shape cut into halves or quarters?', categories:['Halves','Quarters'], items:[{val:'2 equal parts',cat:'Halves'},{val:'4 equal parts',cat:'Quarters'},{val:'Cut down the middle',cat:'Halves'},{val:'Cut into 4 equal slices',cat:'Quarters'}]},
+        {type:'tapall', topic:'Fractions of collections', q:'Tap ALL the correct answers to 1/2 of even numbers from 2 to 10.', pool:[1,2,3,4,5,6,7,8,9,10], correct:[1,2,3,4,5]},
+        {type:'sort', topic:'Fractions of collections', q:'Order smallest to biggest: 1/4 of 12, 1/2 of 12, 1/4 of 8.', items:[3,6,2], order:'asc'},
+        {type:'tf', topic:'Comparing fractions', q:'1/4 is smaller than 1/2.', answer:true}
+      ]
+    }
+  ],
+  pro: [
+    {
+      name:'Set 1',
+      questions:[
+        {type:'mcq', topic:'Thirds', q:'What is 1/3 of 9?', o:['3','4','2','6'], a:0},
+        {type:'tf', topic:'Three-quarters', q:'3/4 of 8 is 6.', answer:true},
+        {type:'enterval', topic:'Thirds', q:'What is 1/3 of 12?', answer:'4'},
+        {type:'mcq', topic:'Comparing fractions', q:'Which fraction is the LARGEST?', o:['3/4','1/2','1/4','1/3'], a:0},
+        {type:'tf', topic:'Thirds', q:'1/3 of 6 is 3.', answer:false},
+        {type:'enterval', topic:'Three-quarters', q:'What is 3/4 of 12?', answer:'9'},
+        {type:'fillintext', topic:'Thirds', q:'Fill in the blanks.', template:'1/3 of ___ = 5', blanks:['15']},
+        {type:'match', topic:'Fractions of collections', q:'Match each fraction of a collection to its answer.', pairs:[{l:'1/3 of 9',r:'3'},{l:'3/4 of 8',r:'6'},{l:'1/3 of 15',r:'5'},{l:'3/4 of 4',r:'3'}]},
+        {type:'classify', topic:'Comparing fractions', q:'Sort these fractions as less than a half or more than a half.', categories:['Less than half','More than half'], items:[{val:'1/4',cat:'Less than half'},{val:'3/4',cat:'More than half'},{val:'1/3',cat:'Less than half'},{val:'2/3',cat:'More than half'}]},
+        {type:'tapall', topic:'Thirds', q:'Tap ALL numbers that are exactly 1/3 of a multiple of 3 (up to 3x6).', pool:[1,2,3,4,5,6,7,8,9], correct:[1,2,3,4,5,6]},
+        {type:'sort', topic:'Fractions of collections', q:'Order smallest to biggest: 1/4 of 12, 1/3 of 12, 3/4 of 12, 1/2 of 12.', items:[3,4,9,6], order:'asc'},
+        {type:'tf', topic:'Comparing fractions', q:'1/3 is greater than 1/4.', answer:true}
+      ]
+    },
+    {
+      name:'Set 2',
+      questions:[
+        {type:'mcq', topic:'Three-quarters', q:'A bag has 20 sweets. Ravi eats three-quarters. How many does Ravi eat?', o:['15','5','10','12'], a:0},
+        {type:'tf', topic:'Three-quarters', q:'3/4 of 16 is 12.', answer:true},
+        {type:'enterval', topic:'Thirds', q:'What is 1/3 of 18?', answer:'6'},
+        {type:'mcq', topic:'Comparing fractions', q:'Put these fractions in order smallest to biggest: 1/4, 3/4, 1/2, 1/3.', o:['1/4, 1/3, 1/2, 3/4','1/3, 1/4, 1/2, 3/4','1/4, 1/2, 1/3, 3/4','1/2, 1/4, 1/3, 3/4'], a:0},
+        {type:'tf', topic:'Thirds', q:'1/3 of 9 is 4.', answer:false},
+        {type:'enterval', topic:'Three-quarters', q:'What is 3/4 of 20?', answer:'15'},
+        {type:'fillintext', topic:'Three-quarters', q:'Fill in the blanks.', template:'3/4 of 8 = ___', blanks:['6']},
+        {type:'match', topic:'Fractions', q:'Match each fraction to its position description on a 0-to-1 number line.', pairs:[{l:'1/4',r:'one quarter of the way'},{l:'1/2',r:'halfway'},{l:'3/4',r:'three quarters of the way'},{l:'1/3',r:'one third of the way'}]},
+        {type:'classify', topic:'Fractions of collections', q:'Sort these results: are they 1/3 or 2/3 of 12?', categories:['One third of 12','Two thirds of 12'], items:[{val:'4',cat:'One third of 12'},{val:'8',cat:'Two thirds of 12'},{val:'4',cat:'One third of 12'},{val:'8',cat:'Two thirds of 12'}]},
+        {type:'tapall', topic:'Comparing fractions', q:'Tap ALL fractions that are MORE than 1/2.', pool:['1/4','3/4','1/3','2/3','1/2','3/5','1/5'], correct:['3/4','2/3','3/5']},
+        {type:'sort', topic:'Fractions of collections', q:'Order smallest to biggest: 3/4 of 8, 1/3 of 9, 1/2 of 10, 1/4 of 16.', items:[6,3,5,4], order:'asc'},
+        {type:'tf', topic:'Wholes', q:'1/3 + 2/3 = 1 whole.', answer:true}
+      ]
+    },
+    {
+      name:'Set 3',
+      questions:[
+        {type:'mcq', topic:'Word problems', q:'There are 24 children. A quarter go swimming. How many go swimming?', o:['6','8','12','4'], a:0},
+        {type:'tf', topic:'Three-quarters', q:'3/4 of 24 is 16.', answer:false},
+        {type:'enterval', topic:'Three-quarters', q:'What is 3/4 of 24?', answer:'18'},
+        {type:'mcq', topic:'Word problems', q:'A bookshelf has 18 books. One third are fiction. How many fiction books are there?', o:['6','9','3','12'], a:0},
+        {type:'tf', topic:'Comparing fractions', q:'3/4 is greater than 2/3.', answer:true},
+        {type:'enterval', topic:'Thirds', q:'What is 1/3 of 21?', answer:'7'},
+        {type:'fillintext', topic:'Word problems', q:'Fill in the blanks.', template:'1/3 of 15 = ___, so 2/3 of 15 = ___', blanks:['5','10']},
+        {type:'match', topic:'Fractions of collections', q:'Match each problem to its answer.', pairs:[{l:'1/3 of 21',r:'7'},{l:'3/4 of 16',r:'12'},{l:'1/4 of 24',r:'6'},{l:'2/3 of 9',r:'6'}]},
+        {type:'classify', topic:'Fractions of collections', q:'Sort these as less than 10 or 10 or more.', categories:['Less than 10','10 or more'], items:[{val:'1/3 of 18',cat:'Less than 10'},{val:'3/4 of 20',cat:'Less than 10'},{val:'1/2 of 24',cat:'10 or more'},{val:'3/4 of 16',cat:'10 or more'}]},
+        {type:'tapall', topic:'Thirds', q:'Tap ALL the correct answers to 1/3 of these numbers.', pool:['1/3 of 6 = 2','1/3 of 9 = 3','1/3 of 12 = 5','1/3 of 15 = 5','1/3 of 18 = 6','1/3 of 21 = 7'], correct:['1/3 of 6 = 2','1/3 of 9 = 3','1/3 of 18 = 6','1/3 of 21 = 7']},
+        {type:'sort', topic:'Fractions of collections', q:'Order smallest to biggest: 1/3 of 12, 3/4 of 12, 1/2 of 12, 1/4 of 12.', items:[4,9,6,3], order:'asc'},
+        {type:'tf', topic:'Word problems', q:'A garden has 16 flowers. Three-quarters are red. That means 12 flowers are red.', answer:true}
+      ]
+    },
+    {
+      name:'Set 4',
+      questions:[
+        {type:'mcq', topic:'Word problems', q:'Priya has 20 stickers. She gives away one quarter. How many does she keep?', o:['15','5','10','12'], a:0},
+        {type:'tf', topic:'Thirds', q:'1/3 of 30 is 10.', answer:true},
+        {type:'enterval', topic:'Three-quarters', q:'What is 3/4 of 28?', answer:'21'},
+        {type:'mcq', topic:'Number line fractions', q:'Which fraction is halfway between 1/2 and 1 on a number line?', o:['3/4','1/3','2/3','1/4'], a:0},
+        {type:'tf', topic:'Comparing fractions', q:'1/2 is greater than 1/3.', answer:true},
+        {type:'enterval', topic:'Thirds', q:'What is 2/3 of 15?', answer:'10'},
+        {type:'fillintext', topic:'Word problems', q:'Fill in the blanks.', template:'3/4 of ___ = 9', blanks:['12']},
+        {type:'match', topic:'Fractions', q:'Match each fraction to its equivalent.', pairs:[{l:'2/4',r:'1/2'},{l:'2/6',r:'1/3'},{l:'3/6',r:'1/2'},{l:'2/8',r:'1/4'}]},
+        {type:'classify', topic:'Comparing fractions', q:'Put each fraction in the right group.', categories:['Less than 1/2','Greater than 1/2'], items:[{val:'1/4',cat:'Less than 1/2'},{val:'3/4',cat:'Greater than 1/2'},{val:'1/3',cat:'Less than 1/2'},{val:'2/3',cat:'Greater than 1/2'}]},
+        {type:'tapall', topic:'Fractions of collections', q:'Tap ALL the statements that are TRUE.', pool:['1/4 of 16 = 4','1/3 of 12 = 5','3/4 of 8 = 6','1/2 of 14 = 7','1/3 of 9 = 4','3/4 of 20 = 15'], correct:['1/4 of 16 = 4','3/4 of 8 = 6','1/2 of 14 = 7','3/4 of 20 = 15']},
+        {type:'sort', topic:'Fractions of collections', q:'Order smallest to biggest: 2/3 of 9, 1/4 of 20, 3/4 of 8, 1/3 of 18.', items:[6,5,6,6], order:'asc'},
+        {type:'tf', topic:'Word problems', q:'A jug holds 12 litres. Two thirds is used. That means 8 litres are used.', answer:true}
+      ]
+    }
+  ]
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

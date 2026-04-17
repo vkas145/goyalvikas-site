@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 2: Addition • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 2</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch2', title:'Ch 2: Addition'};
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: 2-digit addition without carry ─────────────
+[
+{type:'match',topic:'Addition',q:'Match each addition to its correct answer.',
+ pairs:[
+  {l:'23 + 14', r:'37'},
+  {l:'30 + 20', r:'50'},
+  {l:'41 + 25', r:'66'},
+  {l:'52 + 13', r:'65'}
+]},
+
+{type:'mcq',topic:'Addition',q:'What is 34 + 25?',
+ o:['59','49','69','54'],a:0},
+
+{type:'tf',topic:'Zero Property',q:'45 + 0 = 0. True or False?',answer:false},
+
+{type:'mcq',topic:'Addition',q:'What is 61 + 28?',
+ o:['89','79','99','86'],a:0},
+
+{type:'tapall',topic:'Addition',q:'Tap all sums that equal 50.',
+ pool:[30+20,25+26,40+10,33+17,22+29,35+15],correct:[50,50,50]},
+
+{type:'sort',topic:'Addition',q:'Sort these sums from SMALLEST to LARGEST.',
+ items:[45,72,31,58],order:'asc'},
+
+{type:'fillin',topic:'Addition',q:'Fill in the missing number:',
+ expr:'23 + ___ = 45',
+ o:['22','12','32','20'],a:0},
+
+{type:'enterval',topic:'Addition',q:'What is 43 + 36? Type the answer.',
+ answer:'79'},
+
+{type:'fillintext',topic:'Addition',q:'Complete both additions.',
+ template:'25 + 13 = ___ and 31 + 14 = ___.',
+ blanks:['38','45']},
+
+{type:'classify',topic:'Addition',q:'Sort these sums: less than 50 OR 50 and above.',
+ categories:['Less than 50','50 or more'],
+ items:[
+  {val:'23+14=37',cat:'Less than 50'},{val:'30+20=50',cat:'50 or more'},
+  {val:'12+25=37',cat:'Less than 50'},{val:'40+15=55',cat:'50 or more'},
+  {val:'11+31=42',cat:'Less than 50'},{val:'25+36=61',cat:'50 or more'}
+]}
+],
+
+// ── Beginner Set 2: Commutative property & 2-digit mixed ───────
+[
+{type:'tf',topic:'Commutative Property',q:'34 + 21 = 21 + 34. True or False?',answer:true},
+
+{type:'mcq',topic:'Addition',q:'What is 57 + 32?',
+ o:['89','79','98','87'],a:0},
+
+{type:'match',topic:'Commutative Property',q:'Match each sum to its equal (commutative pairs).',
+ pairs:[
+  {l:'12 + 35', r:'35 + 12'},
+  {l:'40 + 18', r:'18 + 40'},
+  {l:'27 + 11', r:'11 + 27'},
+  {l:'53 + 24', r:'24 + 53'}
+]},
+
+{type:'mcq',topic:'Zero Property',q:'87 + 0 = ?',
+ o:['87','0','870','78'],a:0},
+
+{type:'fillin',topic:'Addition',q:'Fill in:',
+ expr:'___ + 21 = 55',
+ o:['34','24','44','31'],a:0},
+
+{type:'sort',topic:'Addition',q:'Sort from SMALLEST to LARGEST sum.',
+ items:[63,41,78,55],order:'asc'},
+
+{type:'tapall',topic:'Addition',q:'Tap all CORRECT addition facts.',
+ pool:['12+15=27','30+25=56','44+13=57','20+18=38','31+12=42','25+14=40'],
+ correct:['12+15=27','44+13=57','20+18=38','31+12=43']},
+
+{type:'enterval',topic:'Addition',q:'What is 35 + 42? Type the answer.',
+ answer:'77'},
+
+{type:'tf',topic:'Addition',q:'62 + 17 = 79. True or False?',answer:true},
+
+{type:'fillintext',topic:'Commutative Property',q:'Fill in to show the commutative property.',
+ template:'13 + 25 = ___ is the same as 25 + 13 = ___.',
+ blanks:['38','38']}
+],
+
+// ── Beginner Set 3: 3-digit addition without carry ──────────────
+[
+{type:'mcq',topic:'3-Digit Addition',q:'What is 123 + 245?',
+ o:['368','348','378','268'],a:0},
+
+{type:'fillintext',topic:'3-Digit Addition',q:'Complete both additions.',
+ template:'200 + 130 = ___ and 314 + 253 = ___.',
+ blanks:['330','567']},
+
+{type:'match',topic:'3-Digit Addition',q:'Match each addition to its answer.',
+ pairs:[
+  {l:'100 + 200', r:'300'},
+  {l:'312 + 125', r:'437'},
+  {l:'400 + 150', r:'550'},
+  {l:'221 + 136', r:'357'}
+]},
+
+{type:'mcq',topic:'3-Digit Addition',q:'What is 431 + 256?',
+ o:['687','677','697','587'],a:0},
+
+{type:'tf',topic:'3-Digit Addition',q:'300 + 200 = 500. True or False?',answer:true},
+
+{type:'tapall',topic:'3-Digit Addition',q:'Tap all sums that are MORE than 500.',
+ pool:[312+124,200+250,310+115,421+132,200+200,350+200],
+ correct:[553,553]},
+
+{type:'enterval',topic:'3-Digit Addition',q:'What is 231 + 346? Type the answer.',
+ answer:'577'},
+
+{type:'sort',topic:'3-Digit Addition',q:'Sort these 3-digit sums from SMALLEST to LARGEST.',
+ items:[325,412,267,538],order:'asc'},
+
+{type:'classify',topic:'3-Digit Addition',q:'Sort these sums: less than 500 OR 500 or more.',
+ categories:['Less than 500','500 or more'],
+ items:[
+  {val:'200+250=450',cat:'Less than 500'},{val:'300+250=550',cat:'500 or more'},
+  {val:'112+234=346',cat:'Less than 500'},{val:'400+150=550',cat:'500 or more'},
+  {val:'321+124=445',cat:'Less than 500'},{val:'250+300=550',cat:'500 or more'}
+]},
+
+{type:'mcq',topic:'3-Digit Addition',q:'What is 500 + 300?',
+ o:['800','500','8000','850'],a:0}
+],
+
+// ── Beginner Set 4: Mixed review & word problems ─────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'Riya has 24 red beads and 35 blue beads. How many beads in all?',
+ o:['59','49','69','54'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'Sam has 42 stickers. He gets ___ more to make 65. He got ___ stickers.',
+ blanks:['23','23']},
+
+{type:'match',topic:'Addition',q:'Match each problem to its sum.',
+ pairs:[
+  {l:'15 + 23 + 12', r:'50'},
+  {l:'10 + 20 + 30', r:'60'},
+  {l:'14 + 11 + 25', r:'50'},
+  {l:'21 + 18 + 16', r:'55'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A bag has 132 green marbles and 215 red marbles. How many marbles in total?',
+ o:['347','337','357','247'],a:0},
+
+{type:'tf',topic:'Addition',q:'Adding 3 numbers: 10 + 20 + 30 = 60. True or False?',answer:true},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct number sentences.',
+ pool:['12+8=20','25+15=40','30+12=41','44+6=50','21+29=51','33+17=50'],
+ correct:['12+8=20','25+15=40','44+6=50','33+17=50']},
+
+{type:'enterval',topic:'Word Problems',q:'There are 125 boys and 214 girls in a school. How many children in total?',
+ answer:'339'},
+
+{type:'sort',topic:'Word Problems',q:'Sort these totals from SMALLEST to LARGEST.',
+ items:[52,79,34,65],order:'asc'},
+
+{type:'classify',topic:'Addition',q:'Sort by whether the sum is ODD or EVEN.',
+ categories:['Even Sum','Odd Sum'],
+ items:[
+  {val:'12+14=26',cat:'Even Sum'},{val:'13+14=27',cat:'Odd Sum'},
+  {val:'20+30=50',cat:'Even Sum'},{val:'21+30=51',cat:'Odd Sum'},
+  {val:'32+16=48',cat:'Even Sum'},{val:'15+22=37',cat:'Odd Sum'}
+]},
+
+{type:'mcq',topic:'3-Digit Addition',q:'100 + 100 + 100 = ?',
+ o:['300','200','1000','30'],a:0}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: 2-digit addition WITH carry ─────────────────────
+[
+{type:'mcq',topic:'Addition With Carry',q:'What is 28 + 15?',
+ o:['43','33','53','42'],a:0},
+
+{type:'fillintext',topic:'Addition With Carry',q:'Complete both additions (carrying needed).',
+ template:'37 + 26 = ___ and 48 + 35 = ___.',
+ blanks:['63','83']},
+
+{type:'match',topic:'Addition With Carry',q:'Match each addition to its correct sum.',
+ pairs:[
+  {l:'29 + 13', r:'42'},
+  {l:'46 + 27', r:'73'},
+  {l:'38 + 45', r:'83'},
+  {l:'57 + 36', r:'93'}
+]},
+
+{type:'tf',topic:'Addition With Carry',q:'56 + 47 = 93. True or False?',answer:false},
+
+{type:'tapall',topic:'Addition With Carry',q:'Tap all sums that are MORE than 80.',
+ pool:[39+46,27+58,35+42,48+39,26+55,19+65],
+ correct:[85,85,87,84]},
+
+{type:'sort',topic:'Addition With Carry',q:'Sort these sums from SMALLEST to LARGEST.',
+ items:[85,63,77,91],order:'asc'},
+
+{type:'fillin',topic:'Addition With Carry',q:'Fill in the missing number:',
+ expr:'___ + 47 = 83',
+ o:['36','26','46','43'],a:0},
+
+{type:'enterval',topic:'Addition With Carry',q:'What is 67 + 58? Type the answer.',
+ answer:'125'},
+
+{type:'mcq',topic:'Addition With Carry',q:'What is 74 + 89?',
+ o:['163','153','173','164'],a:0},
+
+{type:'classify',topic:'Addition With Carry',q:'Does the sum need carrying (regrouping) or not?',
+ categories:['No Carry Needed','Carry Needed'],
+ items:[
+  {val:'21+14=35',cat:'No Carry Needed'},{val:'28+15=43',cat:'Carry Needed'},
+  {val:'40+35=75',cat:'No Carry Needed'},{val:'37+26=63',cat:'Carry Needed'},
+  {val:'51+23=74',cat:'No Carry Needed'},{val:'46+38=84',cat:'Carry Needed'}
+]}
+],
+
+// ── Pro Set 2: 3-digit addition WITH carry ──────────────────────
+[
+{type:'mcq',topic:'3-Digit With Carry',q:'What is 157 + 246?',
+ o:['403','393','413','503'],a:0},
+
+{type:'fillintext',topic:'3-Digit With Carry',q:'Complete the additions.',
+ template:'278 + 345 = ___ and 164 + 278 = ___.',
+ blanks:['623','442']},
+
+{type:'match',topic:'3-Digit With Carry',q:'Match each addition to its correct sum.',
+ pairs:[
+  {l:'175 + 248', r:'423'},
+  {l:'369 + 254', r:'623'},
+  {l:'487 + 136', r:'623'},
+  {l:'258 + 167', r:'425'}
+]},
+
+{type:'mcq',topic:'3-Digit With Carry',q:'What is 345 + 278?',
+ o:['623','613','633','523'],a:0},
+
+{type:'tf',topic:'3-Digit With Carry',q:'456 + 187 = 643. True or False?',answer:true},
+
+{type:'enterval',topic:'3-Digit With Carry',q:'What is 376 + 248? Type the answer.',
+ answer:'624'},
+
+{type:'fillin',topic:'3-Digit With Carry',q:'Find the missing number:',
+ expr:'___ + 248 = 500',
+ o:['252','242','262','152'],a:0},
+
+{type:'sort',topic:'3-Digit With Carry',q:'Sort these sums from SMALLEST to LARGEST.',
+ items:[423,623,542,389],order:'asc'},
+
+{type:'tapall',topic:'3-Digit With Carry',q:'Tap all sums that are MORE than 600.',
+ pool:[278+345,156+248,369+254,175+423,280+319,461+199],
+ correct:[623,623,599,660]},
+
+{type:'classify',topic:'3-Digit With Carry',q:'Is the sum less than 500 or 500 and above?',
+ categories:['Less than 500','500 or more'],
+ items:[
+  {val:'175+248=423',cat:'Less than 500'},{val:'278+345=623',cat:'500 or more'},
+  {val:'132+254=386',cat:'Less than 500'},{val:'369+254=623',cat:'500 or more'},
+  {val:'221+145=366',cat:'Less than 500'},{val:'258+267=525',cat:'500 or more'}
+]}
+],
+
+// ── Pro Set 3: Missing Addend & Puzzles ─────────────────────────
+[
+{type:'fillin',topic:'Missing Addend',q:'Find the missing addend:',
+ expr:'25 + ___ = 61',
+ o:['36','26','46','16'],a:0},
+
+{type:'fillin',topic:'Missing Addend',q:'Find the missing addend:',
+ expr:'___ + 134 = 300',
+ o:['166','156','176','136'],a:0},
+
+{type:'match',topic:'Missing Addend',q:'Match each missing number to its sum equation.',
+ pairs:[
+  {l:'___ + 23 = 50', r:'27'},
+  {l:'15 + ___ = 43', r:'28'},
+  {l:'___ + 36 = 80', r:'44'},
+  {l:'42 + ___ = 90', r:'48'}
+]},
+
+{type:'enterval',topic:'Missing Addend',q:'Find the missing number: 178 + ___ = 400.',
+ answer:'222'},
+
+{type:'mcq',topic:'Missing Addend',q:'If 45 + ___ = 100, the missing number is:',
+ o:['55','45','65','50'],a:0},
+
+{type:'tf',topic:'Missing Addend',q:'If 37 + ___ = 60, the missing number is 23. True or False?',answer:true},
+
+{type:'tapall',topic:'Missing Addend',q:'Tap all equations where the missing number is 30.',
+ pool:['20+___=50','___+30=60','15+___=45','___+70=100','50+___=80','30+___=70'],
+ correct:['20+___=50','15+___=45','50+___=80']},
+
+{type:'fillintext',topic:'Missing Addend',q:'Find both missing numbers.',
+ template:'45 + ___ = 100. So ___ + 45 = 100 (commutative property).',
+ blanks:['55','55']},
+
+{type:'sort',topic:'Missing Addend',q:'Sort these missing numbers from SMALLEST to LARGEST.',
+ items:[36,28,44,17],order:'asc'},
+
+{type:'mcq',topic:'Missing Addend',q:'Mia needs 250 stickers. She has 178. How many more does she need?',
+ o:['72','62','82','52'],a:0}
+],
+
+// ── Pro Set 4: Word Problems & Adding 3 Numbers ─────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'A shop sold 245 toys on Saturday and 378 toys on Sunday. How many toys in total?',
+ o:['623','613','633','523'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve this word problem.',
+ template:'Class A has 28 students, Class B has 35 students, Class C has 27 students. Total = ___.',
+ blanks:['90']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'47 marbles + 38 marbles', r:'85'},
+  {l:'156 pages + 248 pages',   r:'404'},
+  {l:'63 stamps + 79 stamps',   r:'142'},
+  {l:'235 + 168',               r:'403'}
+]},
+
+{type:'mcq',topic:'Addition Patterns',q:'What comes next: 100, 200, 300, ___?',
+ o:['400','350','500','410'],a:0},
+
+{type:'enterval',topic:'Word Problems',q:'A train carries 178 passengers in the morning and 245 in the evening. Total passengers?',
+ answer:'423'},
+
+{type:'tf',topic:'Word Problems',q:'12 + 13 + 14 = 39. True or False?',answer:true},
+
+{type:'sort',topic:'Word Problems',q:'Sort these totals from SMALLEST to LARGEST.',
+ items:[189,342,267,415],order:'asc'},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct additions.',
+ pool:['125+248=373','167+235=402','289+134=423','345+178=523','246+197=443','158+269=427'],
+ correct:['125+248=373','167+235=402','246+197=443','158+269=427']},
+
+{type:'classify',topic:'Word Problems',q:'Sort these sums: answer is a round hundred OR not a round hundred.',
+ categories:['Round Hundred','Not Round Hundred'],
+ items:[
+  {val:'150+250=400',cat:'Round Hundred'},{val:'125+248=373',cat:'Not Round Hundred'},
+  {val:'200+300=500',cat:'Round Hundred'},{val:'167+235=402',cat:'Not Round Hundred'},
+  {val:'350+150=500',cat:'Round Hundred'},{val:'289+134=423',cat:'Not Round Hundred'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A book has 156 pages. Another has 278 pages. Together they have:',
+ o:['434','424','444','334'],a:0}
+]
+
+] // end pro
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

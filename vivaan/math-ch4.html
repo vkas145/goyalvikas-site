@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 4: Multiplication • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 4</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch4', title:'Ch 4: Multiplication'};
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Tables of 2 and 5 ────────────────────────
+[
+{type:'match',topic:'Table of 2',q:'Match each multiplication to its product.',
+ pairs:[
+  {l:'2 × 3', r:'6'},
+  {l:'2 × 5', r:'10'},
+  {l:'2 × 7', r:'14'},
+  {l:'2 × 9', r:'18'}
+]},
+
+{type:'mcq',topic:'Table of 2',q:'What is 2 × 6?',
+ o:['12','8','10','14'],a:0},
+
+{type:'tf',topic:'Table of 2',q:'2 × 8 = 16. True or False?',answer:true},
+
+{type:'mcq',topic:'Table of 5',q:'What is 5 × 4?',
+ o:['20','15','25','10'],a:0},
+
+{type:'tapall',topic:'Table of 2',q:'Tap all products in the 2 times table.',
+ pool:['2x1=2','2x2=4','2x3=7','2x4=8','2x5=11','2x6=12'],
+ correct:['2x1=2','2x2=4','2x4=8','2x6=12']},
+
+{type:'sort',topic:'Table of 5',q:'Sort these products from SMALLEST to LARGEST.',
+ items:[10,25,5,35],order:'asc'},
+
+{type:'fillin',topic:'Table of 5',q:'Fill in the missing number:',
+ expr:'5 × ___ = 30',
+ o:['6','5','7','4'],a:0},
+
+{type:'enterval',topic:'Table of 2',q:'What is 2 × 9? Type the answer.',
+ answer:'18'},
+
+{type:'fillintext',topic:'Tables',q:'Complete both multiplications.',
+ template:'2 × 7 = ___ and 5 × 6 = ___.',
+ blanks:['14','30']},
+
+{type:'classify',topic:'Tables',q:'Sort each product: Table of 2 OR Table of 5.',
+ categories:['Table of 2','Table of 5'],
+ items:[
+  {val:'2x3=6',cat:'Table of 2'},{val:'5x2=10',cat:'Table of 5'},
+  {val:'2x7=14',cat:'Table of 2'},{val:'5x4=20',cat:'Table of 5'},
+  {val:'2x9=18',cat:'Table of 2'},{val:'5x7=35',cat:'Table of 5'}
+]}
+],
+
+// ── Beginner Set 2: Table of 10 & groups of ──────────────────
+[
+{type:'tf',topic:'Table of 10',q:'10 × 5 = 50. True or False?',answer:true},
+
+{type:'mcq',topic:'Table of 10',q:'What is 10 × 7?',
+ o:['70','17','7','700'],a:0},
+
+{type:'match',topic:'Groups Of',q:'Match each "groups of" expression to its total.',
+ pairs:[
+  {l:'3 groups of 4', r:'12'},
+  {l:'4 groups of 5', r:'20'},
+  {l:'2 groups of 9', r:'18'},
+  {l:'5 groups of 3', r:'15'}
+]},
+
+{type:'mcq',topic:'Table of 10',q:'10 × 9 = ?',
+ o:['90','19','900','9'],a:0},
+
+{type:'fillin',topic:'Table of 10',q:'Fill in:',
+ expr:'10 × ___ = 40',
+ o:['4','14','40','6'],a:0},
+
+{type:'sort',topic:'Table of 10',q:'Sort these products from SMALLEST to LARGEST.',
+ items:[30,70,10,50],order:'asc'},
+
+{type:'tapall',topic:'Table of 10',q:'Tap all correct facts from the 10 times table.',
+ pool:['10x1=10','10x2=25','10x3=30','10x4=44','10x5=50','10x6=60'],
+ correct:['10x1=10','10x3=30','10x5=50','10x6=60']},
+
+{type:'enterval',topic:'Table of 10',q:'What is 10 × 8? Type the answer.',
+ answer:'80'},
+
+{type:'tf',topic:'Groups Of',q:'5 groups of 6 = 30. True or False?',answer:true},
+
+{type:'fillintext',topic:'Groups Of',q:'Complete both.',
+ template:'4 groups of 3 = ___ and 3 groups of 7 = ___.',
+ blanks:['12','21']}
+],
+
+// ── Beginner Set 3: Tables of 3 and 4 ────────────────────────
+[
+{type:'mcq',topic:'Table of 3',q:'What is 3 × 7?',
+ o:['21','18','24','27'],a:0},
+
+{type:'fillintext',topic:'Tables',q:'Complete both multiplications.',
+ template:'3 × 6 = ___ and 4 × 7 = ___.',
+ blanks:['18','28']},
+
+{type:'match',topic:'Table of 4',q:'Match each multiplication to its product.',
+ pairs:[
+  {l:'4 × 2', r:'8'},
+  {l:'4 × 5', r:'20'},
+  {l:'4 × 8', r:'32'},
+  {l:'4 × 9', r:'36'}
+]},
+
+{type:'mcq',topic:'Table of 3',q:'What is 3 × 9?',
+ o:['27','24','30','21'],a:0},
+
+{type:'tf',topic:'Commutative Property',q:'3 × 4 = 4 × 3. True or False?',answer:true},
+
+{type:'tapall',topic:'Table of 4',q:'Tap all correct facts from the 4 times table.',
+ pool:['4x3=12','4x4=18','4x5=20','4x6=25','4x7=28','4x8=32'],
+ correct:['4x3=12','4x5=20','4x7=28','4x8=32']},
+
+{type:'enterval',topic:'Table of 3',q:'What is 3 × 8? Type the answer.',
+ answer:'24'},
+
+{type:'sort',topic:'Tables',q:'Sort these products from SMALLEST to LARGEST.',
+ items:[21,32,12,27],order:'asc'},
+
+{type:'classify',topic:'Tables',q:'Sort each product: Table of 3 OR Table of 4.',
+ categories:['Table of 3','Table of 4'],
+ items:[
+  {val:'3x5=15',cat:'Table of 3'},{val:'4x3=12',cat:'Table of 4'},
+  {val:'3x7=21',cat:'Table of 3'},{val:'4x6=24',cat:'Table of 4'},
+  {val:'3x9=27',cat:'Table of 3'},{val:'4x9=36',cat:'Table of 4'}
+]},
+
+{type:'mcq',topic:'Commutative Property',q:'If 4 × 8 = 32, then 8 × 4 = ?',
+ o:['32','28','42','36'],a:0}
+],
+
+// ── Beginner Set 4: Word problems & mixed tables ──────────────
+[
+{type:'mcq',topic:'Word Problems',q:'There are 5 bags with 4 apples each. How many apples in all?',
+ o:['20','9','15','24'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'3 children each have ___ stickers to make 18 total. Each child has ___ stickers.',
+ blanks:['6','6']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'4 rows of 5 chairs',  r:'20'},
+  {l:'3 packets of 8 pens', r:'24'},
+  {l:'2 boxes of 9 balls',  r:'18'},
+  {l:'5 trays of 6 cups',   r:'30'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A classroom has 6 rows with 5 desks in each row. How many desks?',
+ o:['30','11','25','36'],a:0},
+
+{type:'tf',topic:'Word Problems',q:'2 × 10 = 20. If there are 2 groups of 10 children, there are 20 children. True or False?',answer:true},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct multiplication facts.',
+ pool:['3x4=12','5x3=16','2x8=16','4x5=20','3x7=22','5x6=30'],
+ correct:['3x4=12','2x8=16','4x5=20','5x6=30']},
+
+{type:'enterval',topic:'Word Problems',q:'7 shelves each have 4 books. How many books in all?',
+ answer:'28'},
+
+{type:'sort',topic:'Word Problems',q:'Sort these products from SMALLEST to LARGEST.',
+ items:[18,30,20,24],order:'asc'},
+
+{type:'classify',topic:'Word Problems',q:'Is the product less than 20 OR 20 and above?',
+ categories:['Less than 20','20 or more'],
+ items:[
+  {val:'3x4=12',cat:'Less than 20'},{val:'4x5=20',cat:'20 or more'},
+  {val:'2x7=14',cat:'Less than 20'},{val:'3x8=24',cat:'20 or more'},
+  {val:'5x3=15',cat:'Less than 20'},{val:'5x6=30',cat:'20 or more'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A spider has 8 legs. How many legs do 4 spiders have?',
+ o:['32','28','36','24'],a:0}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Tables of 6 and 7 ─────────────────────────────
+[
+{type:'mcq',topic:'Table of 6',q:'What is 6 × 7?',
+ o:['42','36','48','54'],a:0},
+
+{type:'fillintext',topic:'Tables',q:'Complete both multiplications.',
+ template:'6 × 8 = ___ and 7 × 6 = ___.',
+ blanks:['48','42']},
+
+{type:'match',topic:'Table of 7',q:'Match each multiplication to its product.',
+ pairs:[
+  {l:'7 × 4', r:'28'},
+  {l:'7 × 6', r:'42'},
+  {l:'7 × 8', r:'56'},
+  {l:'7 × 9', r:'63'}
+]},
+
+{type:'tf',topic:'Table of 6',q:'6 × 9 = 54. True or False?',answer:true},
+
+{type:'tapall',topic:'Table of 6',q:'Tap all correct facts from the 6 times table.',
+ pool:['6x4=24','6x5=32','6x6=36','6x7=42','6x8=50','6x9=54'],
+ correct:['6x4=24','6x6=36','6x7=42','6x9=54']},
+
+{type:'sort',topic:'Tables',q:'Sort these products from SMALLEST to LARGEST.',
+ items:[42,28,56,63],order:'asc'},
+
+{type:'fillin',topic:'Table of 7',q:'Fill in the missing number:',
+ expr:'7 × ___ = 56',
+ o:['8','7','9','6'],a:0},
+
+{type:'enterval',topic:'Table of 6',q:'What is 6 × 9? Type the answer.',
+ answer:'54'},
+
+{type:'mcq',topic:'Table of 7',q:'What is 7 × 7?',
+ o:['49','56','42','63'],a:0},
+
+{type:'classify',topic:'Tables',q:'Sort each product: Table of 6 OR Table of 7.',
+ categories:['Table of 6','Table of 7'],
+ items:[
+  {val:'6x4=24',cat:'Table of 6'},{val:'7x5=35',cat:'Table of 7'},
+  {val:'6x7=42',cat:'Table of 6'},{val:'7x8=56',cat:'Table of 7'},
+  {val:'6x9=54',cat:'Table of 6'},{val:'7x9=63',cat:'Table of 7'}
+]}
+],
+
+// ── Pro Set 2: Tables of 8 and 9 ─────────────────────────────
+[
+{type:'mcq',topic:'Table of 8',q:'What is 8 × 7?',
+ o:['56','48','64','54'],a:0},
+
+{type:'fillintext',topic:'Tables',q:'Complete both multiplications.',
+ template:'8 × 9 = ___ and 9 × 6 = ___.',
+ blanks:['72','54']},
+
+{type:'match',topic:'Table of 9',q:'Match each multiplication to its product.',
+ pairs:[
+  {l:'9 × 3', r:'27'},
+  {l:'9 × 5', r:'45'},
+  {l:'9 × 7', r:'63'},
+  {l:'9 × 9', r:'81'}
+]},
+
+{type:'mcq',topic:'Table of 8',q:'What is 8 × 8?',
+ o:['64','56','72','48'],a:0},
+
+{type:'tf',topic:'Table of 9',q:'9 × 8 = 72. True or False?',answer:true},
+
+{type:'enterval',topic:'Table of 8',q:'What is 8 × 6? Type the answer.',
+ answer:'48'},
+
+{type:'fillin',topic:'Table of 9',q:'Find the missing number:',
+ expr:'9 × ___ = 81',
+ o:['9','8','7','6'],a:0},
+
+{type:'sort',topic:'Tables',q:'Sort these products from SMALLEST to LARGEST.',
+ items:[27,63,45,81],order:'asc'},
+
+{type:'tapall',topic:'Table of 8',q:'Tap all correct facts from the 8 times table.',
+ pool:['8x3=24','8x4=30','8x5=40','8x6=48','8x7=54','8x8=64'],
+ correct:['8x3=24','8x5=40','8x6=48','8x8=64']},
+
+{type:'classify',topic:'Tables',q:'Sort each product: Table of 8 OR Table of 9.',
+ categories:['Table of 8','Table of 9'],
+ items:[
+  {val:'8x4=32',cat:'Table of 8'},{val:'9x4=36',cat:'Table of 9'},
+  {val:'8x7=56',cat:'Table of 8'},{val:'9x7=63',cat:'Table of 9'},
+  {val:'8x9=72',cat:'Table of 8'},{val:'9x9=81',cat:'Table of 9'}
+]}
+],
+
+// ── Pro Set 3: Missing factor & multiplication puzzles ────────
+[
+{type:'fillin',topic:'Missing Factor',q:'Find the missing factor:',
+ expr:'___ × 7 = 56',
+ o:['8','7','9','6'],a:0},
+
+{type:'fillin',topic:'Missing Factor',q:'Find the missing factor:',
+ expr:'9 × ___ = 63',
+ o:['7','8','6','9'],a:0},
+
+{type:'match',topic:'Missing Factor',q:'Match each equation to its missing factor.',
+ pairs:[
+  {l:'___ × 6 = 48', r:'8'},
+  {l:'7 × ___ = 63', r:'9'},
+  {l:'___ × 8 = 72', r:'9'},
+  {l:'6 × ___ = 54', r:'9'}
+]},
+
+{type:'enterval',topic:'Missing Factor',q:'Find the missing factor: ___ × 9 = 72.',
+ answer:'8'},
+
+{type:'mcq',topic:'Missing Factor',q:'If 7 × ___ = 49, the missing factor is:',
+ o:['7','8','6','9'],a:0},
+
+{type:'tf',topic:'Missing Factor',q:'If ___ × 8 = 64, the missing factor is 8. True or False?',answer:true},
+
+{type:'tapall',topic:'Missing Factor',q:'Tap all equations where the missing factor is 6.',
+ pool:['___x7=42','6x___=36','___x9=54','8x___=48','___x8=48','6x___=42'],
+ correct:['___x7=42','6x___=36','___x9=54','8x___=48','___x8=48']},
+
+{type:'fillintext',topic:'Commutative Property',q:'Fill in to show the commutative property.',
+ template:'8 × 7 = ___ is the same as 7 × 8 = ___.',
+ blanks:['56','56']},
+
+{type:'sort',topic:'Missing Factor',q:'Sort these missing factors from SMALLEST to LARGEST.',
+ items:[8,6,9,7],order:'asc'},
+
+{type:'mcq',topic:'Multiplication',q:'A shop has 9 shelves with 7 items each. If 2 shelves are empty, how many items are there?',
+ o:['49','63','56','42'],a:0}
+],
+
+// ── Pro Set 4: Word problems (multi-step) ─────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'A box has 8 rows of 9 chocolates. How many chocolates in all?',
+ o:['72','63','81','56'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve this word problem.',
+ template:'6 children each buy 7 pencils. Total pencils = ___.',
+ blanks:['42']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'7 weeks × 7 days',        r:'49'},
+  {l:'8 boxes × 9 bottles',     r:'72'},
+  {l:'9 classrooms × 6 tables', r:'54'},
+  {l:'6 bags × 8 books',        r:'48'}
+]},
+
+{type:'mcq',topic:'Multiplication Patterns',q:'What comes next: 9, 18, 27, 36, ___?',
+ o:['45','44','46','40'],a:0},
+
+{type:'enterval',topic:'Word Problems',q:'Each of 8 children picks 7 flowers. How many flowers in all?',
+ answer:'56'},
+
+{type:'tf',topic:'Word Problems',q:'9 packs of 8 crayons = 72 crayons. True or False?',answer:true},
+
+{type:'sort',topic:'Word Problems',q:'Sort these products from SMALLEST to LARGEST.',
+ items:[48,54,49,72],order:'asc'},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct multiplications.',
+ pool:['6x7=42','8x6=48','7x8=56','9x6=56','8x9=72','7x9=63'],
+ correct:['6x7=42','8x6=48','7x8=56','8x9=72','7x9=63']},
+
+{type:'classify',topic:'Word Problems',q:'Sort: product is less than 60 OR 60 and above.',
+ categories:['Less than 60','60 or more'],
+ items:[
+  {val:'7x7=49',cat:'Less than 60'},{val:'8x8=64',cat:'60 or more'},
+  {val:'6x9=54',cat:'Less than 60'},{val:'9x8=72',cat:'60 or more'},
+  {val:'7x8=56',cat:'Less than 60'},{val:'9x9=81',cat:'60 or more'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A garden has 9 rows and 8 plants in each row. How many plants in all?',
+ o:['72','63','81','56'],a:0}
+]
+
+] // end pro
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

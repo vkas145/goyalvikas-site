@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 7: Length • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 7</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch7', title:'Ch 7: Length'};
+const SETS = {
+  beginner: [
+    {
+      name:'Set 1',
+      questions:[
+        {type:'mcq', topic:'Longer and shorter', q:'A pencil is 15 cm. A crayon is 9 cm. Which is longer?', o:['Pencil','Crayon','They are the same','Cannot tell'], a:0},
+        {type:'tf', topic:'Centimetres', q:'We measure short lengths in centimetres (cm).', answer:true},
+        {type:'enterval', topic:'Centimetres', q:'A worm is 6 cm long. A stick is 10 cm long. How much longer is the stick? (cm)', answer:'4'},
+        {type:'mcq', topic:'100 cm = 1 m', q:'How many centimetres are in 1 metre?', o:['100','10','50','1000'], a:0},
+        {type:'tf', topic:'100 cm = 1 m', q:'2 metres = 200 centimetres.', answer:true},
+        {type:'enterval', topic:'100 cm = 1 m', q:'How many centimetres are in 3 metres?', answer:'300'},
+        {type:'fillintext', topic:'100 cm = 1 m', q:'Complete the sentence.', template:'100 cm = ___ m', blanks:['1']},
+        {type:'match', topic:'100 cm = 1 m', q:'Match each length to its equal.', pairs:[{l:'100 cm',r:'1 m'},{l:'200 cm',r:'2 m'},{l:'Half a metre',r:'50 cm'},{l:'1 m 50 cm',r:'150 cm'}]},
+        {type:'classify', topic:'Longer and shorter', q:'Sort these lengths as shorter than 1 m or 1 m or longer.', categories:['Less than 1 m','1 m or more'], items:[{val:'50 cm',cat:'Less than 1 m'},{val:'80 cm',cat:'Less than 1 m'},{val:'100 cm',cat:'1 m or more'},{val:'200 cm',cat:'1 m or more'}]},
+        {type:'tapall', topic:'Longer and shorter', q:'Tap ALL lengths that are longer than 50 cm.', pool:[25,50,75,100,40,80,200,10], correct:[75,100,80,200]},
+        {type:'sort', topic:'Centimetres', q:'Order these lengths from shortest to longest (cm).', items:[15,30,75,90], order:'asc'},
+        {type:'tf', topic:'Longer and shorter', q:'90 cm is shorter than 1 metre.', answer:true}
+      ]
+    },
+    {
+      name:'Set 2',
+      questions:[
+        {type:'mcq', topic:'Longer and shorter', q:'A table is 80 cm tall. A chair is 45 cm tall. Which is shorter?', o:['Chair','Table','They are the same','Cannot tell'], a:0},
+        {type:'tf', topic:'100 cm = 1 m', q:'50 cm is the same as half a metre.', answer:true},
+        {type:'enterval', topic:'Centimetres', q:'A ribbon is 20 cm. Another ribbon is 35 cm. How long are they altogether? (cm)', answer:'55'},
+        {type:'mcq', topic:'100 cm = 1 m', q:'Which measurement is the same as 1 metre?', o:['100 cm','10 cm','1000 cm','50 cm'], a:0},
+        {type:'tf', topic:'Centimetres', q:'A ruler is usually 30 cm long.', answer:true},
+        {type:'enterval', topic:'100 cm = 1 m', q:'How many centimetres is half a metre?', answer:'50'},
+        {type:'fillintext', topic:'100 cm = 1 m', q:'Complete the sentence.', template:'2 m = ___ cm', blanks:['200']},
+        {type:'match', topic:'Measuring', q:'Match each object to the best unit to measure it.', pairs:[{l:'Length of a pencil',r:'cm'},{l:'Height of a door',r:'m'},{l:'Width of a book',r:'cm'},{l:'Length of a street',r:'m'}]},
+        {type:'classify', topic:'Longer and shorter', q:'Sort these lengths as less than 1 m or 1 m or more.', categories:['Less than 1 m','1 m or more'], items:[{val:'30 cm',cat:'Less than 1 m'},{val:'95 cm',cat:'Less than 1 m'},{val:'150 cm',cat:'1 m or more'},{val:'100 cm',cat:'1 m or more'}]},
+        {type:'tapall', topic:'Centimetres', q:'Tap ALL lengths that are less than 50 cm.', pool:[10,25,50,60,45,80,30,100], correct:[10,25,45,30]},
+        {type:'sort', topic:'Centimetres', q:'Order these lengths from shortest to longest (cm).', items:[5,20,45,70], order:'asc'},
+        {type:'tf', topic:'100 cm = 1 m', q:'100 cm is less than 1 metre.', answer:false}
+      ]
+    },
+    {
+      name:'Set 3',
+      questions:[
+        {type:'mcq', topic:'Measuring', q:'Which tool do we use to measure length in cm?', o:['Ruler','Scale','Thermometer','Stopwatch'], a:0},
+        {type:'tf', topic:'Centimetres', q:'25 cm + 25 cm = 50 cm.', answer:true},
+        {type:'enterval', topic:'Centimetres', q:'A snake is 45 cm long. It grows 10 cm. How long is it now? (cm)', answer:'55'},
+        {type:'mcq', topic:'100 cm = 1 m', q:'A rope is 300 cm. How many metres is that?', o:['3 m','30 m','300 m','0.3 m'], a:0},
+        {type:'tf', topic:'Longer and shorter', q:'1 m is longer than 99 cm.', answer:true},
+        {type:'enterval', topic:'100 cm = 1 m', q:'4 metres = how many centimetres?', answer:'400'},
+        {type:'fillintext', topic:'100 cm = 1 m', q:'Fill in the blanks.', template:'3 m = ___ cm', blanks:['300']},
+        {type:'match', topic:'100 cm = 1 m', q:'Match each measurement to its equal.', pairs:[{l:'300 cm',r:'3 m'},{l:'500 cm',r:'5 m'},{l:'150 cm',r:'1 m 50 cm'},{l:'50 cm',r:'Half a metre'}]},
+        {type:'classify', topic:'Longer and shorter', q:'Is each length less than 1 m or 1 m or more?', categories:['Less than 1 m','1 m or more'], items:[{val:'75 cm',cat:'Less than 1 m'},{val:'1 m',cat:'1 m or more'},{val:'40 cm',cat:'Less than 1 m'},{val:'250 cm',cat:'1 m or more'}]},
+        {type:'tapall', topic:'100 cm = 1 m', q:'Tap ALL measurements that equal exactly 1 metre.', pool:['100 cm','50 cm','200 cm','1 m','10 cm','100 mm','1 m 0 cm'], correct:['100 cm','1 m','1 m 0 cm']},
+        {type:'sort', topic:'Centimetres', q:'Order shortest to longest (cm).', items:[30,75,15,90], order:'asc'},
+        {type:'tf', topic:'Centimetres', q:'10 cm + 40 cm = 50 cm.', answer:true}
+      ]
+    },
+    {
+      name:'Set 4',
+      questions:[
+        {type:'mcq', topic:'Longer and shorter', q:'A cat is 40 cm long. A dog is 65 cm long. How much longer is the dog? (cm)', o:['25 cm','15 cm','35 cm','5 cm'], a:0},
+        {type:'tf', topic:'100 cm = 1 m', q:'5 metres = 500 centimetres.', answer:true},
+        {type:'enterval', topic:'Centimetres', q:'25 cm + 35 cm = ? cm', answer:'60'},
+        {type:'mcq', topic:'Measuring', q:'A bookshelf is about 180 cm tall. In metres, that is closest to...', o:['2 m','1 m','3 m','18 m'], a:0},
+        {type:'tf', topic:'Longer and shorter', q:'60 cm is longer than half a metre.', answer:true},
+        {type:'enterval', topic:'100 cm = 1 m', q:'How many metres is 500 cm?', answer:'5'},
+        {type:'fillintext', topic:'Centimetres', q:'Fill in the blanks.', template:'20 cm + ___ cm = 50 cm', blanks:['30']},
+        {type:'match', topic:'Longer and shorter', q:'Match each pair to the correct comparison.', pairs:[{l:'10 cm and 20 cm',r:'20 cm is longer'},{l:'50 cm and 1 m',r:'1 m is longer'},{l:'100 cm and 1 m',r:'They are equal'},{l:'75 cm and 80 cm',r:'80 cm is longer'}]},
+        {type:'classify', topic:'Longer and shorter', q:'Sort these as less than 1 m or 1 m or more.', categories:['Less than 1 m','1 m or more'], items:[{val:'99 cm',cat:'Less than 1 m'},{val:'100 cm',cat:'1 m or more'},{val:'55 cm',cat:'Less than 1 m'},{val:'120 cm',cat:'1 m or more'}]},
+        {type:'tapall', topic:'Longer and shorter', q:'Tap ALL lengths that are longer than 1 metre.', pool:['50 cm','150 cm','100 cm','200 cm','90 cm','110 cm','80 cm'], correct:['150 cm','200 cm','110 cm']},
+        {type:'sort', topic:'Centimetres', q:'Order shortest to longest (cm).', items:[20,55,10,85], order:'asc'},
+        {type:'tf', topic:'Centimetres', q:'80 cm - 30 cm = 60 cm.', answer:false}
+      ]
+    }
+  ],
+  pro: [
+    {
+      name:'Set 1',
+      questions:[
+        {type:'mcq', topic:'Converting lengths', q:'150 cm is the same as...', o:['1 m 50 cm','15 m','1 m 5 cm','2 m 50 cm'], a:0},
+        {type:'tf', topic:'Converting lengths', q:'2 m 30 cm = 230 cm.', answer:true},
+        {type:'enterval', topic:'Adding lengths', q:'45 cm + 55 cm = ? cm', answer:'100'},
+        {type:'mcq', topic:'Converting lengths', q:'3 m 25 cm = how many cm?', o:['325 cm','32 cm','3025 cm','305 cm'], a:0},
+        {type:'tf', topic:'Subtracting lengths', q:'100 cm - 35 cm = 75 cm.', answer:false},
+        {type:'enterval', topic:'Subtracting lengths', q:'A plank is 80 cm long. 25 cm is cut off. How long is it now? (cm)', answer:'55'},
+        {type:'fillintext', topic:'Converting lengths', q:'Fill in the blanks.', template:'1 m 50 cm = ___ cm', blanks:['150']},
+        {type:'match', topic:'Converting lengths', q:'Match each length to its equal.', pairs:[{l:'100 cm',r:'1 m'},{l:'200 cm',r:'2 m'},{l:'Half a metre',r:'50 cm'},{l:'1 m 50 cm',r:'150 cm'}]},
+        {type:'classify', topic:'Converting lengths', q:'Sort these as less than 1 m or 1 m or more.', categories:['Less than 1 m','1 m or more'], items:[{val:'50 cm',cat:'Less than 1 m'},{val:'120 cm',cat:'1 m or more'},{val:'75 cm',cat:'Less than 1 m'},{val:'100 cm',cat:'1 m or more'}]},
+        {type:'tapall', topic:'Adding lengths', q:'Tap ALL pairs of lengths that add up to exactly 100 cm.', pool:['50+50','40+60','30+60','25+75','80+20','10+80'], correct:['50+50','40+60','25+75','80+20']},
+        {type:'sort', topic:'Converting lengths', q:'Order these lengths from shortest to longest (all in cm).', items:[75,100,150,200], order:'asc'},
+        {type:'tf', topic:'Converting lengths', q:'1 m 20 cm is longer than 150 cm.', answer:false}
+      ]
+    },
+    {
+      name:'Set 2',
+      questions:[
+        {type:'mcq', topic:'Word problems', q:'A rope is 3 m long. Another rope is 150 cm long. How long are they altogether?', o:['450 cm','4 m 50 cm','250 cm','300 cm'], a:0},
+        {type:'tf', topic:'Converting lengths', q:'250 cm = 2 m 50 cm.', answer:true},
+        {type:'enterval', topic:'Adding lengths', q:'1 m 20 cm + 30 cm = ? cm', answer:'150'},
+        {type:'mcq', topic:'Subtracting lengths', q:'A piece of wood is 2 m long. 75 cm is cut off. How much is left?', o:['125 cm','175 cm','75 cm','100 cm'], a:0},
+        {type:'tf', topic:'Adding lengths', q:'60 cm + 60 cm = 1 m 20 cm.', answer:true},
+        {type:'enterval', topic:'Subtracting lengths', q:'200 cm - 45 cm = ? cm', answer:'155'},
+        {type:'fillintext', topic:'Converting lengths', q:'Fill in the blanks.', template:'2 m 75 cm = ___ cm', blanks:['275']},
+        {type:'match', topic:'Word problems', q:'Match each word problem to its answer.', pairs:[{l:'50 cm + 50 cm',r:'1 m'},{l:'2 m - 50 cm',r:'150 cm'},{l:'1 m + 25 cm',r:'125 cm'},{l:'3 m - 1 m',r:'200 cm'}]},
+        {type:'classify', topic:'Converting lengths', q:'Sort these as less than 1 m or 1 m or more.', categories:['Less than 1 m','1 m or more'], items:[{val:'80 cm',cat:'Less than 1 m'},{val:'175 cm',cat:'1 m or more'},{val:'45 cm',cat:'Less than 1 m'},{val:'100 cm',cat:'1 m or more'}]},
+        {type:'tapall', topic:'Converting lengths', q:'Tap ALL measurements that are MORE than 1 metre.', pool:['150 cm','99 cm','1 m 1 cm','200 cm','50 cm','1 m 50 cm','100 cm'], correct:['150 cm','1 m 1 cm','200 cm','1 m 50 cm']},
+        {type:'sort', topic:'Word problems', q:'Order shortest to longest (cm): 1 m 10 cm, 95 cm, 2 m, 1 m 50 cm.', items:[110,95,200,150], order:'asc'},
+        {type:'tf', topic:'Subtracting lengths', q:'3 m - 50 cm = 250 cm.', answer:true}
+      ]
+    },
+    {
+      name:'Set 3',
+      questions:[
+        {type:'mcq', topic:'Word problems', q:'Priya has a ribbon 2 m 50 cm long. She uses 80 cm. How much is left?', o:['170 cm','1 m 70 cm','220 cm','130 cm'], a:0},
+        {type:'tf', topic:'Adding lengths', q:'75 cm + 75 cm = 1 m 50 cm.', answer:true},
+        {type:'enterval', topic:'Adding lengths', q:'35 cm + 65 cm = ? cm', answer:'100'},
+        {type:'mcq', topic:'Multi-step', q:'A path is 5 m long. Sam walks 2 m 40 cm and then another 1 m 30 cm. How far has Sam walked?', o:['3 m 70 cm','370 cm','Both A and B','3 m 7 cm'], a:2},
+        {type:'tf', topic:'Converting lengths', q:'400 cm = 4 m.', answer:true},
+        {type:'enterval', topic:'Subtracting lengths', q:'3 m - 125 cm = ? cm', answer:'175'},
+        {type:'fillintext', topic:'Adding lengths', q:'Fill in the blanks.', template:'25 cm + 35 cm = ___ cm', blanks:['60']},
+        {type:'match', topic:'Converting lengths', q:'Match each length to its equal.', pairs:[{l:'300 cm',r:'3 m'},{l:'1 m 75 cm',r:'175 cm'},{l:'250 cm',r:'2 m 50 cm'},{l:'4 m',r:'400 cm'}]},
+        {type:'classify', topic:'Converting lengths', q:'Sort these as less than 2 m or 2 m or more.', categories:['Less than 2 m','2 m or more'], items:[{val:'150 cm',cat:'Less than 2 m'},{val:'200 cm',cat:'2 m or more'},{val:'175 cm',cat:'Less than 2 m'},{val:'300 cm',cat:'2 m or more'}]},
+        {type:'tapall', topic:'Adding lengths', q:'Tap ALL pairs that add up to more than 1 m (100 cm).', pool:['60+50','30+40','75+50','45+45','80+30','20+70'], correct:['60+50','75+50','80+30']},
+        {type:'sort', topic:'Mixed units', q:'Order shortest to longest (in cm): 1 m 25 cm, 2 m, 80 cm, 1 m 60 cm.', items:[125,200,80,160], order:'asc'},
+        {type:'tf', topic:'Word problems', q:'A garden fence needs 4 pieces of wood each 75 cm long. That is 3 m of wood in total.', answer:true}
+      ]
+    },
+    {
+      name:'Set 4',
+      questions:[
+        {type:'mcq', topic:'Multi-step', q:'A desk is 1 m 20 cm wide. A chair is 45 cm wide. How wide are they together?', o:['165 cm','1 m 65 cm','Both A and B','160 cm'], a:2},
+        {type:'tf', topic:'Subtracting lengths', q:'2 m 50 cm - 1 m 25 cm = 1 m 25 cm.', answer:true},
+        {type:'enterval', topic:'Adding lengths', q:'1 m 40 cm + 1 m 40 cm = ? cm', answer:'280'},
+        {type:'mcq', topic:'Word problems', q:'A worm is 12 cm long. A snake is 10 times as long. How long is the snake?', o:['120 cm','1 m 20 cm','Both A and B','12 m'], a:2},
+        {type:'tf', topic:'Converting lengths', q:'1 m 5 cm = 150 cm.', answer:false},
+        {type:'enterval', topic:'Subtracting lengths', q:'5 m - 2 m 50 cm = ? cm', answer:'250'},
+        {type:'fillintext', topic:'Multi-step', q:'Fill in the blanks.', template:'___ cm + 60 cm = 1 m', blanks:['40']},
+        {type:'match', topic:'Word problems', q:'Match each problem to its answer.', pairs:[{l:'3 m - 75 cm',r:'225 cm'},{l:'1 m 50 cm + 50 cm',r:'200 cm'},{l:'2 m + 2 m 50 cm',r:'450 cm'},{l:'4 m - 1 m 25 cm',r:'275 cm'}]},
+        {type:'classify', topic:'Adding lengths', q:'Sort these totals as less than 2 m or 2 m or more.', categories:['Less than 2 m','2 m or more'], items:[{val:'80+90 cm',cat:'Less than 2 m'},{val:'150+75 cm',cat:'2 m or more'},{val:'60+100 cm',cat:'Less than 2 m'},{val:'120+100 cm',cat:'2 m or more'}]},
+        {type:'tapall', topic:'Multi-step', q:'Tap ALL statements that are TRUE.', pool:['100 cm + 50 cm = 1 m 50 cm','200 cm - 75 cm = 125 cm','3 m = 300 cm','1 m 25 cm = 125 cm','2 m 10 cm = 210 cm','150 cm = 1 m 5 cm'], correct:['100 cm + 50 cm = 1 m 50 cm','200 cm - 75 cm = 125 cm','3 m = 300 cm','1 m 25 cm = 125 cm','2 m 10 cm = 210 cm']},
+        {type:'sort', topic:'Mixed units', q:'Order shortest to longest (in cm): 2 m 10 cm, 1 m 90 cm, 2 m 50 cm, 1 m 75 cm.', items:[210,190,250,175], order:'asc'},
+        {type:'tf', topic:'Word problems', q:'A fence has 5 posts each 1 m 20 cm apart. The total distance from first to last post is 6 m.', answer:true}
+      ]
+    }
+  ]
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

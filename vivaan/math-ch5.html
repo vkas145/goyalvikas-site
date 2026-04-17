@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 5: Division • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 5</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch5', title:'Ch 5: Division'};
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Sharing equally & basic division ──────────
+[
+{type:'match',topic:'Division',q:'Match each division to its correct quotient.',
+ pairs:[
+  {l:'12 ÷ 2', r:'6'},
+  {l:'20 ÷ 5', r:'4'},
+  {l:'18 ÷ 3', r:'6'},
+  {l:'30 ÷ 10', r:'3'}
+]},
+
+{type:'mcq',topic:'Division',q:'What is 16 ÷ 2?',
+ o:['8','6','4','9'],a:0},
+
+{type:'tf',topic:'Division',q:'10 ÷ 2 = 5. True or False?',answer:true},
+
+{type:'mcq',topic:'Division',q:'What is 25 ÷ 5?',
+ o:['5','4','6','3'],a:0},
+
+{type:'tapall',topic:'Division',q:'Tap all correct division facts.',
+ pool:['12÷2=6','15÷3=5','20÷4=6','18÷3=6','30÷5=6','24÷4=6'],
+ correct:['12÷2=6','15÷3=5','18÷3=6','24÷4=6']},
+
+{type:'sort',topic:'Division',q:'Sort these quotients from SMALLEST to LARGEST.',
+ items:[4,8,3,6],order:'asc'},
+
+{type:'fillin',topic:'Division',q:'Fill in the missing number:',
+ expr:'20 ÷ ___ = 4',
+ o:['5','4','2','10'],a:0},
+
+{type:'enterval',topic:'Division',q:'What is 18 ÷ 2? Type the answer.',
+ answer:'9'},
+
+{type:'fillintext',topic:'Division',q:'Complete both divisions.',
+ template:'20 ÷ 5 = ___ and 30 ÷ 3 = ___.',
+ blanks:['4','10']},
+
+{type:'classify',topic:'Division',q:'Sort: quotient is less than 5 OR 5 and above.',
+ categories:['Less than 5','5 or more'],
+ items:[
+  {val:'12÷4=3',cat:'Less than 5'},{val:'30÷5=6',cat:'5 or more'},
+  {val:'8÷4=2',cat:'Less than 5'},{val:'18÷3=6',cat:'5 or more'},
+  {val:'16÷8=2',cat:'Less than 5'},{val:'25÷5=5',cat:'5 or more'}
+]}
+],
+
+// ── Beginner Set 2: Division related to multiplication ─────────
+[
+{type:'tf',topic:'Fact Families',q:'If 3 × 7 = 21, then 21 ÷ 3 = 7. True or False?',answer:true},
+
+{type:'mcq',topic:'Division',q:'What is 24 ÷ 4?',
+ o:['6','5','7','4'],a:0},
+
+{type:'match',topic:'Fact Families',q:'Match each multiplication to its related division.',
+ pairs:[
+  {l:'4 × 5 = 20', r:'20 ÷ 4 = 5'},
+  {l:'3 × 8 = 24', r:'24 ÷ 3 = 8'},
+  {l:'6 × 5 = 30', r:'30 ÷ 6 = 5'},
+  {l:'7 × 4 = 28', r:'28 ÷ 7 = 4'}
+]},
+
+{type:'mcq',topic:'Division',q:'What is 35 ÷ 5?',
+ o:['7','6','8','5'],a:0},
+
+{type:'fillin',topic:'Fact Families',q:'Fill in:',
+ expr:'___ ÷ 6 = 4',
+ o:['24','18','30','20'],a:0},
+
+{type:'sort',topic:'Division',q:'Sort from SMALLEST to LARGEST quotient.',
+ items:[7,4,9,5],order:'asc'},
+
+{type:'tapall',topic:'Fact Families',q:'Tap all correct division facts.',
+ pool:['20÷4=5','24÷3=8','30÷6=5','28÷7=3','36÷6=6','45÷9=5'],
+ correct:['20÷4=5','24÷3=8','30÷6=5','36÷6=6','45÷9=5']},
+
+{type:'enterval',topic:'Division',q:'What is 36 ÷ 4? Type the answer.',
+ answer:'9'},
+
+{type:'tf',topic:'Division',q:'If 5 × 6 = 30, then 30 ÷ 5 = 6. True or False?',answer:true},
+
+{type:'fillintext',topic:'Fact Families',q:'Complete using the fact family.',
+ template:'6 × 7 = 42. So 42 ÷ 6 = ___ and 42 ÷ 7 = ___.',
+ blanks:['7','6']}
+],
+
+// ── Beginner Set 3: Division by 2, 5, 10 ─────────────────────
+[
+{type:'mcq',topic:'Dividing by 2',q:'What is 14 ÷ 2?',
+ o:['7','6','8','5'],a:0},
+
+{type:'fillintext',topic:'Division',q:'Complete both divisions.',
+ template:'40 ÷ 10 = ___ and 45 ÷ 5 = ___.',
+ blanks:['4','9']},
+
+{type:'match',topic:'Division',q:'Match each division to its quotient.',
+ pairs:[
+  {l:'50 ÷ 10', r:'5'},
+  {l:'40 ÷ 5',  r:'8'},
+  {l:'16 ÷ 2',  r:'8'},
+  {l:'30 ÷ 10', r:'3'}
+]},
+
+{type:'mcq',topic:'Dividing by 5',q:'What is 55 ÷ 5?',
+ o:['11','10','9','12'],a:0},
+
+{type:'tf',topic:'Dividing by 10',q:'90 ÷ 10 = 9. True or False?',answer:true},
+
+{type:'tapall',topic:'Division',q:'Tap all correct division facts.',
+ pool:['14÷2=7','55÷5=11','30÷10=3','20÷5=5','18÷2=9','60÷10=6'],
+ correct:['14÷2=7','55÷5=11','30÷10=3','18÷2=9','60÷10=6']},
+
+{type:'enterval',topic:'Dividing by 2',q:'What is 18 ÷ 2? Type the answer.',
+ answer:'9'},
+
+{type:'sort',topic:'Division',q:'Sort these quotients from SMALLEST to LARGEST.',
+ items:[5,9,3,11],order:'asc'},
+
+{type:'classify',topic:'Division',q:'Sort: dividing by 2 OR dividing by 5.',
+ categories:['Dividing by 2','Dividing by 5'],
+ items:[
+  {val:'14÷2=7',cat:'Dividing by 2'},{val:'25÷5=5',cat:'Dividing by 5'},
+  {val:'18÷2=9',cat:'Dividing by 2'},{val:'40÷5=8',cat:'Dividing by 5'},
+  {val:'12÷2=6',cat:'Dividing by 2'},{val:'55÷5=11',cat:'Dividing by 5'}
+]},
+
+{type:'mcq',topic:'Dividing by 10',q:'What is 70 ÷ 10?',
+ o:['7','17','70','0'],a:0}
+],
+
+// ── Beginner Set 4: Word problems ────────────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'24 sweets shared equally among 4 children. How many each?',
+ o:['6','5','8','4'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'30 cookies are shared equally in ___ bags of 5 each. There are ___ bags.',
+ blanks:['6','6']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'18 pencils in 3 equal groups', r:'6'},
+  {l:'35 marbles in 5 equal groups', r:'7'},
+  {l:'40 books on 8 shelves equally', r:'5'},
+  {l:'36 flowers in 4 equal vases',  r:'9'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A farmer plants 45 seeds in 5 equal rows. How many per row?',
+ o:['9','8','7','6'],a:0},
+
+{type:'tf',topic:'Word Problems',q:'20 ÷ 4 = 5. If 20 bananas are shared among 4 monkeys, each gets 5. True or False?',answer:true},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct division facts.',
+ pool:['18÷3=6','35÷5=7','40÷8=5','36÷4=8','45÷5=9','28÷7=4'],
+ correct:['18÷3=6','35÷5=7','40÷8=5','45÷5=9','28÷7=4']},
+
+{type:'enterval',topic:'Word Problems',q:'42 mangoes packed in 6 equal boxes. How many per box?',
+ answer:'7'},
+
+{type:'sort',topic:'Word Problems',q:'Sort these quotients from SMALLEST to LARGEST.',
+ items:[6,9,5,7],order:'asc'},
+
+{type:'classify',topic:'Word Problems',q:'Sort: quotient is less than 7 OR 7 and above.',
+ categories:['Less than 7','7 or more'],
+ items:[
+  {val:'18÷3=6',cat:'Less than 7'},{val:'35÷5=7',cat:'7 or more'},
+  {val:'40÷8=5',cat:'Less than 7'},{val:'36÷4=9',cat:'7 or more'},
+  {val:'24÷4=6',cat:'Less than 7'},{val:'56÷7=8',cat:'7 or more'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'48 children are put into groups of 6. How many groups?',
+ o:['8','7','9','6'],a:0}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Division by 3, 4, 6 ───────────────────────────
+[
+{type:'mcq',topic:'Division',q:'What is 48 ÷ 6?',
+ o:['8','7','9','6'],a:0},
+
+{type:'fillintext',topic:'Division',q:'Complete both divisions.',
+ template:'36 ÷ 4 = ___ and 54 ÷ 6 = ___.',
+ blanks:['9','9']},
+
+{type:'match',topic:'Division',q:'Match each division to its quotient.',
+ pairs:[
+  {l:'48 ÷ 6', r:'8'},
+  {l:'36 ÷ 4', r:'9'},
+  {l:'42 ÷ 3', r:'14'},
+  {l:'56 ÷ 4', r:'14'}
+]},
+
+{type:'tf',topic:'Division',q:'63 ÷ 7 = 9. True or False?',answer:true},
+
+{type:'tapall',topic:'Division',q:'Tap all correct division facts.',
+ pool:['48÷6=8','36÷4=9','42÷3=14','56÷4=15','63÷7=9','72÷8=9'],
+ correct:['48÷6=8','36÷4=9','42÷3=14','63÷7=9','72÷8=9']},
+
+{type:'sort',topic:'Division',q:'Sort these quotients from SMALLEST to LARGEST.',
+ items:[8,14,9,12],order:'asc'},
+
+{type:'fillin',topic:'Division',q:'Find the missing number:',
+ expr:'___ ÷ 8 = 9',
+ o:['72','63','81','56'],a:0},
+
+{type:'enterval',topic:'Division',q:'What is 81 ÷ 9? Type the answer.',
+ answer:'9'},
+
+{type:'mcq',topic:'Division',q:'What is 72 ÷ 8?',
+ o:['9','8','7','6'],a:0},
+
+{type:'classify',topic:'Division',q:'Sort: quotient is less than 9 OR 9 and above.',
+ categories:['Less than 9','9 or more'],
+ items:[
+  {val:'48÷6=8',cat:'Less than 9'},{val:'81÷9=9',cat:'9 or more'},
+  {val:'42÷7=6',cat:'Less than 9'},{val:'72÷8=9',cat:'9 or more'},
+  {val:'56÷8=7',cat:'Less than 9'},{val:'63÷7=9',cat:'9 or more'}
+]}
+],
+
+// ── Pro Set 2: Division by 7, 8, 9 ───────────────────────────
+[
+{type:'mcq',topic:'Division',q:'What is 63 ÷ 9?',
+ o:['7','8','6','9'],a:0},
+
+{type:'fillintext',topic:'Division',q:'Complete both divisions.',
+ template:'56 ÷ 7 = ___ and 64 ÷ 8 = ___.',
+ blanks:['8','8']},
+
+{type:'match',topic:'Division',q:'Match each division to its quotient.',
+ pairs:[
+  {l:'63 ÷ 9', r:'7'},
+  {l:'56 ÷ 7', r:'8'},
+  {l:'72 ÷ 9', r:'8'},
+  {l:'49 ÷ 7', r:'7'}
+]},
+
+{type:'mcq',topic:'Division',q:'What is 64 ÷ 8?',
+ o:['8','7','9','6'],a:0},
+
+{type:'tf',topic:'Division',q:'81 ÷ 9 = 9. True or False?',answer:true},
+
+{type:'enterval',topic:'Division',q:'What is 56 ÷ 8? Type the answer.',
+ answer:'7'},
+
+{type:'fillin',topic:'Division',q:'Find the missing number:',
+ expr:'___ ÷ 7 = 9',
+ o:['63','56','49','72'],a:0},
+
+{type:'sort',topic:'Division',q:'Sort these quotients from SMALLEST to LARGEST.',
+ items:[7,9,8,6],order:'asc'},
+
+{type:'tapall',topic:'Division',q:'Tap all correct division facts.',
+ pool:['63÷9=7','56÷7=8','72÷9=8','49÷7=8','64÷8=8','81÷9=9'],
+ correct:['63÷9=7','56÷7=8','72÷9=8','64÷8=8','81÷9=9']},
+
+{type:'classify',topic:'Division',q:'Sort: dividing by 7 OR dividing by 9.',
+ categories:['Dividing by 7','Dividing by 9'],
+ items:[
+  {val:'56÷7=8',cat:'Dividing by 7'},{val:'63÷9=7',cat:'Dividing by 9'},
+  {val:'49÷7=7',cat:'Dividing by 7'},{val:'81÷9=9',cat:'Dividing by 9'},
+  {val:'63÷7=9',cat:'Dividing by 7'},{val:'72÷9=8',cat:'Dividing by 9'}
+]}
+],
+
+// ── Pro Set 3: Missing dividend / divisor ─────────────────────
+[
+{type:'fillin',topic:'Missing Number',q:'Find the missing number:',
+ expr:'___ ÷ 9 = 7',
+ o:['63','56','72','49'],a:0},
+
+{type:'fillin',topic:'Missing Number',q:'Find the missing divisor:',
+ expr:'72 ÷ ___ = 8',
+ o:['9','8','7','6'],a:0},
+
+{type:'match',topic:'Missing Number',q:'Match each equation to its missing number.',
+ pairs:[
+  {l:'___ ÷ 7 = 8', r:'56'},
+  {l:'81 ÷ ___ = 9', r:'9'},
+  {l:'___ ÷ 6 = 9', r:'54'},
+  {l:'64 ÷ ___ = 8', r:'8'}
+]},
+
+{type:'enterval',topic:'Missing Number',q:'Find the missing number: ___ ÷ 8 = 7.',
+ answer:'56'},
+
+{type:'mcq',topic:'Missing Number',q:'If ___ ÷ 6 = 8, the missing number is:',
+ o:['48','54','42','56'],a:0},
+
+{type:'tf',topic:'Missing Number',q:'If 63 ÷ ___ = 9, the missing divisor is 7. True or False?',answer:true},
+
+{type:'tapall',topic:'Missing Number',q:'Tap all equations where the missing number is 9.',
+ pool:['___÷7=63','81÷___=9','___÷9=81','72÷___=8','___÷6=54','45÷___=5'],
+ correct:['81÷___=9','72÷___=8','45÷___=5']},
+
+{type:'fillintext',topic:'Fact Families',q:'Complete using the fact family.',
+ template:'9 × 8 = 72. So 72 ÷ 9 = ___ and 72 ÷ 8 = ___.',
+ blanks:['8','9']},
+
+{type:'sort',topic:'Missing Number',q:'Sort these missing numbers from SMALLEST to LARGEST.',
+ items:[56,63,54,72],order:'asc'},
+
+{type:'mcq',topic:'Missing Number',q:'A number divided by 8 gives 7. What is the number?',
+ o:['56','48','64','63'],a:0}
+],
+
+// ── Pro Set 4: Word problems (multi-step & remainders context)
+[
+{type:'mcq',topic:'Word Problems',q:'72 students are arranged in 9 equal rows. How many in each row?',
+ o:['8','7','9','6'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve this word problem.',
+ template:'63 oranges are packed in bags of 7. There are ___ bags.',
+ blanks:['9']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'56 books in 7 equal shelves',  r:'8'},
+  {l:'81 students in 9 equal teams', r:'9'},
+  {l:'64 eggs in 8 equal trays',     r:'8'},
+  {l:'54 chairs in 6 equal rows',    r:'9'}
+]},
+
+{type:'mcq',topic:'Multiplication Link',q:'If 8 × 9 = 72, what is 72 ÷ 9?',
+ o:['8','7','9','6'],a:0},
+
+{type:'enterval',topic:'Word Problems',q:'A bakery makes 63 muffins and packs 9 per box. How many boxes?',
+ answer:'7'},
+
+{type:'tf',topic:'Word Problems',q:'48 ÷ 6 = 8. If 48 children stand in 6 equal lines, each line has 8. True or False?',answer:true},
+
+{type:'sort',topic:'Word Problems',q:'Sort these quotients from SMALLEST to LARGEST.',
+ items:[7,9,8,6],order:'asc'},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct divisions.',
+ pool:['56÷7=8','81÷9=9','64÷8=8','54÷6=8','72÷9=8','63÷7=9'],
+ correct:['56÷7=8','81÷9=9','64÷8=8','72÷9=8','63÷7=9']},
+
+{type:'classify',topic:'Word Problems',q:'Sort: quotient is 8 OR quotient is 9.',
+ categories:['Quotient is 8','Quotient is 9'],
+ items:[
+  {val:'56÷7=8',cat:'Quotient is 8'},{val:'81÷9=9',cat:'Quotient is 9'},
+  {val:'64÷8=8',cat:'Quotient is 8'},{val:'63÷7=9',cat:'Quotient is 9'},
+  {val:'72÷9=8',cat:'Quotient is 8'},{val:'54÷6=9',cat:'Quotient is 9'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A ribbon of 72 cm is cut into pieces of 8 cm each. How many pieces?',
+ o:['9','8','7','6'],a:0}
+]
+
+] // end pro
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

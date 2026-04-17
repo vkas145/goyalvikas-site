@@ -3,250 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ch 1: Numbers & Numeration • Vivaan's Quiz</title>
+<title>Ch 1: Numbers &amp; Numeration • Vivaan's Quiz</title>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0f0c29;--accent:#f7c948;--green:#22d67a;--red:#ff5e5e;--blue:#4fc3f7;--purple:#b39ddb;--card:rgba(255,255,255,.06)}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(1px 1px at 12% 20%,rgba(255,255,255,.6) 0%,transparent 100%),radial-gradient(1px 1px at 78% 14%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 44% 68%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 91% 78%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 25% 92%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 60% 40%,rgba(255,255,255,.4) 0%,transparent 100%);pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:14px 14px 90px}
-
-/* Top nav */
-.topnav{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.back-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50px;padding:7px 16px;font-size:13px;font-weight:700;color:#b0aed0;cursor:pointer;font-family:'Nunito',sans-serif;text-decoration:none;transition:all .2s}
-.back-btn:hover{background:rgba(247,201,72,.15);color:var(--accent)}
-.topnav-title{font-size:14px;font-weight:800;color:var(--accent);flex:1;text-align:center}
-.timer-pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50px;padding:6px 14px;font-size:13px;font-weight:900;color:var(--accent)}
-
-/* Level toggle */
-.level-row{display:flex;justify-content:center;gap:0;margin-bottom:14px}
-.level-toggle{display:flex;border:2px solid rgba(255,255,255,.12);border-radius:50px;overflow:hidden}
-.lvl-btn{padding:8px 22px;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;color:#b0aed0;font-family:'Nunito',sans-serif;background:rgba(255,255,255,.05);border:none}
-.lvl-btn.beg.active{background:var(--blue);color:#0f0c29}
-.lvl-btn.pro.active{background:var(--red);color:#fff}
-
-/* Set pills */
-.set-row{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
-.set-pill{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);border-radius:50px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;color:#b0aed0;font-family:'Nunito',sans-serif;transition:all .2s}
-.set-pill.active{background:var(--accent);border-color:var(--accent);color:#0f0c29}
-.set-pill.done{border-color:var(--green);color:var(--green);background:rgba(34,214,122,.1)}
-.set-pill.done.active{background:var(--green);color:#0f0c29}
-
-/* Layout */
-.quiz-layout{display:flex;gap:12px;align-items:flex-start}
-.sidebar{flex-shrink:0;width:40px;display:flex;flex-direction:column;gap:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:9px 4px}
-.qb{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:rgba(255,255,255,.3);transition:all .3s}
-.qb.cur{border-color:var(--accent);color:var(--accent);background:rgba(247,201,72,.12);animation:qpulse 1.2s infinite}
-.qb.ok{background:rgba(34,214,122,.2);border-color:var(--green);color:var(--green)}
-.qb.no{background:rgba(255,94,94,.2);border-color:var(--red);color:var(--red)}
-@keyframes qpulse{0%,100%{box-shadow:0 0 0 0 rgba(247,201,72,.4)}50%{box-shadow:0 0 0 5px rgba(247,201,72,0)}}
-
-/* Quiz card */
-.qcard{flex:1;min-width:0;background:var(--card);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:20px 16px}
-.card-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:6px}
-.topic-tag{background:rgba(179,157,219,.2);border:1px solid rgba(179,157,219,.35);border-radius:50px;padding:3px 10px;font-size:10px;font-weight:800;color:var(--purple);text-transform:uppercase;letter-spacing:.6px}
-.score-badge{background:rgba(34,214,122,.12);border:1px solid rgba(34,214,122,.3);border-radius:50px;padding:4px 12px;font-size:12px;font-weight:800;color:var(--green)}
-.pbar-wrap{background:rgba(255,255,255,.08);border-radius:50px;height:6px;margin-bottom:16px;overflow:hidden}
-.pbar{height:100%;background:linear-gradient(90deg,var(--accent),#ff9f43);border-radius:50px;transition:width .4s}
-.qnum{font-size:10px;font-weight:700;color:#8884b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
-.qtext{font-size:clamp(15px,3.2vw,20px);font-weight:800;line-height:1.5;margin-bottom:16px;min-height:48px}
-
-/* ── INTERACTION AREAS ─────────────────────────────── */
-/* MCQ */
-.mcq-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
-.mcq-btn{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.15);border-radius:14px;padding:13px 9px;font-size:14px;font-weight:800;color:#fff;cursor:pointer;transition:all .2s;text-align:center;font-family:'Nunito',sans-serif;line-height:1.35}
-.mcq-btn:hover:not(:disabled){background:rgba(247,201,72,.15);border-color:var(--accent);transform:scale(1.03)}
-.mcq-btn.correct{background:rgba(34,214,122,.25);border-color:var(--green);color:var(--green)}
-.mcq-btn.wrong{background:rgba(255,94,94,.2);border-color:var(--red);color:var(--red)}
-.mcq-btn:disabled{cursor:not-allowed}
-
-/* True / False */
-.tf-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.tf-btn{border:3px solid;border-radius:18px;padding:22px 10px;font-size:22px;font-weight:900;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;display:flex;flex-direction:column;align-items:center;gap:4px}
-.tf-btn.true-btn{background:rgba(34,214,122,.1);border-color:rgba(34,214,122,.4);color:var(--green)}
-.tf-btn.false-btn{background:rgba(255,94,94,.1);border-color:rgba(255,94,94,.4);color:var(--red)}
-.tf-btn:hover:not(:disabled){transform:scale(1.04)}
-.tf-btn.selected-t{background:rgba(34,214,122,.35);border-color:var(--green)}
-.tf-btn.selected-f{background:rgba(255,94,94,.35);border-color:var(--red)}
-.tf-btn.result-correct{background:rgba(34,214,122,.4);border-color:var(--green);box-shadow:0 0 16px rgba(34,214,122,.4)}
-.tf-btn.result-wrong{background:rgba(255,94,94,.3);border-color:var(--red)}
-.tf-btn:disabled{cursor:not-allowed}
-.tf-sub{font-size:12px;font-weight:700;opacity:.7}
-
-/* Tap All */
-.tapall-wrap{margin-bottom:12px}
-.tapall-hint{font-size:12px;color:#8884b0;margin-bottom:8px;font-weight:600}
-.tapall-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.ta-btn{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);border-radius:12px;padding:10px 16px;font-size:16px;font-weight:800;cursor:pointer;color:#fff;font-family:'Nunito',sans-serif;transition:all .2s;min-width:56px;text-align:center}
-.ta-btn.sel{background:rgba(247,201,72,.25);border-color:var(--accent);color:var(--accent);transform:scale(1.06)}
-.ta-btn.correct{background:rgba(34,214,122,.3);border-color:var(--green);color:var(--green)}
-.ta-btn.missed{background:rgba(255,165,0,.2);border-color:orange;color:orange}
-.ta-btn.wrong{background:rgba(255,94,94,.2);border-color:var(--red);color:var(--red)}
-.ta-btn:disabled{cursor:not-allowed}
-.check-btn{width:100%;padding:11px;background:rgba(247,201,72,.15);border:2px solid var(--accent);color:var(--accent);font-size:14px;font-weight:900;border-radius:12px;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
-.check-btn:hover:not(:disabled){background:var(--accent);color:#0f0c29}
-.check-btn:disabled{opacity:.5;cursor:not-allowed}
-
-/* Sort */
-.sort-wrap{margin-bottom:12px}
-.sort-instruction{font-size:12px;color:#8884b0;font-weight:700;margin-bottom:8px;text-align:center}
-.sort-slots{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
-.sort-slot{width:60px;height:50px;border:2px dashed rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:rgba(255,255,255,.3);background:rgba(255,255,255,.04);transition:all .3s;position:relative}
-.sort-slot .slot-num{position:absolute;top:2px;left:5px;font-size:9px;color:rgba(255,255,255,.3)}
-.sort-slot.filled{border-style:solid;border-color:var(--accent);color:var(--accent);background:rgba(247,201,72,.1)}
-.sort-slot.correct{border-color:var(--green);color:var(--green);background:rgba(34,214,122,.15)}
-.sort-slot.wrong{border-color:var(--red);color:var(--red);background:rgba(255,94,94,.1)}
-.sort-tiles{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
-.sort-tile{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.2);border-radius:12px;padding:10px 14px;font-size:15px;font-weight:800;cursor:pointer;color:#fff;font-family:'Nunito',sans-serif;transition:all .2s;min-width:56px;text-align:center}
-.sort-tile:hover:not(:disabled){background:rgba(247,201,72,.15);border-color:var(--accent)}
-.sort-tile.used{opacity:.3;cursor:not-allowed}
-.sort-tile:disabled{cursor:not-allowed}
-
-/* Fill Blank */
-.fillin-wrap{margin-bottom:12px}
-.fillin-expr{font-size:clamp(18px,4vw,26px);font-weight:900;text-align:center;padding:16px;background:rgba(255,255,255,.06);border-radius:14px;margin-bottom:12px;letter-spacing:1px}
-.fillin-blank{display:inline-block;border-bottom:3px solid var(--accent);min-width:60px;color:var(--accent);font-size:clamp(18px,4vw,26px)}
-.fillin-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.fi-btn{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.15);border-radius:12px;padding:12px;font-size:16px;font-weight:800;color:#fff;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;text-align:center}
-.fi-btn:hover:not(:disabled){background:rgba(247,201,72,.15);border-color:var(--accent);transform:scale(1.04)}
-.fi-btn.correct{background:rgba(34,214,122,.25);border-color:var(--green);color:var(--green)}
-.fi-btn.wrong{background:rgba(255,94,94,.2);border-color:var(--red);color:var(--red)}
-.fi-btn:disabled{cursor:not-allowed}
-
-/* Abacus */
-.abacus-frame{background:linear-gradient(135deg,#1a0e3a,#0e0828);border:3px solid #6B3A2A;border-radius:14px;padding:16px 24px;display:flex;justify-content:center;gap:28px;margin-bottom:14px;position:relative}
-.abacus-frame::before,.abacus-frame::after{content:'';position:absolute;left:12px;right:12px;height:4px;background:#6B3A2A;border-radius:2px}
-.abacus-frame::before{top:22px}
-.abacus-frame::after{bottom:38px}
-.ab-rod-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
-.ab-rod-bar{position:absolute;top:0;bottom:24px;width:4px;background:rgba(255,255,255,.25);border-radius:2px}
-.ab-bead{width:30px;height:30px;border-radius:50%;position:relative;z-index:2;transition:all .2s;flex-shrink:0}
-.ab-bead.H.on{background:radial-gradient(circle at 35% 35%,#ffe97a,#e6b800);box-shadow:0 2px 8px rgba(247,201,72,.5)}
-.ab-bead.T.on{background:radial-gradient(circle at 35% 35%,#7ad8ff,#2196F3);box-shadow:0 2px 8px rgba(79,195,247,.5)}
-.ab-bead.O.on{background:radial-gradient(circle at 35% 35%,#6fffc0,#16a86a);box-shadow:0 2px 8px rgba(34,214,122,.5)}
-.ab-bead.off{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
-.ab-rod-label{font-size:11px;font-weight:800;color:#8884b0;text-transform:uppercase;margin-top:5px;position:relative;z-index:2}
-
-/* Type answer */
-.typeans-wrap{margin-bottom:12px}
-.type-display{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.15);border-radius:14px;padding:16px;text-align:center;font-size:28px;font-weight:900;color:var(--accent);min-height:64px;letter-spacing:4px;margin-bottom:10px;transition:border-color .2s}
-.type-display.has-val{border-color:rgba(247,201,72,.4)}
-.numpad{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px}
-.np-btn{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 6px;font-size:18px;font-weight:800;cursor:pointer;color:#fff;font-family:'Nunito',sans-serif;transition:all .15s;text-align:center}
-.np-btn:hover:not(:disabled){background:rgba(247,201,72,.2);border-color:var(--accent);color:var(--accent)}
-.np-btn.clr{color:var(--red);border-color:rgba(255,94,94,.3)}
-.np-btn.back{color:#8884b0}
-.np-btn.go{background:linear-gradient(135deg,var(--accent),#ff9f43);color:#0f0c29;border-color:var(--accent)}
-.np-btn.go:hover{transform:scale(1.03)}
-.np-btn:disabled{opacity:.4;cursor:not-allowed}
-
-/* Character */
-.char-panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.char-emo{font-size:44px;transition:transform .3s;line-height:1}
-.char-emo.pop{animation:pop .4s ease}
-.char-emo.shake{animation:shake .5s ease}
-@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.35)}100%{transform:scale(1)}}
-@keyframes shake{0%,100%{transform:translateX(0)}25%,75%{transform:translateX(-6px)}50%{transform:translateX(6px)}}
-.char-text .cname{font-size:10px;font-weight:700;color:#8884b0;text-transform:uppercase;letter-spacing:.7px}
-.char-text .cmood{font-size:15px;font-weight:900;margin:2px 0}
-.char-text .cmsg{font-size:11px;color:#b0aed0;font-weight:600}
-.neutral{color:#b0aed0}.ok-mood{color:var(--green)}.no-mood{color:var(--red)}
-
-/* Feedback */
-.feedback{text-align:center;font-size:15px;font-weight:900;padding:9px 14px;border-radius:12px;margin-bottom:10px;display:none}
-.feedback.show{display:block;animation:popIn .3s}
-@keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
-.feedback.ok{background:rgba(34,214,122,.15);color:var(--green)}
-.feedback.no{background:rgba(255,94,94,.1);color:var(--red)}
-
-/* Next btn */
-.next-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),#ff9f43);color:#0f0c29;font-size:15px;font-weight:900;border:none;border-radius:14px;cursor:pointer;font-family:'Nunito',sans-serif;display:none;transition:transform .15s}
-.next-btn.show{display:block;animation:popIn .3s}
-.next-btn:hover{transform:translateY(-2px)}
-
-/* Result */
-.result-screen{display:none;text-align:center;padding:8px 0}
-.result-screen.show{display:block;animation:popIn .4s}
-.res-char{font-size:58px;display:block;animation:bounce 1s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.res-score{font-size:44px;font-weight:900;color:var(--accent);line-height:1}
-.res-stars{font-size:26px;letter-spacing:4px;margin:8px 0}
-.res-msg{font-size:15px;font-weight:700;margin-bottom:4px}
-.res-time{font-size:11px;color:#8884b0;margin-bottom:16px}
-.res-btns{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
-.res-btn{border:none;border-radius:12px;padding:11px 22px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif}
-.res-btn.retry{background:linear-gradient(135deg,var(--blue),#7986cb);color:#fff}
-.res-btn.next{background:linear-gradient(135deg,var(--green),#00b09b);color:#fff}
-
-/* Floating scoreboard */
-.fab{position:fixed;bottom:20px;right:20px;z-index:100;background:linear-gradient(135deg,var(--accent),#ff9f43);color:#0f0c29;border:none;border-radius:50px;padding:10px 17px;font-size:13px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 18px rgba(247,201,72,.4);display:flex;align-items:center;gap:6px}
-
-/* Modal */
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
-.modal-ov.show{display:flex}
-.modal-box{background:#1a1740;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:20px 16px;width:100%;max-width:460px;max-height:80vh;overflow-y:auto;position:relative}
-.modal-close{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:50%;width:28px;height:28px;font-size:14px;cursor:pointer;font-family:'Nunito',sans-serif}
-.modal-title{font-size:18px;font-weight:900;color:var(--accent);margin-bottom:12px}
-.modal-lvl-row{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}
-.mf-btn{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:50px;padding:5px 13px;font-size:11px;font-weight:700;cursor:pointer;color:#b0aed0;font-family:'Nunito',sans-serif;transition:all .2s}
-.mf-btn.active{background:var(--accent);border-color:var(--accent);color:#0f0c29}
-.score-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:9px 13px;margin-bottom:7px}
-.sr-lbl{font-size:12px;color:#fff;font-weight:700}.sr-sub{font-size:10px;color:#8884b0}
-.sr-score{font-size:17px;font-weight:900;color:var(--accent)}.sr-stars{font-size:12px}
-.score-row.perfect .sr-score{color:var(--green)}
-.empty-msg{font-size:12px;color:#8884b0;text-align:center;padding:18px}
-
-#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999}
-
-@media(max-width:540px){
-  .quiz-layout{flex-direction:column}
-  .sidebar{width:100%;flex-direction:row;flex-wrap:wrap;padding:7px;gap:4px;justify-content:center}
-  .qb{width:28px;height:28px;font-size:9px}
-  .mcq-grid{grid-template-columns:1fr 1fr}
-  .qcard{padding:14px 12px}
-  .tf-btn{padding:16px 8px;font-size:18px}
-}
-</style>
+<link rel="stylesheet" href="quiz-styles.css">
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <canvas id="confetti-canvas"></canvas>
 
 <div class="wrap">
-
-  <!-- Top nav -->
   <div class="topnav">
     <a href="./index.html" class="back-btn">← Hub</a>
-    <div class="topnav-title">Ch 1: Numbers &amp; Numeration</div>
+    <div class="topnav-title" id="navTitle"></div>
     <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
   </div>
-
-  <!-- Level toggle -->
   <div class="level-row">
     <div class="level-toggle">
       <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
       <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
     </div>
   </div>
-
-  <!-- Set pills -->
   <div class="set-row" id="setRow"></div>
-
-  <!-- Layout -->
   <div class="quiz-layout">
     <div class="sidebar" id="sidebar"></div>
-
     <div style="flex:1;min-width:0">
       <div class="qcard" id="qcard">
         <div class="card-meta">
           <span class="topic-tag" id="topicTag">Topic</span>
-          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">12</span></span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
         </div>
         <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
-
         <div id="quizBody">
           <div class="qnum" id="qnum">Question 1</div>
           <div class="qtext" id="qtext"></div>
@@ -262,11 +50,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(1px 1p
           <div class="feedback" id="feedback"></div>
           <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
         </div>
-
         <div class="result-screen" id="resultScreen">
           <span class="res-char" id="resChar"></span>
           <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
-          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">12</span></span></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
           <div class="res-stars" id="resStars"></div>
           <div class="res-msg" id="resMsg"></div>
           <div class="res-time" id="resTime"></div>
@@ -281,7 +68,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(1px 1p
 </div>
 
 <button class="fab" onclick="openModal()">🏆 Scores</button>
-
 <div class="modal-ov" id="modalOv">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
@@ -291,105 +77,101 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(1px 1p
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER DATA — Numbers & Numeration
+     ═══════════════════════════════════════════════════════════ -->
 <script>
-// ══════════════════════════════════════════════════════════════
-// QUESTION DATA
-// Types: mcq | tf | tapall | sort | fillin | abacus | typeans
-//
-// mcq:     { type,topic,q, o:[4 opts], a:0 }          — o[0]=correct, shuffled
-// tf:      { type,topic,q, answer:true/false }
-// tapall:  { type,topic,q, pool:[vals], correct:[vals] }
-// sort:    { type,topic,q, items:[nums], order:'asc'|'desc' }
-// fillin:  { type,topic,q, expr:'___ + 70 = 370',     — ___ is blank in expr
-//            o:[4 opts], a:0 }                         — o[0]=correct, shuffled
-// abacus:  { type,topic,q, h,t,o_val,
-//            opts:[4 opts], a:0 }                      — visual abacus + MCQ
-// typeans: { type,topic,q, answer:'string' }           — numpad input
-// ══════════════════════════════════════════════════════════════
+const CHAPTER = {key:'ch1', title:'Ch 1: Numbers & Numeration'};
 
 const SETS = {
 beginner: [
 
-// ── Set 1: Number Names · H/T/O · Abacus · Expansion ────────────────
+// ── Beginner Set 1: Number Names & Place Values ───────────────
 [
-{type:'mcq',topic:'Number Names',q:'What is the number name for 235?',
- o:['Two hundred and thirty-five','Two hundred and fifty-three','Twenty-three five','Two hundred fifty'],a:0},
+{type:'match',topic:'Number Names',q:'Match each number to its number name.',
+ pairs:[
+  {l:'100', r:'One hundred'},
+  {l:'235', r:'Two hundred thirty-five'},
+  {l:'450', r:'Four hundred fifty'},
+  {l:'308', r:'Three hundred and eight'}
+]},
 
-{type:'typeans',topic:'Number Names',q:"Write in digits: 'Four hundred and twelve'",answer:'412'},
-
-{type:'mcq',topic:'Hundreds Tens Ones',q:'In 367, the digit in the HUNDREDS place is?',
+{type:'mcq',topic:'Hundreds Tens Ones',q:'In 367, which digit is in the HUNDREDS place?',
  o:['3','6','7','36'],a:0},
 
-{type:'tf',topic:'Hundreds Tens Ones',q:'The digit 4 in 845 is in the TENS place. ✅ or ❌?',answer:true},
+{type:'tf',topic:'Hundreds Tens Ones',q:'In 845, the digit 4 is in the TENS place. True or False?',answer:true},
 
-{type:'abacus',topic:'Abacus',q:'What number does this abacus show?',
+{type:'abacus',topic:'Abacus',q:'Look at the abacus. What number does it show?',
  h:2,t:5,o_val:1,opts:['251','215','512','125'],a:0},
 
-{type:'fillin',topic:'Expansion',q:'Complete the expansion:',
+{type:'fillin',topic:'Expansion',q:'Fill in the missing number:',
  expr:'___ + 50 + 6 = 356',
  o:['300','30','3','3000'],a:0},
 
-{type:'mcq',topic:'Expansion',q:'Expand 472 correctly:',
+{type:'mcq',topic:'Expansion',q:'Which is the correct expansion of 472?',
  o:['400 + 70 + 2','40 + 7 + 2','400 + 7 + 2','4 + 7 + 2'],a:0},
 
-{type:'mcq',topic:'Place Value',q:'Place value of 6 in 563 is?',
- o:['60','6','600','56'],a:0},
+{type:'enterval',topic:'Place Value',q:'What is 4 Hundreds + 1 Ten + 2 Ones? Type the number.',
+ answer:'412',hint:'H = hundreds, T = tens, O = ones'},
 
-{type:'tapall',topic:'Hundreds Tens Ones',q:'Tap ALL numbers where 5 is in the HUNDREDS place 🎯',
+{type:'tapall',topic:'Hundreds Tens Ones',q:'Tap ALL numbers where the digit 5 is in the HUNDREDS place.',
  pool:[512,345,567,851,500,152,543,259],correct:[512,567,500,543]},
 
-{type:'sort',topic:'Ascending Order',q:'Tap the numbers from SMALLEST to LARGEST ⬆',
+{type:'sort',topic:'Ascending Order',q:'Tap the numbers from SMALLEST to LARGEST.',
  items:[301,103,130],order:'asc'},
-
-{type:'tf',topic:'Expansion',q:'500 + 40 + 9 = 459. True or False?',answer:false},
 
 {type:'typeans',topic:'Number Names',q:"Write in digits: 'Seven hundred and nine'",answer:'709'}
 ],
 
-// ── Set 2: Comparison · Ordering · Odd & Even ────────────────────────
+// ── Beginner Set 2: Odd & Even · Ordering ─────────────────────
 [
+{type:'classify',topic:'Odd & Even',q:'Sort each number into the correct group.',
+ categories:['ODD','EVEN'],
+ items:[
+  {val:'13',cat:'ODD'},{val:'44',cat:'EVEN'},
+  {val:'27',cat:'ODD'},{val:'88',cat:'EVEN'},
+  {val:'55',cat:'ODD'},{val:'32',cat:'EVEN'}
+]},
+
 {type:'mcq',topic:'Comparison',q:'Which is GREATER: 234 or 243?',
  o:['243','234','Both equal','Cannot tell'],a:0},
 
-{type:'mcq',topic:'Comparison',q:'Which is SMALLER: 652 or 625?',
- o:['625','652','Both equal','Cannot tell'],a:0},
-
 {type:'tf',topic:'Comparison',q:'400 is GREATER than 399. True or False?',answer:true},
 
-{type:'sort',topic:'Descending Order',q:'Tap from LARGEST to SMALLEST ⬇',
+{type:'sort',topic:'Descending Order',q:'Tap from LARGEST to SMALLEST.',
  items:[542,524,425],order:'desc'},
 
-{type:'tapall',topic:'Odd & Even',q:'Tap ALL the ODD numbers! 🎯',
- pool:[46,73,100,35,82,51,24,67],correct:[73,35,51,67]},
-
-{type:'tf',topic:'Odd & Even',q:'46 is an ODD number. True or False?',answer:false},
+{type:'fillintext',topic:'Before After Between',q:'Fill in the missing numbers.',
+ template:'The number just BEFORE 301 is ___. The number just AFTER 301 is ___.',
+ blanks:['300','302']},
 
 {type:'mcq',topic:'Odd & Even',q:'Is 100 an odd or even number?',
  o:['Even','Odd','Both','Neither'],a:0},
 
-{type:'tapall',topic:'Odd & Even',q:'Tap ALL the EVEN numbers! 🎯',
+{type:'tapall',topic:'Odd & Even',q:'Tap ALL the EVEN numbers!',
  pool:[33,55,72,91,84,47,60,13],correct:[72,84,60]},
 
-{type:'fillin',topic:'Before After Between',q:'Fill in the missing number:',
- expr:'219 → ___ → 221',
- o:['220','218','222','219'],a:0},
+{type:'enterval',topic:'Comparison',q:'What is 10 LESS than 350? Type the number.',
+ answer:'340'},
 
-{type:'mcq',topic:'Number Names',q:"Write in digits: 'Eight hundred and fifty'",
- o:['850','805','580','508'],a:0},
-
-{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST ⬆',
- items:[312,123,231,213],order:'asc'},
+{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST.',
+ items:[312,123,231],order:'asc'},
 
 {type:'tf',topic:'Odd & Even',q:'387 is an EVEN number. True or False?',answer:false}
 ],
 
-// ── Set 3: Before/After/Between · Place Value · Abacus ───────────────
+// ── Beginner Set 3: Before / After / Abacus / Place Value ─────
 [
+{type:'match',topic:'Expansion',q:'Match each number to its expanded form.',
+ pairs:[
+  {l:'345', r:'300 + 40 + 5'},
+  {l:'208', r:'200 + 0 + 8'},
+  {l:'730', r:'700 + 30 + 0'},
+  {l:'416', r:'400 + 10 + 6'}
+]},
+
 {type:'mcq',topic:'Before After Between',q:'What number comes BEFORE 301?',
  o:['300','302','299','310'],a:0},
-
-{type:'mcq',topic:'Before After Between',q:'What number comes AFTER 498?',
- o:['499','497','500','489'],a:0},
 
 {type:'abacus',topic:'Abacus',q:'What number does this abacus show?',
  h:6,t:0,o_val:0,opts:['600','60','6','660'],a:0},
@@ -397,36 +179,34 @@ beginner: [
 {type:'abacus',topic:'Abacus',q:'What number does this abacus show?',
  h:4,t:0,o_val:7,opts:['407','470','47','740'],a:0},
 
-{type:'mcq',topic:'Place Value',q:'Place value of 5 in 507 is?',
+{type:'mcq',topic:'Place Value',q:'What is the place value of 5 in 507?',
  o:['500','5','50','570'],a:0},
 
-{type:'mcq',topic:'Place Value',q:'Place value of 9 in 296 is?',
- o:['90','9','900','29'],a:0},
-
-{type:'fillin',topic:'Expansion',q:'Find the missing part:',
+{type:'fillin',topic:'Expansion',q:'Find the missing number:',
  expr:'400 + 0 + ___ = 408',
  o:['8','80','800','18'],a:0},
 
 {type:'tf',topic:'Expansion',q:'700 + 20 + 0 = 702. True or False?',answer:false},
 
-{type:'mcq',topic:'Before After Between',q:'Which number comes BETWEEN 500 and 502?',
- o:['501','503','499','500'],a:0},
-
-{type:'tapall',topic:'Place Value',q:'Tap ALL numbers where 5 is in the ONES place 🎯',
+{type:'tapall',topic:'Place Value',q:'Tap ALL numbers where 5 is in the ONES place.',
  pool:[255,315,500,145,524,375,510,653],correct:[255,315,145,375]},
 
-{type:'sort',topic:'Descending Order',q:'Tap from LARGEST to SMALLEST ⬇',
- items:[234,432,342],order:'desc'},
+{type:'enterval',topic:'Before After Between',q:'What number comes between 499 and 501? Type it.',
+ answer:'500'},
 
 {type:'tf',topic:'Place Value',q:'The place value of 0 is always 0, wherever it appears. True or False?',answer:true}
 ],
 
-// ── Set 4: Mixed Review ──────────────────────────────────────────────
+// ── Beginner Set 4: Mixed Review ──────────────────────────────
 [
+{type:'fillintext',topic:'Hundreds Tens Ones',q:'Break this number into hundreds, tens and ones.',
+ template:'The number 456 has ___ hundreds, ___ tens and ___ ones.',
+ blanks:['4','5','6']},
+
 {type:'mcq',topic:'Hundreds Tens Ones',q:'In 748, which digit is in the TENS place?',
  o:['4','7','8','14'],a:0},
 
-{type:'fillin',topic:'Expansion',q:'Find the missing value:',
+{type:'fillin',topic:'Expansion',q:'Find the missing number:',
  expr:'200 + ___ + 1 = 231',
  o:['30','3','300','31'],a:0},
 
@@ -436,70 +216,78 @@ beginner: [
 {type:'mcq',topic:'Comparison',q:'Which is the LARGEST: 456, 654 or 546?',
  o:['654','546','456','All same'],a:0},
 
-{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST ⬆',
+{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST.',
  items:[312,123,213],order:'asc'},
 
 {type:'typeans',topic:'Number Names',q:"Write in digits: 'Eight hundred'",answer:'800'},
 
-{type:'tf',topic:'Odd & Even',q:'254 is an ODD number. True or False?',answer:false},
+{type:'classify',topic:'Odd & Even',q:'Sort these 3-digit numbers into ODD or EVEN.',
+ categories:['ODD','EVEN'],
+ items:[
+  {val:'341',cat:'ODD'},{val:'522',cat:'EVEN'},
+  {val:'135',cat:'ODD'},{val:'800',cat:'EVEN'},
+  {val:'477',cat:'ODD'},{val:'268',cat:'EVEN'}
+]},
 
-{type:'tf',topic:'Odd & Even',q:'387 is an ODD number. True or False?',answer:true},
+{type:'enterval',topic:'Hundreds Tens Ones',q:'9 Hundreds + 9 Tens + 9 Ones = ? Type the number.',
+ answer:'999'},
 
-{type:'tapall',topic:'Odd & Even',q:'Tap ALL the 3-digit EVEN numbers! 🎯',
- pool:[341,522,135,800,477,268,693,150],correct:[522,800,268,150]},
-
-{type:'fillin',topic:'Hundreds Tens Ones',q:'Complete:',
- expr:'9 H + 9 T + 9 O = ___',
- o:['999','99','9','909'],a:0},
-
-{type:'sort',topic:'Descending Order',q:'Tap from LARGEST to SMALLEST ⬇',
- items:[234,432,342,243],order:'desc'},
-
-{type:'mcq',topic:'Number Names',q:'What is the number name for 800?',
- o:['Eight hundred','Eighty','Eight thousand','Eight hundred zero'],a:0}
+{type:'tapall',topic:'Comparison',q:'Tap ALL numbers that are LESS than 300.',
+ pool:[199,301,150,400,299,100,350,250],correct:[199,150,299,100,250]}
 ]
+
 ], // end beginner
 
 pro: [
 
-// ── Pro Set 1: Face Value vs Place Value ─────────────────────────────
+// ── Pro Set 1: Face Value vs Place Value ──────────────────────
 [
-{type:'mcq',topic:'Place Value',q:'What is the FACE VALUE of 7 in 472?',
- o:['7','70','700','47'],a:0},
+{type:'match',topic:'Place Value',q:'Match each description to its answer.',
+ pairs:[
+  {l:'Place value of 7 in 472',  r:'70'},
+  {l:'Face value of 7 in 472',   r:'7'},
+  {l:'Place value of 9 in 916',  r:'900'},
+  {l:'Place value of 3 in 531',  r:'30'}
+]},
 
-{type:'mcq',topic:'Place Value',q:'What is the PLACE VALUE of 7 in 472?',
- o:['70','7','700','720'],a:0},
+{type:'mcq',topic:'Place Value',q:'Which digit has the SAME face value and place value in 123?',
+ o:['3','1','2','None'],a:0},
 
-{type:'tf',topic:'Place Value',q:'In 328, the face value and place value of digit 2 are the SAME. True or False?',answer:false},
+{type:'tf',topic:'Place Value',q:'In 328, the face value AND place value of digit 2 are the same. True or False?',answer:false},
 
 {type:'mcq',topic:'Place Value',q:'How many TENS make 5 hundreds?',
  o:['50','5','500','100'],a:0},
-
-{type:'mcq',topic:'Place Value',q:'How many ONES are there in 3 tens?',
- o:['30','3','300','10'],a:0},
 
 {type:'fillin',topic:'Place Value',q:'Fill in:',
  expr:'Place value of 4 in 243 = ___',
  o:['40','4','400','240'],a:0},
 
-{type:'mcq',topic:'Place Value',q:'Which digit has the SAME face value and place value in 123?',
- o:['3','1','2','0'],a:0},
-
-{type:'tapall',topic:'Place Value',q:'Tap ALL numbers where the face value and place value of 3 are EQUAL (i.e. 3 is in ONES place) 🎯',
+{type:'tapall',topic:'Place Value',q:'Tap ALL numbers where face value and place value of 3 are EQUAL (3 is in the ones place).',
  pool:[123,300,543,830,963,310,213,700],correct:[123,543,963,213]},
 
-{type:'mcq',topic:'Place Value',q:'The place value of the middle 9 in 999 is?',
+{type:'mcq',topic:'Place Value',q:'The place value of the MIDDLE 9 in 999 is?',
  o:['90','9','900','99'],a:0},
 
 {type:'typeans',topic:'Place Value',q:'Write the PLACE VALUE of 9 in 916:',answer:'900'},
 
-{type:'tf',topic:'Place Value',q:'The sum of all place values of digits in 321 equals 321. True or False?',answer:true},
+{type:'tf',topic:'Place Value',q:'The SUM of all place values of the digits in 321 equals 321. True or False?',answer:true},
 
-{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST ⬆',
- items:[248,824,482,284],order:'asc'}
+{type:'enterval',topic:'Place Value',q:'What is the place value of 8 in 583? Type the answer.',
+ answer:'80'},
+
+{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST.',
+ items:[248,824,482,284],order:'asc'},
+
+{type:'classify',topic:'Place Value',q:'Which place does the digit 5 sit in? Sort these numbers.',
+ categories:['5 in Hundreds','5 in Tens'],
+ items:[
+  {val:'512',cat:'5 in Hundreds'},{val:'357',cat:'5 in Tens'},
+  {val:'500',cat:'5 in Hundreds'},{val:'451',cat:'5 in Tens'},
+  {val:'256',cat:'5 in Hundreds'},{val:'150',cat:'5 in Tens'}
+]}
 ],
 
-// ── Pro Set 2: Tricky Expansion & Abacus Carry-Over ──────────────────
+// ── Pro Set 2: Tricky Expansion & Regrouping ──────────────────
 [
 {type:'fillin',topic:'Expansion',q:'Find the missing part:',
  expr:'___ + 30 + 7 = 537',
@@ -513,34 +301,40 @@ pro: [
  expr:'600 + 70 + ___ = 674',
  o:['4','40','400','14'],a:0},
 
-{type:'mcq',topic:'Expansion',q:'3 hundreds + 12 tens + 5 ones equals?',
+{type:'mcq',topic:'Expansion',q:'3 Hundreds + 12 Tens + 5 Ones equals which number?',
  o:['425','3125','315','435'],a:0},
 
-{type:'mcq',topic:'Abacus',q:'On an abacus: H=4, T=10, O=5.\nAfter regrouping (10 tens = 1 hundred), what number is shown?',
- o:['505','4105','415','455'],a:0},
+{type:'fillintext',topic:'Expansion',q:'Complete both expansions.',
+ template:'300 + 20 + 7 = ___ and 500 + 0 + 4 = ___.',
+ blanks:['327','504']},
 
-{type:'typeans',topic:'Expansion',q:'Calculate: 4 × 100 + 2 × 10 + 8 × 1 = ?',answer:'428'},
+{type:'enterval',topic:'Expansion',q:'Calculate: 4 × 100 + 2 × 10 + 8 × 1 = ?',
+ answer:'428'},
 
 {type:'mcq',topic:'Hundreds Tens Ones',q:'A number has 8 ones, 3 tens, 5 hundreds. What is the number?',
  o:['538','358','835','583'],a:0},
 
 {type:'tf',topic:'Expansion',q:'The expanded form of 708 is: 70 + 8. True or False?',answer:false},
 
-{type:'tapall',topic:'Hundreds Tens Ones',q:'Tap ALL numbers where the HUNDREDS digit equals the ONES digit 🎯',
+{type:'tapall',topic:'Hundreds Tens Ones',q:'Tap ALL numbers where the HUNDREDS digit equals the ONES digit.',
  pool:[121,342,535,240,414,736,363,512],correct:[121,535,414,363]},
 
-{type:'fillin',topic:'Place Value',q:'Fill in:',
- expr:'Sum of place values of 3, 2, 1 in 321 = ___',
- o:['321','123','6','12'],a:0},
-
-{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST ⬆',
+{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST.',
  items:[365,356,653,536],order:'asc'},
 
 {type:'abacus',topic:'Abacus',q:'What number does this abacus show?',
- h:0,t:5,o_val:0,opts:['50','500','5','505'],a:0}
+ h:0,t:5,o_val:0,opts:['50','500','5','505'],a:0},
+
+{type:'classify',topic:'Expansion',q:'Sort these numbers by whether their tens digit is zero.',
+ categories:['Tens digit is 0','Tens digit is not 0'],
+ items:[
+  {val:'305',cat:'Tens digit is 0'},{val:'423',cat:'Tens digit is not 0'},
+  {val:'807',cat:'Tens digit is 0'},{val:'631',cat:'Tens digit is not 0'},
+  {val:'204',cat:'Tens digit is 0'},{val:'158',cat:'Tens digit is not 0'}
+]}
 ],
 
-// ── Pro Set 3: Comparison Patterns & Range Puzzles ───────────────────
+// ── Pro Set 3: Comparison Patterns & Number Formation ─────────
 [
 {type:'mcq',topic:'Comparison',q:'How many 3-digit numbers are there in total?',
  o:['900','100','999','890'],a:0},
@@ -551,37 +345,42 @@ pro: [
 {type:'mcq',topic:'Comparison',q:'What is the LARGEST 3-digit EVEN number?',
  o:['998','999','990','988'],a:0},
 
-{type:'mcq',topic:'Ascending Order',q:'Using digits 1, 2, 3 (each once) — what is the LARGEST 3-digit number?',
+{type:'mcq',topic:'Number Formation',q:'Using digits 1, 2, 3 (each used once) — what is the LARGEST 3-digit number?',
  o:['321','312','231','123'],a:0},
 
-{type:'mcq',topic:'Ascending Order',q:'Using digits 4, 0, 8 (each once, cannot start with 0) — what is the SMALLEST 3-digit number?',
+{type:'mcq',topic:'Number Formation',q:'Using digits 4, 0, 8 (each once, no leading 0) — what is the SMALLEST 3-digit number?',
  o:['408','048','480','804'],a:0},
 
-{type:'typeans',topic:'Odd & Even',q:'How many ODD numbers are between 100 and 110? (not including 100 and 110)',answer:'5'},
+{type:'typeans',topic:'Odd & Even',q:'How many ODD numbers are between 100 and 110? (not including 100 or 110)',answer:'5'},
 
-{type:'tapall',topic:'Before After Between',q:'Tap ALL numbers that are BETWEEN 500 and 510 (not including 500 or 510) 🎯',
+{type:'tapall',topic:'Before After Between',q:'Tap ALL numbers that are BETWEEN 500 and 510 (not including 500 or 510).',
  pool:[498,502,509,515,501,499,507,511],correct:[502,509,501,507]},
 
-{type:'fillin',topic:'Before After Between',q:'Fill in:',
- expr:'100 LESS than 500 = ___',
- o:['400','600','490','501'],a:0},
+{type:'match',topic:'Before After Between',q:'Match each description to the correct number.',
+ pairs:[
+  {l:'100 more than 250', r:'350'},
+  {l:'100 less than 700', r:'600'},
+  {l:'10 more than 390',  r:'400'},
+  {l:'1 less than 600',   r:'599'}
+]},
 
-{type:'mcq',topic:'Before After Between',q:'Counting by 2s from 100: 100, 102, 104... What is the 5th number?',
- o:['108','110','106','112'],a:0},
+{type:'fillintext',topic:'Before After Between',q:'Fill in the blanks.',
+ template:'___ is 100 MORE than 400. ___ is 100 LESS than 400.',
+ blanks:['500','300']},
 
 {type:'tf',topic:'Comparison',q:'321 is greater than 312. True or False?',answer:true},
 
-{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST ⬆ (Hint: 088 = 88)',
+{type:'sort',topic:'Ascending Order',q:'Tap from SMALLEST to LARGEST. (Hint: 088 = 88)',
  items:[808,88,880,800],order:'asc'},
 
 {type:'typeans',topic:'Before After Between',q:'Write the number that comes just BEFORE 100:',answer:'99'}
 ],
 
-// ── Pro Set 4: Word Problems & Construct-a-Number ────────────────────
+// ── Pro Set 4: Word Problems & Puzzles ────────────────────────
 [
-{type:'typeans',topic:'Hundreds Tens Ones',q:'Riya has 3 hundreds, 4 tens and 2 ones worth of stickers. How many stickers?',answer:'342'},
+{type:'typeans',topic:'Hundreds Tens Ones',q:'Riya has 3 hundreds, 4 tens and 2 ones worth of stickers. How many stickers does she have?',answer:'342'},
 
-{type:'mcq',topic:'Hundreds Tens Ones',q:'In a 3-digit number: tens = 5, ones = 3, hundreds = TWICE the ones digit. What is the number?',
+{type:'mcq',topic:'Hundreds Tens Ones',q:'Tens digit = 5, Ones digit = 3, Hundreds digit = TWICE the Ones digit. What is the number?',
  o:['653','563','635','365'],a:0},
 
 {type:'mcq',topic:'Before After Between',q:'I am the number just BEFORE the smallest 3-digit number. What am I?',
@@ -593,429 +392,44 @@ pro: [
 {type:'mcq',topic:'Place Value',q:'The HUNDREDS digit of 762 is added to the ONES digit of 319. What is the sum?',
  o:['16','9','13','10'],a:0},
 
-{type:'mcq',topic:'Place Value',q:'What is the place value of the TENS digit in 583?',
- o:['80','8','800','58'],a:0},
+{type:'fillintext',topic:'Place Value',q:'Identify the digits of this number.',
+ template:'In 742: hundreds = ___, tens = ___, ones = ___, so the number is ___.',
+ blanks:['7','4','2','742']},
 
-{type:'sort',topic:'Descending Order',q:'Tap from LARGEST to SMALLEST ⬇',
- items:[148,481,418],order:'desc'},
-
-{type:'fillin',topic:'Hundreds Tens Ones',q:'I am a number: hundreds = ones + 3, tens = 0, ones = 2. I am:',
- expr:'hundreds = ones + 3\ntens = 0, ones = 2\nI am = ___',
- o:['502','302','320','250'],a:0},
-
-{type:'mcq',topic:'Comparison',q:'Difference between the LARGEST and SMALLEST 3-digit number is?',
+{type:'mcq',topic:'Comparison',q:'The difference between the LARGEST and SMALLEST 3-digit numbers is?',
  o:['899','900','898','1000'],a:0},
 
-{type:'tapall',topic:'Odd & Even',q:'Tap ALL numbers that are BOTH greater than 450 AND less than 460 AND are EVEN 🎯',
+{type:'classify',topic:'Comparison',q:'Sort these numbers: less than 500 OR 500 and above.',
+ categories:['Less than 500','500 or more'],
+ items:[
+  {val:'234',cat:'Less than 500'},{val:'678',cat:'500 or more'},
+  {val:'499',cat:'Less than 500'},{val:'500',cat:'500 or more'},
+  {val:'123',cat:'Less than 500'},{val:'900',cat:'500 or more'}
+]},
+
+{type:'tapall',topic:'Odd & Even',q:'Tap ALL numbers BOTH greater than 450 AND less than 460 AND EVEN.',
  pool:[452,451,458,459,454,461,448,463],correct:[452,458,454]},
 
-{type:'tf',topic:'Ascending Order',q:'Using digits 1, 2, 3 once each: 321 is the largest AND 123 is the smallest possible 3-digit number. True or False?',answer:true},
+{type:'match',topic:'Number Formation',q:'Using the digits shown, match to the correct largest or smallest number.',
+ pairs:[
+  {l:'Largest from: 1,2,3', r:'321'},
+  {l:'Smallest from: 4,0,8', r:'408'},
+  {l:'Largest from: 5,0,9',  r:'950'},
+  {l:'Smallest from: 7,3,1', r:'137'}
+]},
 
-{type:'typeans',topic:'Number Names',q:'How many digits does the number 999 have?',answer:'3'}
+{type:'enterval',topic:'Comparison',q:'What is the SMALLEST 3-digit number? Type it.',
+ answer:'100'},
+
+{type:'tf',topic:'Number Formation',q:'Using digits 1, 2, 3 once each: 321 is the largest AND 123 is the smallest possible 3-digit number. True or False?',answer:true}
 ]
+
 ] // end pro
 }; // end SETS
-
-// ─── Characters ───────────────────────────────────────────────
-const CHARS=[
-  {n:'Paddington',e:'🐻',y:['Paw-some!🐻🎉','Honey-sweet correct!🍯','Un-bear-ably smart!'],x:['Even bears slip!','Shake it off!🐾','Next one — paws crossed!']},
-  {n:'Jerry',e:'🐭',y:['Squeaky genius!🐭','Jerry approves!🧀','Outsmarted everyone!'],x:['Try again!','Even I get chased!🐭','Cheese will come!🧀']},
-  {n:'Tom',e:'🐱',y:['Purr-fect!🐱🎊','Tom impressed!✨','Meow-nificent!'],x:['Hiss! Close one!','Tom says: re-read!','Land on all fours!🐱']},
-  {n:'Masha',e:'👧',y:['YES! 👧🎉','Smart as Masha!','Dance time!💃'],x:["Don't worry!👧",'Try again!','We all slip!']},
-  {n:'Simba',e:'🦁',y:['ROAR! Correct!🦁','Pride Lands cheer!','Remember who you are!🌟'],x:['Hakuna Matata!','Even Simba learns!','Keep going, king!']},
-  {n:'Super Vivaan',e:'🦸',y:['SUPERHERO!🦸⚡','Vivaan saves the day!','BLAZING brain!🌟'],x:['Even heroes have off days!','Power UP!🦸','You got this!⚡']}
-];
-
-// ─── State ────────────────────────────────────────────────────
-let level='beginner', setIdx=0, qIdx=0, score=0, answered=false;
-let results=[], char=null, timerSecs=0, timerInt=null;
-let sortSel=[], tapAllSel=new Set(), typeVal='';
-
-const rand=a=>a[Math.floor(Math.random()*a.length)];
-const shuffle=a=>{const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;};
-const scoreKey=(l,si)=>`vivaan_ch1_${l}_set${si}`;
-const curQ=()=>SETS[level][setIdx][qIdx];
-const totalQ=()=>SETS[level][setIdx].length;
-
-// ─── Timer ────────────────────────────────────────────────────
-function startTimer(){clearInterval(timerInt);timerSecs=0;renderTimer();timerInt=setInterval(()=>{timerSecs++;renderTimer();},1000);}
-function stopTimer(){clearInterval(timerInt);}
-function renderTimer(){const m=Math.floor(timerSecs/60),s=timerSecs%60;document.getElementById('timerDisplay').textContent=`${m}:${s.toString().padStart(2,'0')}`;}
-
-// ─── UI builders ──────────────────────────────────────────────
-function buildSetRow(){
-  const el=document.getElementById('setRow');el.innerHTML='';
-  SETS[level].forEach((_,i)=>{
-    const saved=localStorage.getItem(scoreKey(level,i));
-    const btn=document.createElement('button');
-    btn.className='set-pill'+(i===setIdx?' active':'')+(saved?' done':'');
-    btn.textContent=`Set ${i+1}${saved?' ✓':''}`;
-    btn.onclick=()=>{setIdx=i;buildSetRow();startSet();};
-    el.appendChild(btn);
-  });
-}
-function buildSidebar(){
-  const el=document.getElementById('sidebar');el.innerHTML='';
-  for(let i=0;i<totalQ();i++){
-    const b=document.createElement('div');
-    b.className='qb'+(i===0?' cur':'');b.id=`qb${i}`;b.textContent=i+1;
-    el.appendChild(b);
-  }
-}
-function updateSidebar(){
-  for(let i=0;i<totalQ();i++){
-    const b=document.getElementById(`qb${i}`);if(!b)continue;
-    b.className='qb';
-    if(results[i]==='ok')b.classList.add('ok');
-    else if(results[i]==='no')b.classList.add('no');
-    else if(i===qIdx)b.classList.add('cur');
-  }
-}
-function switchLevel(l){
-  level=l;
-  document.getElementById('btnBeg').classList.toggle('active',l==='beginner');
-  document.getElementById('btnPro').classList.toggle('active',l==='pro');
-  setIdx=0;buildSetRow();startSet();
-}
-
-// ─── Start / render ───────────────────────────────────────────
-function startSet(){
-  qIdx=0;score=0;answered=false;results=new Array(totalQ()).fill(null);
-  char=CHARS[Math.floor(Math.random()*CHARS.length)];
-  document.getElementById('resultScreen').classList.remove('show');
-  document.getElementById('quizBody').style.display='block';
-  document.getElementById('totalQ').textContent=totalQ();
-  document.getElementById('resTotalQ').textContent=totalQ();
-  buildSidebar();renderQ();startTimer();
-  document.getElementById('liveScore').textContent='0';
-  document.getElementById('pbar').style.width='0%';
-  setCharNeutral();
-}
-
-function renderQ(){
-  const q=curQ();answered=false;
-  document.getElementById('topicTag').textContent=q.topic;
-  document.getElementById('qnum').textContent=`Question ${qIdx+1} of ${totalQ()}`;
-  document.getElementById('qtext').textContent=q.q;
-  document.getElementById('feedback').className='feedback';
-  document.getElementById('nextBtn').className='next-btn';
-  updateSidebar();
-  const area=document.getElementById('interactionArea');
-  if(q.type==='mcq')area.innerHTML=renderMCQ(q);
-  else if(q.type==='tf')area.innerHTML=renderTF();
-  else if(q.type==='tapall')area.innerHTML=renderTapAll(q);
-  else if(q.type==='sort')area.innerHTML=renderSort(q);
-  else if(q.type==='fillin')area.innerHTML=renderFillIn(q);
-  else if(q.type==='abacus')area.innerHTML=renderAbacusQ(q);
-  else if(q.type==='typeans')area.innerHTML=renderTypeAns();
-  setCharNeutral();
-}
-
-// ─── MCQ ──────────────────────────────────────────────────────
-function renderMCQ(q){
-  const correct=q.o[q.a];
-  const sh=shuffle(q.o);
-  const ci=sh.indexOf(correct);
-  let h=`<div class="mcq-grid">`;
-  sh.forEach((opt,i)=>{
-    h+=`<button class="mcq-btn" onclick="answerMCQ(this,${i==ci},'${correct.replace(/'/g,"\\'")}',${ci})">${opt}</button>`;
-  });
-  return h+`</div>`;
-}
-function answerMCQ(btn,isOk,correctText,correctIdx){
-  if(answered)return;answered=true;
-  const btns=document.querySelectorAll('.mcq-btn');
-  btns.forEach(b=>b.disabled=true);
-  btns[correctIdx].classList.add('correct');
-  if(isOk){btn.classList.add('correct');finishQ(true);}
-  else{btn.classList.add('wrong');finishQ(false,correctText);}
-}
-
-// ─── TRUE / FALSE ─────────────────────────────────────────────
-function renderTF(){
-  return`<div class="tf-wrap">
-    <button class="tf-btn true-btn" onclick="answerTF(true,this)">✓<span class="tf-sub">TRUE</span></button>
-    <button class="tf-btn false-btn" onclick="answerTF(false,this)">✗<span class="tf-sub">FALSE</span></button>
-  </div>`;
-}
-function answerTF(val,btn){
-  if(answered)return;answered=true;
-  const q=curQ();
-  document.querySelectorAll('.tf-btn').forEach(b=>b.disabled=true);
-  const isOk=val===q.answer;
-  if(isOk){btn.classList.add('result-correct');finishQ(true);}
-  else{
-    btn.classList.add('result-wrong');
-    // highlight correct btn
-    document.querySelectorAll('.tf-btn').forEach(b=>{
-      if((q.answer&&b.classList.contains('true-btn'))||(!q.answer&&b.classList.contains('false-btn')))b.classList.add('result-correct');
-    });
-    finishQ(false,`Correct answer: ${q.answer?'TRUE':'FALSE'}`);
-  }
-}
-
-// ─── TAP ALL ──────────────────────────────────────────────────
-function renderTapAll(q){
-  tapAllSel.clear();
-  const sh=shuffle([...q.pool]);
-  let h=`<div class="tapall-wrap">
-    <div class="tapall-hint">Tap to select • Tap again to deselect</div>
-    <div class="tapall-grid" id="tapGrid">`;
-  sh.forEach(v=>{
-    h+=`<button class="ta-btn" data-val="${v}" onclick="toggleTA(this,${v})">${v}</button>`;
-  });
-  h+=`</div><button class="check-btn" onclick="checkTapAll()">✓ Check My Answer</button></div>`;
-  return h;
-}
-function toggleTA(btn,val){
-  if(answered)return;
-  if(tapAllSel.has(val)){tapAllSel.delete(val);btn.classList.remove('sel');}
-  else{tapAllSel.add(val);btn.classList.add('sel');}
-}
-function checkTapAll(){
-  if(answered)return;answered=true;
-  const q=curQ();
-  document.querySelectorAll('.ta-btn').forEach(b=>b.disabled=true);
-  document.querySelector('.check-btn').disabled=true;
-  const sel=[...tapAllSel];
-  const isOk=q.correct.every(v=>tapAllSel.has(v))&&sel.every(v=>q.correct.includes(v));
-  // colour each button
-  document.querySelectorAll('.ta-btn').forEach(b=>{
-    const v=parseInt(b.dataset.val);
-    if(q.correct.includes(v)&&tapAllSel.has(v))b.classList.add('correct');
-    else if(q.correct.includes(v)&&!tapAllSel.has(v))b.classList.add('missed');
-    else if(!q.correct.includes(v)&&tapAllSel.has(v))b.classList.add('wrong');
-    b.classList.remove('sel');
-  });
-  finishQ(isOk,isOk?null:`Correct: ${q.correct.join(', ')}`);
-}
-
-// ─── SORT ─────────────────────────────────────────────────────
-function renderSort(q){
-  sortSel=[];
-  const sh=shuffle([...q.items]);
-  const n=q.items.length;
-  let h=`<div class="sort-wrap">
-    <div class="sort-instruction">${q.order==='asc'?'⬆ Tap: Smallest → Largest':'⬇ Tap: Largest → Smallest'}</div>
-    <div class="sort-slots" id="sortSlots">`;
-  for(let i=0;i<n;i++)h+=`<div class="sort-slot" id="ss${i}"><span class="slot-num">${i+1}</span>?</div>`;
-  h+=`</div><div class="sort-tiles" id="sortTiles">`;
-  sh.forEach(v=>{h+=`<button class="sort-tile" data-v="${v}" onclick="tapSort(this,${v})">${v}</button>`;});
-  h+=`</div><button class="check-btn" id="sortCheckBtn" style="display:none" onclick="checkSort()">✓ Check Order</button></div>`;
-  return h;
-}
-function tapSort(btn,val){
-  if(answered||btn.disabled)return;
-  sortSel.push(val);btn.classList.add('used');btn.disabled=true;
-  const slot=document.getElementById(`ss${sortSel.length-1}`);
-  slot.textContent=val;slot.classList.add('filled');
-  const q=curQ();
-  if(sortSel.length===q.items.length)document.getElementById('sortCheckBtn').style.display='block';
-}
-function checkSort(){
-  if(answered)return;answered=true;
-  const q=curQ();
-  const correct=[...q.items].sort((a,b)=>q.order==='asc'?a-b:b-a);
-  const isOk=JSON.stringify(sortSel)===JSON.stringify(correct);
-  document.getElementById('sortCheckBtn').disabled=true;
-  q.items.forEach((_,i)=>{
-    const slot=document.getElementById(`ss${i}`);
-    if(!slot)return;
-    slot.classList.remove('filled');
-    slot.classList.add(sortSel[i]===correct[i]?'correct':'wrong');
-  });
-  finishQ(isOk,isOk?null:`Correct order: ${correct.join(' → ')}`);
-}
-
-// ─── FILL IN BLANK ────────────────────────────────────────────
-function renderFillIn(q){
-  const correct=q.o[q.a];
-  const sh=shuffle(q.o);
-  const ci=sh.indexOf(correct);
-  // replace ___ in expr with styled blank
-  const exprHtml=q.expr.replace(/___/g,`<span class="fillin-blank" id="fiBlank">___</span>`);
-  let h=`<div class="fillin-wrap">
-    <div class="fillin-expr">${exprHtml}</div>
-    <div class="fillin-opts">`;
-  sh.forEach((opt,i)=>{
-    h+=`<button class="fi-btn" onclick="answerFillIn(this,${i===ci},'${opt.replace(/'/g,"\\'")}',${ci})">${opt}</button>`;
-  });
-  return h+`</div></div>`;
-}
-function answerFillIn(btn,isOk,val,ci){
-  if(answered)return;answered=true;
-  document.querySelectorAll('.fi-btn').forEach((b,i)=>{b.disabled=true;if(i===ci)b.classList.add('correct');});
-  const blank=document.getElementById('fiBlank');
-  if(blank){blank.textContent=val;blank.style.color=isOk?'var(--green)':'var(--red)';}
-  if(!isOk)btn.classList.add('wrong');
-  finishQ(isOk,isOk?null:`Answer: ${document.querySelectorAll('.fi-btn')[ci].textContent}`);
-}
-
-// ─── ABACUS ───────────────────────────────────────────────────
-function renderAbacusQ(q){
-  const MAX=9;
-  let abHtml=`<div class="abacus-frame">`;
-  [{v:q.h,cls:'H',lbl:'H'},{v:q.t,cls:'T',lbl:'T'},{v:q.o_val,cls:'O',lbl:'O'}].forEach(rod=>{
-    abHtml+=`<div class="ab-rod-wrap"><div class="ab-rod-bar"></div>`;
-    for(let i=0;i<MAX;i++){
-      abHtml+=`<div class="ab-bead ${rod.cls} ${i<rod.v?'on':'off'}"></div>`;
-    }
-    abHtml+=`<div class="ab-rod-label">${rod.lbl}</div></div>`;
-  });
-  abHtml+=`</div>`;
-
-  const correct=q.opts[q.a];
-  const sh=shuffle([...q.opts]);
-  const ci=sh.indexOf(correct);
-  let h=abHtml+`<div class="mcq-grid">`;
-  sh.forEach((opt,i)=>{
-    h+=`<button class="mcq-btn" onclick="answerMCQ(this,${i===ci},'${correct}',${ci})">${opt}</button>`;
-  });
-  return h+`</div>`;
-}
-
-// ─── TYPE ANSWER ──────────────────────────────────────────────
-function renderTypeAns(){
-  typeVal='';
-  return`<div class="typeans-wrap">
-    <div class="type-display" id="typeDisplay">___</div>
-    <div class="numpad">
-      ${'123456789'.split('').map(d=>`<button class="np-btn" onclick="np('${d}')">${d}</button>`).join('')}
-      <button class="np-btn clr" onclick="np('clear')">✗</button>
-      <button class="np-btn" onclick="np('0')">0</button>
-      <button class="np-btn back" onclick="np('back')">⌫</button>
-      <button class="np-btn go" onclick="checkTypeAns()">✓</button>
-    </div>
-  </div>`;
-}
-function np(v){
-  if(answered)return;
-  if(v==='clear'){typeVal='';}
-  else if(v==='back'){typeVal=typeVal.slice(0,-1);}
-  else if(typeVal.length<6){typeVal+=v;}
-  const d=document.getElementById('typeDisplay');
-  if(d){d.textContent=typeVal||'___';d.className='type-display'+(typeVal?' has-val':'');}
-}
-function checkTypeAns(){
-  if(answered||!typeVal)return;answered=true;
-  const q=curQ();
-  const isOk=typeVal.trim()===q.answer.trim();
-  const d=document.getElementById('typeDisplay');
-  if(d)d.style.color=isOk?'var(--green)':'var(--red)';
-  document.querySelectorAll('.np-btn').forEach(b=>b.disabled=true);
-  finishQ(isOk,isOk?null:`Correct answer: ${q.answer}`);
-}
-
-// ─── Finish question ──────────────────────────────────────────
-function finishQ(isOk,hint){
-  if(isOk){score++;results[qIdx]='ok';setCharHappy();}
-  else{results[qIdx]='no';setCharSad();}
-  document.getElementById('liveScore').textContent=score;
-  document.getElementById('pbar').style.width=`${((qIdx+1)/totalQ())*100}%`;
-  updateSidebar();
-  const fb=document.getElementById('feedback');
-  fb.className=`feedback ${isOk?'ok':'no'} show`;
-  fb.textContent=isOk?'✅ Brilliant!':('❌ '+(hint||'Not quite!'));
-  document.getElementById('nextBtn').className='next-btn show';
-}
-
-// ─── Next question ────────────────────────────────────────────
-function nextQ(){
-  if(qIdx<totalQ()-1){qIdx++;renderQ();}
-  else showResult();
-}
-
-// ─── Result ───────────────────────────────────────────────────
-function showResult(){
-  stopTimer();
-  const tq=totalQ();const pct=Math.round((score/tq)*100);
-  const key=scoreKey(level,setIdx);
-  localStorage.setItem(key,JSON.stringify({score,tq,pct,t:timerSecs}));
-  buildSetRow();
-  document.getElementById('quizBody').style.display='none';
-  const rs=document.getElementById('resultScreen');rs.classList.add('show');
-  document.getElementById('resChar').textContent=char.e;
-  document.getElementById('resTrophy').textContent=pct>=90?'🏆':pct>=70?'🥈':'🥉';
-  document.getElementById('resScore').textContent=score;
-  document.getElementById('resStars').textContent=pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':'⭐';
-  const m=Math.floor(timerSecs/60),s=timerSecs%60;
-  document.getElementById('resTime').textContent=`Time: ${m}m ${s}s`;
-  document.getElementById('resMsg').textContent=pct>=90?`GENIUS! ${char.n} is amazed! 🌟`:pct>=70?`Great job! ${char.n} is proud! 🎉`:`Keep practising! ${char.n} believes in you! 💪`;
-  const hasNext=setIdx<SETS[level].length-1;
-  document.getElementById('nextSetBtn').style.display=hasNext?'':'none';
-  if(pct>=90)confetti();
-}
-function retrySet(){document.getElementById('resultScreen').classList.remove('show');document.getElementById('quizBody').style.display='block';startSet();}
-function goNextSet(){setIdx++;buildSetRow();startSet();}
-
-// ─── Character ────────────────────────────────────────────────
-function setCharNeutral(){
-  document.getElementById('charEmo').textContent=char.e;
-  document.getElementById('charEmo').className='char-emo';
-  document.getElementById('charName').textContent=char.n;
-  document.getElementById('charMood').className='cmood neutral';
-  document.getElementById('charMood').textContent='Waiting for your answer...';
-  document.getElementById('charMsg').textContent='Give it your best! 💪';
-}
-function setCharHappy(){
-  document.getElementById('charEmo').className='char-emo pop';
-  document.getElementById('charMood').className='cmood ok-mood';
-  document.getElementById('charMood').textContent='🎉 Amazing!';
-  document.getElementById('charMsg').textContent=rand(char.y);
-}
-function setCharSad(){
-  document.getElementById('charEmo').className='char-emo shake';
-  document.getElementById('charMood').className='cmood no-mood';
-  document.getElementById('charMood').textContent='😔 Oh no...';
-  document.getElementById('charMsg').textContent=rand(char.x);
-}
-
-// ─── Scoreboard Modal ─────────────────────────────────────────
-let modalLevel='beginner';
-function openModal(){
-  modalLevel=level;renderModalFilters();renderModalList();
-  document.getElementById('modalOv').classList.add('show');
-}
-function closeModal(){document.getElementById('modalOv').classList.remove('show');}
-function renderModalFilters(){
-  const el=document.getElementById('modalFilters');el.innerHTML='';
-  ['beginner','pro'].forEach(l=>{
-    const b=document.createElement('button');
-    b.className='mf-btn'+(l===modalLevel?' active':'');
-    b.textContent=l==='beginner'?'⭐ Beginner':'🔥 Pro';
-    b.onclick=()=>{modalLevel=l;renderModalFilters();renderModalList();};
-    el.appendChild(b);
-  });
-}
-function renderModalList(){
-  const el=document.getElementById('modalList');el.innerHTML='';
-  let found=false;
-  SETS[modalLevel].forEach((_,i)=>{
-    const raw=localStorage.getItem(scoreKey(modalLevel,i));
-    if(!raw)return;found=true;
-    const d=JSON.parse(raw);
-    const stars=d.pct>=90?'⭐⭐⭐':d.pct>=70?'⭐⭐':'⭐';
-    const m=Math.floor(d.t/60),s=d.t%60;
-    const row=document.createElement('div');
-    row.className='score-row'+(d.pct>=90?' perfect':'');
-    row.innerHTML=`<div><div class="sr-lbl">Set ${i+1}</div><div class="sr-sub">${m}m ${s}s</div></div><div style="text-align:right"><div class="sr-score">${d.score}/${d.tq}</div><div class="sr-stars">${stars}</div></div>`;
-    el.appendChild(row);
-  });
-  if(!found)el.innerHTML='<div class="empty-msg">No scores yet — start quizzing! 🚀</div>';
-}
-document.getElementById('modalOv').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
-
-// ─── Confetti ─────────────────────────────────────────────────
-function confetti(){
-  const cv=document.getElementById('confetti-canvas');
-  const ctx=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;
-  const ps=Array.from({length:110},()=>({x:Math.random()*cv.width,y:-20,r:Math.random()*6+3,c:`hsl(${Math.random()*360},90%,60%)`,vx:(Math.random()-.5)*4,vy:Math.random()*5+2,a:Math.random()*360}));
-  let f=0;const draw=()=>{ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a*Math.PI/180);ctx.fillStyle=p.c;ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);ctx.restore();p.x+=p.vx;p.y+=p.vy;p.a+=3;if(p.y>cv.height){p.y=-10;p.x=Math.random()*cv.width;}});if(f++<200)requestAnimationFrame(draw);else ctx.clearRect(0,0,cv.width,cv.height);};draw();
-}
-
-// ─── Init ─────────────────────────────────────────────────────
-buildSetRow();
-startSet();
 </script>
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ ENGINE — do not modify below this line
+     ══════════════════════════════════════════════════════════ -->
+<script src="quiz-engine.js"></script>
 </body>
 </html>

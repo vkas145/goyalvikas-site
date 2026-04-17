@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 8: Weight • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 8</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch8', title:'Ch 8: Weight'};
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Heavy and light ──────────────────────────
+[
+{type:'match',topic:'Heavy and Light',q:'Match each object to its correct description.',
+ pairs:[
+  {l:'A feather',    r:'Very light'},
+  {l:'A school bag', r:'Heavy'},
+  {l:'A pencil',     r:'Light'},
+  {l:'A car',        r:'Very heavy'}
+]},
+
+{type:'mcq',topic:'Heavy and Light',q:'Which is heavier — a brick or a leaf?',
+ o:['Brick','Leaf','Same weight','Cannot say'],a:0},
+
+{type:'tf',topic:'Heavy and Light',q:'A watermelon is heavier than an apple. True or False?',answer:true},
+
+{type:'mcq',topic:'Heavy and Light',q:'Which unit do we use to weigh heavy things like fruits and vegetables?',
+ o:['Kilogram','Centimetre','Litre','Metre'],a:0},
+
+{type:'tapall',topic:'Heavy and Light',q:'Tap all objects that are LIGHT.',
+ pool:['A feather','A book','A coin','A car','A pencil','An eraser'],
+ correct:['A feather','A coin','A pencil','An eraser']},
+
+{type:'sort',topic:'Weight',q:'Sort from LIGHTEST to HEAVIEST.',
+ items:['Feather','Pencil','Book','Brick'],order:'asc'},
+
+{type:'fillin',topic:'Units of Weight',q:'Fill in:',
+ expr:'We measure weight in ___ and grams.',
+ o:['kilograms','litres','metres','centimetres'],a:0},
+
+{type:'enterval',topic:'Weight',q:'A bag of rice weighs 2 kg. How many grams is that? (1 kg = 1000 g)',
+ answer:'2000'},
+
+{type:'fillintext',topic:'Weight',q:'Complete the sentences.',
+ template:'1 kilogram = ___ grams. So 3 kg = ___ grams.',
+ blanks:['1000','3000']},
+
+{type:'classify',topic:'Heavy and Light',q:'Sort: measured in GRAMS or measured in KILOGRAMS.',
+ categories:['Grams','Kilograms'],
+ items:[
+  {val:'A coin',       cat:'Grams'},{val:'A watermelon',cat:'Kilograms'},
+  {val:'A biscuit',    cat:'Grams'},{val:'A schoolbag',  cat:'Kilograms'},
+  {val:'A sweet',      cat:'Grams'},{val:'A bag of rice', cat:'Kilograms'}
+]}
+],
+
+// ── Beginner Set 2: Reading scales & comparing ───────────────
+[
+{type:'tf',topic:'Weight',q:'500 grams is the same as half a kilogram. True or False?',answer:true},
+
+{type:'mcq',topic:'Weight',q:'Which is more — 1 kg or 800 g?',
+ o:['1 kg','800 g','They are equal','Cannot say'],a:0},
+
+{type:'match',topic:'Weight',q:'Match each weight to its equal.',
+ pairs:[
+  {l:'1 kg',    r:'1000 g'},
+  {l:'2 kg',    r:'2000 g'},
+  {l:'500 g',   r:'Half a kg'},
+  {l:'1500 g',  r:'1 kg 500 g'}
+]},
+
+{type:'mcq',topic:'Weight',q:'A fruit weighs 250 g. How many such fruits make 1 kg?',
+ o:['4','2','5','10'],a:0},
+
+{type:'fillin',topic:'Weight',q:'Fill in:',
+ expr:'2000 g = ___ kg',
+ o:['2','20','200','2000'],a:0},
+
+{type:'sort',topic:'Weight',q:'Sort these weights from LIGHTEST to HEAVIEST.',
+ items:['250 g','1 kg','500 g','2 kg'],order:'asc'},
+
+{type:'tapall',topic:'Weight',q:'Tap all weights that are MORE than 1 kg.',
+ pool:['500 g','1500 g','2 kg','800 g','1 kg 200 g','750 g'],
+ correct:['1500 g','2 kg','1 kg 200 g']},
+
+{type:'enterval',topic:'Weight',q:'How many grams in 3 kg? (1 kg = 1000 g)',
+ answer:'3000'},
+
+{type:'tf',topic:'Weight',q:'1500 g is more than 1 kg. True or False?',answer:true},
+
+{type:'fillintext',topic:'Weight',q:'Fill in both answers.',
+ template:'500 g + 500 g = ___ g = ___ kg.',
+ blanks:['1000','1']}
+],
+
+// ── Beginner Set 3: Adding and subtracting weights ───────────
+[
+{type:'mcq',topic:'Weight Calculations',q:'A bag weighs 2 kg and a book weighs 500 g. Total weight in grams?',
+ o:['2500 g','2050 g','1500 g','3000 g'],a:0},
+
+{type:'fillintext',topic:'Weight Calculations',q:'Complete both calculations.',
+ template:'1 kg 200 g + 800 g = ___ g = ___ kg.',
+ blanks:['2000','2']},
+
+{type:'match',topic:'Weight Calculations',q:'Match each calculation to its answer.',
+ pairs:[
+  {l:'1 kg + 500 g',   r:'1500 g'},
+  {l:'2000 g - 500 g', r:'1500 g'},
+  {l:'3 kg - 1 kg',    r:'2 kg'},
+  {l:'750 g + 250 g',  r:'1 kg'}
+]},
+
+{type:'mcq',topic:'Weight Calculations',q:'A vegetable seller has 5 kg of onions. He sells 2 kg. How much is left?',
+ o:['3 kg','2 kg','7 kg','4 kg'],a:0},
+
+{type:'tf',topic:'Weight Calculations',q:'500 g + 500 g = 1 kg. True or False?',answer:true},
+
+{type:'tapall',topic:'Weight Calculations',q:'Tap all correct weight facts.',
+ pool:['1000g=1kg','500g=half kg','2kg=1500g','3000g=3kg','250g=quarter kg','1500g=1.5kg'],
+ correct:['1000g=1kg','500g=half kg','3000g=3kg','250g=quarter kg']},
+
+{type:'enterval',topic:'Weight Calculations',q:'A box weighs 1 kg 500 g. How many grams is that?',
+ answer:'1500'},
+
+{type:'sort',topic:'Weight',q:'Sort from LIGHTEST to HEAVIEST.',
+ items:['500 g','1 kg','1500 g','2 kg'],order:'asc'},
+
+{type:'classify',topic:'Weight',q:'Sort: less than 1 kg OR 1 kg or more.',
+ categories:['Less than 1 kg','1 kg or more'],
+ items:[
+  {val:'500 g',   cat:'Less than 1 kg'},{val:'1 kg',    cat:'1 kg or more'},
+  {val:'750 g',   cat:'Less than 1 kg'},{val:'1500 g',  cat:'1 kg or more'},
+  {val:'250 g',   cat:'Less than 1 kg'},{val:'2 kg',    cat:'1 kg or more'}
+]},
+
+{type:'mcq',topic:'Weight Calculations',q:'3 kg - 1 kg 500 g = ?',
+ o:['1 kg 500 g','1 kg','2 kg','500 g'],a:0}
+],
+
+// ── Beginner Set 4: Word problems ─────────────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'Mum buys 2 kg of sugar and 1 kg of salt. Total weight?',
+ o:['3 kg','1 kg','2 kg','4 kg'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'A bag has 5 kg of flour. After using 2 kg, ___ kg of flour is left.',
+ blanks:['3']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'3 kg + 2 kg',           r:'5 kg'},
+  {l:'5 kg - 2 kg',           r:'3 kg'},
+  {l:'1 kg + 1 kg + 1 kg',    r:'3 kg'},
+  {l:'4 kg - 1 kg',           r:'3 kg'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A shopkeeper has 10 kg of rice. He sells 4 kg. How much is left?',
+ o:['6 kg','4 kg','5 kg','14 kg'],a:0},
+
+{type:'tf',topic:'Word Problems',q:'2 kg + 3 kg = 5 kg. True or False?',answer:true},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all objects that are typically measured in KILOGRAMS.',
+ pool:['A baby','A biscuit','A watermelon','A coin','A bag of rice','A pin'],
+ correct:['A baby','A watermelon','A bag of rice']},
+
+{type:'enterval',topic:'Word Problems',q:'A dog weighs 8 kg and a cat weighs 3 kg. How much heavier is the dog?',
+ answer:'5'},
+
+{type:'sort',topic:'Weight',q:'Sort from LIGHTEST to HEAVIEST.',
+ items:['1 kg','5 kg','500 g','3 kg'],order:'asc'},
+
+{type:'classify',topic:'Word Problems',q:'Sort: measured in grams OR measured in kilograms.',
+ categories:['In Grams','In Kilograms'],
+ items:[
+  {val:'A biscuit',     cat:'In Grams'},{val:'A bag of rice', cat:'In Kilograms'},
+  {val:'A coin',        cat:'In Grams'},{val:'A baby',        cat:'In Kilograms'},
+  {val:'A pencil',      cat:'In Grams'},{val:'A watermelon',  cat:'In Kilograms'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'Riya has 3 kg 500 g of mangoes. Rohit has 2 kg. Together they have:',
+ o:['5 kg 500 g','5 kg','6 kg','4 kg 500 g'],a:0}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: kg and g conversion ───────────────────────────
+[
+{type:'mcq',topic:'Conversion',q:'How many grams is 4 kg 250 g?',
+ o:['4250 g','4025 g','4520 g','4205 g'],a:0},
+
+{type:'fillintext',topic:'Conversion',q:'Convert these weights.',
+ template:'2 kg 750 g = ___ g and 3500 g = ___ kg ___ g.',
+ blanks:['2750','3','500']},
+
+{type:'match',topic:'Conversion',q:'Match each weight to its equivalent.',
+ pairs:[
+  {l:'3 kg 500 g', r:'3500 g'},
+  {l:'4250 g',     r:'4 kg 250 g'},
+  {l:'2 kg 75 g',  r:'2075 g'},
+  {l:'1750 g',     r:'1 kg 750 g'}
+]},
+
+{type:'mcq',topic:'Conversion',q:'5300 g = ___ kg ___ g',
+ o:['5 kg 300 g','53 kg','5 kg 30 g','530 g'],a:0},
+
+{type:'tf',topic:'Conversion',q:'2 kg 500 g = 2500 g. True or False?',answer:true},
+
+{type:'tapall',topic:'Conversion',q:'Tap all correct conversions.',
+ pool:['1kg=1000g','2kg500g=2500g','3kg=300g','4kg250g=4250g','1500g=1kg5g','2750g=2kg750g'],
+ correct:['1kg=1000g','2kg500g=2500g','4kg250g=4250g','2750g=2kg750g']},
+
+{type:'enterval',topic:'Conversion',q:'How many grams is 3 kg 750 g?',
+ answer:'3750'},
+
+{type:'sort',topic:'Conversion',q:'Sort from LIGHTEST to HEAVIEST.',
+ items:['1750 g','2 kg','2500 g','3 kg'],order:'asc'},
+
+{type:'fillin',topic:'Conversion',q:'Fill in:',
+ expr:'6750 g = ___ kg 750 g',
+ o:['6','7','5','60'],a:0},
+
+{type:'classify',topic:'Conversion',q:'Sort: less than 2 kg OR 2 kg or more.',
+ categories:['Less than 2 kg','2 kg or more'],
+ items:[
+  {val:'1750 g',      cat:'Less than 2 kg'},{val:'2500 g',     cat:'2 kg or more'},
+  {val:'1 kg 500 g',  cat:'Less than 2 kg'},{val:'3 kg',       cat:'2 kg or more'},
+  {val:'1200 g',      cat:'Less than 2 kg'},{val:'2 kg 250 g', cat:'2 kg or more'}
+]}
+],
+
+// ── Pro Set 2: Adding and subtracting kg and g ────────────────
+[
+{type:'mcq',topic:'Weight Calculations',q:'2 kg 450 g + 1 kg 350 g = ?',
+ o:['3 kg 800 g','3 kg 700 g','4 kg','3 kg 80 g'],a:0},
+
+{type:'fillintext',topic:'Weight Calculations',q:'Complete the calculations.',
+ template:'4 kg 600 g - 1 kg 250 g = ___ kg ___ g.',
+ blanks:['3','350']},
+
+{type:'match',topic:'Weight Calculations',q:'Match each calculation to its answer.',
+ pairs:[
+  {l:'2 kg 450 g + 1 kg 350 g', r:'3 kg 800 g'},
+  {l:'5 kg - 2 kg 750 g',       r:'2 kg 250 g'},
+  {l:'1 kg 600 g + 1 kg 800 g', r:'3 kg 400 g'},
+  {l:'4 kg 200 g - 1 kg 500 g', r:'2 kg 700 g'}
+]},
+
+{type:'mcq',topic:'Weight Calculations',q:'5 kg - 2 kg 750 g = ?',
+ o:['2 kg 250 g','2 kg 750 g','3 kg 250 g','2 kg'],a:0},
+
+{type:'tf',topic:'Weight Calculations',q:'1 kg 600 g + 1 kg 800 g = 3 kg 400 g. True or False?',answer:true},
+
+{type:'enterval',topic:'Weight Calculations',q:'3 kg 250 g + 1 kg 500 g = ? (answer in grams)',
+ answer:'4750'},
+
+{type:'fillin',topic:'Weight Calculations',q:'Find the missing weight:',
+ expr:'___ kg + 1 kg 750 g = 4 kg 250 g',
+ o:['2 kg 500 g','2 kg','3 kg','1 kg 500 g'],a:0},
+
+{type:'sort',topic:'Weight',q:'Sort these weights from LIGHTEST to HEAVIEST.',
+ items:['2 kg 250 g','3 kg 400 g','1 kg 750 g','4 kg'],order:'asc'},
+
+{type:'tapall',topic:'Weight Calculations',q:'Tap all sums that give MORE than 3 kg.',
+ pool:['1kg750g+1kg500g=3kg250g','2kg500g+1kg=3kg500g','1kg200g+1kg500g=2kg700g','2kg+2kg=4kg','1kg600g+1kg800g=3kg400g','500g+2kg=2kg500g'],
+ correct:['1kg750g+1kg500g=3kg250g','2kg500g+1kg=3kg500g','2kg+2kg=4kg','1kg600g+1kg800g=3kg400g']},
+
+{type:'classify',topic:'Weight',q:'Sort: less than 3 kg OR 3 kg or more.',
+ categories:['Less than 3 kg','3 kg or more'],
+ items:[
+  {val:'2 kg 250 g',   cat:'Less than 3 kg'},{val:'3 kg 800 g',   cat:'3 kg or more'},
+  {val:'1 kg 750 g',   cat:'Less than 3 kg'},{val:'3 kg 400 g',   cat:'3 kg or more'},
+  {val:'2 kg 700 g',   cat:'Less than 3 kg'},{val:'4 kg',         cat:'3 kg or more'}
+]}
+],
+
+// ── Pro Set 3: Word problems ──────────────────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'A bag of apples weighs 2 kg 750 g and a bag of oranges weighs 1 kg 500 g. Total weight?',
+ o:['4 kg 250 g','4 kg','3 kg 250 g','4 kg 500 g'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'A shopkeeper had 10 kg of sugar. He sold 3 kg 750 g. He has ___ kg ___ g left.',
+ blanks:['6','250']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'2 kg 750 g + 1 kg 500 g', r:'4 kg 250 g'},
+  {l:'5 kg - 2 kg 750 g',       r:'2 kg 250 g'},
+  {l:'3 kg 600 g + 400 g',      r:'4 kg'},
+  {l:'6 kg - 3 kg 250 g',       r:'2 kg 750 g'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'Ritu weighs 32 kg and her brother weighs 28 kg 500 g. How much do they weigh together?',
+ o:['60 kg 500 g','60 kg','61 kg','59 kg 500 g'],a:0},
+
+{type:'enterval',topic:'Word Problems',q:'A box of toys weighs 4 kg 500 g. 3 identical boxes together weigh ___ g.',
+ answer:'13500'},
+
+{type:'tf',topic:'Word Problems',q:'5 kg 250 g - 2 kg 750 g = 2 kg 500 g. True or False?',answer:true},
+
+{type:'sort',topic:'Word Problems',q:'Sort these total weights from LIGHTEST to HEAVIEST.',
+ items:['2 kg 250 g','4 kg 250 g','3 kg 250 g','5 kg'],order:'asc'},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct weight calculations.',
+ pool:['2kg750g+1kg500g=4kg250g','5kg-2kg750g=2kg250g','3kg600g+400g=4kg','6kg-3kg250g=2kg750g','4kg500g+500g=5kg','3kg-1kg500g=2kg'],
+ correct:['2kg750g+1kg500g=4kg250g','5kg-2kg750g=2kg250g','3kg600g+400g=4kg','6kg-3kg250g=2kg750g','4kg500g+500g=5kg','3kg-1kg500g=2kg']},
+
+{type:'classify',topic:'Word Problems',q:'Sort: total is less than 4 kg OR 4 kg or more.',
+ categories:['Less than 4 kg','4 kg or more'],
+ items:[
+  {val:'1kg500g+1kg=2kg500g',    cat:'Less than 4 kg'},{val:'2kg750g+1kg500g=4kg250g',cat:'4 kg or more'},
+  {val:'2kg+500g=2kg500g',       cat:'Less than 4 kg'},{val:'3kg600g+400g=4kg',       cat:'4 kg or more'},
+  {val:'1kg250g+1kg250g=2kg500g',cat:'Less than 4 kg'},{val:'4kg500g+500g=5kg',       cat:'4 kg or more'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A grocer sells 2 kg 500 g of tomatoes and 1 kg 750 g of potatoes. How much heavier are the tomatoes?',
+ o:['750 g','500 g','1 kg','250 g'],a:0}
+],
+
+// ── Pro Set 4: Estimation & comparison ───────────────────────
+[
+{type:'mcq',topic:'Estimation',q:'Which is the best estimate for the weight of a Grade 2 textbook?',
+ o:['500 g','5 kg','5 g','50 kg'],a:0},
+
+{type:'fillintext',topic:'Weight',q:'Complete the comparison.',
+ template:'3 kg 500 g is ___ g more than 3 kg. It is also ___ g less than 4 kg.',
+ blanks:['500','500']},
+
+{type:'match',topic:'Estimation',q:'Match each object to its best estimated weight.',
+ pairs:[
+  {l:'A Grade 2 schoolbag', r:'3 kg'},
+  {l:'A mango',             r:'200 g'},
+  {l:'A newborn baby',      r:'3 kg'},
+  {l:'A pencil',            r:'10 g'}
+]},
+
+{type:'mcq',topic:'Estimation',q:'Which weighs about 1 kg?',
+ o:['A bag of flour','A feather','A car','A paper clip'],a:0},
+
+{type:'enterval',topic:'Weight',q:'4 kg 300 g is how many grams more than 4 kg?',
+ answer:'300'},
+
+{type:'tf',topic:'Estimation',q:'A chair weighs about 5 kg. True or False?',answer:false},
+
+{type:'sort',topic:'Estimation',q:'Sort these estimated weights from LIGHTEST to HEAVIEST.',
+ items:['A coin','A mango','A schoolbag','A sack of rice'],order:'asc'},
+
+{type:'tapall',topic:'Estimation',q:'Tap all objects that weigh about 1 kg or more.',
+ pool:['A coin','A bag of sugar','A textbook','A pencil','A watermelon','A pin'],
+ correct:['A bag of sugar','A textbook','A watermelon']},
+
+{type:'classify',topic:'Estimation',q:'Sort: less than 1 kg OR 1 kg or more (estimated).',
+ categories:['Less than 1 kg','1 kg or more'],
+ items:[
+  {val:'A coin',       cat:'Less than 1 kg'},{val:'A bag of sugar', cat:'1 kg or more'},
+  {val:'An eraser',    cat:'Less than 1 kg'},{val:'A watermelon',   cat:'1 kg or more'},
+  {val:'A pencil',     cat:'Less than 1 kg'},{val:'A schoolbag',    cat:'1 kg or more'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A sack of rice weighs 25 kg. After using 8 kg 500 g, how much is left?',
+ o:['16 kg 500 g','17 kg 500 g','16 kg','17 kg'],a:0}
+]
+
+] // end pro
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 10: Time • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 10</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch10', title:'Ch 10: Time'};
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: O'clock and half past ─────────────────────
+[
+{type:'match',topic:'Reading Time',q:'Match each clock description to the correct time.',
+ pairs:[
+  {l:'Hour hand on 3, minute hand on 12', r:'3 o\'clock'},
+  {l:'Hour hand on 6, minute hand on 12', r:'6 o\'clock'},
+  {l:'Hour hand between 7 and 8, minute hand on 6', r:'7:30'},
+  {l:'Hour hand between 2 and 3, minute hand on 6', r:'2:30'}
+]},
+
+{type:'mcq',topic:'O\'clock',q:'The minute hand points to 12. The hour hand points to 9. What time is it?',
+ o:['9 o\'clock','12 o\'clock','9:30','12:30'],a:0},
+
+{type:'tf',topic:'Half Past',q:'When the minute hand is on 6, it is half past the hour. True or False?',answer:true},
+
+{type:'mcq',topic:'Half Past',q:'Half past 4 means the time is:',
+ o:['4:30','4:00','4:15','4:45'],a:0},
+
+{type:'tapall',topic:'Reading Time',q:'Tap all times that are "o\'clock" (exact hour).',
+ pool:['3:00','4:30','7:00','1:30','11:00','6:30'],
+ correct:['3:00','7:00','11:00']},
+
+{type:'sort',topic:'Reading Time',q:'Sort these times from EARLIEST to LATEST in the morning.',
+ items:['6:00','8:30','7:00','9:30'],order:'asc'},
+
+{type:'fillin',topic:'Half Past',q:'Fill in the missing time:',
+ expr:'Half past 8 = ___:___',
+ o:['8:30','8:00','9:30','7:30'],a:0},
+
+{type:'enterval',topic:'Reading Time',q:'How many minutes are in half an hour?',
+ answer:'30'},
+
+{type:'fillintext',topic:'Reading Time',q:'Complete the time facts.',
+ template:'There are ___ hours in a day and ___ minutes in an hour.',
+ blanks:['24','60']},
+
+{type:'classify',topic:'Reading Time',q:'Sort: o\'clock OR half past.',
+ categories:['O\'clock','Half Past'],
+ items:[
+  {val:'3:00',  cat:'O\'clock'},{val:'4:30',  cat:'Half Past'},
+  {val:'7:00',  cat:'O\'clock'},{val:'1:30',  cat:'Half Past'},
+  {val:'11:00', cat:'O\'clock'},{val:'9:30',  cat:'Half Past'}
+]}
+],
+
+// ── Beginner Set 2: Quarter past and quarter to ───────────────
+[
+{type:'tf',topic:'Quarter Past',q:'Quarter past 5 means 5:15. True or False?',answer:true},
+
+{type:'mcq',topic:'Quarter Past',q:'Quarter past 7 is the same as:',
+ o:['7:15','7:30','7:45','7:00'],a:0},
+
+{type:'match',topic:'Quarter Times',q:'Match each time phrase to its digital time.',
+ pairs:[
+  {l:'Quarter past 3',  r:'3:15'},
+  {l:'Half past 3',     r:'3:30'},
+  {l:'Quarter to 4',    r:'3:45'},
+  {l:'Four o\'clock',   r:'4:00'}
+]},
+
+{type:'mcq',topic:'Quarter To',q:'Quarter to 6 means:',
+ o:['5:45','6:15','6:45','5:15'],a:0},
+
+{type:'fillin',topic:'Quarter Past',q:'Fill in:',
+ expr:'Quarter past 9 = 9:___',
+ o:['15','30','45','00'],a:0},
+
+{type:'sort',topic:'Reading Time',q:'Sort these times from EARLIEST to LATEST.',
+ items:['3:00','3:15','3:30','3:45'],order:'asc'},
+
+{type:'tapall',topic:'Quarter Times',q:'Tap all times that show "quarter past" the hour.',
+ pool:['2:15','3:30','5:15','6:45','8:15','9:00'],
+ correct:['2:15','5:15','8:15']},
+
+{type:'enterval',topic:'Quarter Times',q:'How many minutes is a quarter of an hour?',
+ answer:'15'},
+
+{type:'tf',topic:'Quarter To',q:'Quarter to 8 is the same as 7:45. True or False?',answer:true},
+
+{type:'fillintext',topic:'Quarter Times',q:'Fill in both times.',
+ template:'Quarter past 10 = 10:___ and quarter to 11 = 10:___.',
+ blanks:['15','45']}
+],
+
+// ── Beginner Set 3: Days, weeks, months ───────────────────────
+[
+{type:'mcq',topic:'Calendar',q:'How many days are in a week?',
+ o:['7','5','6','8'],a:0},
+
+{type:'fillintext',topic:'Calendar',q:'Complete the calendar facts.',
+ template:'There are ___ days in a week and ___ months in a year.',
+ blanks:['7','12']},
+
+{type:'match',topic:'Calendar',q:'Match each time fact to its answer.',
+ pairs:[
+  {l:'Days in a week',   r:'7'},
+  {l:'Months in a year', r:'12'},
+  {l:'Days in a year',   r:'365'},
+  {l:'Weeks in a year',  r:'52'}
+]},
+
+{type:'mcq',topic:'Calendar',q:'Which month comes after July?',
+ o:['August','June','September','October'],a:0},
+
+{type:'tf',topic:'Calendar',q:'February is the shortest month of the year. True or False?',answer:true},
+
+{type:'tapall',topic:'Calendar',q:'Tap all months that have 31 days.',
+ pool:['January','February','March','April','May','June'],
+ correct:['January','March','May']},
+
+{type:'sort',topic:'Calendar',q:'Sort these days in order from FIRST to LAST in the week.',
+ items:['Wednesday','Monday','Friday','Sunday'],order:'asc'},
+
+{type:'enterval',topic:'Calendar',q:'How many months are in a year?',
+ answer:'12'},
+
+{type:'classify',topic:'Calendar',q:'Sort: weekday OR weekend.',
+ categories:['Weekday','Weekend'],
+ items:[
+  {val:'Monday',    cat:'Weekday'},{val:'Saturday', cat:'Weekend'},
+  {val:'Wednesday', cat:'Weekday'},{val:'Sunday',   cat:'Weekend'},
+  {val:'Friday',    cat:'Weekday'},{val:'Saturday', cat:'Weekend'}
+]},
+
+{type:'mcq',topic:'Calendar',q:'How many weeks are in a year?',
+ o:['52','12','7','365'],a:0}
+],
+
+// ── Beginner Set 4: AM, PM and daily routine ──────────────────
+[
+{type:'mcq',topic:'AM and PM',q:'School usually starts at:',
+ o:['8:00 AM','8:00 PM','12:00 AM','8:30 PM'],a:0},
+
+{type:'fillintext',topic:'AM and PM',q:'Complete the sentences.',
+ template:'AM means ___ (before noon). PM means ___ (after noon).',
+ blanks:['morning','afternoon/evening']},
+
+{type:'match',topic:'Daily Routine',q:'Match each activity to the correct time of day.',
+ pairs:[
+  {l:'Wake up',      r:'Morning'},
+  {l:'Lunch',        r:'Afternoon'},
+  {l:'Dinner',       r:'Evening'},
+  {l:'Sleep',        r:'Night'}
+]},
+
+{type:'mcq',topic:'AM and PM',q:'Midnight is:',
+ o:['12:00 AM','12:00 PM','6:00 AM','6:00 PM'],a:0},
+
+{type:'tf',topic:'AM and PM',q:'3:00 PM is in the afternoon. True or False?',answer:true},
+
+{type:'tapall',topic:'AM and PM',q:'Tap all activities that happen in the MORNING (AM).',
+ pool:['Wake up','Lunch','Breakfast','Dinner','School assembly','Evening walk'],
+ correct:['Wake up','Breakfast','School assembly']},
+
+{type:'sort',topic:'Daily Routine',q:'Sort these daily activities from MORNING to NIGHT.',
+ items:['Breakfast','Lunch','Dinner','Bedtime'],order:'asc'},
+
+{type:'enterval',topic:'AM and PM',q:'How many hours are in a day?',
+ answer:'24'},
+
+{type:'classify',topic:'AM and PM',q:'Sort: AM (morning) OR PM (afternoon/evening).',
+ categories:['AM','PM'],
+ items:[
+  {val:'7:00 - Wake up',    cat:'AM'},{val:'1:00 - Lunch',    cat:'PM'},
+  {val:'8:30 - School',     cat:'AM'},{val:'4:00 - Play time', cat:'PM'},
+  {val:'10:00 - Class',     cat:'AM'},{val:'7:00 - Dinner',    cat:'PM'}
+]},
+
+{type:'mcq',topic:'AM and PM',q:'Noon is:',
+ o:['12:00 PM','12:00 AM','6:00 AM','6:00 PM'],a:0}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Minutes past and to ───────────────────────────
+[
+{type:'mcq',topic:'Minutes',q:'The time is 4:20. How many minutes past 4 is it?',
+ o:['20','40','25','15'],a:0},
+
+{type:'fillintext',topic:'Minutes',q:'Complete both time expressions.',
+ template:'7:35 = ___ minutes past 7 = ___ minutes to 8.',
+ blanks:['35','25']},
+
+{type:'match',topic:'Minutes',q:'Match each digital time to its spoken form.',
+ pairs:[
+  {l:'3:20', r:'20 minutes past 3'},
+  {l:'3:40', r:'20 minutes to 4'},
+  {l:'5:10', r:'10 minutes past 5'},
+  {l:'5:50', r:'10 minutes to 6'}
+]},
+
+{type:'mcq',topic:'Minutes',q:'25 minutes to 9 is the same as:',
+ o:['8:35','8:25','9:35','9:25'],a:0},
+
+{type:'tf',topic:'Minutes',q:'10 minutes past 6 = 6:10. True or False?',answer:true},
+
+{type:'tapall',topic:'Minutes',q:'Tap all times that are "past" the hour (not "to").',
+ pool:['3:20','3:40','5:10','5:50','7:15','7:45'],
+ correct:['3:20','5:10','7:15']},
+
+{type:'sort',topic:'Minutes',q:'Sort these times from EARLIEST to LATEST.',
+ items:['8:10','8:35','8:20','8:50'],order:'asc'},
+
+{type:'enterval',topic:'Minutes',q:'How many minutes is 20 minutes past 3 from 3 o\'clock?',
+ answer:'20'},
+
+{type:'fillin',topic:'Minutes',q:'15 minutes to 7 = ___:___',
+ o:['6:45','6:15','7:15','7:45'],a:0},
+
+{type:'classify',topic:'Minutes',q:'Sort: minutes PAST the hour OR minutes TO the hour.',
+ categories:['Minutes Past','Minutes To'],
+ items:[
+  {val:'3:20 = 20 past 3',  cat:'Minutes Past'},{val:'3:40 = 20 to 4',   cat:'Minutes To'},
+  {val:'5:10 = 10 past 5',  cat:'Minutes Past'},{val:'5:50 = 10 to 6',   cat:'Minutes To'},
+  {val:'7:25 = 25 past 7',  cat:'Minutes Past'},{val:'7:35 = 25 to 8',   cat:'Minutes To'}
+]}
+],
+
+// ── Pro Set 2: Duration and elapsed time ─────────────────────
+[
+{type:'mcq',topic:'Duration',q:'A movie starts at 3:00 PM and ends at 5:00 PM. How long is the movie?',
+ o:['2 hours','3 hours','1 hour','5 hours'],a:0},
+
+{type:'fillintext',topic:'Duration',q:'Complete the duration problem.',
+ template:'School starts at 8:00 AM and ends at 2:00 PM. School lasts ___ hours.',
+ blanks:['6']},
+
+{type:'match',topic:'Duration',q:'Match each event to its duration.',
+ pairs:[
+  {l:'Start 9:00, End 11:00', r:'2 hours'},
+  {l:'Start 7:30, End 8:00',  r:'30 minutes'},
+  {l:'Start 2:00, End 4:30',  r:'2 hours 30 minutes'},
+  {l:'Start 6:15, End 7:00',  r:'45 minutes'}
+]},
+
+{type:'mcq',topic:'Duration',q:'A lesson starts at 10:30 and lasts 45 minutes. When does it end?',
+ o:['11:15','11:00','11:30','10:45'],a:0},
+
+{type:'tf',topic:'Duration',q:'From 6:30 PM to 8:00 PM is 1 hour 30 minutes. True or False?',answer:true},
+
+{type:'enterval',topic:'Duration',q:'From 9:00 AM to 12:00 PM is how many hours?',
+ answer:'3'},
+
+{type:'fillin',topic:'Duration',q:'A trip starts at 7:00 AM and takes 3 hours. It ends at:',
+ expr:'End time = ___:00 AM',
+ o:['10','9','11','8'],a:0},
+
+{type:'sort',topic:'Duration',q:'Sort these durations from SHORTEST to LONGEST.',
+ items:['15 min','1 hour','45 min','2 hours'],order:'asc'},
+
+{type:'tapall',topic:'Duration',q:'Tap all events that last exactly 1 hour.',
+ pool:['9:00 to 10:00','7:30 to 8:30','6:00 to 7:30','3:15 to 4:15','2:00 to 3:00','5:30 to 7:00'],
+ correct:['9:00 to 10:00','7:30 to 8:30','3:15 to 4:15','2:00 to 3:00']},
+
+{type:'classify',topic:'Duration',q:'Sort: less than 1 hour OR 1 hour or more.',
+ categories:['Less than 1 hour','1 hour or more'],
+ items:[
+  {val:'30 minutes', cat:'Less than 1 hour'},{val:'2 hours',          cat:'1 hour or more'},
+  {val:'45 minutes', cat:'Less than 1 hour'},{val:'1 hour 30 minutes',cat:'1 hour or more'},
+  {val:'15 minutes', cat:'Less than 1 hour'},{val:'1 hour',           cat:'1 hour or more'}
+]}
+],
+
+// ── Pro Set 3: Calendar problems ─────────────────────────────
+[
+{type:'mcq',topic:'Calendar',q:'If today is Monday 5th, what day is it 7 days later?',
+ o:['Monday','Tuesday','Sunday','Saturday'],a:0},
+
+{type:'fillintext',topic:'Calendar',q:'Complete the calendar facts.',
+ template:'A leap year has ___ days in February. A normal year has ___ days.',
+ blanks:['29','365']},
+
+{type:'match',topic:'Calendar',q:'Match each question to its answer.',
+ pairs:[
+  {l:'Days in June',         r:'30'},
+  {l:'Days in January',      r:'31'},
+  {l:'Days in February (normal year)', r:'28'},
+  {l:'Months with 30 days',  r:'4'}
+]},
+
+{type:'mcq',topic:'Calendar',q:'Priya\'s birthday is on 15th March. What month comes just before?',
+ o:['February','April','January','May'],a:0},
+
+{type:'tf',topic:'Calendar',q:'There are 4 weeks and 3 days in a month with 31 days. True or False?',answer:true},
+
+{type:'enterval',topic:'Calendar',q:'How many days are in 2 weeks?',
+ answer:'14'},
+
+{type:'fillin',topic:'Calendar',q:'How many days are in 3 weeks?',
+ expr:'3 weeks = ___ days',
+ o:['21','14','28','7'],a:0},
+
+{type:'sort',topic:'Calendar',q:'Sort these months in order from FIRST to LAST in the year.',
+ items:['March','January','June','October'],order:'asc'},
+
+{type:'tapall',topic:'Calendar',q:'Tap all months that have 30 days.',
+ pool:['April','May','June','July','September','November'],
+ correct:['April','June','September','November']},
+
+{type:'classify',topic:'Calendar',q:'Sort: 30 days OR 31 days.',
+ categories:['30 Days','31 Days'],
+ items:[
+  {val:'April',    cat:'30 Days'},{val:'January',  cat:'31 Days'},
+  {val:'June',     cat:'30 Days'},{val:'March',    cat:'31 Days'},
+  {val:'September',cat:'30 Days'},{val:'August',   cat:'31 Days'}
+]}
+],
+
+// ── Pro Set 4: Word problems (time) ──────────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'Ravi leaves home at 7:30 AM and reaches school at 8:00 AM. How long does he take?',
+ o:['30 minutes','1 hour','45 minutes','15 minutes'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'A cricket match starts at 10:00 AM and lasts 3 hours. It ends at ___:00 ___.',
+ blanks:['1','PM']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'Starts 9:00, ends 11:30',     r:'2 hr 30 min'},
+  {l:'Starts 2:30, ends 4:00',      r:'1 hr 30 min'},
+  {l:'Starts 7:45, lasts 1 hr',     r:'8:45'},
+  {l:'Starts 3:15, lasts 45 min',   r:'4:00'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A library is open from 9:00 AM to 6:00 PM. How many hours is it open?',
+ o:['9 hours','8 hours','7 hours','10 hours'],a:0},
+
+{type:'enterval',topic:'Word Problems',q:'Mia starts homework at 4:30 PM and finishes at 6:00 PM. How many minutes does she take?',
+ answer:'90'},
+
+{type:'tf',topic:'Word Problems',q:'If a bus journey takes 2 hours 30 minutes and starts at 8:00 AM, it ends at 10:30 AM. True or False?',answer:true},
+
+{type:'sort',topic:'Word Problems',q:'Sort these durations from SHORTEST to LONGEST.',
+ items:['30 min','2 hr 30 min','1 hr','45 min'],order:'asc'},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct time facts.',
+ pool:['60min=1hour','30min=halfhour','2hours=120min','45min=threequarterhour','1day=24hours','1week=7days'],
+ correct:['60min=1hour','30min=halfhour','2hours=120min','45min=threequarterhour','1day=24hours','1week=7days']},
+
+{type:'classify',topic:'Word Problems',q:'Sort: before noon (AM) OR after noon (PM).',
+ categories:['AM (Before Noon)','PM (After Noon)'],
+ items:[
+  {val:'7:30 - Wake up',   cat:'AM (Before Noon)'},{val:'1:00 - Lunch',    cat:'PM (After Noon)'},
+  {val:'9:00 - School',    cat:'AM (Before Noon)'},{val:'3:30 - Play',     cat:'PM (After Noon)'},
+  {val:'11:00 - Maths',    cat:'AM (Before Noon)'},{val:'7:00 - Dinner',   cat:'PM (After Noon)'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A train journey of 2 hours 45 minutes starts at 9:15 AM. When does it arrive?',
+ o:['12:00 PM','11:45 AM','12:15 PM','11:00 AM'],a:0}
+]
+
+] // end pro
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

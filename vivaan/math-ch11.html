@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 11: Money • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 11</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch11', title:'Ch 11: Money'};
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Coins and notes ──────────────────────────
+[
+{type:'match',topic:'Indian Currency',q:'Match each coin/note to its value.',
+ pairs:[
+  {l:'One rupee coin',   r:'₹1'},
+  {l:'Two rupee coin',   r:'₹2'},
+  {l:'Five rupee coin',  r:'₹5'},
+  {l:'Ten rupee note',   r:'₹10'}
+]},
+
+{type:'mcq',topic:'Currency',q:'How many 50 paise make 1 rupee?',
+ o:['2','5','10','4'],a:0},
+
+{type:'tf',topic:'Currency',q:'100 paise = 1 rupee. True or False?',answer:true},
+
+{type:'mcq',topic:'Currency',q:'Which is worth more — ₹10 note or ₹5 coin?',
+ o:['₹10 note','₹5 coin','Both equal','Cannot say'],a:0},
+
+{type:'tapall',topic:'Currency',q:'Tap all COINS (not notes) in Indian currency.',
+ pool:['₹1 coin','₹10 note','₹2 coin','₹50 note','₹5 coin','₹100 note'],
+ correct:['₹1 coin','₹2 coin','₹5 coin']},
+
+{type:'sort',topic:'Currency',q:'Sort these from SMALLEST to LARGEST value.',
+ items:['50 paise','₹1','₹5','₹10'],order:'asc'},
+
+{type:'fillin',topic:'Currency',q:'Fill in:',
+ expr:'1 rupee = ___ paise',
+ o:['100','10','50','1000'],a:0},
+
+{type:'enterval',topic:'Currency',q:'How many paise are in 5 rupees?',
+ answer:'500'},
+
+{type:'fillintext',topic:'Currency',q:'Complete the currency facts.',
+ template:'100 paise = ₹___. So 200 paise = ₹___.',
+ blanks:['1','2']},
+
+{type:'classify',topic:'Currency',q:'Sort: COIN or NOTE.',
+ categories:['Coin','Note'],
+ items:[
+  {val:'₹1',   cat:'Coin'},{val:'₹10',  cat:'Note'},
+  {val:'₹2',   cat:'Coin'},{val:'₹50',  cat:'Note'},
+  {val:'₹5',   cat:'Coin'},{val:'₹100', cat:'Note'}
+]}
+],
+
+// ── Beginner Set 2: Counting money ────────────────────────────
+[
+{type:'tf',topic:'Counting Money',q:'₹5 + ₹5 + ₹5 = ₹15. True or False?',answer:true},
+
+{type:'mcq',topic:'Counting Money',q:'You have two ₹10 notes and one ₹5 coin. Total?',
+ o:['₹25','₹20','₹15','₹30'],a:0},
+
+{type:'match',topic:'Counting Money',q:'Match each set of coins/notes to its total.',
+ pairs:[
+  {l:'₹10 + ₹5 + ₹2',     r:'₹17'},
+  {l:'₹20 + ₹10',          r:'₹30'},
+  {l:'₹50 + ₹20 + ₹5',    r:'₹75'},
+  {l:'₹100 - ₹25',         r:'₹75'}
+]},
+
+{type:'mcq',topic:'Counting Money',q:'Three ₹5 coins and two ₹2 coins = ?',
+ o:['₹19','₹17','₹21','₹15'],a:0},
+
+{type:'fillin',topic:'Counting Money',q:'Fill in:',
+ expr:'₹50 + ₹20 + ₹10 = ₹___',
+ o:['80','70','60','90'],a:0},
+
+{type:'sort',topic:'Counting Money',q:'Sort these amounts from SMALLEST to LARGEST.',
+ items:['₹15','₹30','₹5','₹50'],order:'asc'},
+
+{type:'tapall',topic:'Counting Money',q:'Tap all amounts that equal ₹20.',
+ pool:['₹10+₹10=₹20','₹15+₹5=₹20','₹12+₹8=₹20','₹10+₹5=₹15','₹20+₹0=₹20','₹11+₹9=₹20'],
+ correct:['₹10+₹10=₹20','₹15+₹5=₹20','₹12+₹8=₹20','₹20+₹0=₹20','₹11+₹9=₹20']},
+
+{type:'enterval',topic:'Counting Money',q:'How much is four ₹10 notes and two ₹5 coins? (in rupees)',
+ answer:'50'},
+
+{type:'tf',topic:'Counting Money',q:'₹100 = 10 ten-rupee notes. True or False?',answer:true},
+
+{type:'fillintext',topic:'Counting Money',q:'Count the money.',
+ template:'₹50 + ₹20 + ₹5 + ₹2 = ₹___.',
+ blanks:['77']}
+],
+
+// ── Beginner Set 3: Adding and subtracting money ──────────────
+[
+{type:'mcq',topic:'Adding Money',q:'A pen costs ₹12 and a notebook costs ₹25. Total cost?',
+ o:['₹37','₹27','₹47','₹32'],a:0},
+
+{type:'fillintext',topic:'Adding Money',q:'Solve the money problem.',
+ template:'A ball costs ₹35 and a bat costs ₹120. Together they cost ₹___.',
+ blanks:['155']},
+
+{type:'match',topic:'Money Operations',q:'Match each problem to its answer.',
+ pairs:[
+  {l:'₹25 + ₹35',  r:'₹60'},
+  {l:'₹50 - ₹25',  r:'₹25'},
+  {l:'₹100 - ₹45', r:'₹55'},
+  {l:'₹30 + ₹45',  r:'₹75'}
+]},
+
+{type:'mcq',topic:'Subtracting Money',q:'Riya has ₹50. She buys a pencil for ₹12. How much is left?',
+ o:['₹38','₹28','₹42','₹48'],a:0},
+
+{type:'tf',topic:'Adding Money',q:'₹45 + ₹55 = ₹100. True or False?',answer:true},
+
+{type:'tapall',topic:'Money Operations',q:'Tap all correct money calculations.',
+ pool:['₹25+₹35=₹60','₹50-₹25=₹25','₹100-₹45=₹55','₹30+₹45=₹75','₹20+₹30=₹60','₹80-₹35=₹45'],
+ correct:['₹25+₹35=₹60','₹50-₹25=₹25','₹100-₹45=₹55','₹30+₹45=₹75','₹80-₹35=₹45']},
+
+{type:'enterval',topic:'Subtracting Money',q:'Sam has ₹100. He spends ₹63. How much does he have left?',
+ answer:'37'},
+
+{type:'sort',topic:'Money',q:'Sort these amounts from SMALLEST to LARGEST.',
+ items:['₹25','₹75','₹50','₹100'],order:'asc'},
+
+{type:'classify',topic:'Money',q:'Sort: less than ₹50 OR ₹50 and above.',
+ categories:['Less than ₹50','₹50 or more'],
+ items:[
+  {val:'₹25',  cat:'Less than ₹50'},{val:'₹50',  cat:'₹50 or more'},
+  {val:'₹38',  cat:'Less than ₹50'},{val:'₹75',  cat:'₹50 or more'},
+  {val:'₹12',  cat:'Less than ₹50'},{val:'₹100', cat:'₹50 or more'}
+]},
+
+{type:'mcq',topic:'Adding Money',q:'A toy costs ₹85 and a book costs ₹65. Total?',
+ o:['₹150','₹140','₹160','₹120'],a:0}
+],
+
+// ── Beginner Set 4: Word problems ─────────────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'Anu buys a pencil for ₹5 and an eraser for ₹3. She pays ₹10. Change received?',
+ o:['₹2','₹5','₹3','₹8'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'A mango costs ₹15 and an apple costs ₹10. ___ mangoes and 1 apple cost ₹___.',
+ blanks:['2','40']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'Spend ₹35, paid ₹50, change?',  r:'₹15'},
+  {l:'Buy 3 pens at ₹5 each',         r:'₹15'},
+  {l:'₹100 - ₹45 - ₹30',             r:'₹25'},
+  {l:'₹20 + ₹30 + ₹10',              r:'₹60'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A book costs ₹45. Rohan has ₹100. How much change will he get?',
+ o:['₹55','₹45','₹65','₹50'],a:0},
+
+{type:'tf',topic:'Word Problems',q:'3 pens at ₹7 each cost ₹21. True or False?',answer:true},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all items you can buy with ₹50.',
+ pool:['A pen for ₹8','A book for ₹55','An eraser for ₹5','A bag for ₹200','A toy for ₹45','A pencil for ₹3'],
+ correct:['A pen for ₹8','An eraser for ₹5','A toy for ₹45','A pencil for ₹3']},
+
+{type:'enterval',topic:'Word Problems',q:'Mia buys 4 chocolates at ₹5 each. How much does she pay in total?',
+ answer:'20'},
+
+{type:'sort',topic:'Word Problems',q:'Sort these prices from CHEAPEST to MOST EXPENSIVE.',
+ items:['₹12','₹45','₹8','₹30'],order:'asc'},
+
+{type:'classify',topic:'Word Problems',q:'Sort: can buy with ₹20 OR cannot buy with ₹20.',
+ categories:['Can Buy with ₹20','Cannot Buy with ₹20'],
+ items:[
+  {val:'A pen for ₹8',    cat:'Can Buy with ₹20'},{val:'A book for ₹35',  cat:'Cannot Buy with ₹20'},
+  {val:'An eraser for ₹5',cat:'Can Buy with ₹20'},{val:'A toy for ₹45',   cat:'Cannot Buy with ₹20'},
+  {val:'A pencil for ₹3', cat:'Can Buy with ₹20'},{val:'A bag for ₹100',  cat:'Cannot Buy with ₹20'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'Raj has ₹50. He buys a pencil for ₹8 and a notebook for ₹25. How much is left?',
+ o:['₹17','₹27','₹33','₹22'],a:0}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Rupees and paise ───────────────────────────────
+[
+{type:'mcq',topic:'Rupees and Paise',q:'How many paise is ₹3.50?',
+ o:['350','35','3050','305'],a:0},
+
+{type:'fillintext',topic:'Rupees and Paise',q:'Convert these amounts.',
+ template:'₹5.75 = ___ paise and 425 paise = ₹___.___.',
+ blanks:['575','4','25']},
+
+{type:'match',topic:'Rupees and Paise',q:'Match each amount to its equivalent.',
+ pairs:[
+  {l:'₹2.50',   r:'250 paise'},
+  {l:'375 paise',r:'₹3.75'},
+  {l:'₹4.25',   r:'425 paise'},
+  {l:'150 paise',r:'₹1.50'}
+]},
+
+{type:'mcq',topic:'Rupees and Paise',q:'₹6.25 + ₹2.50 = ?',
+ o:['₹8.75','₹8.50','₹9.25','₹8.25'],a:0},
+
+{type:'tf',topic:'Rupees and Paise',q:'₹3.75 = 375 paise. True or False?',answer:true},
+
+{type:'tapall',topic:'Rupees and Paise',q:'Tap all correct conversions.',
+ pool:['₹2=200p','₹3.50=350p','₹4=40p','₹5.25=525p','₹1.75=175p','₹6=60p'],
+ correct:['₹2=200p','₹3.50=350p','₹5.25=525p','₹1.75=175p']},
+
+{type:'enterval',topic:'Rupees and Paise',q:'How many paise is ₹7.25?',
+ answer:'725'},
+
+{type:'sort',topic:'Rupees and Paise',q:'Sort from SMALLEST to LARGEST amount.',
+ items:['₹1.50','₹3.75','₹2.25','₹5'],order:'asc'},
+
+{type:'fillin',topic:'Rupees and Paise',q:'Fill in:',
+ expr:'850 paise = ₹___.50',
+ o:['8','7','9','85'],a:0},
+
+{type:'classify',topic:'Rupees and Paise',q:'Sort: less than ₹5 OR ₹5 or more.',
+ categories:['Less than ₹5','₹5 or more'],
+ items:[
+  {val:'₹2.50',  cat:'Less than ₹5'},{val:'₹5.75',  cat:'₹5 or more'},
+  {val:'₹3.75',  cat:'Less than ₹5'},{val:'₹6.25',  cat:'₹5 or more'},
+  {val:'₹1.50',  cat:'Less than ₹5'},{val:'₹8.50',  cat:'₹5 or more'}
+]}
+],
+
+// ── Pro Set 2: Adding and subtracting with paise ──────────────
+[
+{type:'mcq',topic:'Money Calculations',q:'₹12.50 + ₹8.75 = ?',
+ o:['₹21.25','₹20.25','₹21.75','₹20.75'],a:0},
+
+{type:'fillintext',topic:'Money Calculations',q:'Complete both calculations.',
+ template:'₹35.50 + ₹24.75 = ₹___ and ₹50 - ₹18.25 = ₹___.',
+ blanks:['60.25','31.75']},
+
+{type:'match',topic:'Money Calculations',q:'Match each calculation to its answer.',
+ pairs:[
+  {l:'₹12.50 + ₹8.75',  r:'₹21.25'},
+  {l:'₹50 - ₹18.25',    r:'₹31.75'},
+  {l:'₹35.50 + ₹24.75', r:'₹60.25'},
+  {l:'₹100 - ₹62.50',   r:'₹37.50'}
+]},
+
+{type:'mcq',topic:'Money Calculations',q:'₹100 - ₹62.50 = ?',
+ o:['₹37.50','₹38.50','₹37','₹62.50'],a:0},
+
+{type:'tf',topic:'Money Calculations',q:'₹35.50 + ₹24.75 = ₹60.25. True or False?',answer:true},
+
+{type:'enterval',topic:'Money Calculations',q:'₹45.75 + ₹29.50 = ? (answer in paise)',
+ answer:'7525'},
+
+{type:'fillin',topic:'Money Calculations',q:'Find the missing amount:',
+ expr:'₹___ + ₹24.75 = ₹60.25',
+ o:['35.50','34.50','36.50','25'],a:0},
+
+{type:'sort',topic:'Money',q:'Sort from SMALLEST to LARGEST amount.',
+ items:['₹21.25','₹37.50','₹31.75','₹60.25'],order:'asc'},
+
+{type:'tapall',topic:'Money Calculations',q:'Tap all correct money calculations.',
+ pool:['₹12.50+₹8.75=₹21.25','₹50-₹18.25=₹31.75','₹35.50+₹24.75=₹60.25','₹100-₹62.50=₹37','₹45.75+₹29.50=₹75.25','₹80-₹42.50=₹37.50'],
+ correct:['₹12.50+₹8.75=₹21.25','₹50-₹18.25=₹31.75','₹35.50+₹24.75=₹60.25','₹45.75+₹29.50=₹75.25','₹80-₹42.50=₹37.50']},
+
+{type:'classify',topic:'Money',q:'Sort: less than ₹40 OR ₹40 or more.',
+ categories:['Less than ₹40','₹40 or more'],
+ items:[
+  {val:'₹21.25', cat:'Less than ₹40'},{val:'₹60.25', cat:'₹40 or more'},
+  {val:'₹31.75', cat:'Less than ₹40'},{val:'₹75.25', cat:'₹40 or more'},
+  {val:'₹37.50', cat:'Less than ₹40'},{val:'₹80',    cat:'₹40 or more'}
+]}
+],
+
+// ── Pro Set 3: Making change ──────────────────────────────────
+[
+{type:'mcq',topic:'Making Change',q:'An eraser costs ₹7.50. You pay ₹10. Change?',
+ o:['₹2.50','₹3.50','₹2','₹7.50'],a:0},
+
+{type:'fillintext',topic:'Making Change',q:'Work out the change.',
+ template:'Book costs ₹45.75. Pay ₹50. Change = ₹___.',
+ blanks:['4.25']},
+
+{type:'match',topic:'Making Change',q:'Match each purchase to the correct change from ₹100.',
+ pairs:[
+  {l:'Item costs ₹62.50', r:'₹37.50'},
+  {l:'Item costs ₹45.75', r:'₹54.25'},
+  {l:'Item costs ₹78.25', r:'₹21.75'},
+  {l:'Item costs ₹33.50', r:'₹66.50'}
+]},
+
+{type:'mcq',topic:'Making Change',q:'You buy items for ₹37.50 and ₹24.75. You pay ₹100. Change?',
+ o:['₹37.75','₹38.25','₹62.25','₹37.25'],a:0},
+
+{type:'tf',topic:'Making Change',q:'If an item costs ₹67.50 and you pay ₹100, the change is ₹32.50. True or False?',answer:true},
+
+{type:'enterval',topic:'Making Change',q:'A toy costs ₹85.50. You pay ₹100. Change? (in paise)',
+ answer:'1450'},
+
+{type:'fillin',topic:'Making Change',q:'A book costs ₹___ if you pay ₹50 and get ₹12.50 change.',
+ expr:'Cost = ₹50 - ₹12.50 = ₹___',
+ o:['37.50','38.50','36.50','42.50'],a:0},
+
+{type:'sort',topic:'Making Change',q:'Sort these change amounts from SMALLEST to LARGEST.',
+ items:['₹2.50','₹21.75','₹37.75','₹54.25'],order:'asc'},
+
+{type:'tapall',topic:'Making Change',q:'Tap all correct change calculations (paid ₹100).',
+ pool:['₹62.50costs→₹37.50change','₹45.75costs→₹54.25change','₹78.25costs→₹21.75change','₹33.50costs→₹66.50change','₹67.50costs→₹32.50change','₹85.50costs→₹14.50change'],
+ correct:['₹62.50costs→₹37.50change','₹45.75costs→₹54.25change','₹78.25costs→₹21.75change','₹33.50costs→₹66.50change','₹67.50costs→₹32.50change','₹85.50costs→₹14.50change']},
+
+{type:'classify',topic:'Making Change',q:'Sort: change is less than ₹25 OR ₹25 or more.',
+ categories:['Less than ₹25','₹25 or more'],
+ items:[
+  {val:'Cost ₹78.25 → change ₹21.75',cat:'Less than ₹25'},{val:'Cost ₹45.75 → change ₹54.25',cat:'₹25 or more'},
+  {val:'Cost ₹85.50 → change ₹14.50',cat:'Less than ₹25'},{val:'Cost ₹62.50 → change ₹37.50',cat:'₹25 or more'},
+  {val:'Cost ₹82.50 → change ₹17.50',cat:'Less than ₹25'},{val:'Cost ₹33.50 → change ₹66.50',cat:'₹25 or more'}
+]}
+],
+
+// ── Pro Set 4: Word problems (multi-step) ─────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'A pen costs ₹12.50 and a notebook costs ₹35.75. Total cost?',
+ o:['₹48.25','₹47.25','₹48.75','₹47.75'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'Priya has ₹200. She buys shoes for ₹125.50 and socks for ₹38.75. She has ₹___ left.',
+ blanks:['35.75']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'3 pens at ₹12.50 each',    r:'₹37.50'},
+  {l:'2 books at ₹45.75 each',   r:'₹91.50'},
+  {l:'₹200 - ₹125.50 - ₹38.75', r:'₹35.75'},
+  {l:'5 chocolates at ₹8 each',  r:'₹40'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A shopkeeper sells 4 toys at ₹55.25 each. Total earnings?',
+ o:['₹221','₹220','₹211','₹225'],a:0},
+
+{type:'enterval',topic:'Word Problems',q:'Ravi saved ₹50 per week for 4 weeks. How much did he save? (in rupees)',
+ answer:'200'},
+
+{type:'tf',topic:'Word Problems',q:'2 books at ₹45.75 each cost ₹91.50. True or False?',answer:true},
+
+{type:'sort',topic:'Word Problems',q:'Sort these total costs from CHEAPEST to MOST EXPENSIVE.',
+ items:['₹37.50','₹91.50','₹35.75','₹221'],order:'asc'},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct money calculations.',
+ pool:['3x₹12.50=₹37.50','2x₹45.75=₹91.50','₹200-₹125.50-₹38.75=₹35.75','5x₹8=₹40','4x₹55.25=₹221','₹50x4=₹200'],
+ correct:['3x₹12.50=₹37.50','2x₹45.75=₹91.50','₹200-₹125.50-₹38.75=₹35.75','5x₹8=₹40','4x₹55.25=₹221','₹50x4=₹200']},
+
+{type:'classify',topic:'Word Problems',q:'Sort: total is less than ₹100 OR ₹100 or more.',
+ categories:['Less than ₹100','₹100 or more'],
+ items:[
+  {val:'3x₹12.50=₹37.50',  cat:'Less than ₹100'},{val:'2x₹45.75=₹91.50',  cat:'Less than ₹100'},
+  {val:'5x₹8=₹40',         cat:'Less than ₹100'},{val:'4x₹55.25=₹221',    cat:'₹100 or more'},
+  {val:'₹50x4=₹200',       cat:'₹100 or more'}, {val:'3x₹45=₹135',        cat:'₹100 or more'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'Neha has ₹500. She buys a bag for ₹245.50 and shoes for ₹178.75. How much is left?',
+ o:['₹75.75','₹76.75','₹74.75','₹85.75'],a:0}
+]
+
+] // end pro
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

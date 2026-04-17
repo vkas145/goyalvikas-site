@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 9: Capacity • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrap">
+  <div class="topnav">
+    <a href="./index.html" class="back-btn">← Hub</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores — Ch 9</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const CHAPTER = {key:'ch9', title:'Ch 9: Capacity'};
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Full, half, empty & units ──────────────────
+[
+{type:'match',topic:'Capacity',q:'Match each container description to the correct word.',
+ pairs:[
+  {l:'A completely filled glass',   r:'Full'},
+  {l:'A glass with no water',       r:'Empty'},
+  {l:'Water up to the middle',      r:'Half full'},
+  {l:'Holds the most liquid',       r:'Largest capacity'}
+]},
+
+{type:'mcq',topic:'Capacity',q:'What unit do we use to measure large amounts of liquid?',
+ o:['Litre','Kilogram','Metre','Gram'],a:0},
+
+{type:'tf',topic:'Capacity',q:'A bucket holds more water than a cup. True or False?',answer:true},
+
+{type:'mcq',topic:'Capacity',q:'1 litre = ___ millilitres',
+ o:['1000','100','10','500'],a:0},
+
+{type:'tapall',topic:'Capacity',q:'Tap all containers measured in LITRES.',
+ pool:['A bucket','A teaspoon','A water tank','A thimble','A fish tank','A drum'],
+ correct:['A bucket','A water tank','A fish tank','A drum']},
+
+{type:'sort',topic:'Capacity',q:'Sort from LEAST to MOST capacity.',
+ items:['A teaspoon','A cup','A bottle','A bucket'],order:'asc'},
+
+{type:'fillin',topic:'Units',q:'Fill in:',
+ expr:'We measure small amounts of liquid in ___litres.',
+ o:['milli','kilo','centi','deci'],a:0},
+
+{type:'enterval',topic:'Conversion',q:'How many millilitres is 2 litres? (1 L = 1000 mL)',
+ answer:'2000'},
+
+{type:'fillintext',topic:'Capacity',q:'Complete the sentences.',
+ template:'1 litre = ___ mL. So 3 litres = ___ mL.',
+ blanks:['1000','3000']},
+
+{type:'classify',topic:'Capacity',q:'Sort: measured in mL OR measured in litres.',
+ categories:['Millilitres','Litres'],
+ items:[
+  {val:'A teaspoon',  cat:'Millilitres'},{val:'A bucket',    cat:'Litres'},
+  {val:'Eye drops',   cat:'Millilitres'},{val:'A fish tank', cat:'Litres'},
+  {val:'A spoonful',  cat:'Millilitres'},{val:'A water jug', cat:'Litres'}
+]}
+],
+
+// ── Beginner Set 2: Comparing capacities ─────────────────────
+[
+{type:'tf',topic:'Capacity',q:'500 mL is half a litre. True or False?',answer:true},
+
+{type:'mcq',topic:'Capacity',q:'Which holds more — a 2 L bottle or a 1500 mL bottle?',
+ o:['2 L bottle','1500 mL bottle','They are the same','Cannot say'],a:0},
+
+{type:'match',topic:'Capacity',q:'Match each capacity to its equal.',
+ pairs:[
+  {l:'1 L',    r:'1000 mL'},
+  {l:'2 L',    r:'2000 mL'},
+  {l:'500 mL', r:'Half a litre'},
+  {l:'1500 mL',r:'1 L 500 mL'}
+]},
+
+{type:'mcq',topic:'Capacity',q:'A bottle holds 750 mL. How many such bottles make 3 L?',
+ o:['4','3','2','5'],a:0},
+
+{type:'fillin',topic:'Capacity',q:'Fill in:',
+ expr:'3000 mL = ___ L',
+ o:['3','30','300','3000'],a:0},
+
+{type:'sort',topic:'Capacity',q:'Sort from LEAST to MOST.',
+ items:['500 mL','1 L','1500 mL','2 L'],order:'asc'},
+
+{type:'tapall',topic:'Capacity',q:'Tap all capacities that are MORE than 1 litre.',
+ pool:['500 mL','1500 mL','2 L','800 mL','1 L 200 mL','750 mL'],
+ correct:['1500 mL','2 L','1 L 200 mL']},
+
+{type:'enterval',topic:'Conversion',q:'How many millilitres is 4 litres?',
+ answer:'4000'},
+
+{type:'tf',topic:'Capacity',q:'2000 mL is more than 1 L. True or False?',answer:true},
+
+{type:'fillintext',topic:'Capacity',q:'Fill in both answers.',
+ template:'500 mL + 500 mL = ___ mL = ___ L.',
+ blanks:['1000','1']}
+],
+
+// ── Beginner Set 3: Adding and subtracting capacity ───────────
+[
+{type:'mcq',topic:'Capacity Calculations',q:'A jug holds 1 L 500 mL and a bottle holds 750 mL. Total capacity?',
+ o:['2 L 250 mL','2 L','1 L 750 mL','2 L 500 mL'],a:0},
+
+{type:'fillintext',topic:'Capacity Calculations',q:'Complete both calculations.',
+ template:'1 L 200 mL + 800 mL = ___ mL = ___ L.',
+ blanks:['2000','2']},
+
+{type:'match',topic:'Capacity Calculations',q:'Match each calculation to its answer.',
+ pairs:[
+  {l:'1 L + 500 mL',    r:'1500 mL'},
+  {l:'2000 mL - 500 mL',r:'1500 mL'},
+  {l:'3 L - 1 L',       r:'2 L'},
+  {l:'750 mL + 250 mL', r:'1 L'}
+]},
+
+{type:'mcq',topic:'Capacity Calculations',q:'A tank holds 5 L of water. 2 L is used. How much is left?',
+ o:['3 L','2 L','7 L','4 L'],a:0},
+
+{type:'tf',topic:'Capacity Calculations',q:'500 mL + 500 mL = 1 L. True or False?',answer:true},
+
+{type:'tapall',topic:'Capacity Calculations',q:'Tap all correct capacity facts.',
+ pool:['1000mL=1L','500mL=halfL','2L=1500mL','3000mL=3L','250mL=quarterL','1500mL=1.5L'],
+ correct:['1000mL=1L','500mL=halfL','3000mL=3L','250mL=quarterL']},
+
+{type:'enterval',topic:'Capacity Calculations',q:'A container holds 1 L 500 mL. How many mL is that?',
+ answer:'1500'},
+
+{type:'sort',topic:'Capacity',q:'Sort from LEAST to MOST.',
+ items:['500 mL','1 L','1500 mL','2 L'],order:'asc'},
+
+{type:'classify',topic:'Capacity',q:'Sort: less than 1 L OR 1 L or more.',
+ categories:['Less than 1 L','1 L or more'],
+ items:[
+  {val:'500 mL',  cat:'Less than 1 L'},{val:'1 L',     cat:'1 L or more'},
+  {val:'750 mL',  cat:'Less than 1 L'},{val:'1500 mL', cat:'1 L or more'},
+  {val:'250 mL',  cat:'Less than 1 L'},{val:'2 L',     cat:'1 L or more'}
+]},
+
+{type:'mcq',topic:'Capacity Calculations',q:'3 L - 1 L 500 mL = ?',
+ o:['1 L 500 mL','1 L','2 L','500 mL'],a:0}
+],
+
+// ── Beginner Set 4: Word problems ─────────────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'Mum fills 2 L of water and uses 500 mL for cooking. How much is left?',
+ o:['1 L 500 mL','1 L','1500 mL','500 mL'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'A tank has 10 L of water. After watering plants 4 L is used. ___ L remains.',
+ blanks:['6']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'3 L + 2 L',              r:'5 L'},
+  {l:'5 L - 2 L',              r:'3 L'},
+  {l:'1 L + 1 L + 1 L',        r:'3 L'},
+  {l:'4 L - 1 L',              r:'3 L'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A shopkeeper has 8 L of juice. He sells 3 L 500 mL. How much is left?',
+ o:['4 L 500 mL','4 L','5 L','3 L 500 mL'],a:0},
+
+{type:'tf',topic:'Word Problems',q:'2 L + 3 L = 5 L. True or False?',answer:true},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all containers that hold about 1 litre.',
+ pool:['A water bottle','An eye dropper','A teaspoon','A 1L milk carton','A swimming pool','A large jug'],
+ correct:['A water bottle','A 1L milk carton','A large jug']},
+
+{type:'enterval',topic:'Word Problems',q:'A fish tank holds 12 L. After adding 3 L 500 mL more, how many mL does it hold?',
+ answer:'15500'},
+
+{type:'sort',topic:'Capacity',q:'Sort from LEAST to MOST.',
+ items:['1 L','5 L','500 mL','3 L'],order:'asc'},
+
+{type:'classify',topic:'Word Problems',q:'Sort: measured in mL OR measured in litres.',
+ categories:['In mL','In Litres'],
+ items:[
+  {val:'A teaspoon',   cat:'In mL'},{val:'A bucket',     cat:'In Litres'},
+  {val:'Eye drops',    cat:'In mL'},{val:'A fish tank',  cat:'In Litres'},
+  {val:'A spoonful',   cat:'In mL'},{val:'A water tank', cat:'In Litres'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'Riya has 2 L 500 mL of juice. She drinks 750 mL. How much is left?',
+ o:['1 L 750 mL','1 L 500 mL','2 L','1 L 250 mL'],a:0}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: L and mL conversion ───────────────────────────
+[
+{type:'mcq',topic:'Conversion',q:'How many millilitres is 3 L 250 mL?',
+ o:['3250 mL','3025 mL','3520 mL','3205 mL'],a:0},
+
+{type:'fillintext',topic:'Conversion',q:'Convert these capacities.',
+ template:'2 L 750 mL = ___ mL and 3500 mL = ___ L ___ mL.',
+ blanks:['2750','3','500']},
+
+{type:'match',topic:'Conversion',q:'Match each capacity to its equivalent.',
+ pairs:[
+  {l:'3 L 500 mL', r:'3500 mL'},
+  {l:'4250 mL',    r:'4 L 250 mL'},
+  {l:'2 L 75 mL',  r:'2075 mL'},
+  {l:'1750 mL',    r:'1 L 750 mL'}
+]},
+
+{type:'mcq',topic:'Conversion',q:'5300 mL = ___ L ___ mL',
+ o:['5 L 300 mL','53 L','5 L 30 mL','530 mL'],a:0},
+
+{type:'tf',topic:'Conversion',q:'2 L 500 mL = 2500 mL. True or False?',answer:true},
+
+{type:'tapall',topic:'Conversion',q:'Tap all correct conversions.',
+ pool:['1L=1000mL','2L500mL=2500mL','3L=300mL','4L250mL=4250mL','1500mL=1L5mL','2750mL=2L750mL'],
+ correct:['1L=1000mL','2L500mL=2500mL','4L250mL=4250mL','2750mL=2L750mL']},
+
+{type:'enterval',topic:'Conversion',q:'How many mL is 3 L 750 mL?',
+ answer:'3750'},
+
+{type:'sort',topic:'Conversion',q:'Sort from LEAST to MOST.',
+ items:['1750 mL','2 L','2500 mL','3 L'],order:'asc'},
+
+{type:'fillin',topic:'Conversion',q:'Fill in:',
+ expr:'6750 mL = ___ L 750 mL',
+ o:['6','7','5','60'],a:0},
+
+{type:'classify',topic:'Conversion',q:'Sort: less than 2 L OR 2 L or more.',
+ categories:['Less than 2 L','2 L or more'],
+ items:[
+  {val:'1750 mL',     cat:'Less than 2 L'},{val:'2500 mL',    cat:'2 L or more'},
+  {val:'1 L 500 mL',  cat:'Less than 2 L'},{val:'3 L',        cat:'2 L or more'},
+  {val:'1200 mL',     cat:'Less than 2 L'},{val:'2 L 250 mL', cat:'2 L or more'}
+]}
+],
+
+// ── Pro Set 2: Adding and subtracting L and mL ────────────────
+[
+{type:'mcq',topic:'Capacity Calculations',q:'2 L 450 mL + 1 L 350 mL = ?',
+ o:['3 L 800 mL','3 L 700 mL','4 L','3 L 80 mL'],a:0},
+
+{type:'fillintext',topic:'Capacity Calculations',q:'Complete the calculations.',
+ template:'4 L 600 mL - 1 L 250 mL = ___ L ___ mL.',
+ blanks:['3','350']},
+
+{type:'match',topic:'Capacity Calculations',q:'Match each calculation to its answer.',
+ pairs:[
+  {l:'2 L 450 mL + 1 L 350 mL', r:'3 L 800 mL'},
+  {l:'5 L - 2 L 750 mL',        r:'2 L 250 mL'},
+  {l:'1 L 600 mL + 1 L 800 mL', r:'3 L 400 mL'},
+  {l:'4 L 200 mL - 1 L 500 mL', r:'2 L 700 mL'}
+]},
+
+{type:'mcq',topic:'Capacity Calculations',q:'5 L - 2 L 750 mL = ?',
+ o:['2 L 250 mL','2 L 750 mL','3 L 250 mL','2 L'],a:0},
+
+{type:'tf',topic:'Capacity Calculations',q:'1 L 600 mL + 1 L 800 mL = 3 L 400 mL. True or False?',answer:true},
+
+{type:'enterval',topic:'Capacity Calculations',q:'3 L 250 mL + 1 L 500 mL = ? (answer in mL)',
+ answer:'4750'},
+
+{type:'fillin',topic:'Capacity Calculations',q:'Find the missing capacity:',
+ expr:'___ L + 1 L 750 mL = 4 L 250 mL',
+ o:['2 L 500 mL','2 L','3 L','1 L 500 mL'],a:0},
+
+{type:'sort',topic:'Capacity',q:'Sort from LEAST to MOST.',
+ items:['2 L 250 mL','3 L 400 mL','1 L 750 mL','4 L'],order:'asc'},
+
+{type:'tapall',topic:'Capacity Calculations',q:'Tap all sums that give MORE than 3 L.',
+ pool:['1L750mL+1L500mL=3L250mL','2L500mL+1L=3L500mL','1L200mL+1L500mL=2L700mL','2L+2L=4L','1L600mL+1L800mL=3L400mL','500mL+2L=2L500mL'],
+ correct:['1L750mL+1L500mL=3L250mL','2L500mL+1L=3L500mL','2L+2L=4L','1L600mL+1L800mL=3L400mL']},
+
+{type:'classify',topic:'Capacity',q:'Sort: less than 3 L OR 3 L or more.',
+ categories:['Less than 3 L','3 L or more'],
+ items:[
+  {val:'2 L 250 mL',  cat:'Less than 3 L'},{val:'3 L 800 mL',  cat:'3 L or more'},
+  {val:'1 L 750 mL',  cat:'Less than 3 L'},{val:'3 L 400 mL',  cat:'3 L or more'},
+  {val:'2 L 700 mL',  cat:'Less than 3 L'},{val:'4 L',         cat:'3 L or more'}
+]}
+],
+
+// ── Pro Set 3: Word problems ──────────────────────────────────
+[
+{type:'mcq',topic:'Word Problems',q:'A jug holds 2 L 750 mL and a bottle holds 1 L 500 mL. Total?',
+ o:['4 L 250 mL','4 L','3 L 250 mL','4 L 500 mL'],a:0},
+
+{type:'fillintext',topic:'Word Problems',q:'Solve the word problem.',
+ template:'A tank has 10 L of water. After watering plants 3 L 750 mL is used. ___ L ___ mL remains.',
+ blanks:['6','250']},
+
+{type:'match',topic:'Word Problems',q:'Match each word problem to its answer.',
+ pairs:[
+  {l:'2 L 750 mL + 1 L 500 mL', r:'4 L 250 mL'},
+  {l:'5 L - 2 L 750 mL',        r:'2 L 250 mL'},
+  {l:'3 L 600 mL + 400 mL',     r:'4 L'},
+  {l:'6 L - 3 L 250 mL',        r:'2 L 750 mL'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A family drinks 1 L 500 mL of milk each day. How much in 3 days?',
+ o:['4 L 500 mL','3 L 500 mL','4 L','5 L'],a:0},
+
+{type:'enterval',topic:'Word Problems',q:'A container of 4 L 500 mL is filled 3 times. Total mL filled?',
+ answer:'13500'},
+
+{type:'tf',topic:'Word Problems',q:'5 L 250 mL - 2 L 750 mL = 2 L 500 mL. True or False?',answer:true},
+
+{type:'sort',topic:'Word Problems',q:'Sort these total capacities from LEAST to MOST.',
+ items:['2 L 250 mL','4 L 250 mL','3 L 250 mL','5 L'],order:'asc'},
+
+{type:'tapall',topic:'Word Problems',q:'Tap all correct capacity calculations.',
+ pool:['2L750mL+1L500mL=4L250mL','5L-2L750mL=2L250mL','3L600mL+400mL=4L','6L-3L250mL=2L750mL','4L500mL+500mL=5L','3L-1L500mL=1L500mL'],
+ correct:['2L750mL+1L500mL=4L250mL','5L-2L750mL=2L250mL','3L600mL+400mL=4L','6L-3L250mL=2L750mL','4L500mL+500mL=5L','3L-1L500mL=1L500mL']},
+
+{type:'classify',topic:'Word Problems',q:'Sort: total is less than 4 L OR 4 L or more.',
+ categories:['Less than 4 L','4 L or more'],
+ items:[
+  {val:'1L500mL+1L=2L500mL',     cat:'Less than 4 L'},{val:'2L750mL+1L500mL=4L250mL',cat:'4 L or more'},
+  {val:'2L+500mL=2L500mL',       cat:'Less than 4 L'},{val:'3L600mL+400mL=4L',        cat:'4 L or more'},
+  {val:'1L250mL+1L250mL=2L500mL',cat:'Less than 4 L'},{val:'4L500mL+500mL=5L',        cat:'4 L or more'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A shopkeeper has 6 L 500 mL of oil. He sells 2 L 750 mL. How much remains?',
+ o:['3 L 750 mL','3 L 500 mL','4 L 250 mL','4 L'],a:0}
+],
+
+// ── Pro Set 4: Estimation & comparison ───────────────────────
+[
+{type:'mcq',topic:'Estimation',q:'Which is the best estimate for the capacity of a drinking glass?',
+ o:['250 mL','25 L','2500 mL','2 mL'],a:0},
+
+{type:'fillintext',topic:'Capacity',q:'Complete the comparison.',
+ template:'3 L 500 mL is ___ mL more than 3 L. It is also ___ mL less than 4 L.',
+ blanks:['500','500']},
+
+{type:'match',topic:'Estimation',q:'Match each container to its best estimated capacity.',
+ pairs:[
+  {l:'A drinking glass',  r:'250 mL'},
+  {l:'A water bottle',    r:'1 L'},
+  {l:'A bathtub',         r:'200 L'},
+  {l:'A teaspoon',        r:'5 mL'}
+]},
+
+{type:'mcq',topic:'Estimation',q:'Which holds about 1 litre?',
+ o:['A water bottle','A teaspoon','A swimming pool','A thimble'],a:0},
+
+{type:'enterval',topic:'Capacity',q:'4 L 300 mL is how many mL more than 4 L?',
+ answer:'300'},
+
+{type:'tf',topic:'Estimation',q:'A bathtub holds about 200 mL of water. True or False?',answer:false},
+
+{type:'sort',topic:'Estimation',q:'Sort from LEAST to MOST capacity.',
+ items:['A teaspoon','A glass','A bottle','A bucket'],order:'asc'},
+
+{type:'tapall',topic:'Estimation',q:'Tap all containers that hold about 1 litre or more.',
+ pool:['A teaspoon','A water bottle','A bathtub','An eye dropper','A fish tank','A thimble'],
+ correct:['A water bottle','A bathtub','A fish tank']},
+
+{type:'classify',topic:'Estimation',q:'Sort: less than 1 L OR 1 L or more (estimated).',
+ categories:['Less than 1 L','1 L or more'],
+ items:[
+  {val:'A teaspoon',    cat:'Less than 1 L'},{val:'A water bottle', cat:'1 L or more'},
+  {val:'An eye dropper',cat:'Less than 1 L'},{val:'A fish tank',    cat:'1 L or more'},
+  {val:'A small cup',   cat:'Less than 1 L'},{val:'A bucket',       cat:'1 L or more'}
+]},
+
+{type:'mcq',topic:'Word Problems',q:'A swimming pool holds 500 L. After draining 125 L 500 mL, how much remains?',
+ o:['374 L 500 mL','375 L 500 mL','374 L','375 L'],a:0}
+]
+
+] // end pro
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>
