@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/vivaan"
+  to = "/vivaan/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/vivaan/"
+  to = "/vivaan/index.html"
+  status = 200
+  force = true
