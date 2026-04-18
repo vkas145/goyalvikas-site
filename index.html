@@ -326,10 +326,9 @@
     ======================================== */
     #hero {
       position: relative;
-      min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: 100px 24px 80px;
+      padding: 120px 24px 48px;
       overflow: hidden;
     }
 
@@ -451,6 +450,45 @@
       display: flex;
       gap: 14px;
       flex-wrap: wrap;
+    }
+
+    .hero-trust {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero-trust-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hero-trust-items {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hero-trust-item {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .hero-trust-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255, 220, 92, 0.5);
     }
 
     /* Photo Card */
@@ -722,15 +760,35 @@
     }
 
     /* ========================================
-       IMAGE SLIDER
+       RECOGNITION / IMAGE SLIDER
     ======================================== */
+    #recognition {
+      padding: 64px 24px 24px;
+      position: relative;
+    }
+
+    .recognition-header {
+      max-width: 1160px;
+      margin: 0 auto 28px;
+      text-align: center;
+    }
+
+    .recognition-header .section-label {
+      justify-content: center;
+    }
+
+    .recognition-sub {
+      font-size: 15px;
+      color: var(--text-sec);
+      line-height: 1.7;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
     .img-slider {
-      padding: 28px 0;
+      padding: 28px 0 36px;
       overflow: hidden;
       position: relative;
-      background: rgba(10,11,20,0.6);
-      border-top: 1px solid rgba(255, 220, 92,0.06);
-      border-bottom: 1px solid rgba(255, 220, 92,0.06);
     }
 
     .img-slider::before,
@@ -739,7 +797,7 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 80px;
+      width: 100px;
       z-index: 2;
       pointer-events: none;
     }
@@ -756,9 +814,10 @@
 
     .img-slider-track {
       display: flex;
-      gap: 28px;
-      animation: slider-scroll 35s linear infinite;
+      gap: 24px;
+      animation: slider-scroll 55s linear infinite;
       width: max-content;
+      align-items: flex-start;
     }
 
     .img-slider-track:hover {
@@ -767,36 +826,54 @@
 
     .img-slider-item {
       flex-shrink: 0;
-      width: 260px;
-      height: 195px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 220, 92,0.12);
-      background: #12131F;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-      transition: transform 0.3s, border-color 0.3s;
+      width: 280px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.35s ease;
     }
 
     .img-slider-item:hover {
-      transform: scale(1.04);
-      border-color: rgba(255, 220, 92,0.35);
+      transform: translateY(-4px);
     }
 
-    .img-slider-item img {
+    .img-slider-frame {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: 200px;
+      border-radius: 14px;
+      background: linear-gradient(160deg, #14151f 0%, #0f101a 100%);
+      border: 1px solid rgba(255, 220, 92, 0.1);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .img-slider-item:hover .img-slider-frame {
+      border-color: rgba(255, 220, 92, 0.32);
+      box-shadow: 0 14px 36px rgba(255, 220, 92, 0.1), 0 8px 28px rgba(0,0,0,0.45);
+    }
+
+    .img-slider-frame img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
       display: block;
     }
 
-    .img-slider-item.contain-img {
-      background: #1a1b2e;
-      width: 340px;
-    }
-
-    .img-slider-item.contain-img img {
-      object-fit: contain;
-      padding: 8px;
+    .img-slider-item figcaption {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-sec);
+      line-height: 1.55;
+      text-align: center;
+      padding: 0 4px;
     }
 
     @keyframes slider-scroll {
@@ -805,12 +882,14 @@
     }
 
     @media (max-width: 768px) {
-      .img-slider-item {
-        width: 200px;
-        height: 150px;
+      #recognition {
+        padding: 48px 20px 16px;
       }
-      .img-slider {
-        padding: 32px 0;
+      .img-slider-item {
+        width: 220px;
+      }
+      .img-slider-frame {
+        height: 160px;
       }
     }
 
@@ -1530,7 +1609,7 @@
        ABOUT NARROW
     ======================================== */
     #about {
-      padding: 56px 24px;
+      padding: 24px 24px 56px;
     }
 
     .about-inner-narrow {
@@ -1878,6 +1957,10 @@
 
     <div class="hero-inner hero-inner-centered">
       <div class="hero-copy hero-copy-centered">
+        <div class="status-badge" style="margin-bottom:18px;">
+          <span class="status-dot"></span>
+          Open to select advisory &amp; consulting engagements
+        </div>
         <div class="hero-eyebrow">India B2B &nbsp;·&nbsp; SMB Growth &nbsp;·&nbsp; 13+ Years</div>
         <h1 class="hero-h1">
           Helping B2B Businesses<br>
@@ -1889,6 +1972,17 @@
         </p>
         <div class="hero-btns">
           <a href="#cta" class="btn-primary">Let's Talk</a>
+          <a href="#work" class="btn-ghost">See My Work</a>
+        </div>
+        <div class="hero-trust">
+          <span class="hero-trust-label">Built &amp; scaled at</span>
+          <div class="hero-trust-items">
+            <span class="hero-trust-item">Naukri</span>
+            <span class="hero-trust-dot"></span>
+            <span class="hero-trust-item">IndiaMART</span>
+            <span class="hero-trust-dot"></span>
+            <span class="hero-trust-item">InfoEdge</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1970,29 +2064,38 @@
   </section>
 
   <!-- ========================================
-       IMAGE SLIDER
+       RECOGNITION
   ======================================== -->
-  <section class="img-slider">
+  <section id="recognition">
+    <div class="recognition-header">
+      <div class="section-label"><span>Recognition</span></div>
+      <h2 class="section-heading">Awards, Press &amp; Features</h2>
+      <p class="recognition-sub">A few moments that marked the journey — awards, a published book, a national exam record, and features across press &amp; stage.</p>
+    </div>
+    <div class="img-slider">
     <div class="img-slider-track">
-      <div class="img-slider-item"><img src="9999.jpg" alt="IndiaMART Best Performer of the Year 2016-17" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="99.jpg" alt="IndiaMART NSD Best Performer of the Year 2018-19" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="11.jpg" alt="IndiaMART Employee of the Year 2022" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="777.jpg" alt="A Date with Numbers, Book by Vikas Omprakash Goyal" loading="lazy" /></div>
-      <div class="img-slider-item contain-img"><img src="666.jpg" alt="MAT Score Card, 800 out of 800, All India Topper, 99.87 Percentile" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="333.jpg" alt="Guest Speaker at IIM Ahmedabad Alumni Association" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="22.jpg" alt="Vikas Goyal with Hon. Railway Minister Ashwini Vaishnaw" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="555.jpg" alt="Vikas Goyal at Radio City 91.1 FM" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="bolo.jpeg" alt="Bolo Aur Likho, Free AI-Powered Audio Transcription Tool" loading="lazy" style="object-position:top center;" /></div>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="9999.jpg" alt="IndiaMART Best Performer of the Year 2016-17" loading="lazy" /></div><figcaption>Best Performer of the Year · IndiaMART, 2016&ndash;17</figcaption></figure>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="99.jpg" alt="IndiaMART NSD Best Performer of the Year 2018-19" loading="lazy" /></div><figcaption>NSD Best Performer · IndiaMART, 2018&ndash;19</figcaption></figure>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="11.jpg" alt="IndiaMART Employee of the Year 2022" loading="lazy" /></div><figcaption>Employee of the Year · IndiaMART, 2022</figcaption></figure>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="goldmerit.jpeg" alt="Team Excellence Gold Award, InfoEdge Merit Awards, Cracking the SMB code" loading="lazy" /></div><figcaption>Team Excellence Gold Award · InfoEdge Merit Awards</figcaption></figure>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="777.jpg" alt="A Date with Numbers, Book by Vikas Omprakash Goyal" loading="lazy" /></div><figcaption>Author · A Date with Numbers</figcaption></figure>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="666.jpg" alt="MAT Score Card, 800 out of 800, All India Topper, 99.87 Percentile" loading="lazy" /></div><figcaption>All India MAT Topper · 800/800, 99.87&nbsp;%ile</figcaption></figure>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="333.jpg" alt="Guest Speaker at IIM Ahmedabad Alumni Association" loading="lazy" /></div><figcaption>Guest Speaker · IIM Ahmedabad Alumni</figcaption></figure>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="22.jpg" alt="Vikas Goyal with Hon. Railway Minister Ashwini Vaishnaw" loading="lazy" /></div><figcaption>With Hon. Railway Minister Ashwini Vaishnaw</figcaption></figure>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="555.jpg" alt="Vikas Goyal at Radio City 91.1 FM" loading="lazy" /></div><figcaption>Live on Radio City 91.1 FM</figcaption></figure>
+      <figure class="img-slider-item"><div class="img-slider-frame"><img src="bolo.jpeg" alt="Bolo Aur Likho, Free AI-Powered Audio Transcription Tool" loading="lazy" /></div><figcaption>Founder · Bolo Aur Likho, free AI transcription</figcaption></figure>
       <!-- Duplicate set for seamless infinite loop -->
-      <div class="img-slider-item"><img src="9999.jpg" alt="IndiaMART Best Performer of the Year 2016-17" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="99.jpg" alt="IndiaMART NSD Best Performer of the Year 2018-19" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="11.jpg" alt="IndiaMART Employee of the Year 2022" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="777.jpg" alt="A Date with Numbers, Book by Vikas Omprakash Goyal" loading="lazy" /></div>
-      <div class="img-slider-item contain-img"><img src="666.jpg" alt="MAT Score Card, 800 out of 800, All India Topper, 99.87 Percentile" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="333.jpg" alt="Guest Speaker at IIM Ahmedabad Alumni Association" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="22.jpg" alt="Vikas Goyal with Hon. Railway Minister Ashwini Vaishnaw" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="555.jpg" alt="Vikas Goyal at Radio City 91.1 FM" loading="lazy" /></div>
-      <div class="img-slider-item"><img src="bolo.jpeg" alt="Bolo Aur Likho, Free AI-Powered Audio Transcription Tool" loading="lazy" style="object-position:top center;" /></div>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="9999.jpg" alt="" loading="lazy" /></div><figcaption>Best Performer of the Year · IndiaMART, 2016&ndash;17</figcaption></figure>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="99.jpg" alt="" loading="lazy" /></div><figcaption>NSD Best Performer · IndiaMART, 2018&ndash;19</figcaption></figure>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="11.jpg" alt="" loading="lazy" /></div><figcaption>Employee of the Year · IndiaMART, 2022</figcaption></figure>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="goldmerit.jpeg" alt="" loading="lazy" /></div><figcaption>Team Excellence Gold Award · InfoEdge Merit Awards</figcaption></figure>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="777.jpg" alt="" loading="lazy" /></div><figcaption>Author · A Date with Numbers</figcaption></figure>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="666.jpg" alt="" loading="lazy" /></div><figcaption>All India MAT Topper · 800/800, 99.87&nbsp;%ile</figcaption></figure>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="333.jpg" alt="" loading="lazy" /></div><figcaption>Guest Speaker · IIM Ahmedabad Alumni</figcaption></figure>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="22.jpg" alt="" loading="lazy" /></div><figcaption>With Hon. Railway Minister Ashwini Vaishnaw</figcaption></figure>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="555.jpg" alt="" loading="lazy" /></div><figcaption>Live on Radio City 91.1 FM</figcaption></figure>
+      <figure class="img-slider-item" aria-hidden="true"><div class="img-slider-frame"><img src="bolo.jpeg" alt="" loading="lazy" /></div><figcaption>Founder · Bolo Aur Likho, free AI transcription</figcaption></figure>
+    </div>
     </div>
   </section>
 
