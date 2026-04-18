@@ -1,4 +1,4 @@
-// Vivaan Quiz — Service Worker (offline-first for chapter pages + assets)
+// Vivaan Quiz, Service Worker (offline-first for chapter pages + assets)
 // Bump CACHE_VER when shipping new chapter content so clients refresh.
 const CACHE_VER = 'vivaan-2026-04-18-c';
 

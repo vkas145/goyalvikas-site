@@ -7,7 +7,7 @@
 
 // ─── Characters ───────────────────────────────────────────────
 const CHARS=[
-  {n:'Paddington',e:'🐻',y:['Paw-some!🐻🎉','Honey-sweet correct!🍯','Un-bear-ably smart!'],x:['Even bears slip!','Shake it off!🐾','Next one — paws crossed!']},
+  {n:'Paddington',e:'🐻',y:['Paw-some!🐻🎉','Honey-sweet correct!🍯','Un-bear-ably smart!'],x:['Even bears slip!','Shake it off!🐾','Next one, paws crossed!']},
   {n:'Jerry',e:'🐭',y:['Squeaky genius!🐭','Jerry approves!🧀','Outsmarted everyone!'],x:['Try again!','Even I get chased!🐭','Cheese will come!🧀']},
   {n:'Tom',e:'🐱',y:['Purr-fect!🐱🎊','Tom impressed!✨','Meow-nificent!'],x:['Hiss! Close one!','Tom says: re-read!','Land on all fours!🐱']},
   {n:'Masha',e:'👧',y:['YES! 👧🎉','Smart as Masha!','Dance time!💃'],x:["Don't worry!👧",'Try again!','We all slip!']},
@@ -120,7 +120,7 @@ function showStartScreen(){
   const nb=document.getElementById('nextBtn');if(nb)nb.className='next-btn';
   setCharNeutral();
   const cm=document.getElementById('charMood');if(cm){cm.className='cmood neutral';cm.textContent='Ready when you are!';}
-  const cg=document.getElementById('charMsg');if(cg)cg.textContent=`Tap START — the timer begins then. 🎯`;
+  const cg=document.getElementById('charMsg');if(cg)cg.textContent=`Tap START, the timer begins then. 🎯`;
   const area=document.getElementById('interactionArea');if(!area)return;
   area.innerHTML=`<div class="start-screen">
     <div class="start-emo">🚀</div>
@@ -690,7 +690,7 @@ function renderModalList(){
     row.innerHTML=`<div><div class="sr-lbl">Set ${i+1}</div><div class="sr-sub">${m}m ${s}s</div></div><div style="text-align:right"><div class="sr-score">${d.score}/${d.tq}</div><div class="sr-stars">${stars}</div></div>`;
     el.appendChild(row);
   });
-  if(!found)el.innerHTML='<div class="empty-msg">No scores yet — start quizzing! 🚀</div>';
+  if(!found)el.innerHTML='<div class="empty-msg">No scores yet, start quizzing! 🚀</div>';
 }
 document.addEventListener('click',e=>{if(e.target&&e.target.id==='modalOv')closeModal();});
 

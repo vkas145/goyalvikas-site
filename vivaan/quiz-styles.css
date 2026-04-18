@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   Vivaan Quiz — Shared Styles (Sunny Playground theme)
+   Vivaan Quiz, Shared Styles (Sunny Playground theme)
    Used by all chapter files (math-ch1.html … math-ch11.html)
    Design tokens mirror /vivaan/index.html for a unified look.
    ══════════════════════════════════════════════════════════════ */
@@ -562,7 +562,7 @@ button{ font-family: inherit; cursor: pointer; border: none; background: none; }
 .res-btn.retry{ background: var(--sky); color: #fff; }
 .res-btn.next{  background: var(--green); color: #fff; }
 
-/* ── FAB + Modal (hidden — master scoreboard lives on hub) ─── */
+/* ── FAB + Modal (hidden, master scoreboard lives on hub) ─── */
 .fab{ display: none !important; }
 .modal-ov{
   position: fixed; inset: 0; z-index: 200;
