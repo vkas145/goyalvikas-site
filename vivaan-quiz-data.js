@@ -405,7 +405,7 @@ beginner:[
 {t:"Place Value",q:"Place value of 0 in 305?",o:["0","3","5","30"],a:0}
 ],
 [
-{t:"Names",q:"'Two hundred thirty-four' in digits?",o:["234","243","234","423"],a:0},
+{t:"Names",q:"'Two hundred thirty-four' in digits?",o:["234","243","324","423"],a:0},
 {t:"Names",q:"'Five hundred twelve' in digits?",o:["512","521","125","251"],a:0},
 {t:"Names",q:"'One hundred one' in digits?",o:["101","110","100","111"],a:0},
 {t:"Names",q:"'Seven hundred ninety-nine' in digits?",o:["799","997","779","977"],a:0},
@@ -485,7 +485,7 @@ pro:[
 {t:"Round",q:"Round 678 to nearest 100?",o:["700","600","680","670"],a:0},
 {t:"Round",q:"Round 150 to nearest 100?",o:["200","100","150","250"],a:0},
 {t:"Round",q:"Round 249 to nearest 10?",o:["250","240","200","260"],a:0},
-{t:"Round",q:"Round 199 to nearest 10?",o:["200","190","100","200"],a:0},
+{t:"Round",q:"Round 199 to nearest 10?",o:["200","190","100","210"],a:0},
 {t:"Round",q:"Round 750 to nearest 100?",o:["800","700","750","900"],a:0},
 {t:"Round",q:"Round 49 to nearest 10?",o:["50","40","45","60"],a:0},
 {t:"Round",q:"Round 1,234 to nearest 100?",o:["1,200","1,300","1,000","1,250"],a:0}
@@ -1359,7 +1359,7 @@ pro:[
 {t:"Ind vs Intl",q:"Indian 1,00,000 = International?",o:["100,000","10,000","1,000,000","10,00,00"],a:0},
 {t:"Ind vs Intl",q:"1 million in Indian?",o:["10 lakh","1 lakh","1 crore","10 crore"],a:0},
 {t:"Ind vs Intl",q:"Commas (Indian) in 987654321?",o:["98,76,54,321","987,654,321","9876,54,321","98765,4321"],a:0},
-{t:"Ind vs Intl",q:"Commas (International) in 987654321?",o:["987,654,321","98,76,54,321","987,6,54,321","98,76,54,321"],a:0},
+{t:"Ind vs Intl",q:"Commas (International) in 987654321?",o:["987,654,321","98,76,54,321","987,65,43,21","9876,54,321"],a:0},
 {t:"Ind vs Intl",q:"1 billion = how many crores?",o:["100","10","1,000","10,000"],a:0},
 {t:"Ind vs Intl",q:"100 crore = ?",o:["1 arab (1 billion)","1 lakh","10 crore","1 crore crore"],a:0},
 {t:"Ind vs Intl",q:"1 trillion = how many crores?",o:["1,00,000","10,000","1,000","10"],a:0},

@@ -1211,7 +1211,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
         <div class="qm-feedback" id="qmFeedback"></div>
-        <button class="qm-next" id="qmNext" type="button">Next Question →</button>
+        <button class="qm-next" id="qmNext" type="button" onclick="if(window.qmAdvance)qmAdvance();">Next Question →</button>
       </div>
 
       <div class="qm-result" id="qmResult">
@@ -1221,8 +1221,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="qm-res-msg" id="qmResMsg">Great job!</div>
         <div class="qm-res-time" id="qmResTime">Time: 0m 0s</div>
         <div class="qm-res-actions">
-          <button class="qm-res-btn again" id="qmTryAgain" type="button">🔄 Try Again</button>
-          <button class="qm-res-btn next" id="qmNextSet" type="button">Next Set →</button>
+          <button class="qm-res-btn again" id="qmTryAgain" type="button" onclick="if(window.qmTryAgain)qmTryAgain();">🔄 Try Again</button>
+          <button class="qm-res-btn next" id="qmNextSet" type="button" onclick="if(window.qmNextSet)qmNextSet();">Next Set →</button>
         </div>
       </div>
     </div>
@@ -2015,9 +2015,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   function nextQ(){
+    if (!QUIZ.open || !Array.isArray(QUIZ.qs) || QUIZ.qs.length === 0) return;
+    // Only advance after the user has answered — prevents a stray click
+    // before selecting an option from doing nothing silently.
+    if (!QUIZ.answered) return;
     if (QUIZ.qIdx < QUIZ.qs.length - 1){ QUIZ.qIdx++; renderQ(); }
     else showQuizResult();
   }
+  // Expose a global advance function so the inline onclick on the Next
+  // button always has a handler to call, even if addEventListener wiring
+  // was somehow skipped (load order, extension interference, etc.).
+  window.qmAdvance = nextQ;
   function showQuizResult(){
     clearInterval(QUIZ.timerInt); QUIZ.timerInt = null;
     const total = QUIZ.qs.length;
@@ -2044,19 +2052,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('qmNextSet').style.display = hasNext ? '' : 'none';
   }
 
-  // Quiz modal event bindings (once)
+  // Quiz modal event bindings — also assigned as inline onclick props so
+  // the handlers are robust even if an extension or load-order issue
+  // strips addEventListener bindings.
   (function bindQuizModal(){
     const close = () => closeQuiz();
-    document.getElementById('qmClose').addEventListener('click', close);
-    document.querySelector('#quizModal .qm-ov').addEventListener('click', close);
-    document.getElementById('qmNext').addEventListener('click', nextQ);
-    document.getElementById('qmTryAgain').addEventListener('click', () => startSet());
-    document.getElementById('qmNextSet').addEventListener('click', () => {
+    const tryAgain = () => startSet();
+    const nextSet = () => {
       const sets = getQuizSets();
       if (QUIZ.setIdx < sets.length - 1){
         QUIZ.setIdx++; buildSetTabs(); startSet();
       }
-    });
+    };
+    const byId = (id) => document.getElementById(id);
+
+    // Direct onclick assignments (belt & suspenders alongside inline html)
+    byId('qmClose').onclick = close;
+    byId('qmNext').onclick = nextQ;
+    byId('qmTryAgain').onclick = tryAgain;
+    byId('qmNextSet').onclick = nextSet;
+    document.querySelector('#quizModal .qm-ov').onclick = close;
+
+    // Globals for any inline html fallbacks. Names deliberately differ
+    // from button ids (qmTryAgain, qmNextSet) so the browser's implicit
+    // "id → window property" shadowing doesn't steal the handler.
+    window.qmAdvance = nextQ;
+    window.qmDismiss = close;
+    window.qmRestart = tryAgain;
+    window.qmAdvanceSet = nextSet;
+
     // Escape closes quiz
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && QUIZ.open) closeQuiz();
