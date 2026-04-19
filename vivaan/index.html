@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Mathemagics · Grade 2 Quiz · For Kids Love</title>
-<meta name="description" content="Mathemagics quiz aligned to a standard Grade 2 student. No sign-up, no data collected, scores stay on your device.">
+<title>Mathemagics · Grades 1 to 10 · For Kids Love</title>
+<meta name="description" content="Mathemagics — free, private, NCERT-aligned maths quiz for Grades 1 to 10. No sign-up, no data collected, scores stay on your device.">
 <meta name="theme-color" content="#FF6B6B">
 <link rel="manifest" href="/vivaan/manifest.json">
 
@@ -18,19 +18,19 @@
 <!-- Open Graph (WhatsApp, iMessage, LinkedIn, Facebook link preview) -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mathemagics · For Kids Love">
-<meta property="og:title" content="Mathemagics · Grade 2 Quiz">
-<meta property="og:description" content="A free, private quiz aligned to a standard Grade 2 student. No sign-up, no ads, nothing stored. Designed by Goyal Vikas for his son, sharing just for learning purposes.">
+<meta property="og:title" content="Mathemagics · NCERT Grades 1 to 10">
+<meta property="og:description" content="A free, private maths quiz aligned to NCERT Grades 1 to 10. No sign-up, no ads, nothing stored. Designed by Goyal Vikas for his son, sharing just for learning purposes.">
 <meta property="og:url" content="https://www.goyalvikas.com/vivaan/">
 <meta property="og:image" content="https://www.goyalvikas.com/vivaan/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Mathemagics Grade 2 Quiz, designed by Goyal Vikas, for kids love">
+<meta property="og:image:alt" content="Mathemagics NCERT Grades 1-10 Quiz, designed by Goyal Vikas, for kids love">
 <meta property="og:locale" content="en_IN">
 
 <!-- Twitter / X card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Mathemagics · Grade 2 Quiz">
-<meta name="twitter:description" content="Private, free, no sign-up quiz aligned to a standard Grade 2 student. Designed by Goyal Vikas for his son.">
+<meta name="twitter:title" content="Mathemagics · NCERT Grades 1 to 10">
+<meta name="twitter:description" content="Private, free, no sign-up maths quiz aligned to NCERT Grades 1 to 10. Designed by Goyal Vikas for his son.">
 <meta name="twitter:image" content="https://www.goyalvikas.com/vivaan/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,7 +97,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Topbar */
   .topbar{
     display:flex; align-items:center; justify-content:space-between;
-    margin-bottom: 30px; gap: 14px; flex-wrap: wrap;
+    margin-bottom: 20px; gap: 14px; flex-wrap: wrap;
   }
   .brand{
     display:flex; align-items:center; gap:12px;
@@ -139,6 +139,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   button.chip:hover{ transform: translateY(-2px); box-shadow: 0 5px 0 var(--card-border); }
   .chip.user .chip-caret{ opacity: .5; margin-left: 2px; font-size: 10px; }
+
+  /* Grade selector */
+  .grade-bar{
+    display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+    padding: 10px;
+    margin: 6px auto 22px;
+    background: var(--card);
+    border: 2px solid var(--card-border);
+    border-radius: 22px;
+    box-shadow: 0 4px 0 var(--card-border);
+    max-width: 900px;
+  }
+  .grade-tab{
+    min-width: 64px;
+    padding: 8px 12px 10px;
+    border-radius: 14px;
+    background: transparent;
+    border: 2px solid transparent;
+    font-family: var(--display);
+    font-weight: 600;
+    color: var(--ink-2);
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    transition: all .15s var(--ease-pop);
+    cursor: pointer;
+  }
+  .grade-tab:hover:not(.active){ background: rgba(0,0,0,0.04); color: var(--ink); transform: translateY(-1px); }
+  .grade-tab.active{
+    background: var(--coral);
+    color: #FFF;
+    border-color: var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+  }
+  .grade-tab .g-num{ font-size: 19px; font-weight: 700; line-height: 1; }
+  .grade-tab .g-label{ font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; opacity: .75; }
 
   /* Profile modal */
   .modal-ov{
@@ -235,7 +269,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Hero */
   .hero{
     text-align:center;
-    padding: 24px 16px 10px;
+    padding: 14px 16px 10px;
     position: relative;
   }
   .hero-badge{
@@ -267,46 +301,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-size: 17px; color: var(--ink-2);
     max-width: 580px; margin: 0 auto;
     font-weight: 600; line-height: 1.5;
-  }
-
-  /* Mascot row */
-  .mascot-row{
-    display:flex; align-items:center; justify-content:center; gap: 16px;
-    margin: 22px auto 8px;
-    max-width: 640px;
-    flex-wrap: wrap;
-  }
-  .mascot{
-    width: 78px; height: 78px; flex: 0 0 78px;
-    border-radius: 24px;
-    display:grid; place-items:center;
-    font-size: 46px;
-    background: linear-gradient(135deg, var(--yellow), var(--peach));
-    border: 3px solid var(--card-border);
-    box-shadow: 0 6px 0 var(--card-border);
-    animation: bob 3s ease-in-out infinite;
-  }
-  @keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-  .speech{
-    position: relative;
-    background: var(--card);
-    padding: 12px 18px;
-    border-radius: 18px;
-    border: 2px solid var(--card-border);
-    font-weight: 700; font-size: 14px;
-    box-shadow: 0 3px 0 var(--card-border);
-    max-width: 360px;
-    text-align: left;
-  }
-  .speech::before{
-    content:''; position:absolute; left: -10px; top: 50%; transform: translateY(-50%);
-    width:0; height:0; border-top: 10px solid transparent; border-bottom: 10px solid transparent;
-    border-right: 12px solid var(--card-border);
-  }
-  .speech::after{
-    content:''; position:absolute; left: -7px; top: 50%; transform: translateY(-50%);
-    width:0; height:0; border-top: 8px solid transparent; border-bottom: 8px solid transparent;
-    border-right: 10px solid var(--card);
   }
 
   /* Scoreboard */
@@ -378,43 +372,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: var(--ink-2);
   }
 
-  /* Subject tabs */
-  .subject-tabs{
-    display:flex; gap: 8px; flex-wrap: wrap;
-    margin-bottom: 22px;
-    padding: 8px;
-    background: var(--card);
-    border: 2px solid var(--card-border);
-    border-radius: 22px;
-    box-shadow: 0 4px 0 var(--card-border);
-  }
-  .subject-tab{
-    flex: 1 1 0; min-width: 130px;
-    padding: 11px 14px;
-    border-radius: 16px;
-    display:flex; align-items:center; justify-content:center; gap: 7px;
-    font-weight: 800; font-size: 14px;
-    color: var(--ink-2);
-    transition: all .2s var(--ease-pop);
-    white-space: nowrap;
-    position: relative;
-  }
-  .subject-tab:hover:not(.locked){ background: rgba(0,0,0,0.04); color: var(--ink); }
-  .subject-tab.active{
-    background: var(--coral);
-    color: #FFF;
-    box-shadow: 0 3px 0 var(--card-border);
-  }
-  .subject-tab.locked{ opacity: .6; cursor: default; }
-  .subject-tab .tab-emoji{ font-size: 19px; }
-  .subject-tab .soon-pill{
-    position: absolute; top: -8px; right: 4px;
-    font-size: 9px; font-weight: 900; letter-spacing: .04em;
-    background: var(--yellow); color: var(--ink);
-    padding: 2px 8px; border-radius: 999px;
-    border: 1.5px solid var(--card-border);
-  }
-
   /* Section head */
   .section-head{
     display:flex; align-items:end; justify-content:space-between; gap: 16px;
@@ -470,6 +427,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .chapter:nth-child(9)  { animation-delay: .36s; }
   .chapter:nth-child(10) { animation-delay: .40s; }
   .chapter:nth-child(11) { animation-delay: .44s; }
+  .chapter:nth-child(12) { animation-delay: .48s; }
+  .chapter:nth-child(13) { animation-delay: .52s; }
+  .chapter:nth-child(14) { animation-delay: .56s; }
+  .chapter:nth-child(15) { animation-delay: .60s; }
+  .chapter:nth-child(16) { animation-delay: .64s; }
 
   .chapter:hover{
     transform: translateY(-4px);
@@ -481,6 +443,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     top: 0; left: 0; right: 0;
     height: 6px;
     background: var(--accent-ch, var(--accent));
+  }
+
+  .chapter.soon{
+    opacity: .82;
+    border-style: dashed;
+  }
+  .chapter.soon:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 var(--card-border);
+  }
+  .chapter.soon .play-btn{
+    background: var(--card);
+    color: var(--ink-2);
+    border-color: var(--card-border);
+    cursor: default;
+  }
+  .chapter.soon:hover .play-btn{ transform: none; box-shadow: 0 3px 0 var(--card-border); }
+  .soon-badge{
+    position: absolute; top: 12px; right: 12px;
+    font-size: 9.5px; font-weight: 900; letter-spacing: .05em;
+    background: var(--yellow); color: var(--ink);
+    padding: 3px 9px; border-radius: 999px;
+    border: 1.5px solid var(--card-border);
+    text-transform: uppercase;
   }
 
   .chapter-head{
@@ -599,6 +585,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display: inline-block;
     animation: bob 3s ease-in-out infinite;
   }
+  @keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
   .subj-name{
     font-family: var(--display); font-weight: 700;
     font-size: 18px; color: var(--ink);
@@ -614,6 +601,265 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     box-shadow: 0 2px 0 var(--card-border);
     letter-spacing: .06em;
   }
+
+  /* Pick-grade empty state */
+  .pick-grade-card{
+    background: var(--card);
+    border: 2.5px dashed var(--card-border);
+    border-radius: var(--radius-card);
+    padding: 40px 24px;
+    text-align: center;
+    box-shadow: 0 6px 0 var(--card-border);
+  }
+  .pick-grade-card .pg-emo{
+    font-size: 58px; line-height: 1;
+    margin-bottom: 14px;
+    animation: bob 3s ease-in-out infinite;
+    display: inline-block;
+  }
+  .pick-grade-card .pg-title{
+    font-family: var(--display); font-weight: 700;
+    font-size: 24px; color: var(--ink);
+    margin-bottom: 6px; letter-spacing: -0.02em;
+  }
+  .pick-grade-card .pg-sub{
+    font-size: 14px; color: var(--ink-2); font-weight: 700;
+  }
+
+  /* Quiz Modal (full-screen for non-G2 chapters) */
+  .quiz-modal{ position: fixed; inset: 0; z-index: 250; display: none; }
+  .quiz-modal.show{ display: block; }
+  .quiz-modal .qm-ov{
+    position: absolute; inset: 0;
+    background: rgba(43,27,74,0.6);
+    backdrop-filter: blur(4px);
+  }
+  .quiz-modal .qm-box{
+    position: relative;
+    max-width: 760px;
+    margin: 20px auto;
+    height: calc(100vh - 40px);
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    border-radius: var(--radius-card);
+    box-shadow: 0 6px 0 var(--card-border);
+    padding: 18px 20px 22px;
+    overflow-y: auto;
+    animation: modalPop .35s var(--ease-pop);
+  }
+  @media (max-width: 720px){
+    .quiz-modal .qm-box{ margin: 0; height: 100vh; border-radius: 0; border: none; }
+  }
+  .qm-close{
+    position: absolute; top: 14px; right: 14px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--card); color: var(--ink);
+    border: 2px solid var(--card-border);
+    box-shadow: 0 2px 0 var(--card-border);
+    font-weight: 900; font-size: 16px;
+    display: grid; place-items: center; cursor: pointer;
+    transition: all .15s var(--ease-pop);
+  }
+  .qm-close:hover{ background: var(--coral); color: #fff; transform: translateY(-1px); }
+  .qm-head{ display: flex; align-items: center; gap: 12px; padding-right: 46px; margin-bottom: 12px; }
+  .qm-head-emoji{
+    width: 46px; height: 46px; flex: 0 0 46px;
+    border-radius: 14px;
+    background: color-mix(in oklab, var(--qm-accent, var(--coral)), transparent 82%);
+    display: grid; place-items: center; font-size: 26px;
+    transform: rotate(-4deg);
+  }
+  .qm-head-lines .qm-ch-tag{
+    font-size: 10px; font-weight: 900; letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--qm-accent, var(--coral));
+  }
+  .qm-head-lines .qm-title{
+    font-family: var(--display); font-weight: 700;
+    font-size: 20px; letter-spacing: -0.01em;
+    line-height: 1.1; color: var(--ink);
+  }
+
+  .qm-levels{
+    display: flex; gap: 6px; padding: 5px;
+    background: color-mix(in oklab, var(--card-border), transparent 95%);
+    border: 2px solid var(--card-border);
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+  .qm-level-btn{
+    flex: 1;
+    padding: 9px 10px;
+    border-radius: 10px;
+    font-weight: 800; font-size: 13px;
+    color: var(--ink-2); background: transparent;
+    font-family: 'Nunito', sans-serif;
+    transition: all .15s var(--ease-pop);
+  }
+  .qm-level-btn.active[data-level="beginner"]{ background: var(--sky); color: #fff; box-shadow: 0 2px 0 var(--card-border); }
+  .qm-level-btn.active[data-level="pro"]{ background: var(--coral); color: #fff; box-shadow: 0 2px 0 var(--card-border); }
+
+  .qm-sets{ display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .qm-set-btn{
+    padding: 6px 12px; border-radius: 999px;
+    background: var(--card); color: var(--ink-2);
+    border: 2px solid var(--card-border);
+    font-weight: 800; font-size: 12px;
+    font-family: 'Nunito', sans-serif;
+    transition: all .15s var(--ease-pop);
+  }
+  .qm-set-btn.active{ background: var(--yellow); color: var(--ink); box-shadow: 0 2px 0 var(--card-border); }
+  .qm-set-btn.done{ border-color: var(--green); color: var(--green); }
+  .qm-set-btn.done.active{ background: var(--green); color: #fff; }
+
+  .qm-meta{
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .qm-meta > div{
+    background: var(--card);
+    border: 1.5px solid var(--card-border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 12px; font-weight: 800;
+    color: var(--ink);
+  }
+  .qm-progress{
+    height: 8px; margin-bottom: 12px;
+    background: color-mix(in oklab, var(--card-border), transparent 92%);
+    border: 1.5px solid var(--card-border);
+    border-radius: 999px; overflow: hidden;
+  }
+  .qm-progress-fill{
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--qm-accent, var(--coral)), var(--yellow) 50%, var(--green));
+    transition: width .4s ease;
+  }
+
+  .qm-topic{
+    display: inline-block;
+    font-size: 11px; font-weight: 900; letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--grape);
+    background: color-mix(in oklab, var(--grape), transparent 88%);
+    border: 1.5px solid color-mix(in oklab, var(--grape), transparent 55%);
+    padding: 3px 10px; border-radius: 999px;
+    margin-bottom: 8px;
+  }
+  .qm-qnum{
+    font-size: 11px; font-weight: 800; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .06em;
+    margin-bottom: 4px;
+  }
+  .qm-q{
+    font-family: var(--display); font-weight: 600;
+    font-size: 20px; color: var(--ink); line-height: 1.3;
+    margin-bottom: 14px; min-height: 40px;
+  }
+
+  .qm-opts{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .qm-opt{
+    background: var(--card); color: var(--ink);
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    border-radius: 14px;
+    padding: 12px 10px; text-align: left;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 14px;
+    cursor: pointer; transition: all .15s var(--ease-pop);
+    line-height: 1.3;
+  }
+  .qm-opt:hover:not(:disabled){ transform: translateY(-2px); box-shadow: 0 5px 0 var(--card-border); }
+  .qm-opt.correct{
+    background: color-mix(in oklab, var(--green), transparent 80%);
+    border-color: var(--green); color: var(--green);
+  }
+  .qm-opt.wrong{
+    background: color-mix(in oklab, var(--coral), transparent 80%);
+    border-color: var(--coral); color: var(--coral);
+  }
+  .qm-opt:disabled{ cursor: default; }
+  @media (max-width: 500px){ .qm-opts{ grid-template-columns: 1fr; } }
+
+  .qm-char{
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: color-mix(in oklab, var(--qm-accent, var(--coral)), transparent 90%);
+    border: 1.5px dashed color-mix(in oklab, var(--qm-accent, var(--coral)), transparent 55%);
+    margin-bottom: 10px;
+  }
+  .qm-char-face{
+    width: 48px; height: 48px; flex: 0 0 48px;
+    border-radius: 14px;
+    display: grid; place-items: center;
+    font-size: 28px;
+    background: #fff;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    transform: rotate(-5deg);
+    transition: transform .25s var(--ease-pop);
+  }
+  .qm-char-face.pop{ animation: qmPop .4s ease; }
+  .qm-char-face.shake{ animation: qmShake .45s ease; }
+  @keyframes qmPop{ 0%{transform:scale(1) rotate(-5deg)} 40%{transform:scale(1.25) rotate(6deg)} 100%{transform:scale(1) rotate(-5deg)} }
+  @keyframes qmShake{ 0%,100%{transform:translateX(0) rotate(-5deg)} 25%{transform:translateX(-5px) rotate(-8deg)} 75%{transform:translateX(5px) rotate(-2deg)} }
+  .qm-char-name{
+    font-family: var(--display); font-weight: 700;
+    font-size: 14px; color: var(--ink);
+  }
+  .qm-char-msg{
+    font-size: 12px; font-weight: 700; color: var(--ink-2);
+    margin-top: 2px;
+  }
+
+  .qm-feedback{
+    display: none; text-align: center;
+    padding: 9px 12px; border-radius: 12px;
+    font-weight: 900; font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .qm-feedback.show{ display: block; animation: modalPop .3s var(--ease-pop); }
+  .qm-feedback.good{ background: color-mix(in oklab, var(--green), transparent 85%); color: var(--green); }
+  .qm-feedback.bad{ background: color-mix(in oklab, var(--coral), transparent 85%); color: var(--coral); }
+
+  .qm-next{
+    display: none; width: 100%;
+    padding: 13px 16px; border-radius: 999px;
+    background: var(--qm-accent, var(--coral)); color: #fff;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 15px;
+    cursor: pointer;
+    transition: all .15s var(--ease-pop);
+  }
+  .qm-next.show{ display: block; animation: modalPop .3s var(--ease-pop); }
+  .qm-next:hover{ transform: translateY(-2px); box-shadow: 0 5px 0 var(--card-border); }
+
+  .qm-result{ display: none; text-align: center; padding: 20px 6px; }
+  .qm-result.show{ display: block; animation: modalPop .4s var(--ease-pop); }
+  .qm-result .qm-res-emoji{ font-size: 64px; display: block; line-height: 1; margin-bottom: 8px; animation: bob 1s infinite; }
+  .qm-result .qm-res-score{
+    font-family: var(--display); font-weight: 700;
+    font-size: 48px; color: var(--qm-accent, var(--coral));
+    line-height: 1.0;
+  }
+  .qm-result .qm-res-score .sub{ font-size: 18px; color: var(--ink-2); font-weight: 600; display: block; margin-top: 4px; }
+  .qm-result .qm-res-stars{ font-size: 28px; letter-spacing: 4px; margin: 10px 0; }
+  .qm-result .qm-res-msg{ font-size: 16px; font-weight: 800; color: var(--ink); }
+  .qm-result .qm-res-time{ font-size: 12px; font-weight: 700; color: var(--muted); margin-top: 4px; margin-bottom: 18px; }
+  .qm-result .qm-res-actions{ display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .qm-res-btn{
+    padding: 11px 20px; border-radius: 999px;
+    font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 14px;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    cursor: pointer;
+    transition: all .15s var(--ease-pop);
+  }
+  .qm-res-btn.again{ background: var(--sky); color: #fff; }
+  .qm-res-btn.next{ background: var(--green); color: #fff; }
+  .qm-res-btn:hover{ transform: translateY(-2px); box-shadow: 0 5px 0 var(--card-border); }
 
   /* Footer */
   .foot{
@@ -679,7 +925,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .foot a{ color: var(--coral); font-weight: 900; text-decoration: none; }
 </style>
-</head>
+<!-- Google Site Verification -->
+<meta name="google-site-verification" content="FF1bt2TevSgPyyhc0vnLzLsP_LBu6DVZkcFvF5XNaGY" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TG9F3RCK');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2FXRX383SG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2FXRX383SG');
+</script></head>
 <body>
 
 <!-- Google Tag Manager (noscript) -->
@@ -695,7 +957,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="brand-logo">🎯</div>
       <div class="brand-lines">
         <div class="l1">Mathemagics</div>
-        <div class="l2">Grade 2 · For Kids Love</div>
+        <div class="l2" id="brandSub">Grade 2 · For Kids Love</div>
       </div>
     </div>
     <div class="hud">
@@ -707,11 +969,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </header>
 
+  <!-- Grade selector -->
+  <nav class="grade-bar" id="gradeBar" aria-label="Choose your grade"></nav>
+
   <!-- Hero -->
   <section class="hero">
     <div class="hero-badge">✨ Let's learn, let's play!</div>
     <h1>Let's have some fun, with <span class="spark">Mathemagics</span></h1>
-    <p class="sub">Quiz aligned to a standard Grade 2 student.</p>
+    <p class="sub" id="heroSub">Quiz aligned to a standard Grade 2 student.</p>
   </section>
 
   <!-- Master Scoreboard -->
@@ -731,8 +996,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- Mathematics -->
-  <div class="section-head">
-    <h2><span class="lead">🔢</span>Mathematics · 11 chapters</h2>
+  <div class="section-head" id="chapterSection">
+    <h2><span class="lead">🔢</span><span id="mathHead">Mathematics · 11 chapters</span></h2>
   </div>
   <div class="chapter-grid" id="chapterGrid"></div>
 
@@ -745,6 +1010,63 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="subj-card"><div class="subj-emoji">📖</div><div class="subj-name">English</div><div class="subj-tag">Launching Soon</div></div>
     <div class="subj-card"><div class="subj-emoji">🌿</div><div class="subj-name">EVS / Science</div><div class="subj-tag">Launching Soon</div></div>
     <div class="subj-card"><div class="subj-emoji">🌍</div><div class="subj-name">GK</div><div class="subj-tag">Launching Soon</div></div>
+  </div>
+
+  <!-- Quiz modal (for non-Grade-2 chapters that have quiz data) -->
+  <div class="quiz-modal" id="quizModal" role="dialog" aria-modal="true" aria-label="Quiz">
+    <div class="qm-ov" data-close="1"></div>
+    <div class="qm-box">
+      <button class="qm-close" id="qmClose" type="button" aria-label="Close">✕</button>
+      <div class="qm-head">
+        <div class="qm-head-emoji" id="qmHeadEmoji">🔢</div>
+        <div class="qm-head-lines">
+          <div class="qm-ch-tag" id="qmChTag">Grade · Chapter</div>
+          <div class="qm-title" id="qmTitle">Chapter title</div>
+        </div>
+      </div>
+
+      <div class="qm-levels">
+        <button class="qm-level-btn active" data-level="beginner" type="button">⭐ Beginner</button>
+        <button class="qm-level-btn" data-level="pro" type="button">🔥 Pro</button>
+      </div>
+
+      <div class="qm-sets" id="qmSets"></div>
+
+      <div class="qm-meta">
+        <div>⏱ <span id="qmTimer">0:00</span></div>
+        <div>Q <span id="qmQnum">1</span>/<span id="qmQtot">10</span></div>
+        <div>✅ <span id="qmScore">0</span></div>
+      </div>
+      <div class="qm-progress"><div class="qm-progress-fill" id="qmFill"></div></div>
+
+      <div id="qmPlay">
+        <div class="qm-topic" id="qmTopic"></div>
+        <div class="qm-qnum" id="qmQCounter">Question 1</div>
+        <div class="qm-q" id="qmQ"></div>
+        <div class="qm-opts" id="qmOpts"></div>
+        <div class="qm-char">
+          <div class="qm-char-face" id="qmCharFace">🐻</div>
+          <div>
+            <div class="qm-char-name" id="qmCharName">Bear</div>
+            <div class="qm-char-msg" id="qmCharMsg">Give it your best shot! 💪</div>
+          </div>
+        </div>
+        <div class="qm-feedback" id="qmFeedback"></div>
+        <button class="qm-next" id="qmNext" type="button">Next Question →</button>
+      </div>
+
+      <div class="qm-result" id="qmResult">
+        <span class="qm-res-emoji" id="qmResEmoji">🏆</span>
+        <div class="qm-res-score"><span id="qmResScore">0</span><span class="sub">out of <span id="qmResTotal">10</span></span></div>
+        <div class="qm-res-stars" id="qmResStars">⭐⭐⭐</div>
+        <div class="qm-res-msg" id="qmResMsg">Great job!</div>
+        <div class="qm-res-time" id="qmResTime">Time: 0m 0s</div>
+        <div class="qm-res-actions">
+          <button class="qm-res-btn again" id="qmTryAgain" type="button">🔄 Try Again</button>
+          <button class="qm-res-btn next" id="qmNextSet" type="button">Next Set →</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Profile picker modal -->
@@ -792,7 +1114,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><strong>Who can see your scores?</strong> Only whoever uses this browser on this device. Not the teacher, not the parent on another phone, not me, not anyone.</li>
         <li><strong>Analytics.</strong> We use Google Tag Manager for anonymous, aggregated page-view counts only, it records things like "someone in India opened Chapter 3", never your name or answers.</li>
         <li><strong>Deleting your data.</strong> Tap <em>Reset</em> on the scoreboard to wipe scores, or clear browser data in Settings. There is no "delete my account" form because there is no account.</li>
-        <li><strong>Built for kids.</strong> Designed for 7-year-olds. No ads, no trackers beyond the analytics above, no links off to social media.</li>
+        <li><strong>Built for kids.</strong> Designed for kids across NCERT Grades 1 to 10. No ads, no trackers beyond the analytics above, no links off to social media.</li>
       </ul>
       <div class="fp-foot">
         Questions? Reach out on <a href="https://goyalvikas.com">goyalvikas.com</a>. Made with ❤️ out of love for our kids, not for money, not for data.
@@ -802,9 +1124,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 </main>
 
+<!-- Quiz content for Grades 1, 3-10 (Ch 1 only for now) -->
+<script src="/vivaan-quiz-data.js"></script>
+
 <script>
-  // ─── Chapter data (Grade 2 maths syllabus, matches existing chapter HTML files) ──
-  const CHAPTERS = [
+  // ═══════════════════════════════════════════════════════════════
+  // GRADE-BASED CHAPTER DATA
+  // Grade 2: existing live chapters (each links to its per-chapter quiz page).
+  // Other grades: NCERT chapter listings, shown as "Coming Soon" cards.
+  // ═══════════════════════════════════════════════════════════════
+
+  // Grade 2 — EXACT match to live deployment (11 chapters, each links to /vivaan/math-chN.html)
+  const GRADE2_CHAPTERS = [
     { n:1,  t:'Numbers & Numeration', d:'Number names, place value, abacus & more',            e:'🔢', color:'sky',    toon:'🐻',  toonName:'Bear',      toonLine:"Let's count honey jars!",        href:'/vivaan/math-ch1.html' },
     { n:2,  t:'Addition',              d:'Carrying over, multi-digit sums & word problems',    e:'➕', color:'coral',  toon:'👧',  toonName:'Masha',     toonLine:'Add up my apples 🍎',           href:'/vivaan/math-ch2.html' },
     { n:3,  t:'Subtraction',           d:'Borrowing, regrouping & difference problems',        e:'➖', color:'yellow', toon:'🦁',  toonName:'Simba',     toonLine:"Roar! Let's find what's missing!", href:'/vivaan/math-ch3.html' },
@@ -818,11 +1149,206 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     { n:11, t:'Money',                 d:'Indian coins & notes, adding money & change',        e:'💰', color:'green',  toon:'🐼',  toonName:'Panda',     toonLine:"Let's go to the market!",        href:'/vivaan/math-ch11.html' },
   ];
 
+  // Toons cycled across NCERT chapters for other grades
+  const TOON_POOL = [
+    {toon:'🐻',  toonName:'Bear',     toonLine:"Let's count honey jars!"},
+    {toon:'👧',  toonName:'Masha',    toonLine:'Apples for the apples!'},
+    {toon:'🦁',  toonName:'Simba',    toonLine:"Roar! Let's get started!"},
+    {toon:'🕷️', toonName:'Spidey',   toonLine:'Use your super power!'},
+    {toon:'🐱',  toonName:'Tom',      toonLine:'Share the stripes 🐾'},
+    {toon:'🐭',  toonName:'Jerry',    toonLine:'Slice the cheese!'},
+    {toon:'🦊',  toonName:'Foxy',     toonLine:'Sneaky puzzles ahead!'},
+    {toon:'🐧',  toonName:'Penguin',  toonLine:'Waddle into this!'},
+    {toon:'🐷',  toonName:'Peppa',    toonLine:'Snort! Puddle time!'},
+    {toon:'🦖',  toonName:'George',   toonLine:"Dino-mite question!"},
+    {toon:'🐼',  toonName:'Panda',    toonLine:"Let's bamboo-this!"},
+    {toon:'🦄',  toonName:'Unicorn',  toonLine:'Magical maths!'},
+    {toon:'🐰',  toonName:'Bunny',    toonLine:'Hop to the answer!'},
+    {toon:'🐨',  toonName:'Koala',    toonLine:'Climb this problem!'},
+    {toon:'🐵',  toonName:'Monkey',   toonLine:"Let's banana-split!"},
+    {toon:'🐶',  toonName:'Doggo',    toonLine:"Woof! Let's go!"},
+  ];
+  const COLOR_CYCLE = ['sky','coral','yellow','grape','green','peach'];
+
+  // NCERT chapter titles (English medium, mathematics) for grades 1, 3–10.
+  // Each [title, description, emoji].
+  const NCERT_LISTS = {
+    1: [
+      ['Shapes and Space',          'Circles, squares, rolling & sliding shapes',           '🔷'],
+      ['Numbers from 1 to 9',       'Counting, writing & recognising digits',              '🔢'],
+      ['Addition',                  'Adding up to 9, simple combinations',                  '➕'],
+      ['Subtraction',               'Taking away & finding differences',                    '➖'],
+      ['Numbers from 10 to 20',     'Teen numbers & counting further',                      '🔟'],
+      ['Time',                      'Day, night, morning, evening',                         '⏰'],
+      ['Measurement',               'Long, short, tall, heavy, light',                      '📏'],
+      ['Numbers from 21 to 50',     'Counting to 50',                                       '🧮'],
+      ['Data Handling',             'Picture graphs & sorting',                             '📊'],
+      ['Patterns',                  'Shape & number patterns',                              '🔁'],
+      ['Numbers',                   'Numbers up to 99',                                     '💯'],
+      ['Money',                     'Coins & rupees',                                       '💰'],
+      ['How Many?',                 'Counting groups & totals',                             '🎯'],
+    ],
+    3: [
+      ['Where to Look From',        'Views from top, side & front; mirror images',          '👁️'],
+      ['Fun with Numbers',          'Number names & place value',                           '🔢'],
+      ['Give and Take',             'Addition & subtraction word problems',                 '🤝'],
+      ['Long and Short',            'Measurement of length',                                '📏'],
+      ['Shapes and Designs',        '2D shapes, tiles & patterns',                          '🔶'],
+      ['Fun with Give and Take',    'More add/subtract practice',                           '➕'],
+      ['Time Goes On',              'Clocks, days & months',                                '🕰️'],
+      ['Who is Heavier?',           'Weight comparisons',                                   '⚖️'],
+      ['How Many Times?',           'Multiplication basics',                                '✖️'],
+      ['Play with Patterns',        'Number & shape patterns',                              '🎨'],
+      ['Jugs and Mugs',             'Capacity & volume',                                    '🥤'],
+      ['Can We Share?',             'Equal sharing & division',                             '🍪'],
+      ['Smart Charts',              'Data handling',                                        '📊'],
+      ['Rupees and Paise',          'Money & making change',                                '💸'],
+    ],
+    4: [
+      ['Building with Bricks',      'Cuboid shapes & wall patterns',                        '🧱'],
+      ['Long and Short',            'Lengths in cm and m',                                  '📏'],
+      ['A Trip to Bhopal',          'Real-life number problems',                            '🚂'],
+      ['Tick-Tick-Tick',            'Time, clocks & schedules',                             '⏰'],
+      ['The Way The World Looks',   'Views, maps & directions',                             '🗺️'],
+      ['The Junk Seller',           'Money, profit & simple economics',                     '♻️'],
+      ['Jugs and Mugs',             'Litres, millilitres & capacity',                       '🥛'],
+      ['Carts and Wheels',          'Circles, radius & symmetry',                           '🎡'],
+      ['Halves and Quarters',       'Fractions basics',                                     '🍕'],
+      ['Play with Patterns',        'Number & geometric patterns',                          '🧩'],
+      ['Tables and Shares',         'Multiplication & division',                            '✖️'],
+      ['How Heavy? How Light?',     'Weight, grams & kilograms',                            '⚖️'],
+      ['Fields and Fences',         'Area & perimeter',                                     '🌾'],
+      ['Smart Charts',              'Data handling & graphs',                               '📊'],
+    ],
+    5: [
+      ['The Fish Tale',             'Large numbers & comparisons',                          '🐟'],
+      ['Shapes and Angles',         'Types of angles',                                      '📐'],
+      ['How Many Squares?',         'Area & counting squares',                              '⬛'],
+      ['Parts and Wholes',          'Fractions',                                            '🍰'],
+      ['Does it Look the Same?',    'Symmetry & tiling',                                    '🔄'],
+      ["Be My Multiple, I'll be Your Factor",'Factors & multiples',                         '🔢'],
+      ['Can You See the Pattern?',  'Number patterns',                                      '🔁'],
+      ['Mapping Your Way',          'Maps & scale',                                         '🗺️'],
+      ['Boxes and Sketches',        'Nets & 3D sketches',                                   '📦'],
+      ['Tenths and Hundredths',     'Decimals',                                             '🔟'],
+      ['Area and Its Boundary',     'Area & perimeter',                                     '📐'],
+      ['Smart Charts',              'Data handling',                                        '📊'],
+      ['Ways to Multiply and Divide','Multi-digit × and ÷',                                 '✖️'],
+      ['How Big? How Heavy?',       'Volume & weight',                                      '⚖️'],
+    ],
+    6: [
+      ['Patterns in Mathematics',   'Number & visual patterns',                             '🔁'],
+      ['Lines and Angles',          'Types of lines & angles',                              '📐'],
+      ['Number Play',               'Fun with numbers',                                     '🎲'],
+      ['Data Handling & Presentation','Bar graphs & pictographs',                           '📊'],
+      ['Prime Time',                'Primes, composites & factors',                         '🧮'],
+      ['Perimeter and Area',        'Boundary & space',                                     '📏'],
+      ['Fractions',                 'Operations on fractions',                              '🍕'],
+      ['Playing with Constructions','Geometric constructions',                              '✏️'],
+      ['Symmetry',                  'Lines & rotational symmetry',                          '🔄'],
+      ['The Other Side of Zero',    'Integers & negative numbers',                          '➖'],
+    ],
+    7: [
+      ['Large Numbers Around Us',       'Lakhs, crores, Indian system',                     '🌏'],
+      ['Arithmetic Expressions',        'Operations & brackets',                            '🧮'],
+      ['A Peek Beyond the Point',       'Decimal numbers',                                  '🎯'],
+      ['Expressions using Letter-Numbers','Introduction to algebra',                        '🔤'],
+      ['Parallel and Intersecting Lines','Line properties & angles',                        '📐'],
+      ['Number Play',                   'Tricky number puzzles',                            '🎲'],
+      ['A Tale of Three Intersecting Lines','Triangles',                                    '🔺'],
+      ['Working with Fractions',        'Operations on fractions',                          '🍰'],
+    ],
+    8: [
+      ['Rational Numbers',              'Positive, negative & fractions',                   '➗'],
+      ['Linear Equations in One Variable','Solving simple equations',                       '⚖️'],
+      ['Understanding Quadrilaterals',  '4-sided figures',                                  '🔶'],
+      ['Practical Geometry',            'Construct quadrilaterals',                         '✏️'],
+      ['Data Handling',                 'Bar graphs & pie charts',                          '📊'],
+      ['Squares and Square Roots',      'Perfect squares & roots',                          '√'],
+      ['Cubes and Cube Roots',          'Perfect cubes & roots',                            '∛'],
+      ['Comparing Quantities',          'Percent, profit/loss, interest',                   '💹'],
+      ['Algebraic Expressions & Identities','Identities & operations',                      '🧮'],
+      ['Visualising Solid Shapes',      'Views of solids',                                  '📦'],
+      ['Mensuration',                   'Area & volume',                                    '📐'],
+      ['Exponents and Powers',          'Laws of exponents',                                '⚡'],
+      ['Direct and Inverse Proportions','Ratios & scaling',                                 '⚖️'],
+      ['Factorisation',                 'Breaking into factors',                            '🧩'],
+      ['Introduction to Graphs',        'Plotting points',                                  '📈'],
+      ['Playing with Numbers',          'Divisibility rules',                               '🔢'],
+    ],
+    9: [
+      ['Number Systems',                'Rationals & irrationals',                          '🔢'],
+      ['Polynomials',                   'Degree & types',                                   '📈'],
+      ['Coordinate Geometry',           'Cartesian plane',                                  '📊'],
+      ['Linear Equations in Two Variables','Graphing equations',                            '📉'],
+      ["Introduction to Euclid's Geometry",'Axioms & postulates',                           '📐'],
+      ['Lines and Angles',              'Angle relationships',                              '↗️'],
+      ['Triangles',                     'Congruence',                                       '🔺'],
+      ['Quadrilaterals',                'Parallelograms, rhombus',                          '🔶'],
+      ['Circles',                       'Chords & arcs',                                    '⭕'],
+      ["Heron's Formula",               'Triangle area',                                    '△'],
+      ['Surface Areas and Volumes',     '3D measurements',                                  '📦'],
+      ['Statistics',                    'Mean, median, mode',                               '📊'],
+    ],
+    10: [
+      ['Real Numbers',                  'HCF, LCM & proofs',                                '🔢'],
+      ['Polynomials',                   'Zeroes & division',                                '📈'],
+      ['Pair of Linear Equations in 2 Var','Two-variable systems',                          '⚖️'],
+      ['Quadratic Equations',           'Roots & formulas',                                 '🎯'],
+      ['Arithmetic Progressions',       'Nth terms & sums',                                 '➕'],
+      ['Triangles',                     'Similarity',                                       '🔺'],
+      ['Coordinate Geometry',           'Distance & section',                               '📍'],
+      ['Introduction to Trigonometry',  'sin, cos, tan',                                    '📐'],
+      ['Some Applications of Trigonometry','Heights & distances',                           '🗼'],
+      ['Circles',                       'Tangents',                                         '⭕'],
+      ['Areas Related to Circles',      'Sectors & segments',                               '🥧'],
+      ['Surface Areas and Volumes',     'Cones, spheres',                                   '📦'],
+      ['Statistics',                    'Mean, median, mode',                               '📊'],
+      ['Probability',                   'Chance & events',                                  '🎲'],
+    ],
+  };
+
+  // Build chapter list for any non-Grade-2 grade from its NCERT list
+  function buildNcertChapters(grade){
+    const list = NCERT_LISTS[grade] || [];
+    return list.map(([t,d,e], i) => {
+      const toon = TOON_POOL[i % TOON_POOL.length];
+      return {
+        n: i+1, t, d, e,
+        color: COLOR_CYCLE[i % COLOR_CYCLE.length],
+        toon: toon.toon, toonName: toon.toonName, toonLine: toon.toonLine,
+        href: null,   // no per-chapter page yet
+        soon: true,
+      };
+    });
+  }
+
+  const GRADES = {
+    1:  buildNcertChapters(1),
+    2:  GRADE2_CHAPTERS,
+    3:  buildNcertChapters(3),
+    4:  buildNcertChapters(4),
+    5:  buildNcertChapters(5),
+    6:  buildNcertChapters(6),
+    7:  buildNcertChapters(7),
+    8:  buildNcertChapters(8),
+    9:  buildNcertChapters(9),
+    10: buildNcertChapters(10),
+  };
+
   const COLOR_VAR = { coral:'--coral', yellow:'--yellow', green:'--green', sky:'--sky', grape:'--grape', peach:'--peach' };
 
+  // Does this grade/chapter have inline quiz data? (Grades 1, 3-10, Ch 1 only for now)
+  function hasQuizData(grade, chNum){
+    return !!(window.QUIZ_DATA && QUIZ_DATA[grade] && QUIZ_DATA[grade][chNum]);
+  }
+
   // ─── Profiles ──
-  // Score key shape: vivaan_<user>_<chKey>_<level>_set<N>
+  // Score key shape:
+  //   Grade 2:  vivaan_<user>_chN_<level>_set<X>         (legacy, matches existing pages)
+  //   Others :  vivaan_<user>_g<grade>_chN_<level>_set<X>
   const USER_STORE_KEY = 'vivaan_user';
+  const GRADE_STORE_KEY = 'vivaan_grade';
   function userSlug(name){ return (name||'').toLowerCase().trim().replace(/[^a-z0-9]/g,''); }
   function prettyName(name){ return (name||'').trim().replace(/\b\w/g, c => c.toUpperCase()); }
   function getUser(){ return (localStorage.getItem(USER_STORE_KEY) || '').trim(); }
@@ -837,8 +1363,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const set = new Set();
     for (let i=0;i<localStorage.length;i++){
       const k = localStorage.key(i);
-      if (!k || !k.startsWith('vivaan_') || k === USER_STORE_KEY) continue;
-      const m = k.match(/^vivaan_([a-z0-9]+)_ch\d+_(beginner|pro)_set\d+$/);
+      if (!k || !k.startsWith('vivaan_') || k === USER_STORE_KEY || k === GRADE_STORE_KEY) continue;
+      // Match both legacy (grade 2) and new (other grades) score keys
+      const m = k.match(/^vivaan_([a-z0-9]+)_(?:g\d+_)?ch\d+_(beginner|pro)_set\d+$/);
       if (m) set.add(m[1]);
     }
     const me = userSlug(getUser());
@@ -855,15 +1382,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (userSlug(getUser()) === slug) localStorage.removeItem(USER_STORE_KEY);
   }
 
-  // ─── Scoreboard (scoped to current user) ──
+  // ─── Grade state ──
+  // Returns 0 when no grade is chosen yet — user has to pick one first.
+  function getGrade(){
+    const raw = parseInt(localStorage.getItem(GRADE_STORE_KEY)||'', 10);
+    if (raw>=1 && raw<=10) return raw;
+    return 0;
+  }
+  function setGrade(g){
+    if (!(g>=1 && g<=10)) return;
+    localStorage.setItem(GRADE_STORE_KEY, String(g));
+    renderAll();
+    // Smooth scroll to chapters once a grade is selected
+    const target = document.getElementById('chapterSection');
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  // ─── Scoreboard (scoped to current user + current grade) ──
+  function scorePrefixFor(slug, grade){
+    return grade===2
+      ? `vivaan_${slug}_`          // legacy shape, used by existing Grade 2 chapter pages
+      : `vivaan_${slug}_g${grade}_`;
+  }
+  function matchesChapterKey(key, prefix, grade){
+    if (!key.startsWith(prefix)) return false;
+    const rest = key.slice(prefix.length);
+    if (grade===2){
+      // Grade 2 keys are chN_level_setX directly. But other-grade keys share the
+      // `vivaan_<slug>_` root too, so explicitly reject those here.
+      if (/^g\d+_/.test(rest)) return false;
+      return /^ch\d+_(beginner|pro)_set\d+$/.test(rest);
+    }
+    return /^ch\d+_(beginner|pro)_set\d+$/.test(rest);
+  }
   function collectScores(){
     const slug = userSlug(getUser()) || 'default';
-    const prefix = `vivaan_${slug}_`;
+    const grade = getGrade();
+    const prefix = scorePrefixFor(slug, grade);
     let sets=0, correct=0, total=0;
     const byCh = {};
     for (let i=0;i<localStorage.length;i++){
       const k = localStorage.key(i);
-      if (!k || !k.startsWith(prefix)) continue;
+      if (!k || !matchesChapterKey(k, prefix, grade)) continue;
       try {
         const d = JSON.parse(localStorage.getItem(k));
         if (!d || typeof d.score!=='number' || typeof d.tq!=='number') continue;
@@ -884,16 +1444,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     return {sets,correct,total,byCh};
   }
 
+  function renderGradeBar(){
+    const bar = document.getElementById('gradeBar');
+    const cur = getGrade();
+    bar.innerHTML = '';
+    for (let g=1; g<=10; g++){
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'grade-tab' + (g===cur ? ' active' : '');
+      btn.innerHTML = `<span class="g-num">${g}</span><span class="g-label">Grade</span>`;
+      btn.addEventListener('click', () => setGrade(g));
+      bar.appendChild(btn);
+    }
+  }
+
   function renderChapters(scoreBy){
     const grid = document.getElementById('chapterGrid');
-    grid.innerHTML = CHAPTERS.map(c => {
-      const cvar = `var(${COLOR_VAR[c.color]})`;
+    const grade = getGrade();
+    if (!grade){
+      grid.innerHTML = `
+        <div class="pick-grade-card" style="grid-column:1/-1;">
+          <div class="pg-emo">🎓</div>
+          <div class="pg-title">Pick your grade to begin!</div>
+          <div class="pg-sub">Tap any grade above ↑ to see the chapters and start your quiz.</div>
+        </div>`;
+      return;
+    }
+    const chapters = GRADES[grade] || [];
+    grid.innerHTML = chapters.map(c => {
+      const cvar = `var(${COLOR_VAR[c.color]||'--coral'})`;
       const s = scoreBy[`ch${c.n}`];
+      // A chapter is playable if: Grade 2 (external href) OR we have inline quiz data
+      const playable = !c.soon || hasQuizData(grade, c.n);
       const scoreHtml = (s && s.total)
         ? `<div class="ch-score"><span class="done">✓ ${s.sets} set${s.sets!==1?'s':''}</span> · ${Math.round(s.correct/s.total*100)}%</div>`
-        : `<div class="ch-score">Not played yet</div>`;
+        : `<div class="ch-score">${playable ? 'Not played yet' : 'Coming soon'}</div>`;
+      const playLabel = playable ? '▶ Play Now' : '🚧 Coming Soon';
+      const soonBadge = playable ? '' : `<span class="soon-badge">Soon</span>`;
+      const className = 'chapter' + (playable ? '' : ' soon');
+      // Use <a href> for Grade 2 (external pages); <button> for inline quizzes; <div> for soon
+      let openTag, closeTag;
+      if (!playable){
+        openTag = `<div class="${className}" style="--accent-ch:${cvar};" role="group" aria-label="Coming soon">`;
+        closeTag = '</div>';
+      } else if (grade === 2 && c.href){
+        openTag = `<a class="${className}" style="--accent-ch:${cvar};" href="${c.href}">`;
+        closeTag = '</a>';
+      } else {
+        openTag = `<button type="button" class="${className}" style="--accent-ch:${cvar};text-align:left;" data-quiz-grade="${grade}" data-quiz-ch="${c.n}">`;
+        closeTag = '</button>';
+      }
       return `
-        <a href="${c.href}" class="chapter" style="--accent-ch:${cvar};">
+        ${openTag}
+          ${soonBadge}
           <div class="chapter-head">
             <div><div class="ch-tag">Chapter ${c.n}</div></div>
             <div class="ch-emoji">${c.e}</div>
@@ -911,14 +1514,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="ch-footer">
             ${scoreHtml}
-            <span class="play-btn">▶ Play Now</span>
+            <span class="play-btn">${playLabel}</span>
           </div>
-        </a>
+        ${closeTag}
       `;
     }).join('');
+
+    // Wire up clicks on non-Grade-2 playable chapters
+    grid.querySelectorAll('[data-quiz-grade]').forEach(el => {
+      el.addEventListener('click', () => {
+        const g = parseInt(el.dataset.quizGrade, 10);
+        const n = parseInt(el.dataset.quizCh, 10);
+        openQuiz(g, n);
+      });
+    });
   }
 
   function renderScoreboard(){
+    const grade = getGrade();
     const s = collectScores();
     document.getElementById('sbSets').textContent = s.sets;
     document.getElementById('sbCorrect').textContent = s.correct;
@@ -926,19 +1539,56 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const pct = s.total ? Math.round(s.correct/s.total*100) : 0;
     document.getElementById('sbPct').textContent = pct+'%';
     document.getElementById('sbFill').style.width = pct+'%';
-    document.getElementById('sbEmpty').style.display = s.sets ? 'none' : 'block';
+    const empty = document.getElementById('sbEmpty');
+    if (s.sets){
+      empty.style.display = 'none';
+    } else {
+      empty.style.display = 'block';
+      empty.textContent = grade===2
+        ? 'Start your first quiz to see your stats! 🚀'
+        : `Grade ${grade} quizzes are coming soon — pick a chapter to preview! 🚧`;
+    }
     renderChapters(s.byCh);
+  }
+
+  function renderHero(){
+    const grade = getGrade();
+    const chapters = GRADES[grade] || [];
+    const brandSub = document.getElementById('brandSub');
+    const heroSub  = document.getElementById('heroSub');
+    const mathHead = document.getElementById('mathHead');
+    const sb = document.getElementById('scoreboard');
+    if (!grade){
+      brandSub.textContent = 'NCERT Grades 1 to 10 · For Kids Love';
+      heroSub.textContent  = 'Pick your grade to begin your Mathemagics journey! 🎓';
+      mathHead.textContent = 'Choose a grade';
+      if (sb) sb.style.display = 'none';
+    } else {
+      brandSub.textContent = `Grade ${grade} · For Kids Love`;
+      heroSub.textContent  = grade===2
+        ? 'Quiz aligned to a standard Grade 2 student.'
+        : `NCERT-aligned maths quiz for Grade ${grade}.`;
+      mathHead.textContent = `Mathematics · ${chapters.length} chapters`;
+      if (sb) sb.style.display = '';
+    }
+  }
+
+  function renderAll(){
+    renderGradeBar();
+    renderHero();
+    renderScoreboard();
   }
 
   document.getElementById('sbReset').addEventListener('click', function(){
     const name = getUser() || 'this profile';
-    if (!confirm(`Reset scores for "${name}"? This cannot be undone.`)) return;
+    const grade = getGrade();
+    if (!confirm(`Reset Grade ${grade} scores for "${name}"? This cannot be undone.`)) return;
     const slug = userSlug(getUser()) || 'default';
-    const prefix = `vivaan_${slug}_`;
+    const prefix = scorePrefixFor(slug, grade);
     const keys = [];
     for (let i=0;i<localStorage.length;i++){
       const k = localStorage.key(i);
-      if (k && k.startsWith(prefix)) keys.push(k);
+      if (k && matchesChapterKey(k, prefix, grade)) keys.push(k);
     }
     keys.forEach(k => localStorage.removeItem(k));
     renderScoreboard();
@@ -1001,10 +1651,255 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (e.target === this) closeProfileModal();
   });
 
+  // ═══════════════════════════════════════════════════════════════
+  // INLINE QUIZ RUNNER (for grades 1, 3-10)
+  // ═══════════════════════════════════════════════════════════════
+  const CHAR_POOL = [
+    {e:'🐻', n:'Bear',    happy:["Paw-some! 🍯","Honey-sweet!","Bear-illiant!"],            sad:["Even bears slip!","Shake it off!","Pawsitive next one!"]},
+    {e:'🐭', n:'Jerry',   happy:["Squeaky genius! 🧀","Jerry approves!","Outsmarted Tom!"],   sad:["Jerry says try again!","Cheese will come!","Tom almost got me too!"]},
+    {e:'🐱', n:'Tom',     happy:["Purr-fect! 🐱","Meow-nificent!","Cat-tastic!"],            sad:["Hiss! So close!","Land on all fours!","Next time, Jerry!"]},
+    {e:'👧', n:'Masha',   happy:["Masha shouts YES!","Smart like Masha!","Dancing time! 💃"], sad:["Don't worry, try again!","Masha believes in you!","Everyone makes mistakes!"]},
+    {e:'🦁', n:'Simba',   happy:["ROAR! Correct! 👑","Pride of Pride Lands!","Remember who you are!"], sad:["Even Simba learns!","Hakuna Matata!","Keep going, future king!"]},
+    {e:'🐼', n:'Panda',   happy:["Panda-monium! 🎉","Bamboo-tiful!","Paws-itively right!"],   sad:["Paws for thought!","Try again, panda cub!","Keep munching bamboo!"]},
+    {e:'🦖', n:'George',  happy:["Dino-mite!","Tyranno-RIGHT!","Jurassic genius!"],          sad:["Even dinos slip!","Roar back next time!","Stomp and try again!"]},
+    {e:'🦄', n:'Uni',     happy:["Magical! ✨","Sparkles everywhere!","Pure unicorn power!"], sad:["Rainbow retry!","Magic takes practice!","Believe, try again!"]},
+    {e:'🐰', n:'Bunny',   happy:["Hop-tastic!","Carrot-spot on!","Bunny brilliant!"],        sad:["Hop it again!","Next carrot is yours!","Bunny believes in you!"]},
+    {e:'🐧', n:'Penguin', happy:["Waddle-wow!","Cool as ice!","Flippin' fantastic!"],        sad:["Slide right back up!","Cool down, try again!","Next one, buddy!"]},
+  ];
+
+  const QUIZ = {
+    open:false, grade:0, ch:0, level:'beginner', setIdx:0,
+    qIdx:0, score:0, answered:false, results:[], char:null,
+    timer:0, timerInt:null, qs:null,
+  };
+
+  function scoreKeyQ(slug, grade, ch, level, setIdx){
+    return `vivaan_${slug}_g${grade}_ch${ch}_${level}_set${setIdx}`;
+  }
+
+  function openQuiz(grade, ch){
+    const data = window.QUIZ_DATA && QUIZ_DATA[grade] && QUIZ_DATA[grade][ch];
+    if (!data) return;
+    QUIZ.open = true; QUIZ.grade = grade; QUIZ.ch = ch;
+    QUIZ.level = 'beginner'; QUIZ.setIdx = 0;
+    QUIZ.char = CHAR_POOL[Math.floor(Math.random()*CHAR_POOL.length)];
+    // Header
+    const chapter = (GRADES[grade]||[]).find(x => x.n===ch) || {};
+    const accent = `var(${COLOR_VAR[chapter.color]||'--coral'})`;
+    document.getElementById('quizModal').style.setProperty('--qm-accent', accent);
+    const box = document.querySelector('#quizModal .qm-box');
+    if (box) box.style.setProperty('--qm-accent', accent);
+    document.getElementById('qmHeadEmoji').textContent = chapter.e || '🔢';
+    document.getElementById('qmHeadEmoji').style.background = `color-mix(in oklab, ${accent}, transparent 82%)`;
+    document.getElementById('qmChTag').textContent = `Grade ${grade} · Chapter ${ch}`;
+    document.getElementById('qmChTag').style.color = accent;
+    document.getElementById('qmTitle').textContent = data.title || chapter.t || '';
+    document.getElementById('quizModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+    renderQuizLevelBtns();
+    buildSetTabs();
+    startSet();
+  }
+
+  function closeQuiz(){
+    QUIZ.open = false;
+    clearInterval(QUIZ.timerInt); QUIZ.timerInt = null;
+    document.getElementById('quizModal').classList.remove('show');
+    document.body.style.overflow = '';
+    renderScoreboard(); // refresh dashboard stats
+  }
+
+  function renderQuizLevelBtns(){
+    document.querySelectorAll('#quizModal .qm-level-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.level === QUIZ.level);
+      // Clone to reset listeners cleanly
+      b.onclick = () => { if (QUIZ.level !== b.dataset.level){ QUIZ.level = b.dataset.level; QUIZ.setIdx = 0; buildSetTabs(); startSet(); } };
+    });
+  }
+
+  function buildSetTabs(){
+    const wrap = document.getElementById('qmSets');
+    wrap.innerHTML = '';
+    const sets = getQuizSets();
+    const slug = userSlug(getUser()) || 'default';
+    sets.forEach((_, i) => {
+      const key = scoreKeyQ(slug, QUIZ.grade, QUIZ.ch, QUIZ.level, i);
+      const done = !!localStorage.getItem(key);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'qm-set-btn' + (i === QUIZ.setIdx ? ' active' : '') + (done ? ' done' : '');
+      btn.textContent = `Set ${i+1}${done ? ' ✓' : ''}`;
+      btn.onclick = () => { QUIZ.setIdx = i; buildSetTabs(); startSet(); };
+      wrap.appendChild(btn);
+    });
+  }
+
+  function getQuizSets(){
+    const d = QUIZ_DATA[QUIZ.grade] && QUIZ_DATA[QUIZ.grade][QUIZ.ch];
+    return (d && d[QUIZ.level]) || [];
+  }
+
+  function startSet(){
+    QUIZ.qs = (getQuizSets()[QUIZ.setIdx]) || [];
+    QUIZ.qIdx = 0; QUIZ.score = 0; QUIZ.answered = false;
+    QUIZ.results = new Array(QUIZ.qs.length).fill(null);
+    document.getElementById('qmResult').classList.remove('show');
+    document.getElementById('qmPlay').style.display = 'block';
+    document.getElementById('qmQtot').textContent = QUIZ.qs.length;
+    document.getElementById('qmResTotal').textContent = QUIZ.qs.length;
+    document.getElementById('qmScore').textContent = '0';
+    document.getElementById('qmFill').style.width = '0%';
+    startQuizTimer();
+    renderQ();
+  }
+
+  function startQuizTimer(){
+    clearInterval(QUIZ.timerInt);
+    QUIZ.timer = 0; updateQuizTimer();
+    QUIZ.timerInt = setInterval(() => { QUIZ.timer++; updateQuizTimer(); }, 1000);
+  }
+  function updateQuizTimer(){
+    const m = Math.floor(QUIZ.timer/60), s = QUIZ.timer % 60;
+    const el = document.getElementById('qmTimer');
+    if (el) el.textContent = `${m}:${String(s).padStart(2,'0')}`;
+  }
+
+  function renderQ(){
+    const qs = QUIZ.qs;
+    const q = qs[QUIZ.qIdx];
+    QUIZ.answered = false;
+    document.getElementById('qmQCounter').textContent = `Question ${QUIZ.qIdx + 1} of ${qs.length}`;
+    document.getElementById('qmQ').textContent = q.q;
+    document.getElementById('qmQnum').textContent = QUIZ.qIdx + 1;
+    document.getElementById('qmTopic').textContent = q.t || '';
+    document.getElementById('qmTopic').style.display = q.t ? '' : 'none';
+    document.getElementById('qmFeedback').className = 'qm-feedback';
+    document.getElementById('qmNext').className = 'qm-next';
+    // Reset character
+    setCharNeutral();
+    // Build shuffled options
+    const correct = q.o[q.a];
+    const opts = [...q.o];
+    for (let i = opts.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+    const correctIdx = opts.indexOf(correct);
+    const wrap = document.getElementById('qmOpts');
+    wrap.innerHTML = '';
+    opts.forEach((opt, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'qm-opt';
+      b.textContent = opt;
+      b.onclick = () => answerQ(b, i === correctIdx, opts, correctIdx);
+      wrap.appendChild(b);
+    });
+  }
+
+  function answerQ(btn, isCorrect, shuffled, correctIdx){
+    if (QUIZ.answered) return;
+    QUIZ.answered = true;
+    const all = document.querySelectorAll('#qmOpts .qm-opt');
+    all.forEach(b => b.disabled = true);
+    all[correctIdx].classList.add('correct');
+    const fb = document.getElementById('qmFeedback');
+    if (isCorrect){
+      btn.classList.add('correct');
+      QUIZ.score++;
+      QUIZ.results[QUIZ.qIdx] = 'correct';
+      fb.className = 'qm-feedback good show';
+      fb.textContent = '✅ Correct! Brilliant!';
+      setCharHappy();
+    } else {
+      btn.classList.add('wrong');
+      QUIZ.results[QUIZ.qIdx] = 'wrong';
+      fb.className = 'qm-feedback bad show';
+      fb.textContent = `❌ Oops! Answer: ${shuffled[correctIdx]}`;
+      setCharSad();
+    }
+    document.getElementById('qmScore').textContent = QUIZ.score;
+    document.getElementById('qmFill').style.width = `${((QUIZ.qIdx + 1) / QUIZ.qs.length) * 100}%`;
+    document.getElementById('qmNext').className = 'qm-next show';
+    document.getElementById('qmNext').textContent = (QUIZ.qIdx === QUIZ.qs.length - 1) ? 'See Result 🏆' : 'Next Question →';
+  }
+
+  function setCharNeutral(){
+    const face = document.getElementById('qmCharFace');
+    face.textContent = QUIZ.char.e; face.className = 'qm-char-face';
+    document.getElementById('qmCharName').textContent = QUIZ.char.n;
+    document.getElementById('qmCharMsg').textContent = 'Give it your best shot! 💪';
+  }
+  function setCharHappy(){
+    const face = document.getElementById('qmCharFace');
+    face.textContent = QUIZ.char.e; face.className = 'qm-char-face pop';
+    document.getElementById('qmCharMsg').textContent = QUIZ.char.happy[Math.floor(Math.random()*QUIZ.char.happy.length)];
+  }
+  function setCharSad(){
+    const face = document.getElementById('qmCharFace');
+    face.textContent = QUIZ.char.e; face.className = 'qm-char-face shake';
+    document.getElementById('qmCharMsg').textContent = QUIZ.char.sad[Math.floor(Math.random()*QUIZ.char.sad.length)];
+  }
+
+  function nextQ(){
+    if (QUIZ.qIdx < QUIZ.qs.length - 1){ QUIZ.qIdx++; renderQ(); }
+    else showQuizResult();
+  }
+  function showQuizResult(){
+    clearInterval(QUIZ.timerInt); QUIZ.timerInt = null;
+    const total = QUIZ.qs.length;
+    const score = QUIZ.score;
+    const pct = Math.round(score / total * 100);
+    const slug = userSlug(getUser()) || 'default';
+    const key = scoreKeyQ(slug, QUIZ.grade, QUIZ.ch, QUIZ.level, QUIZ.setIdx);
+    localStorage.setItem(key, JSON.stringify({score, tq: total, pct, t: QUIZ.timer}));
+    buildSetTabs();
+    document.getElementById('qmPlay').style.display = 'none';
+    document.getElementById('qmResult').classList.add('show');
+    document.getElementById('qmResEmoji').textContent = pct >= 90 ? '🏆' : pct >= 70 ? '🥈' : '🥉';
+    document.getElementById('qmResScore').textContent = score;
+    document.getElementById('qmResTotal').textContent = total;
+    document.getElementById('qmResStars').textContent = pct >= 90 ? '⭐⭐⭐' : pct >= 70 ? '⭐⭐' : '⭐';
+    document.getElementById('qmResMsg').textContent =
+      pct >= 90 ? `GENIUS! ${QUIZ.char.n} is in awe! 🌟`
+      : pct >= 70 ? `Great job! ${QUIZ.char.n} is proud! 🎉`
+      : `Keep practising! ${QUIZ.char.n} believes in you! 💪`;
+    const m = Math.floor(QUIZ.timer/60), s = QUIZ.timer % 60;
+    document.getElementById('qmResTime').textContent = `Time: ${m}m ${s}s`;
+    const sets = getQuizSets();
+    const hasNext = QUIZ.setIdx < sets.length - 1;
+    document.getElementById('qmNextSet').style.display = hasNext ? '' : 'none';
+  }
+
+  // Quiz modal event bindings (once)
+  (function bindQuizModal(){
+    const close = () => closeQuiz();
+    document.getElementById('qmClose').addEventListener('click', close);
+    document.querySelector('#quizModal .qm-ov').addEventListener('click', close);
+    document.getElementById('qmNext').addEventListener('click', nextQ);
+    document.getElementById('qmTryAgain').addEventListener('click', () => startSet());
+    document.getElementById('qmNextSet').addEventListener('click', () => {
+      const sets = getQuizSets();
+      if (QUIZ.setIdx < sets.length - 1){
+        QUIZ.setIdx++; buildSetTabs(); startSet();
+      }
+    });
+    // Escape closes quiz
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && QUIZ.open) closeQuiz();
+    });
+  })();
+
+  // URL hash can preselect a grade: /vivaan#g5
+  (function(){
+    const m = (location.hash||'').match(/g(\d{1,2})/i);
+    if (m){ const g = parseInt(m[1],10); if (g>=1 && g<=10) localStorage.setItem(GRADE_STORE_KEY, String(g)); }
+  })();
+
   // First-visit prompt
   renderUserChip();
   if (!getUser()) openProfileModal();
-  renderScoreboard();
+  renderAll();
   window.addEventListener('focus', renderScoreboard);
 
   // Register the service worker so the app still works offline
@@ -1016,5 +1911,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 </script>
 
-</body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TG9F3RCK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --></body>
 </html>
