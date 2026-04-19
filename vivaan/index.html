@@ -761,7 +761,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     animation: modalPop .35s var(--ease-pop);
   }
   @media (max-width: 720px){
-    .quiz-modal .qm-box{ margin: 0; max-height: 100vh; min-height: 100vh; border-radius: 0; border: none; padding: 16px 16px 20px; }
+    .quiz-modal .qm-box{
+      margin: 0;
+      width: 100%;
+      max-height: 100vh;
+      max-height: 100dvh;        /* dynamic viewport — excludes mobile browser chrome */
+      min-height: auto;
+      height: 100vh;
+      height: 100dvh;
+      border-radius: 0;
+      border: none;
+      padding: 16px 16px 80px;   /* generous bottom room so Next button clears safe area */
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
   }
   .qm-close{
     position: absolute; top: 14px; right: 14px;
