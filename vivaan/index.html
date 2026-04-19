@@ -139,55 +139,105 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   button.chip:hover{ transform: translateY(-2px); box-shadow: 0 5px 0 var(--card-border); }
   .chip.user .chip-caret{ opacity: .5; margin-left: 2px; font-size: 10px; }
+  .chip.user #userChipName{
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    max-width: 160px;
+  }
 
-  /* Grade selector — 2 rows × 5 columns, bigger pills */
+  /* Compact topbar on small screens so the brand + user chip don't crowd */
+  @media (max-width: 600px){
+    .topbar{ margin-bottom: 14px; gap: 8px; }
+    .brand{ gap: 8px; }
+    .brand-logo{
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      font-size: 18px;
+    }
+    .brand-lines .l1{ font-size: 15px; }
+    .brand-lines .l2{ font-size: 11px; }
+    .chip{ padding: 6px 10px; font-size: 11.5px; }
+    .chip .dot{ width: 7px; height: 7px; }
+    .chip.user #userChipName{ max-width: 90px; }
+  }
+
+  /* Grade selector — 2 rows × 5 columns, each a playful rainbow pill */
   .grade-section{
-    margin: 8px auto 28px;
-    max-width: 820px;
+    margin: 16px auto 40px;
+    max-width: 860px;
   }
   .grade-section .grade-heading{
     font-family: var(--display); font-weight: 700;
-    font-size: 18px; letter-spacing: -0.01em;
-    color: var(--ink-2);
+    font-size: 20px; letter-spacing: -0.01em;
+    color: var(--ink);
     text-align: center;
-    margin-bottom: 12px;
+    margin-bottom: 18px;
   }
   .grade-bar{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 14px;
-    padding: 18px;
+    padding: 20px;
     background: var(--card);
     border: 2.5px solid var(--card-border);
-    border-radius: 26px;
+    border-radius: 28px;
     box-shadow: 0 6px 0 var(--card-border);
   }
   .grade-tab{
-    padding: 16px 8px 18px;
+    padding: 18px 6px 20px;
     border-radius: 18px;
-    background: transparent;
-    border: 2.5px solid transparent;
+    background: color-mix(in oklab, var(--g-color, var(--coral)), transparent 88%);
+    border: 2.5px solid color-mix(in oklab, var(--g-color, var(--coral)), transparent 55%);
     font-family: var(--display);
     font-weight: 600;
-    color: var(--ink-2);
+    color: var(--g-color, var(--ink));
     display: flex; flex-direction: column; align-items: center; gap: 4px;
-    transition: all .15s var(--ease-pop);
+    transition: all .18s var(--ease-pop);
     cursor: pointer;
+    position: relative;
   }
-  .grade-tab:hover:not(.active){ background: rgba(0,0,0,0.04); color: var(--ink); transform: translateY(-2px); }
+  /* Rainbow accent cycle across the 10 grades */
+  .grade-tab:nth-child(1){ --g-color: var(--coral); }
+  .grade-tab:nth-child(2){ --g-color: var(--peach); }
+  .grade-tab:nth-child(3){ --g-color: var(--yellow); }
+  .grade-tab:nth-child(4){ --g-color: var(--green); }
+  .grade-tab:nth-child(5){ --g-color: var(--sky); }
+  .grade-tab:nth-child(6){ --g-color: var(--grape); }
+  .grade-tab:nth-child(7){ --g-color: var(--coral); }
+  .grade-tab:nth-child(8){ --g-color: var(--yellow); }
+  .grade-tab:nth-child(9){ --g-color: var(--green); }
+  .grade-tab:nth-child(10){ --g-color: var(--sky); }
+  .grade-tab:hover:not(.active){
+    transform: translateY(-3px);
+    box-shadow: 0 5px 0 color-mix(in oklab, var(--g-color), var(--card-border) 30%);
+    background: color-mix(in oklab, var(--g-color), transparent 78%);
+  }
   .grade-tab.active{
-    background: var(--coral);
+    background: var(--g-color);
     color: #FFF;
     border-color: var(--card-border);
-    box-shadow: 0 4px 0 var(--card-border);
+    box-shadow: 0 5px 0 var(--card-border);
+    transform: translateY(-2px);
   }
-  .grade-tab .g-num{ font-size: 30px; font-weight: 700; line-height: 1; }
-  .grade-tab .g-label{ font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
+  .grade-tab .g-num{
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    font-family: var(--display);
+  }
+  .grade-tab .g-label{
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    opacity: .9;
+  }
   @media (max-width: 600px){
-    .grade-bar{ gap: 8px; padding: 12px; border-radius: 20px; }
-    .grade-tab{ padding: 10px 4px 12px; border-radius: 14px; }
+    .grade-section{ margin: 10px auto 28px; }
+    .grade-section .grade-heading{ font-size: 16px; margin-bottom: 12px; }
+    .grade-bar{ gap: 8px; padding: 12px; border-radius: 22px; }
+    .grade-tab{ padding: 12px 4px 14px; border-radius: 14px; }
     .grade-tab .g-num{ font-size: 22px; }
-    .grade-tab .g-label{ font-size: 10px; letter-spacing: .04em; }
+    .grade-tab .g-label{ font-size: 9px; letter-spacing: .05em; }
   }
 
   /* Profile modal */
@@ -282,27 +332,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
 
-  /* Hero */
+  /* Hero — plenty of breathing room on both sides of the headline */
   .hero{
     text-align:center;
-    padding: 14px 16px 10px;
+    padding: 48px 20px 32px;
     position: relative;
   }
   .hero-badge{
     display:inline-flex; align-items:center; gap:8px;
-    padding: 7px 16px; border-radius: var(--radius-pill);
+    padding: 8px 18px; border-radius: var(--radius-pill);
     background: var(--card); border: 2px solid var(--card-border);
     font-weight: 800; font-size: 13px; color: var(--ink);
     box-shadow: 0 3px 0 var(--card-border);
-    margin-bottom: 22px;
+    margin-bottom: 26px;
   }
   .hero h1{
     font-family: var(--display);
-    font-size: clamp(32px, 6vw, 56px);
+    font-size: clamp(32px, 6vw, 58px);
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.05;
-    margin: 0 0 14px;
+    margin: 0 0 18px;
     color: var(--ink);
   }
   .hero h1 .spark{
@@ -313,10 +363,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   @keyframes wiggle{ 0%,100%{transform:rotate(-8deg)} 50%{transform:rotate(10deg) scale(1.1)} }
 
+  /* Sub-headline deliberately small so the hero headline carries the weight */
   .hero p.sub{
-    font-size: 17px; color: var(--ink-2);
-    max-width: 580px; margin: 0 auto;
-    font-weight: 600; line-height: 1.5;
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: .01em;
   }
 
   /* Scoreboard */
