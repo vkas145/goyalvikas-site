@@ -464,6 +464,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     border: 2px solid var(--card-border);
     box-shadow: 0 3px 0 var(--card-border);
   }
+  /* "Change grade" / home button inside the section head */
+  .back-to-grades{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--card);
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .15s var(--ease-pop);
+    white-space: nowrap;
+  }
+  .back-to-grades:hover{
+    background: var(--coral);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 var(--card-border);
+  }
+  /* Brand is clickable too */
+  .brand{ cursor: pointer; }
+  .brand:hover .brand-logo{ transform: rotate(4deg) scale(1.05); }
+  .brand-logo{ transition: transform .15s var(--ease-pop); }
 
   /* Chapter grid */
   .chapter-grid{
@@ -1114,6 +1142,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- Mathematics -->
   <div class="section-head" id="chapterSection">
     <h2><span class="lead">🔢</span><span id="mathHead">Mathematics · 11 chapters</span></h2>
+    <button type="button" class="back-to-grades" id="backToGrades" style="display:none;" aria-label="Back to grade picker">🏠 Change grade</button>
   </div>
   <div class="chapter-grid" id="chapterGrid"></div>
 
@@ -1513,6 +1542,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const target = document.getElementById('chapterSection');
     if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
   }
+  function clearGrade(){
+    localStorage.removeItem(GRADE_STORE_KEY);
+    renderAll();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
 
   // ─── Scoreboard (scoped to current user + current grade) ──
   function scorePrefixFor(slug, grade){
@@ -1674,11 +1708,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const heroSub  = document.getElementById('heroSub');
     const mathHead = document.getElementById('mathHead');
     const sb = document.getElementById('scoreboard');
+    const backBtn = document.getElementById('backToGrades');
     if (!grade){
       brandSub.textContent = 'NCERT Grades 1 to 10 · For Kids Love';
       heroSub.textContent  = 'Pick your grade to begin your Mathemagics journey! 🎓';
       mathHead.textContent = 'Choose a grade';
       if (sb) sb.style.display = 'none';
+      if (backBtn) backBtn.style.display = 'none';
     } else {
       brandSub.textContent = `Grade ${grade} · For Kids Love`;
       heroSub.textContent  = grade===2
@@ -1686,6 +1722,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         : `NCERT-aligned maths quiz for Grade ${grade}.`;
       mathHead.textContent = `Mathematics · ${chapters.length} chapters`;
       if (sb) sb.style.display = '';
+      if (backBtn) backBtn.style.display = '';
     }
   }
 
@@ -2010,6 +2047,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && QUIZ.open) closeQuiz();
     });
+  })();
+
+  // "Change grade" button + clickable brand both return to the grade picker
+  (function bindHomeControls(){
+    const btn = document.getElementById('backToGrades');
+    if (btn) btn.addEventListener('click', clearGrade);
+    const brand = document.querySelector('.brand');
+    if (brand){
+      brand.setAttribute('role', 'button');
+      brand.setAttribute('tabindex', '0');
+      brand.setAttribute('aria-label', 'Back to home');
+      brand.addEventListener('click', clearGrade);
+      brand.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); clearGrade(); }
+      });
+    }
   })();
 
   // URL hash can preselect a grade: /vivaan#g5
