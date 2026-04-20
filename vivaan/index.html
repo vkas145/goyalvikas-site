@@ -2184,6 +2184,58 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     };
     tick();
   }
+  // ─── Quiz result chime: short celebratory tune based on score ─
+  function playResultChime(pct){
+    if (!musicPref()) return;
+    if (!ensureAudio()) return;
+    if (MUSIC.ctx.state === 'suspended') MUSIC.ctx.resume().catch(()=>{});
+    const t0 = MUSIC.ctx.currentTime + 0.1;
+    // Fanfare for 90+, happy for 70+, gentle for under 70
+    let pattern;
+    if (pct >= 90){
+      // Major triad up + octave sparkle
+      pattern = [[72,0],[76,0.08],[79,0.16],[84,0.30],[84,0.45,0.5],[88,0.6,0.5]];
+    } else if (pct >= 70){
+      // Simple rising dyad resolve
+      pattern = [[67,0],[72,0.12],[76,0.24,0.8]];
+    } else {
+      // Gentle single bell with 5th
+      pattern = [[64,0],[67,0.18,0.7]];
+    }
+    const chimeVoice = { osc:'triangle', atk:0.005, rel:0.6, peak:0.38 };
+    pattern.forEach(([midi, off, scale]) => {
+      const peak = (scale != null ? scale : 1) * chimeVoice.peak;
+      const dur = 0.7;
+      const start = t0 + off;
+      const osc = MUSIC.ctx.createOscillator();
+      const g = MUSIC.ctx.createGain();
+      osc.type = chimeVoice.osc;
+      osc.frequency.setValueAtTime(midiHz(midi), start);
+      g.gain.setValueAtTime(0.0001, start);
+      g.gain.linearRampToValueAtTime(peak, start + chimeVoice.atk);
+      g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+      osc.connect(g);
+      g.connect(MUSIC.master);
+      osc.start(start);
+      osc.stop(start + dur + 0.05);
+    });
+    // Tiny high sparkle for 90+ perfect wins
+    if (pct >= 90){
+      [91, 93, 96].forEach((midi, i) => {
+        const start = t0 + 0.5 + i * 0.08;
+        const osc = MUSIC.ctx.createOscillator();
+        const g = MUSIC.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(midiHz(midi), start);
+        g.gain.setValueAtTime(0.0001, start);
+        g.gain.linearRampToValueAtTime(0.18, start + 0.005);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + 0.35);
+        osc.connect(g); g.connect(MUSIC.master);
+        osc.start(start); osc.stop(start + 0.4);
+      });
+    }
+  }
+
   function stopMusic(fast){
     MUSIC.active = false;
     if (MUSIC.tickHandle){ clearTimeout(MUSIC.tickHandle); MUSIC.tickHandle = null; }
@@ -2581,6 +2633,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const total = QUIZ.qs.length;
     const score = QUIZ.score;
     const pct = Math.round(score / total * 100);
+    // Fade the background loop and play a celebratory chime keyed to the score.
+    stopMusic(true);
+    playResultChime(pct);
     const slug = userSlug(getUser()) || 'default';
     const key = scoreKeyQ(slug, QUIZ.grade, QUIZ.ch, QUIZ.level, QUIZ.setIdx);
     localStorage.setItem(key, JSON.stringify({score, tq: total, pct, t: QUIZ.timer}));
@@ -2607,11 +2662,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // strips addEventListener bindings.
   (function bindQuizModal(){
     const close = () => closeQuiz();
-    const tryAgain = () => startSet();
+    const tryAgain = () => { startSet(); startMusic(QUIZ.grade, QUIZ.ch); };
     const nextSet = () => {
       const sets = getQuizSets();
       if (QUIZ.setIdx < sets.length - 1){
-        QUIZ.setIdx++; buildSetTabs(); startSet();
+        QUIZ.setIdx++; buildSetTabs(); startSet(); startMusic(QUIZ.grade, QUIZ.ch);
       }
     };
     const byId = (id) => document.getElementById(id);
