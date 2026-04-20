@@ -777,8 +777,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       overscroll-behavior: contain;
     }
   }
-  .qm-close{
-    position: absolute; top: 14px; right: 14px;
+  .qm-close, .qm-music{
+    position: absolute; top: 14px;
     width: 36px; height: 36px; border-radius: 50%;
     background: var(--card); color: var(--ink);
     border: 2px solid var(--card-border);
@@ -787,7 +787,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display: grid; place-items: center; cursor: pointer;
     transition: all .15s var(--ease-pop);
   }
+  .qm-close{ right: 14px; }
+  .qm-music{ right: 58px; }
   .qm-close:hover{ background: var(--coral); color: #fff; transform: translateY(-1px); }
+  .qm-music:hover{ background: var(--sky); color: #fff; transform: translateY(-1px); }
+  .qm-music.off{ opacity: .5; background: color-mix(in oklab, var(--card-border), transparent 85%); }
   .qm-head{ display: flex; align-items: center; gap: 12px; padding-right: 46px; margin-bottom: 12px; }
   .qm-head-emoji{
     width: 46px; height: 46px; flex: 0 0 46px;
@@ -1300,6 +1304,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="quiz-modal" id="quizModal" role="dialog" aria-modal="true" aria-label="Quiz">
     <div class="qm-ov" data-close="1"></div>
     <div class="qm-box">
+      <button class="qm-music" id="qmMusic" type="button" aria-label="Toggle background music" title="Toggle music">🎵</button>
       <button class="qm-close" id="qmClose" type="button" aria-label="Close">✕</button>
       <div class="qm-head">
         <div class="qm-head-emoji" id="qmHeadEmoji">🔢</div>
@@ -1965,6 +1970,124 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     timer:0, timerInt:null, qs:null,
   };
 
+  // ─── Background music (Web Audio, grade-band themed) ──────────
+  // No audio files — melodies are synthesised live with oscillators.
+  // 4 grade bands, each a distinct vibe, looped quietly behind the quiz.
+  const MUSIC_STORE_KEY = 'vivaan_music';
+  // note indexes are MIDI numbers; -1 is a rest.
+  const MUSIC_PATTERNS = {
+    kids:    { bpm:112, voice:'triangle', name:'Happy Skip',
+               notes:[72,76,79,76, 77,76,72,-1, 76,79,76,72, 67,72,76,-1] },
+    primary: { bpm:96,  voice:'triangle', name:'Adventure Hop',
+               notes:[67,71,74,79, 78,74,71,67, 69,72,76,79, 76,72,67,-1] },
+    middle:  { bpm:78,  voice:'sine',     name:'Thoughtful Drift',
+               notes:[57,60,64,67, 69,67,64,60, 57,60,64,67, 64,60,57,-1] },
+    senior:  { bpm:66,  voice:'sine',     name:'Focus Loop',
+               notes:[50,53,57,60, 62,60,57,53, 50,53,57,60, 57,53,50,-1] }
+  };
+  // Soft bass pulse (root note) to give the loop body.
+  const MUSIC_BASS = {
+    kids:    [48,-1,55,-1,48,-1,55,-1, 48,-1,55,-1,43,-1,48,-1],
+    primary: [43,-1,50,-1,43,-1,50,-1, 45,-1,52,-1,50,-1,43,-1],
+    middle:  [45,-1,52,-1,45,-1,52,-1, 45,-1,52,-1,52,-1,45,-1],
+    senior:  [38,-1,45,-1,38,-1,45,-1, 38,-1,45,-1,45,-1,38,-1]
+  };
+  function musicBandForGrade(g){
+    if (g <= 2) return 'kids';
+    if (g <= 5) return 'primary';
+    if (g <= 8) return 'middle';
+    return 'senior';
+  }
+  const MUSIC = { ctx:null, master:null, on: null, active:false, tickHandle:null, nextTime:0, patternKey:null };
+  function musicPref(){
+    const v = localStorage.getItem(MUSIC_STORE_KEY);
+    return v === null ? true : v === '1';
+  }
+  function setMusicPref(on){ localStorage.setItem(MUSIC_STORE_KEY, on ? '1' : '0'); }
+  function ensureAudio(){
+    if (MUSIC.ctx) return true;
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return false;
+      MUSIC.ctx = new Ctx();
+      MUSIC.master = MUSIC.ctx.createGain();
+      MUSIC.master.gain.value = 0.09;  // gentle — easy to ignore
+      MUSIC.master.connect(MUSIC.ctx.destination);
+      return true;
+    } catch(e){ return false; }
+  }
+  function midiHz(m){ return 440 * Math.pow(2, (m - 69) / 12); }
+  function scheduleTone(freq, start, dur, voice, gainPeak){
+    const osc = MUSIC.ctx.createOscillator();
+    const g = MUSIC.ctx.createGain();
+    osc.type = voice;
+    osc.frequency.setValueAtTime(freq, start);
+    const peak = gainPeak != null ? gainPeak : 0.35;
+    g.gain.setValueAtTime(0, start);
+    g.gain.linearRampToValueAtTime(peak, start + Math.min(0.04, dur * 0.3));
+    g.gain.setValueAtTime(peak, start + dur * 0.6);
+    g.gain.linearRampToValueAtTime(0, start + dur);
+    osc.connect(g);
+    g.connect(MUSIC.master);
+    osc.start(start);
+    osc.stop(start + dur + 0.05);
+  }
+  function startMusic(grade){
+    if (!musicPref()) return;
+    if (!ensureAudio()) return;
+    if (MUSIC.ctx.state === 'suspended') MUSIC.ctx.resume().catch(()=>{});
+    const band = musicBandForGrade(grade);
+    MUSIC.patternKey = band;
+    MUSIC.active = true;
+    MUSIC.nextTime = MUSIC.ctx.currentTime + 0.1;
+    const pat = MUSIC_PATTERNS[band];
+    const bass = MUSIC_BASS[band] || [];
+    const beatDur = 60 / pat.bpm;
+    let idx = 0;
+    const tick = () => {
+      if (!MUSIC.active) return;
+      // Schedule ~2 seconds ahead
+      while (MUSIC.nextTime < MUSIC.ctx.currentTime + 2.0){
+        const mel = pat.notes[idx % pat.notes.length];
+        if (mel >= 0) scheduleTone(midiHz(mel), MUSIC.nextTime, beatDur * 0.92, pat.voice, 0.35);
+        const ba = bass[idx % bass.length];
+        if (ba >= 0) scheduleTone(midiHz(ba), MUSIC.nextTime, beatDur * 1.6, 'sine', 0.22);
+        idx++;
+        MUSIC.nextTime += beatDur;
+      }
+      MUSIC.tickHandle = setTimeout(tick, 250);
+    };
+    tick();
+  }
+  function stopMusic(fast){
+    MUSIC.active = false;
+    if (MUSIC.tickHandle){ clearTimeout(MUSIC.tickHandle); MUSIC.tickHandle = null; }
+    // Smooth fade of the master gain so already-scheduled tails don't click
+    if (MUSIC.master && MUSIC.ctx){
+      const t = MUSIC.ctx.currentTime;
+      const cur = MUSIC.master.gain.value;
+      const fadeDur = fast ? 0.1 : 0.4;
+      try {
+        MUSIC.master.gain.cancelScheduledValues(t);
+        MUSIC.master.gain.setValueAtTime(cur, t);
+        MUSIC.master.gain.linearRampToValueAtTime(0, t + fadeDur);
+        // Reset master volume after fade so future playback is audible again.
+        setTimeout(() => { if (MUSIC.master) MUSIC.master.gain.setValueAtTime(0.09, MUSIC.ctx.currentTime); }, fadeDur * 1000 + 50);
+      } catch(e){}
+    }
+  }
+  function updateMusicBtn(){
+    const btn = document.getElementById('qmMusic');
+    if (!btn) return;
+    const on = musicPref();
+    btn.textContent = on ? '🎵' : '🔇';
+    btn.classList.toggle('off', !on);
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.title = on
+      ? 'Music on (' + (MUSIC_PATTERNS[musicBandForGrade(QUIZ.grade||2)] || {}).name + ')'
+      : 'Music off — tap to play';
+  }
+
   function scoreKeyQ(slug, grade, ch, level, setIdx){
     return `vivaan_${slug}_g${grade}_ch${ch}_${level}_set${setIdx}`;
   }
@@ -1991,6 +2114,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     renderQuizLevelBtns();
     buildSetTabs();
     startSet();
+    updateMusicBtn();
+    startMusic(grade);
   }
 
   function closeQuiz(){
@@ -1998,6 +2123,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     clearInterval(QUIZ.timerInt); QUIZ.timerInt = null;
     document.getElementById('quizModal').classList.remove('show');
     document.body.style.overflow = '';
+    stopMusic();
     renderScoreboard(); // refresh dashboard stats
   }
 
@@ -2371,6 +2497,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     byId('qmTryAgain').onclick = tryAgain;
     byId('qmNextSet').onclick = nextSet;
     document.querySelector('#quizModal .qm-ov').onclick = close;
+
+    // Music toggle — click flips the preference, starts/stops playback
+    const musicBtn = byId('qmMusic');
+    if (musicBtn) musicBtn.onclick = () => {
+      const on = !musicPref();
+      setMusicPref(on);
+      if (on && QUIZ.open) startMusic(QUIZ.grade);
+      else stopMusic(true);
+      updateMusicBtn();
+    };
 
     // Globals for any inline html fallbacks. Names deliberately differ
     // from button ids (qmTryAgain, qmNextSet) so the browser's implicit
