@@ -934,7 +934,132 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     border-color: var(--coral); color: var(--coral);
   }
   .qm-opt:disabled{ cursor: default; }
-  @media (max-width: 500px){ .qm-opts{ grid-template-columns: 1fr; } }
+  @media (max-width: 500px){ .qm-opts-mcq{ grid-template-columns: 1fr; } }
+
+  /* ── True/False: two big colour-tinted buttons, centred text ── */
+  .qm-opts-tf{ grid-template-columns: 1fr 1fr; }
+  .qm-opt.qm-tf{ text-align: center; font-size: clamp(18px, 3vw, 22px); padding: 22px 14px; }
+  .qm-opt.tf-true{
+    background: color-mix(in oklab, var(--green), transparent 85%);
+    border-color: color-mix(in oklab, var(--green), transparent 30%);
+    color: var(--green);
+  }
+  .qm-opt.tf-false{
+    background: color-mix(in oklab, var(--coral), transparent 85%);
+    border-color: color-mix(in oklab, var(--coral), transparent 30%);
+    color: var(--coral);
+  }
+  .qm-opt.qm-tf.correct{ background: var(--green); color: #fff; border-color: var(--card-border); }
+  .qm-opt.qm-tf.wrong{ background: var(--coral); color: #fff; border-color: var(--card-border); }
+
+  /* ── Tap-all-that-apply: wrap-pill grid + Check button ── */
+  .qm-opts-tapall{ display: block; }
+  .qm-tapall-grid{
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;
+  }
+  .qm-opt.qm-tapall-pill{
+    flex: 1 1 auto;
+    min-width: 120px;
+    padding: 12px 16px;
+    text-align: center;
+    border-radius: 999px;
+    font-size: clamp(14px, 2.2vw, 16px);
+  }
+  .qm-opt.qm-tapall-pill.picked{
+    background: var(--sky);
+    color: #fff;
+    border-color: var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border), 0 0 0 3px color-mix(in oklab, var(--sky), transparent 70%);
+  }
+  .qm-opt.qm-tapall-pill.correct-missed{
+    background: color-mix(in oklab, var(--yellow), transparent 70%);
+    border-color: var(--yellow);
+    color: var(--ink);
+    outline: 2px dashed var(--yellow); outline-offset: 2px;
+  }
+
+  /* Shared "check / submit" big CTA used by tapall / enterval / fillin */
+  .qm-check{
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 999px;
+    background: var(--sky);
+    color: #fff;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .15s var(--ease-pop);
+  }
+  .qm-check:hover:not(:disabled){ transform: translateY(-2px); box-shadow: 0 5px 0 var(--card-border); }
+  .qm-check:disabled{ opacity: .6; cursor: default; }
+  .qm-check.nudge, .qm-enterval-input.nudge{ animation: qmNudge .4s ease; }
+  @keyframes qmNudge{
+    0%,100%{ transform: translateX(0); }
+    25%{ transform: translateX(-6px); }
+    75%{ transform: translateX(6px); }
+  }
+
+  /* ── Enter-Value: number input + submit row ── */
+  .qm-opts-enterval{ display: block; }
+  .qm-enterval-row{
+    display: flex; gap: 10px; margin-bottom: 14px;
+    align-items: stretch;
+  }
+  .qm-enterval-input{
+    flex: 1;
+    padding: 14px 18px;
+    border-radius: 16px;
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(20px, 4vw, 26px);
+    color: var(--ink);
+    text-align: center;
+    -moz-appearance: textfield;
+  }
+  .qm-enterval-input::-webkit-outer-spin-button,
+  .qm-enterval-input::-webkit-inner-spin-button{ -webkit-appearance: none; margin: 0; }
+  .qm-enterval-input:focus{ outline: none; border-color: var(--coral); }
+  .qm-enterval-input.correct{
+    background: color-mix(in oklab, var(--green), transparent 80%);
+    border-color: var(--green); color: var(--green);
+  }
+  .qm-enterval-input.wrong{
+    background: color-mix(in oklab, var(--coral), transparent 80%);
+    border-color: var(--coral); color: var(--coral);
+  }
+  .qm-opts-enterval .qm-check{ flex: 0 0 auto; width: auto; padding: 14px 20px; }
+  @media (max-width: 500px){
+    .qm-enterval-row{ flex-direction: column; }
+    .qm-opts-enterval .qm-check{ width: 100%; }
+  }
+
+  /* ── Fill-in-the-blank: inline <input>s inside question text ── */
+  .qm-opts-fillin{ display: block; }
+  .qm-q-frag{ white-space: pre-wrap; }
+  .qm-fillin-input{
+    display: inline-block;
+    margin: 0 4px;
+    padding: 4px 10px;
+    min-width: 60px;
+    border: none;
+    border-bottom: 3px solid var(--card-border);
+    background: color-mix(in oklab, var(--yellow), transparent 85%);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: inherit;
+    color: var(--ink);
+    text-align: center;
+    border-radius: 6px 6px 0 0;
+  }
+  .qm-fillin-input:focus{ outline: none; border-bottom-color: var(--coral); background: color-mix(in oklab, var(--coral), transparent 88%); }
+  .qm-fillin-input.correct{ background: color-mix(in oklab, var(--green), transparent 70%); border-bottom-color: var(--green); color: var(--green); }
+  .qm-fillin-input.wrong{ background: color-mix(in oklab, var(--coral), transparent 70%); border-bottom-color: var(--coral); color: var(--coral); }
 
   .qm-char{
     display: flex; align-items: center; gap: 12px;
@@ -1937,20 +2062,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (el) el.textContent = `${m}:${String(s).padStart(2,'0')}`;
   }
 
+  // ─── Question rendering: dispatch by q.type ─────────────────────
+  // Supported types: 'mcq' (default), 'tf', 'tapall', 'enterval', 'fillin'
   function renderQ(){
     const qs = QUIZ.qs;
     const q = qs[QUIZ.qIdx];
     QUIZ.answered = false;
     document.getElementById('qmQCounter').textContent = `Question ${QUIZ.qIdx + 1} of ${qs.length}`;
-    document.getElementById('qmQ').textContent = q.q;
     document.getElementById('qmQnum').textContent = QUIZ.qIdx + 1;
     document.getElementById('qmTopic').textContent = q.t || '';
     document.getElementById('qmTopic').style.display = q.t ? '' : 'none';
     document.getElementById('qmFeedback').className = 'qm-feedback';
     document.getElementById('qmNext').className = 'qm-next';
-    // Reset character
     setCharNeutral();
-    // Build shuffled options
+
+    const qText = document.getElementById('qmQ');
+    const wrap = document.getElementById('qmOpts');
+    wrap.innerHTML = '';
+    wrap.className = 'qm-opts';
+
+    const type = q.type || 'mcq';
+    wrap.classList.add('qm-opts-' + type);
+    if (type === 'mcq')        { qText.textContent = q.q; renderMCQ(q, wrap); }
+    else if (type === 'tf')    { qText.textContent = q.q; renderTF(q, wrap); }
+    else if (type === 'tapall'){ qText.textContent = q.q; renderTapAll(q, wrap); }
+    else if (type === 'enterval'){ qText.textContent = q.q; renderEnterVal(q, wrap); }
+    else if (type === 'fillin'){ renderFillIn(q, qText, wrap); }
+    else { qText.textContent = q.q; renderMCQ(q, wrap); }  // unknown → MCQ fallback
+  }
+
+  // Central "lock in the answer" call shared by every type.
+  function finishAnswer(isCorrect, correctText){
+    if (QUIZ.answered) return;
+    QUIZ.answered = true;
+    const fb = document.getElementById('qmFeedback');
+    if (isCorrect){
+      QUIZ.score++;
+      QUIZ.results[QUIZ.qIdx] = 'correct';
+      fb.className = 'qm-feedback good show';
+      fb.textContent = '✅ Correct! Brilliant!';
+      setCharHappy();
+    } else {
+      QUIZ.results[QUIZ.qIdx] = 'wrong';
+      fb.className = 'qm-feedback bad show';
+      fb.textContent = '❌ Oops! Answer: ' + correctText;
+      setCharSad();
+    }
+    document.getElementById('qmScore').textContent = QUIZ.score;
+    document.getElementById('qmFill').style.width = (((QUIZ.qIdx + 1) / QUIZ.qs.length) * 100) + '%';
+    document.getElementById('qmNext').className = 'qm-next show';
+    document.getElementById('qmNext').textContent = (QUIZ.qIdx === QUIZ.qs.length - 1) ? 'See Result 🏆' : 'Next Question →';
+  }
+
+  // MCQ — classic 4-option grid (schema unchanged: {q, o:[correct,w,w,w], a:0})
+  function renderMCQ(q, wrap){
     const correct = q.o[q.a];
     const opts = [...q.o];
     for (let i = opts.length - 1; i > 0; i--){
@@ -1958,43 +2123,177 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       [opts[i], opts[j]] = [opts[j], opts[i]];
     }
     const correctIdx = opts.indexOf(correct);
-    const wrap = document.getElementById('qmOpts');
-    wrap.innerHTML = '';
     opts.forEach((opt, i) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'qm-opt';
       b.textContent = opt;
-      b.onclick = () => answerQ(b, i === correctIdx, opts, correctIdx);
+      b.onclick = () => {
+        if (QUIZ.answered) return;
+        const all = wrap.querySelectorAll('.qm-opt');
+        all.forEach(x => x.disabled = true);
+        all[correctIdx].classList.add('correct');
+        if (i !== correctIdx) b.classList.add('wrong');
+        finishAnswer(i === correctIdx, correct);
+      };
       wrap.appendChild(b);
     });
   }
 
-  function answerQ(btn, isCorrect, shuffled, correctIdx){
-    if (QUIZ.answered) return;
-    QUIZ.answered = true;
-    const all = document.querySelectorAll('#qmOpts .qm-opt');
-    all.forEach(b => b.disabled = true);
-    all[correctIdx].classList.add('correct');
-    const fb = document.getElementById('qmFeedback');
-    if (isCorrect){
-      btn.classList.add('correct');
-      QUIZ.score++;
-      QUIZ.results[QUIZ.qIdx] = 'correct';
-      fb.className = 'qm-feedback good show';
-      fb.textContent = '✅ Correct! Brilliant!';
-      setCharHappy();
-    } else {
-      btn.classList.add('wrong');
-      QUIZ.results[QUIZ.qIdx] = 'wrong';
-      fb.className = 'qm-feedback bad show';
-      fb.textContent = `❌ Oops! Answer: ${shuffled[correctIdx]}`;
-      setCharSad();
+  // True/False — two big buttons. Schema: {type:'tf', q, a: true|false}
+  function renderTF(q, wrap){
+    [
+      {label:'✓ True',  val:true},
+      {label:'✗ False', val:false}
+    ].forEach(c => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'qm-opt qm-tf ' + (c.val ? 'tf-true' : 'tf-false');
+      b.textContent = c.label;
+      b.onclick = () => {
+        if (QUIZ.answered) return;
+        const all = wrap.querySelectorAll('.qm-opt');
+        all.forEach(x => x.disabled = true);
+        const correctCls = q.a ? 'tf-true' : 'tf-false';
+        const correctBtn = [...all].find(x => x.classList.contains(correctCls));
+        if (correctBtn) correctBtn.classList.add('correct');
+        if (c.val !== q.a) b.classList.add('wrong');
+        finishAnswer(c.val === q.a, q.a ? 'True' : 'False');
+      };
+      wrap.appendChild(b);
+    });
+  }
+
+  // Tap-all-that-apply — multi-select pills + Check button.
+  // Schema: {type:'tapall', q, pool:[items], correct:[subset of pool]}
+  function renderTapAll(q, wrap){
+    const pool = [...q.pool];
+    for (let i = pool.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
     }
-    document.getElementById('qmScore').textContent = QUIZ.score;
-    document.getElementById('qmFill').style.width = `${((QUIZ.qIdx + 1) / QUIZ.qs.length) * 100}%`;
-    document.getElementById('qmNext').className = 'qm-next show';
-    document.getElementById('qmNext').textContent = (QUIZ.qIdx === QUIZ.qs.length - 1) ? 'See Result 🏆' : 'Next Question →';
+    const selected = new Set();
+    const pills = [];
+    const pillGrid = document.createElement('div');
+    pillGrid.className = 'qm-tapall-grid';
+    pool.forEach(item => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'qm-opt qm-tapall-pill';
+      b.textContent = item;
+      b.onclick = () => {
+        if (QUIZ.answered) return;
+        if (selected.has(item)) { selected.delete(item); b.classList.remove('picked'); }
+        else { selected.add(item); b.classList.add('picked'); }
+      };
+      pills.push(b);
+      pillGrid.appendChild(b);
+    });
+    wrap.appendChild(pillGrid);
+    const checkBtn = document.createElement('button');
+    checkBtn.type = 'button';
+    checkBtn.className = 'qm-check';
+    checkBtn.textContent = '✓ Check my picks';
+    checkBtn.onclick = () => {
+      if (QUIZ.answered) return;
+      if (selected.size === 0){ checkBtn.classList.add('nudge'); setTimeout(() => checkBtn.classList.remove('nudge'), 400); return; }
+      const correctSet = new Set(q.correct);
+      pills.forEach(b => {
+        b.disabled = true;
+        const isC = correctSet.has(b.textContent);
+        const picked = b.classList.contains('picked');
+        if (isC && picked) b.classList.add('correct');
+        else if (isC && !picked) b.classList.add('correct-missed');
+        else if (!isC && picked) b.classList.add('wrong');
+      });
+      checkBtn.disabled = true;
+      // fully correct iff selected exactly matches correctSet
+      let ok = selected.size === correctSet.size;
+      if (ok) for (const x of selected) if (!correctSet.has(x)){ ok = false; break; }
+      finishAnswer(ok, q.correct.join(', '));
+    };
+    wrap.appendChild(checkBtn);
+  }
+
+  // Enter-Value — numeric input + Submit. Schema: {type:'enterval', q, a:number, tol?:number}
+  function renderEnterVal(q, wrap){
+    const row = document.createElement('div');
+    row.className = 'qm-enterval-row';
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.inputMode = 'decimal';
+    input.step = 'any';
+    input.className = 'qm-enterval-input';
+    input.placeholder = 'Your answer';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'qm-check';
+    btn.textContent = '✓ Submit';
+    const submit = () => {
+      if (QUIZ.answered) return;
+      const v = parseFloat(input.value);
+      if (isNaN(v)){ input.classList.add('nudge'); setTimeout(() => input.classList.remove('nudge'), 400); return; }
+      const tol = typeof q.tol === 'number' ? q.tol : 0;
+      const ok = Math.abs(v - q.a) <= tol;
+      input.disabled = true;
+      btn.disabled = true;
+      input.classList.add(ok ? 'correct' : 'wrong');
+      finishAnswer(ok, String(q.a));
+    };
+    btn.onclick = submit;
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); submit(); } });
+    row.appendChild(input);
+    row.appendChild(btn);
+    wrap.appendChild(row);
+    setTimeout(() => input.focus(), 80);
+  }
+
+  // Fill-in — inline blank(s) in the question text. Schema:
+  //   {type:'fillin', q:'... ___ ... ___ ...', blanks:['ans1','ans2']}
+  // Single-blank questions just have one '___' and one-element blanks.
+  function renderFillIn(q, qText, wrap){
+    qText.innerHTML = '';
+    const parts = String(q.q).split('___');
+    const inputs = [];
+    parts.forEach((p, i) => {
+      const span = document.createElement('span');
+      span.className = 'qm-q-frag';
+      span.textContent = p;
+      qText.appendChild(span);
+      if (i < parts.length - 1){
+        const inp = document.createElement('input');
+        inp.type = 'text';
+        inp.autocomplete = 'off';
+        inp.className = 'qm-fillin-input';
+        const ans = String((q.blanks || [])[i] || '');
+        inp.size = Math.max(5, ans.length + 2);
+        inputs.push(inp);
+        qText.appendChild(inp);
+      }
+    });
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'qm-check';
+    btn.textContent = '✓ Submit';
+    const norm = (s) => String(s||'').trim().toLowerCase().replace(/\s+/g,' ');
+    const submit = () => {
+      if (QUIZ.answered) return;
+      if (inputs.some(i => !i.value.trim())){ btn.classList.add('nudge'); setTimeout(() => btn.classList.remove('nudge'), 400); return; }
+      let ok = true;
+      inputs.forEach((inp, i) => {
+        inp.disabled = true;
+        const exp = norm((q.blanks || [])[i]);
+        const got = norm(inp.value);
+        if (got === exp) inp.classList.add('correct');
+        else { inp.classList.add('wrong'); ok = false; }
+      });
+      btn.disabled = true;
+      finishAnswer(ok, (q.blanks || []).join(' | '));
+    };
+    btn.onclick = submit;
+    inputs.forEach(inp => inp.addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); submit(); } }));
+    wrap.appendChild(btn);
+    if (inputs.length) setTimeout(() => inputs[0].focus(), 80);
   }
 
   function setCharNeutral(){
