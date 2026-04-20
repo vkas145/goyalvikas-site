@@ -1970,35 +1970,91 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     timer:0, timerInt:null, qs:null,
   };
 
-  // ─── Background music (Web Audio, grade-band themed) ──────────
-  // No audio files — melodies are synthesised live with oscillators.
-  // 4 grade bands, each a distinct vibe, looped quietly behind the quiz.
+  // ─── Background music (Web Audio, per-chapter varied) ─────────
+  // No audio files — melodies are synthesised live with oscillators,
+  // routed through a low-pass filter for warmth so nothing sounds
+  // piercing. Each grade band has multiple tracks; chapter index picks
+  // which one, so Ch 1 and Ch 2 of the same grade sound different.
   const MUSIC_STORE_KEY = 'vivaan_music';
-  // note indexes are MIDI numbers; -1 is a rest.
-  const MUSIC_PATTERNS = {
-    kids:    { bpm:112, voice:'triangle', name:'Happy Skip',
-               notes:[72,76,79,76, 77,76,72,-1, 76,79,76,72, 67,72,76,-1] },
-    primary: { bpm:96,  voice:'triangle', name:'Adventure Hop',
-               notes:[67,71,74,79, 78,74,71,67, 69,72,76,79, 76,72,67,-1] },
-    middle:  { bpm:78,  voice:'sine',     name:'Thoughtful Drift',
-               notes:[57,60,64,67, 69,67,64,60, 57,60,64,67, 64,60,57,-1] },
-    senior:  { bpm:66,  voice:'sine',     name:'Focus Loop',
-               notes:[50,53,57,60, 62,60,57,53, 50,53,57,60, 57,53,50,-1] }
+
+  // Voice profiles: osc type, envelope attack/release, peak gain.
+  const V_KIDS      = { osc:'triangle', atk:0.035, rel:0.18, peak:0.32 };
+  const V_GAMELEAD  = { osc:'triangle', atk:0.010, rel:0.10, peak:0.30 };
+  const V_GAMESQUARE= { osc:'square',   atk:0.005, rel:0.08, peak:0.22 };
+  const V_PIANO     = { osc:'triangle', atk:0.002, rel:0.45, peak:0.28 };
+  const V_PAD       = { osc:'sine',     atk:0.40,  rel:0.80, peak:0.18 };
+  const V_BASS      = { osc:'sine',     atk:0.020, rel:0.15, peak:0.22 };
+  const V_BASS_GAME = { osc:'triangle', atk:0.010, rel:0.10, peak:0.24 };
+
+  // mel / bass entries: [midi, beatsHeld]; midi<0 = rest.
+  // drums: 16-step per-beat pattern ('K'=kick,'h'=hat,'s'=snare,''=rest).
+  const MUSIC_TRACKS = {
+    kids: [
+      { name:'Starlight Song', bpm:96, lead:V_KIDS, bassV:V_BASS,
+        mel:[[60,1],[60,1],[67,1],[67,1], [69,1],[69,1],[67,2],
+             [65,1],[65,1],[64,1],[64,1], [62,1],[62,1],[60,2]],
+        bass:[[48,2],[55,2], [55,2],[52,2], [53,2],[48,2], [55,2],[48,2]] },
+      { name:'Wheels & Wheels', bpm:104, lead:V_KIDS, bassV:V_BASS,
+        mel:[[60,1],[64,1],[67,1],[72,1], [67,1],[64,1],[60,2],
+             [62,1],[65,1],[69,1],[74,1], [69,1],[65,1],[62,2],
+             [60,1],[64,1],[67,1],[72,1], [65,1],[67,1],[60,2]],
+        bass:[[48,2],[55,2], [50,2],[57,2],
+              [48,2],[55,2], [53,2],[48,2],
+              [48,2],[55,2], [53,2],[48,2]] }
+    ],
+    primary: [
+      { name:'Hero Adventure', bpm:138, lead:V_GAMELEAD, bassV:V_BASS_GAME,
+        mel:[[72,1],[76,1],[79,1],[84,1], [79,1],[76,1],[72,2],
+             [77,1],[81,1],[84,1],[89,1], [84,1],[81,1],[77,2],
+             [74,1],[77,1],[81,1],[86,1], [81,1],[77,1],[74,2],
+             [72,1],[76,1],[79,1],[84,1], [86,2],[72,2]],
+        bass:[[36,1],[43,1],[36,1],[43,1], [36,1],[43,1],[36,1],[43,1],
+              [41,1],[48,1],[41,1],[48,1], [38,1],[45,1],[38,1],[45,1],
+              [43,1],[36,1],[43,1],[36,1], [36,1],[43,1],[36,1],[43,1]],
+        drums:['K','h','','h','K','h','s','h','K','h','','h','K','h','s','h'] },
+      { name:'Warp Zone', bpm:152, lead:V_GAMESQUARE, bassV:V_BASS_GAME,
+        mel:[[60,1],[62,1],[64,1],[65,1], [67,1],[69,1],[71,1],[72,1],
+             [71,1],[69,1],[67,1],[65,1], [64,1],[62,1],[60,2],
+             [72,1],[67,1],[64,1],[60,1], [72,1],[67,1],[64,2]],
+        bass:[[36,1],[48,1],[36,1],[48,1], [36,1],[48,1],[36,1],[48,1],
+              [41,1],[48,1],[41,1],[48,1], [36,1],[48,1],[36,1],[48,1]],
+        drums:['K','h','s','h','K','h','s','h','K','h','s','h','K','h','s','h'] }
+    ],
+    middle: [
+      { name:'Cafe Study', bpm:72, lead:V_PIANO, bassV:V_PAD,
+        mel:[[69,1.5],[72,0.5],[76,2], [74,1.5],[72,0.5],[69,2],
+             [65,1.5],[67,0.5],[69,2], [64,1.5],[65,0.5],[67,2]],
+        bass:[[45,4],[41,4], [40,4],[43,4]] },
+      { name:'Gentle Rain', bpm:66, lead:V_PIANO, bassV:V_PAD,
+        mel:[[72,2],[76,2], [74,2],[72,2],
+             [69,2],[72,2], [67,4]],
+        bass:[[48,4],[53,4], [50,4],[43,4]] }
+    ],
+    senior: [
+      { name:'Piano Thought', bpm:60, lead:V_PIANO, bassV:V_PAD,
+        mel:[[62,3],[65,3], [69,3],[65,3], [62,3],[60,3], [62,6]],
+        bass:[[38,6],[45,6], [41,6],[38,6]] },
+      { name:'Ambient Drift', bpm:56, lead:V_PAD, bassV:V_PAD,
+        mel:[[60,4],[64,4], [67,4],[64,4], [60,8]],
+        bass:[[36,8],[41,8], [40,8]] }
+    ]
   };
-  // Soft bass pulse (root note) to give the loop body.
-  const MUSIC_BASS = {
-    kids:    [48,-1,55,-1,48,-1,55,-1, 48,-1,55,-1,43,-1,48,-1],
-    primary: [43,-1,50,-1,43,-1,50,-1, 45,-1,52,-1,50,-1,43,-1],
-    middle:  [45,-1,52,-1,45,-1,52,-1, 45,-1,52,-1,52,-1,45,-1],
-    senior:  [38,-1,45,-1,38,-1,45,-1, 38,-1,45,-1,45,-1,38,-1]
-  };
+
   function musicBandForGrade(g){
     if (g <= 2) return 'kids';
     if (g <= 5) return 'primary';
     if (g <= 8) return 'middle';
     return 'senior';
   }
-  const MUSIC = { ctx:null, master:null, on: null, active:false, tickHandle:null, nextTime:0, patternKey:null };
+  function pickTrack(grade, ch){
+    const band = musicBandForGrade(grade);
+    const list = MUSIC_TRACKS[band] || [];
+    if (!list.length) return null;
+    const idx = ((ch || 1) - 1) % list.length;
+    return list[idx];
+  }
+
+  const MUSIC = { ctx:null, master:null, lp:null, active:false, tickHandle:null, nextTime:0, track:null };
   function musicPref(){
     const v = localStorage.getItem(MUSIC_STORE_KEY);
     return v === null ? true : v === '1';
@@ -2011,50 +2067,119 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (!Ctx) return false;
       MUSIC.ctx = new Ctx();
       MUSIC.master = MUSIC.ctx.createGain();
-      MUSIC.master.gain.value = 0.09;  // gentle — easy to ignore
-      MUSIC.master.connect(MUSIC.ctx.destination);
+      MUSIC.master.gain.value = 0.13;
+      MUSIC.lp = MUSIC.ctx.createBiquadFilter();
+      MUSIC.lp.type = 'lowpass';
+      MUSIC.lp.frequency.value = 2200;
+      MUSIC.lp.Q.value = 0.6;
+      MUSIC.master.connect(MUSIC.lp);
+      MUSIC.lp.connect(MUSIC.ctx.destination);
       return true;
     } catch(e){ return false; }
   }
   function midiHz(m){ return 440 * Math.pow(2, (m - 69) / 12); }
-  function scheduleTone(freq, start, dur, voice, gainPeak){
+
+  function scheduleTone(freq, start, dur, voice){
     const osc = MUSIC.ctx.createOscillator();
     const g = MUSIC.ctx.createGain();
-    osc.type = voice;
+    osc.type = voice.osc;
     osc.frequency.setValueAtTime(freq, start);
-    const peak = gainPeak != null ? gainPeak : 0.35;
-    g.gain.setValueAtTime(0, start);
-    g.gain.linearRampToValueAtTime(peak, start + Math.min(0.04, dur * 0.3));
-    g.gain.setValueAtTime(peak, start + dur * 0.6);
-    g.gain.linearRampToValueAtTime(0, start + dur);
+    const peak = voice.peak;
+    const atk = Math.min(voice.atk, dur * 0.4);
+    const rel = Math.min(voice.rel, dur * 0.8);
+    g.gain.setValueAtTime(0.0001, start);
+    g.gain.linearRampToValueAtTime(peak, start + atk);
+    const holdEnd = start + Math.max(atk + 0.01, dur - rel);
+    g.gain.setValueAtTime(peak, holdEnd);
+    g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
     osc.connect(g);
     g.connect(MUSIC.master);
     osc.start(start);
     osc.stop(start + dur + 0.05);
   }
-  function startMusic(grade){
+
+  // Drum synth for primary (game) band only.
+  function scheduleKick(start){
+    const osc = MUSIC.ctx.createOscillator();
+    const g = MUSIC.ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(120, start);
+    osc.frequency.exponentialRampToValueAtTime(40, start + 0.14);
+    g.gain.setValueAtTime(0.28, start);
+    g.gain.exponentialRampToValueAtTime(0.0001, start + 0.2);
+    osc.connect(g); g.connect(MUSIC.master);
+    osc.start(start); osc.stop(start + 0.24);
+  }
+  function scheduleHat(start){
+    const n = Math.floor(MUSIC.ctx.sampleRate * 0.04);
+    const buf = MUSIC.ctx.createBuffer(1, n, MUSIC.ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random()*2 - 1) * Math.pow(1 - i/n, 2);
+    const src = MUSIC.ctx.createBufferSource(); src.buffer = buf;
+    const hp = MUSIC.ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 5500;
+    const g = MUSIC.ctx.createGain(); g.gain.value = 0.09;
+    src.connect(hp); hp.connect(g); g.connect(MUSIC.master);
+    src.start(start);
+  }
+  function scheduleSnare(start){
+    const n = Math.floor(MUSIC.ctx.sampleRate * 0.10);
+    const buf = MUSIC.ctx.createBuffer(1, n, MUSIC.ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random()*2 - 1) * Math.pow(1 - i/n, 1.3);
+    const src = MUSIC.ctx.createBufferSource(); src.buffer = buf;
+    const bp = MUSIC.ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1800; bp.Q.value = 0.9;
+    const g = MUSIC.ctx.createGain(); g.gain.value = 0.12;
+    src.connect(bp); bp.connect(g); g.connect(MUSIC.master);
+    src.start(start);
+  }
+
+  function startMusic(grade, ch){
     if (!musicPref()) return;
     if (!ensureAudio()) return;
     if (MUSIC.ctx.state === 'suspended') MUSIC.ctx.resume().catch(()=>{});
+    try { MUSIC.master.gain.cancelScheduledValues(MUSIC.ctx.currentTime); MUSIC.master.gain.setValueAtTime(0.13, MUSIC.ctx.currentTime); } catch(e){}
+    const track = pickTrack(grade, ch);
+    if (!track) return;
+    MUSIC.track = track;
     const band = musicBandForGrade(grade);
-    MUSIC.patternKey = band;
+    // Band-tuned low-pass: brighter for kids/primary, warmer for middle/senior.
+    const lpFreq = { kids:2400, primary:3000, middle:1500, senior:1100 }[band] || 2200;
+    MUSIC.lp.frequency.setTargetAtTime(lpFreq, MUSIC.ctx.currentTime, 0.15);
     MUSIC.active = true;
-    MUSIC.nextTime = MUSIC.ctx.currentTime + 0.1;
-    const pat = MUSIC_PATTERNS[band];
-    const bass = MUSIC_BASS[band] || [];
-    const beatDur = 60 / pat.bpm;
-    let idx = 0;
+    MUSIC.nextTime = MUSIC.ctx.currentTime + 0.12;
+    const beatDur = 60 / track.bpm;
+    let melIdx = 0, bassIdx = 0, drumIdx = 0;
+    let melPhase = 0, bassPhase = 0;
+
     const tick = () => {
       if (!MUSIC.active) return;
-      // Schedule ~2 seconds ahead
-      while (MUSIC.nextTime < MUSIC.ctx.currentTime + 2.0){
-        const mel = pat.notes[idx % pat.notes.length];
-        if (mel >= 0) scheduleTone(midiHz(mel), MUSIC.nextTime, beatDur * 0.92, pat.voice, 0.35);
-        const ba = bass[idx % bass.length];
-        if (ba >= 0) scheduleTone(midiHz(ba), MUSIC.nextTime, beatDur * 1.6, 'sine', 0.22);
-        idx++;
-        MUSIC.nextTime += beatDur;
+      const horizon = MUSIC.ctx.currentTime + 2.2;
+      let t = MUSIC.nextTime;
+      let safety = 256;
+      while (t < horizon && safety-- > 0){
+        // Melody: trigger note on phase 0, then count beats until duration is met.
+        if (melPhase === 0){
+          const [p, d] = track.mel[melIdx];
+          if (p >= 0) scheduleTone(midiHz(p), t, Math.max(0.05, d * beatDur * 0.95), track.lead);
+        }
+        if (bassPhase === 0){
+          const [p, d] = track.bass[bassIdx];
+          if (p >= 0) scheduleTone(midiHz(p - 12), t, Math.max(0.05, d * beatDur * 0.95), track.bassV);
+        }
+        if (track.drums){
+          const step = track.drums[drumIdx % track.drums.length];
+          if (step === 'K') scheduleKick(t);
+          else if (step === 'h') scheduleHat(t);
+          else if (step === 's') scheduleSnare(t);
+          drumIdx++;
+        }
+        melPhase++;
+        if (melPhase >= track.mel[melIdx][1]){ melPhase = 0; melIdx = (melIdx + 1) % track.mel.length; }
+        bassPhase++;
+        if (bassPhase >= track.bass[bassIdx][1]){ bassPhase = 0; bassIdx = (bassIdx + 1) % track.bass.length; }
+        t += beatDur;
       }
+      MUSIC.nextTime = t;
       MUSIC.tickHandle = setTimeout(tick, 250);
     };
     tick();
@@ -2072,7 +2197,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         MUSIC.master.gain.setValueAtTime(cur, t);
         MUSIC.master.gain.linearRampToValueAtTime(0, t + fadeDur);
         // Reset master volume after fade so future playback is audible again.
-        setTimeout(() => { if (MUSIC.master) MUSIC.master.gain.setValueAtTime(0.09, MUSIC.ctx.currentTime); }, fadeDur * 1000 + 50);
+        setTimeout(() => { if (MUSIC.master) MUSIC.master.gain.setValueAtTime(0.13, MUSIC.ctx.currentTime); }, fadeDur * 1000 + 50);
       } catch(e){}
     }
   }
@@ -2084,7 +2209,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     btn.classList.toggle('off', !on);
     btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     btn.title = on
-      ? 'Music on (' + (MUSIC_PATTERNS[musicBandForGrade(QUIZ.grade||2)] || {}).name + ')'
+      ? 'Music on (' + ((MUSIC.track && MUSIC.track.name) || 'loop') + ')'
       : 'Music off — tap to play';
   }
 
@@ -2115,7 +2240,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     buildSetTabs();
     startSet();
     updateMusicBtn();
-    startMusic(grade);
+    startMusic(grade, ch);
   }
 
   function closeQuiz(){
@@ -2503,7 +2628,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (musicBtn) musicBtn.onclick = () => {
       const on = !musicPref();
       setMusicPref(on);
-      if (on && QUIZ.open) startMusic(QUIZ.grade);
+      if (on && QUIZ.open) startMusic(QUIZ.grade, QUIZ.ch);
       else stopMusic(true);
       updateMusicBtn();
     };
