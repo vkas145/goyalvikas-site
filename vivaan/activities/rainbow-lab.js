@@ -1,77 +1,93 @@
-/* Wednesday — Rainbow Lab 🌈
-   Color-by-Answer: a 6×6 grid divided into "color regions". Each
-   region has a math question. Solve → that region paints itself. After
-   all regions colored, the picture is revealed. */
+/* Wednesday — Rainbow Lab 🌈  (v2: dense + grade-band aware)
+   ─────────────────────────────────────────────────────────────
+   Universal mechanic: solve a question, paint a region. After all
+   regions are painted, the picture is revealed (heart, sun, fish).
+   G1-2 uses simple arithmetic; G3+ pulls grade-correct questions
+   from QUIZ_DATA so the maths actually matches the grade.
+   12 regions = 12 questions = ~12-15 min. */
 (function(){
   'use strict';
 
-  // Predefined "pictures" as a 6×6 grid where each cell holds a region id
-  // (1-N), and each region has a target color. With grid+colors, you reveal
-  // simple shapes (heart, sun, fish, butterfly, star). For v1 we ship one
-  // shape and rotate via week-seed.
+  // 12-region pictures (denser canvas).
   const PICTURES = [
     { name:'Heart', revealEmoji:'❤️', regions: [
-      // Each region's id, the cells it occupies, and target color.
-      { id:1, color:'#EF4444', cells:[[0,1],[0,2],[0,3],[0,4]] },
-      { id:2, color:'#EF4444', cells:[[1,0],[1,1],[1,2],[1,3],[1,4],[1,5]] },
-      { id:3, color:'#EF4444', cells:[[2,0],[2,1],[2,2],[2,3],[2,4],[2,5]] },
-      { id:4, color:'#EF4444', cells:[[3,1],[3,2],[3,3],[3,4]] },
-      { id:5, color:'#EF4444', cells:[[4,2],[4,3]] }
+      { id:1,  color:'#EF4444', cells:[[0,1],[0,2]] },
+      { id:2,  color:'#EF4444', cells:[[0,3],[0,4]] },
+      { id:3,  color:'#EF4444', cells:[[1,0],[1,1]] },
+      { id:4,  color:'#EF4444', cells:[[1,2],[1,3]] },
+      { id:5,  color:'#EF4444', cells:[[1,4],[1,5]] },
+      { id:6,  color:'#EF4444', cells:[[2,0],[2,1]] },
+      { id:7,  color:'#EF4444', cells:[[2,2],[2,3]] },
+      { id:8,  color:'#EF4444', cells:[[2,4],[2,5]] },
+      { id:9,  color:'#EF4444', cells:[[3,1],[3,2]] },
+      { id:10, color:'#EF4444', cells:[[3,3],[3,4]] },
+      { id:11, color:'#EF4444', cells:[[4,2]] },
+      { id:12, color:'#EF4444', cells:[[4,3]] }
     ]},
     { name:'Sun', revealEmoji:'☀️', regions: [
-      { id:1, color:'#FACC15', cells:[[0,0],[0,5],[1,1],[1,4],[2,2],[2,3]] },
-      { id:2, color:'#F59E0B', cells:[[2,1],[2,4],[3,2],[3,3]] },
-      { id:3, color:'#FB923C', cells:[[3,1],[3,4],[4,1],[4,2],[4,3],[4,4]] },
-      { id:4, color:'#FACC15', cells:[[5,0],[5,5],[1,0],[1,5]] },
-      { id:5, color:'#F59E0B', cells:[[0,1],[0,4],[5,1],[5,4]] }
+      { id:1,  color:'#FACC15', cells:[[0,0]] },
+      { id:2,  color:'#FACC15', cells:[[0,5]] },
+      { id:3,  color:'#FACC15', cells:[[1,0],[1,5]] },
+      { id:4,  color:'#FACC15', cells:[[5,0],[5,5]] },
+      { id:5,  color:'#F59E0B', cells:[[1,1]] },
+      { id:6,  color:'#F59E0B', cells:[[1,4]] },
+      { id:7,  color:'#F59E0B', cells:[[2,1],[2,4]] },
+      { id:8,  color:'#FB923C', cells:[[2,2],[2,3]] },
+      { id:9,  color:'#FB923C', cells:[[3,2],[3,3]] },
+      { id:10, color:'#FB923C', cells:[[3,1],[3,4]] },
+      { id:11, color:'#FACC15', cells:[[4,1],[4,2]] },
+      { id:12, color:'#FACC15', cells:[[4,3],[4,4]] }
     ]},
     { name:'Fish', revealEmoji:'🐠', regions: [
-      { id:1, color:'#3B82F6', cells:[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[2,4]] },
-      { id:2, color:'#0EA5E9', cells:[[3,1],[3,2],[3,3],[3,4],[4,2],[4,3]] },
-      { id:3, color:'#06B6D4', cells:[[2,5],[3,5],[1,5]] },
-      { id:4, color:'#FBBF24', cells:[[2,0],[3,0],[4,0]] },
-      { id:5, color:'#FFFFFF', cells:[[1,4],[2,4]] }
+      { id:1,  color:'#3B82F6', cells:[[1,1]] },
+      { id:2,  color:'#3B82F6', cells:[[1,2]] },
+      { id:3,  color:'#3B82F6', cells:[[1,3]] },
+      { id:4,  color:'#3B82F6', cells:[[2,1],[2,2]] },
+      { id:5,  color:'#3B82F6', cells:[[2,3]] },
+      { id:6,  color:'#3B82F6', cells:[[2,4]] },
+      { id:7,  color:'#0EA5E9', cells:[[3,1],[3,2]] },
+      { id:8,  color:'#0EA5E9', cells:[[3,3],[3,4]] },
+      { id:9,  color:'#0EA5E9', cells:[[4,2],[4,3]] },
+      { id:10, color:'#FBBF24', cells:[[2,0],[3,0]] },
+      { id:11, color:'#06B6D4', cells:[[1,4],[1,5]] },
+      { id:12, color:'#06B6D4', cells:[[2,5],[3,5]] }
     ]}
   ];
 
   function rand(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
 
-  function genQ(grade){
-    // Grade-scaled arithmetic q with a single number answer.
+  function genArith(grade){
     let a, b, op;
-    if (grade <= 2){ a = rand(1, 30); b = rand(1, 20); op = Math.random() < 0.5 ? '+' : '−'; if (op === '−' && b > a) [a,b] = [b,a]; }
-    else if (grade <= 4){ a = rand(20, 200); b = rand(10, 100); op = Math.random() < 0.5 ? '+' : '−'; if (op === '−' && b > a) [a,b] = [b,a]; }
-    else { a = rand(50, 500); b = rand(20, 200); op = Math.random() < 0.5 ? '+' : '−'; if (op === '−' && b > a) [a,b] = [b,a]; }
+    if (grade <= 2){ a = rand(1, 30); b = rand(1, 20); op = Math.random()<0.5?'+':'−'; if (op==='−'&&b>a) [a,b]=[b,a]; }
+    else { a = rand(20, 200); b = rand(10, 100); op = Math.random()<0.5?'+':'−'; if (op==='−'&&b>a) [a,b]=[b,a]; }
     const ans = op === '+' ? a + b : a - b;
     return { q: `${a} ${op} ${b}`, ans };
   }
 
-  function cells(activeIdx, total){
-    let s = '';
-    for (let i = 0; i < total; i++) s += `<div class="a-progress-cell ${i < activeIdx ? 'done' : i === activeIdx ? 'active' : ''}"></div>`;
-    return s;
-  }
-
   window.MM_ACT_RAINBOW_LAB = function(opts){
     const { grade, container, onComplete } = opts;
-    const seed = window.MM_DAILY ? window.MM_DAILY.weekSeed() : 1;
+    const D = window.MM_DAILY;
+    const seed = D ? D.weekSeed() : 1;
     const pic = PICTURES[seed % PICTURES.length];
 
     let idx = 0, score = 0;
     const total = pic.regions.length;
 
-    // Render persistent grid + question card; only swap the q on each round.
+    // Pre-fetch grade-appropriate Qs from QUIZ_DATA (mcq + enterval) for grades 3+
+    let dataQs = [];
+    if (D && grade > 2) dataQs = D.getQuestionsForGrade(grade, total, { types: ['mcq','enterval'] });
+    // Pad with arithmetic if data short
+    while (dataQs.length < total) dataQs.push(null); // null = generate arith
+
     container.innerHTML = `
       <div class="a-card">
-        <div class="a-progress" id="aProg">${cells(0, total)}</div>
-        <div style="text-align:center;margin-bottom:6px;font-size:14px;font-weight:700;opacity:0.7">🧪 The scientist says…</div>
-        <div class="paint-key" id="paintKey"></div>
+        <div class="qb-meta">
+          <span class="qb-badge">🧪 Paint the picture</span>
+          <span class="qb-progress" id="rlProg">1 / ${total}</span>
+        </div>
         <div class="paint-grid" id="paintGrid"></div>
         <div class="a-q" id="aQ">…</div>
-        <div class="a-input-row">
-          <input class="a-input" id="aInput" inputmode="numeric" pattern="[0-9-]*" autocomplete="off" />
-          <button class="a-submit" id="aSubmit" type="button">Paint!</button>
-        </div>
+        <div id="qbBody"></div>
         <div class="a-feedback" id="aFb" style="margin-top:10px"></div>
       </div>
     `;
@@ -85,14 +101,6 @@
         grid.appendChild(el);
       }
     }
-    // Key
-    const key = container.querySelector('#paintKey');
-    pic.regions.forEach(r => {
-      const tag = document.createElement('span');
-      tag.innerHTML = `<span class="pk-dot" style="background:${r.color}"></span>region ${r.id}`;
-      key.appendChild(tag);
-    });
-
     function paintRegion(region){
       region.cells.forEach(([r,c]) => {
         const el = cellMap[`${r},${c}`];
@@ -102,10 +110,9 @@
 
     function next(){
       if (idx >= total){
-        // Final reveal
         container.innerHTML = `
           <div class="a-card" style="text-align:center">
-            <div style="font-size:14px;font-weight:700;opacity:0.7;margin-bottom:8px">🧪 The scientist beams…</div>
+            <div class="qb-badge">🧪 The scientist beams…</div>
             <div style="font-size:64px;line-height:1;margin:14px 0">${pic.revealEmoji}</div>
             <div style="font-size:24px;font-weight:900">It's a ${pic.name}!</div>
             <div style="opacity:0.8;margin-top:6px">You painted ${score}/${total} regions correctly.</div>
@@ -115,30 +122,66 @@
         return;
       }
       const region = pic.regions[idx];
-      const q = genQ(grade);
-      container.querySelector('#aProg').innerHTML = cells(idx, total);
-      container.querySelector('#aQ').innerHTML = `<span style="display:inline-block;background:${region.color};color:#FFF;padding:4px 10px;border-radius:8px;margin-right:8px;border:2px solid #2B1B4A">Region ${region.id}</span> ${q.q} = ?`;
-      const inp = container.querySelector('#aInput');
-      const sub = container.querySelector('#aSubmit');
+      const dq = dataQs[idx];
+      const arith = !dq ? genArith(grade) : null;
+      container.querySelector('#rlProg').textContent = `${idx + 1} / ${total}`;
+      const qEl = container.querySelector('#aQ');
+      const body = container.querySelector('#qbBody');
       const fb = container.querySelector('#aFb');
-      inp.value = ''; fb.className = 'a-feedback'; fb.textContent = '';
-      inp.focus();
-      function submit(){
-        const v = parseInt(inp.value, 10);
-        const isOk = !isNaN(v) && v === q.ans;
-        if (isOk){
-          fb.className = 'a-feedback ok'; fb.textContent = `✅ Painted! Region ${region.id} is now ${region.color === '#FFFFFF' ? 'white' : 'colored'}.`;
-          paintRegion(region); score++;
+      const colorTag = `<span style="display:inline-block;background:${region.color};color:#FFF;padding:3px 9px;border-radius:8px;margin-right:8px;border:2px solid #2B1B4A;font-size:13px">Region ${region.id}</span>`;
+
+      if (arith){
+        qEl.innerHTML = `${colorTag}${arith.q} = ?`;
+        body.innerHTML = `<div class="a-input-row"><input class="a-input" id="rlInp" inputmode="numeric" pattern="[0-9-]*" autocomplete="off" /><button class="a-submit" id="rlSub" type="button">Paint!</button></div>`;
+        const inp = body.querySelector('#rlInp'); const sub = body.querySelector('#rlSub');
+        inp.focus();
+        const submit = () => {
+          const v = parseFloat(inp.value);
+          const ok = !isNaN(v) && v === arith.ans;
+          if (ok){ fb.className='a-feedback ok'; fb.textContent=`✅ Painted region ${region.id}!`; paintRegion(region); score++; }
+          else { fb.className='a-feedback no'; fb.textContent=`❌ Answer was ${arith.ans}.`; paintRegion(region); }
+          sub.disabled = true; inp.disabled = true;
+          setTimeout(() => { idx++; next(); }, 1100);
+        };
+        sub.onclick = submit;
+        inp.onkeydown = (e) => { if (e.key === 'Enter') submit(); };
+      } else {
+        // Use a QUIZ_DATA question. We'll show it via mini-MCQ or numeric.
+        qEl.innerHTML = `${colorTag}${dq.q}`;
+        if (!dq.type && dq.o){
+          const correct = dq.o[0];
+          const order = dq.o.slice();
+          for (let i = order.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [order[i], order[j]] = [order[j], order[i]]; }
+          body.innerHTML = `<div class="a-options">${order.map(o => `<button class="opt-btn">${o}</button>`).join('')}</div>`;
+          body.querySelectorAll('.opt-btn').forEach(b => {
+            b.onclick = () => {
+              const ok = b.textContent === correct;
+              body.querySelectorAll('.opt-btn').forEach(x => { x.disabled = true; if (x.textContent === correct) x.classList.add('correct'); });
+              if (!ok) b.classList.add('wrong');
+              if (ok){ fb.className='a-feedback ok'; fb.textContent=`✅ Painted region ${region.id}!`; paintRegion(region); score++; }
+              else { fb.className='a-feedback no'; fb.textContent=`❌ Answer: ${correct}`; paintRegion(region); }
+              setTimeout(() => { idx++; next(); }, 1100);
+            };
+          });
+        } else if (dq.type === 'enterval'){
+          body.innerHTML = `<div class="a-input-row"><input class="a-input" id="rlInp" inputmode="numeric" /><button class="a-submit" id="rlSub" type="button">Paint!</button></div>`;
+          const inp = body.querySelector('#rlInp'); const sub = body.querySelector('#rlSub');
+          inp.focus();
+          const submit = () => {
+            const v = parseFloat(inp.value);
+            const ok = !isNaN(v) && v === dq.a;
+            if (ok){ fb.className='a-feedback ok'; fb.textContent=`✅ Painted region ${region.id}!`; paintRegion(region); score++; }
+            else { fb.className='a-feedback no'; fb.textContent=`❌ Answer was ${dq.a}.`; paintRegion(region); }
+            sub.disabled = true; inp.disabled = true;
+            setTimeout(() => { idx++; next(); }, 1100);
+          };
+          sub.onclick = submit; inp.onkeydown = (e) => { if (e.key === 'Enter') submit(); };
         } else {
-          fb.className = 'a-feedback no'; fb.textContent = `❌ Answer was ${q.ans}.`;
-          // Still paint the region so the picture completes; just don't score it.
-          paintRegion(region);
+          // Fallback — auto-advance
+          paintRegion(region); score++;
+          setTimeout(() => { idx++; next(); }, 600);
         }
-        sub.disabled = true; inp.disabled = true;
-        setTimeout(() => { idx++; next(); }, 1100);
       }
-      sub.onclick = submit;
-      inp.onkeydown = (e) => { if (e.key === 'Enter') submit(); };
     }
     next();
   };

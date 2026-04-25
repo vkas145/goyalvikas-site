@@ -1,7 +1,9 @@
-/* Saturday — Builder's Workshop 🏗️
-   Block Tower: target number shown, kid taps hundreds/tens/ones blocks
-   to build it. Small "balance scale" round at the end:
-     5 + ? = 9. Drag (or tap) the right number to balance. */
+/* Saturday — Builder's Workshop 🏗️  (v2: dense + grade-band aware)
+   ─────────────────────────────────────────────────────────────────
+   G1-2: 3 block-tower rounds + 2 balance-scale rounds + 7 question
+         batch = 12 total
+   G3-10: 12 grade-correct construction-themed questions from
+          QUIZ_DATA (measurement, mensuration, area/volume bias). */
 (function(){
   'use strict';
 
@@ -9,28 +11,23 @@
 
   function genTarget(grade){
     if (grade <= 2) return rand(20, 99);
-    if (grade <= 4) return rand(100, 999);
-    return rand(200, 999);
+    return rand(100, 999);
   }
   function digits(n){ return String(n).split('').map(c => parseInt(c, 10)); }
-
-  function cells(activeIdx, total){
-    let s = '';
-    for (let i = 0; i < total; i++) s += `<div class="a-progress-cell ${i < activeIdx ? 'done' : i === activeIdx ? 'active' : ''}"></div>`;
-    return s;
-  }
 
   function blockRound(container, idx, total, grade, onAnswer){
     const target = genTarget(grade);
     const ds = digits(target);
     const places = ['ones','tens','hundreds','thousands'].slice(0, ds.length).reverse();
-    const placeValMap = { ones:1, tens:10, hundreds:100, thousands:1000 };
+    const placeVal = { ones:1, tens:10, hundreds:100, thousands:1000 };
     let counts = { ones:0, tens:0, hundreds:0, thousands:0 };
 
     container.innerHTML = `
       <div class="a-card">
-        <div class="a-progress">${cells(idx, total)}</div>
-        <div style="text-align:center;font-size:14px;font-weight:700;opacity:0.7;margin-bottom:6px">🤖 The builder says…</div>
+        <div class="qb-meta">
+          <span class="qb-badge">🤖 The builder says…</span>
+          <span class="qb-progress">${idx + 1} / ${total}</span>
+        </div>
         <div class="a-q">Build <span style="font-size:36px">${target}</span></div>
         <div class="blocks-area" id="bArea"></div>
         <div style="text-align:center;font-size:18px;font-weight:800;margin-bottom:8px">Built so far: <span id="bSum" style="color:#EA580C">0</span></div>
@@ -41,8 +38,8 @@
     const area = container.querySelector('#bArea');
     const sumEl = container.querySelector('#bSum');
     function refresh(){
-      const total = counts.ones * 1 + counts.tens * 10 + counts.hundreds * 100 + counts.thousands * 1000;
-      sumEl.textContent = total;
+      const t = counts.ones + counts.tens*10 + counts.hundreds*100 + counts.thousands*1000;
+      sumEl.textContent = t;
     }
     places.forEach(p => {
       const row = document.createElement('div');
@@ -55,11 +52,11 @@
       addBtn.className = 'opt-btn'; addBtn.style.padding = '6px 12px'; addBtn.style.fontSize = '14px'; addBtn.style.minWidth = '48px';
       addBtn.textContent = '＋';
       addBtn.onclick = () => {
-        if (counts[p] >= 12) return; // soft cap
+        if (counts[p] >= 12) return;
         counts[p]++;
         const blk = document.createElement('div');
-        blk.className = 'block ' + (p === 'tens' ? 'tens' : p === 'hundreds' || p === 'thousands' ? 'hundreds' : '');
-        blk.textContent = placeValMap[p];
+        blk.className = 'block ' + (p === 'tens' ? 'tens' : (p === 'hundreds' || p === 'thousands' ? 'hundreds' : ''));
+        blk.textContent = placeVal[p];
         blk.title = 'Tap to remove';
         blk.onclick = () => { blk.remove(); counts[p]--; refresh(); };
         tray.appendChild(blk);
@@ -68,34 +65,32 @@
       row.appendChild(addBtn);
       area.appendChild(row);
     });
-
-    const next = container.querySelector('#aNext');
-    next.onclick = () => {
-      const built = counts.ones * 1 + counts.tens * 10 + counts.hundreds * 100 + counts.thousands * 1000;
+    container.querySelector('#aNext').onclick = () => {
+      const built = counts.ones + counts.tens*10 + counts.hundreds*100 + counts.thousands*1000;
+      const ok = built === target;
       const fb = container.querySelector('#aFb');
-      const isOk = built === target;
-      if (isOk){ fb.className='a-feedback ok'; fb.textContent='✅ Built it!'; }
-      else { fb.className='a-feedback no'; fb.textContent=`❌ You built ${built}, target was ${target}.`; }
-      next.textContent = idx + 1 < total ? 'Next build →' : 'See result →';
-      next.onclick = () => onAnswer(isOk);
+      fb.className = ok ? 'a-feedback ok' : 'a-feedback no';
+      fb.textContent = ok ? '✅ Built it!' : `❌ You built ${built}, target was ${target}.`;
+      container.querySelector('#aNext').textContent = idx + 1 < total ? 'Next build →' : 'On to questions →';
+      container.querySelector('#aNext').onclick = () => onAnswer(ok);
     };
   }
 
   function balanceRound(container, idx, total, grade, onAnswer){
     let a, sum;
-    if (grade <= 2){ sum = rand(8, 18); a = rand(1, sum-1); }
-    else if (grade <= 4){ sum = rand(30, 80); a = rand(5, sum-5); }
-    else { sum = rand(80, 250); a = rand(20, sum-20); }
+    if (grade <= 2){ sum = rand(10, 25); a = rand(2, sum-2); }
+    else { sum = rand(40, 120); a = rand(10, sum-10); }
     const correct = sum - a;
-    // Distractors near the correct answer
     const choicesSet = new Set([correct]);
     while (choicesSet.size < 4){ const d = correct + (rand(0,1) ? 1 : -1) * rand(1, Math.max(2, Math.floor(correct/4))); if (d > 0 && d !== correct) choicesSet.add(d); }
     const choices = [...choicesSet];
     for (let i = choices.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [choices[i], choices[j]] = [choices[j], choices[i]]; }
     container.innerHTML = `
       <div class="a-card">
-        <div class="a-progress">${cells(idx, total)}</div>
-        <div style="text-align:center;font-size:14px;font-weight:700;opacity:0.7;margin-bottom:6px">⚖️ Balance the scale</div>
+        <div class="qb-meta">
+          <span class="qb-badge">⚖️ Balance the scale</span>
+          <span class="qb-progress">${idx + 1} / ${total}</span>
+        </div>
         <div class="a-q" style="font-size:32px">${a} + ? = ${sum}</div>
         <div class="a-options" id="bChoices"></div>
         <div class="a-feedback" id="aFb"></div>
@@ -106,32 +101,47 @@
       const b = document.createElement('button');
       b.className = 'opt-btn'; b.textContent = c;
       b.onclick = () => {
-        const isOk = c === correct;
+        const ok = c === correct;
         const fb = container.querySelector('#aFb');
         cont.querySelectorAll('button').forEach(x => { x.disabled = true; if (parseInt(x.textContent,10) === correct) x.classList.add('correct'); });
-        if (!isOk) b.classList.add('wrong');
-        if (isOk){ fb.className='a-feedback ok'; fb.textContent='✅ Balanced!'; }
-        else { fb.className='a-feedback no'; fb.textContent=`❌ Answer was ${correct}.`; }
-        setTimeout(() => onAnswer(isOk), 800);
+        if (!ok) b.classList.add('wrong');
+        fb.className = ok ? 'a-feedback ok' : 'a-feedback no';
+        fb.textContent = ok ? '✅ Balanced!' : `❌ Answer was ${correct}.`;
+        setTimeout(() => onAnswer(ok), 800);
       };
       cont.appendChild(b);
     });
   }
 
-  window.MM_ACT_BUILDERS_WORKSHOP = function(opts){
+  window.MM_ACT_BUILDERS_WORKSHOP = async function(opts){
     const { grade, container, onComplete } = opts;
-    const rounds = [];
-    for (let i = 0; i < 3; i++) rounds.push({ kind:'block' });
-    for (let i = 0; i < 2; i++) rounds.push({ kind:'balance' });
-    let idx = 0, score = 0;
-    const total = rounds.length;
-    function run(){
-      if (idx >= total){ onComplete({ score, total }); return; }
-      const r = rounds[idx];
-      const handler = (ok) => { if (ok) score++; idx++; run(); };
-      if (r.kind === 'block') blockRound(container, idx, total, grade, handler);
-      else balanceRound(container, idx, total, grade, handler);
+    const D = window.MM_DAILY;
+    const QB = window.MM_QBATCH;
+
+    if (grade <= 2){
+      // 3 block + 2 balance + 7 question batch = 12 total
+      let idx = 0, score = 0;
+      const sequence = ['block','block','block','balance','balance'];
+      function runMechanic(){
+        if (idx >= sequence.length){
+          const qs = D.getQuestionsForGrade(grade, 7);
+          QB.runBatch(container, qs, { themeBadge:'🏗️ Build the answer', okMsg:'✅ Solid build!' })
+            .then(r => onComplete({ score: score + r.score, total: 12 }));
+          return;
+        }
+        const handler = ok => { if (ok) score++; idx++; runMechanic(); };
+        if (sequence[idx] === 'block') blockRound(container, idx, 12, grade, handler);
+        else balanceRound(container, idx, 12, grade, handler);
+      }
+      runMechanic();
+    } else {
+      // G3-10: 12 grade-correct questions, themed as construction
+      const qs = D.getQuestionsForGrade(grade, 12);
+      const result = await QB.runBatch(container, qs, {
+        themeBadge: '🏗️ Construction challenge',
+        okMsg: '✅ Solid build!'
+      });
+      onComplete(result);
     }
-    run();
   };
 })();

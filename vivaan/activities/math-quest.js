@@ -1,86 +1,29 @@
-/* Thursday — Math Quest 📖
-   4-panel illustrated story; each panel has a math gate. Wrong answer
-   shows a hint, lets them try again — never "wrong!". */
+/* Thursday — Math Quest 📖  (v2: dense + grade-band aware)
+   ─────────────────────────────────────────────────────────────
+   Story-shell with comic-strip panels. Each panel poses a question.
+   Wrong answer → friendly hint + retry once → reveal answer.
+   G1-2: 12 panels with grade-2 word problems
+   G3-10: 12 panels with QUIZ_DATA-drawn grade-correct questions
+          framed as story scenes ("Hero in Class N's adventure"). */
 (function(){
   'use strict';
 
-  const STORIES = {
-    'birthday': {
-      title: "Arjun's Birthday Party",
-      panels: [
-        { e:'🎈', text: "Arjun is blowing up balloons. He has __ red and __ blue balloons. How many in total?", build:(g) => {
-            const a = g <= 2 ? rand(3, 8) : g <= 4 ? rand(12, 30) : rand(40, 90);
-            const b = g <= 2 ? rand(3, 8) : g <= 4 ? rand(12, 30) : rand(40, 90);
-            return { q: `Arjun has ${a} red balloons and ${b} blue balloons. How many in total?`, ans: a+b };
-        }},
-        { e:'🎂', text: "The cake is sliced into equal pieces.", build:(g) => {
-            const slices = g <= 2 ? 8 : g <= 4 ? 12 : 24;
-            const friends = g <= 2 ? 4 : g <= 4 ? 6 : 8;
-            return { q: `A cake of ${slices} slices is shared equally among ${friends} friends. Each friend gets?`, ans: slices/friends };
-        }},
-        { e:'🛍️', text: "Shopping for return gifts.", build:(g) => {
-            const items = g <= 2 ? rand(3, 6) : g <= 4 ? rand(8, 14) : rand(12, 25);
-            const each = g <= 2 ? 5 : g <= 4 ? 12 : 25;
-            return { q: `Arjun buys ${items} return gifts at ₹${each} each. Total cost?`, ans: items*each };
-        }},
-        { e:'🎁', text: "Time to count the gifts!", build:(g) => {
-            const total = g <= 2 ? rand(10, 20) : g <= 4 ? rand(20, 50) : rand(30, 80);
-            const opened = Math.floor(total * (g <= 2 ? 0.4 : 0.55));
-            return { q: `Arjun got ${total} gifts. He has opened ${opened}. How many left to open?`, ans: total-opened };
-        }}
-      ]
-    },
-    'jungle': {
-      title: "The Jungle Rescue",
-      panels: [
-        { e:'🐒', text: "A monkey troop is trapped on a tree.", build:(g) => {
-            const a = g <= 2 ? rand(5, 12) : g <= 4 ? rand(20, 60) : rand(40, 120);
-            const b = g <= 2 ? rand(2, 6) : g <= 4 ? rand(8, 25) : rand(15, 50);
-            return { q: `${a} monkeys are stuck. ${b} more arrive to help. Total monkeys now?`, ans: a+b };
-        }},
-        { e:'🌉', text: "Build a bridge.", build:(g) => {
-            const total = g <= 2 ? rand(8, 14) : g <= 4 ? rand(20, 45) : rand(50, 100);
-            const have = Math.floor(total/2);
-            return { q: `The bridge needs ${total} planks. You have ${have}. How many more do you need?`, ans: total-have };
-        }},
-        { e:'🐘', text: "Elephant parade!", build:(g) => {
-            const groups = g <= 2 ? 3 : g <= 4 ? 4 : 5;
-            const each = g <= 2 ? 4 : g <= 4 ? 8 : 12;
-            return { q: `${groups} families of elephants, ${each} in each. Total elephants?`, ans: groups*each };
-        }},
-        { e:'🏆', text: "The animals are saved!", build:(g) => {
-            const start = g <= 2 ? 20 : g <= 4 ? 80 : 200;
-            const saved = g <= 2 ? rand(8, 16) : g <= 4 ? rand(30, 70) : rand(80, 180);
-            return { q: `${start} animals were in danger. You saved ${saved}. How many still need help?`, ans: start-saved };
-        }}
-      ]
-    },
-    'space': {
-      title: "Space Mission",
-      panels: [
-        { e:'🚀', text: "Countdown to launch.", build:(g) => {
-            const a = g <= 2 ? rand(5, 9) : g <= 4 ? rand(20, 40) : rand(50, 100);
-            return { q: `Mission control counts down from ${a}, one number per second. After 3 seconds, the count is at?`, ans: a-3 };
-        }},
-        { e:'⭐', text: "Skip-count the stars.", build:(g) => {
-            const step = g <= 2 ? 2 : g <= 4 ? 5 : 25;
-            const start = g <= 2 ? 4 : g <= 4 ? 25 : 100;
-            return { q: `Skip count by ${step}: ${start}, ${start+step}, ${start+2*step}, ?`, ans: start+3*step };
-        }},
-        { e:'🪐', text: "Planet shapes.", build:(g) => {
-            // Simple shape question, no numbers
-            return { q: `A planet is round. How many corners does it have?`, ans: 0 };
-        }},
-        { e:'🌌', text: "Mission accomplished.", build:(g) => {
-            const days = g <= 2 ? rand(3, 7) : g <= 4 ? rand(10, 20) : rand(30, 90);
-            const hrs = days * 24;
-            return { q: `The mission lasted ${days} days. Each day is 24 hours. Total hours?`, ans: hrs };
-        }}
-      ]
-    }
-  };
-
   function rand(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+  // Visual emoji panels (theme dressing). Cycles through these for each
+  // question's "scene".
+  const SCENE_EMOJIS_KIDS  = ['🎈','🎂','🛍️','🎁','🍪','🐶','🚂','🌟','🎨','🍕','🎯','🏆'];
+  const SCENE_EMOJIS_OLDER = ['🚀','🗺️','🔭','📜','⛰️','🏛️','🌌','⚙️','🧭','🎯','💎','🏆'];
+
+  function genWordKids(grade){
+    // Light-touch word problems for G1-2.
+    const r = rand(0, 4);
+    if (r === 0){ const a = rand(5, 30), b = rand(2, 15); return { q:`Anu had ${a} marbles. She gave ${b} away. How many left?`, ans:a-b }; }
+    if (r === 1){ const groups = rand(2, 5), each = rand(3, 8); return { q:`${groups} bags of ${each} candies each. Total candies?`, ans:groups*each }; }
+    if (r === 2){ const a = rand(3, 9), b = rand(3, 9); return { q:`${a} red balloons + ${b} blue balloons = ?`, ans:a+b }; }
+    if (r === 3){ const total = rand(10, 30), have = Math.floor(total/2); return { q:`Need ${total} chairs. Have ${have}. How many more?`, ans:total-have }; }
+    const a = rand(20, 80); return { q:`A puppy weighs ${a} kg in summer, gains 5 kg in winter. New weight?`, ans:a+5 };
+  }
 
   function cells(activeIdx, total){
     let s = '';
@@ -88,20 +31,143 @@
     return s;
   }
 
+  // Render a kids word-problem panel
+  function kidsPanel(container, idx, total, scene, q, onAnswer){
+    let attempts = 0;
+    container.innerHTML = `
+      <div class="a-card">
+        <div class="qb-meta">
+          <span class="qb-badge">📖 Hero's Quest · Panel ${idx + 1}/${total}</span>
+          <span class="qb-progress">${idx + 1} / ${total}</span>
+        </div>
+        <div style="text-align:center;font-size:64px;line-height:1;margin:6px 0">${scene}</div>
+        <div class="a-q" style="font-size:18px">${q.q}</div>
+        <div class="a-input-row">
+          <input class="a-input" id="mqInp" inputmode="numeric" pattern="[0-9-]*" autocomplete="off" />
+          <button class="a-submit" id="mqSub" type="button">Answer</button>
+        </div>
+        <div class="a-feedback" id="aFb" style="margin-top:10px"></div>
+      </div>
+    `;
+    const inp = container.querySelector('#mqInp');
+    const sub = container.querySelector('#mqSub');
+    const fb = container.querySelector('#aFb');
+    inp.focus();
+    const submit = () => {
+      const v = parseFloat(inp.value);
+      const ok = !isNaN(v) && v === q.ans;
+      if (ok){
+        fb.className = 'a-feedback ok';
+        fb.textContent = attempts === 0 ? '✨ Spot on, hero!' : '✨ Got it on retry — onwards!';
+        sub.disabled = true; inp.disabled = true;
+        setTimeout(() => onAnswer(attempts === 0), 800);
+      } else {
+        attempts++;
+        fb.className = 'a-feedback no';
+        if (attempts === 1){ fb.textContent = '🤔 Hmm, try once more!'; inp.value = ''; inp.focus(); }
+        else {
+          fb.textContent = `Heroes never give up — answer was ${q.ans}.`;
+          sub.disabled = true; inp.disabled = true;
+          setTimeout(() => onAnswer(false), 1300);
+        }
+      }
+    };
+    sub.onclick = submit;
+    inp.onkeydown = (e) => { if (e.key === 'Enter') submit(); };
+  }
+
+  // Render an older-grade panel using a QUIZ_DATA question
+  function olderPanel(container, idx, total, scene, dq, onAnswer){
+    container.innerHTML = `
+      <div class="a-card">
+        <div class="qb-meta">
+          <span class="qb-badge">📜 Quest · Scene ${idx + 1}/${total}</span>
+          <span class="qb-progress">${idx + 1} / ${total}</span>
+        </div>
+        <div style="text-align:center;font-size:56px;line-height:1;margin:4px 0">${scene}</div>
+        <div class="a-q" style="font-size:18px">${dq.q}</div>
+        <div id="qbBody"></div>
+        <div class="a-feedback" id="aFb" style="margin-top:10px"></div>
+        <button class="a-next" id="aNext" type="button">Next scene →</button>
+      </div>
+    `;
+    const body = container.querySelector('#qbBody');
+    const fb = container.querySelector('#aFb');
+    const next = container.querySelector('#aNext');
+
+    function done(ok, correctText){
+      fb.className = ok ? 'a-feedback ok' : 'a-feedback no';
+      fb.textContent = ok ? '✨ Onwards, hero!' : `Answer: ${correctText}`;
+      next.classList.add('show');
+      next.textContent = idx + 1 < total ? 'Next scene →' : 'Quest end →';
+      next.onclick = () => onAnswer(ok);
+    }
+
+    if (!dq.type && dq.o){
+      const correct = dq.o[0];
+      const order = dq.o.slice();
+      for (let i = order.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [order[i], order[j]] = [order[j], order[i]]; }
+      body.innerHTML = `<div class="a-options">${order.map(o => `<button class="opt-btn">${o}</button>`).join('')}</div>`;
+      body.querySelectorAll('.opt-btn').forEach(b => {
+        b.onclick = () => {
+          const ok = b.textContent === correct;
+          body.querySelectorAll('.opt-btn').forEach(x => { x.disabled = true; if (x.textContent === correct) x.classList.add('correct'); });
+          if (!ok) b.classList.add('wrong');
+          done(ok, correct);
+        };
+      });
+    } else if (dq.type === 'tf'){
+      body.innerHTML = `<div class="a-tf"><button class="opt-btn" data-v="true">✓ TRUE</button><button class="opt-btn" data-v="false">✗ FALSE</button></div>`;
+      body.querySelectorAll('.opt-btn').forEach(b => {
+        b.onclick = () => {
+          const picked = b.dataset.v === 'true';
+          const ok = picked === !!dq.a;
+          body.querySelectorAll('.opt-btn').forEach(x => { x.disabled = true; if ((x.dataset.v === 'true') === !!dq.a) x.classList.add('correct'); });
+          if (!ok) b.classList.add('wrong');
+          done(ok, dq.a ? 'TRUE' : 'FALSE');
+        };
+      });
+    } else if (dq.type === 'enterval'){
+      body.innerHTML = `<div class="a-input-row"><input class="a-input" id="mqInp" inputmode="numeric" /><button class="a-submit" id="mqSub" type="button">Answer</button></div>`;
+      const inp = body.querySelector('#mqInp'); const sub = body.querySelector('#mqSub');
+      inp.focus();
+      const submit = () => {
+        const v = parseFloat(inp.value);
+        const ok = !isNaN(v) && v === dq.a;
+        sub.disabled = true; inp.disabled = true;
+        done(ok, String(dq.a));
+      };
+      sub.onclick = submit; inp.onkeydown = (e) => { if (e.key === 'Enter') submit(); };
+    } else if (dq.type === 'fillin'){
+      body.innerHTML = `<div class="a-input-row"><input class="a-input" id="mqInp" /><button class="a-submit" id="mqSub" type="button">Answer</button></div>`;
+      const inp = body.querySelector('#mqInp'); const sub = body.querySelector('#mqSub');
+      inp.focus();
+      const submit = () => {
+        const v = (inp.value||'').trim().toLowerCase();
+        const ok = (dq.blanks||[]).some(b => String(b).trim().toLowerCase() === v);
+        sub.disabled = true; inp.disabled = true;
+        done(ok, (dq.blanks||[]).join(' / '));
+      };
+      sub.onclick = submit; inp.onkeydown = (e) => { if (e.key === 'Enter') submit(); };
+    } else {
+      // Unknown — skip
+      done(false, '?');
+    }
+  }
+
   window.MM_ACT_MATH_QUEST = function(opts){
     const { grade, container, onComplete } = opts;
-    const seed = window.MM_DAILY ? window.MM_DAILY.weekSeed() : 1;
-    const keys = Object.keys(STORIES);
-    const story = STORIES[keys[seed % keys.length]];
+    const D = window.MM_DAILY;
+    const total = 12;
+    const scenes = grade <= 2 ? SCENE_EMOJIS_KIDS : SCENE_EMOJIS_OLDER;
 
     let idx = 0, score = 0;
-    const total = story.panels.length;
 
-    function next(){
+    function nextPanel(){
       if (idx >= total){
         container.innerHTML = `
           <div class="a-card" style="text-align:center">
-            <div style="font-size:14px;font-weight:700;opacity:0.7">📜 ${story.title}</div>
+            <div class="qb-badge">📜 Quest complete</div>
             <div style="font-size:64px;line-height:1;margin:14px 0">🏆</div>
             <div style="font-size:24px;font-weight:900">The End!</div>
             <div style="opacity:0.8;margin-top:6px">Hero score: ${score}/${total}</div>
@@ -110,46 +176,20 @@
         setTimeout(() => onComplete({ score, total }), 1100);
         return;
       }
-      const panel = story.panels[idx];
-      const q = panel.build(grade);
-      let attempts = 0;
-      container.innerHTML = `
-        <div class="a-card">
-          <div class="a-progress">${cells(idx, total)}</div>
-          <div style="text-align:center;font-size:12px;font-weight:800;opacity:0.7;letter-spacing:0.06em;text-transform:uppercase">${story.title} · Panel ${idx+1}/${total}</div>
-          <div style="text-align:center;font-size:64px;line-height:1;margin:10px 0">${panel.e}</div>
-          <div class="a-q" style="font-size:18px">${q.q}</div>
-          <div class="a-input-row">
-            <input class="a-input" id="aInput" inputmode="numeric" pattern="[0-9-]*" autocomplete="off" />
-            <button class="a-submit" id="aSubmit" type="button">Answer</button>
-          </div>
-          <div class="a-feedback" id="aFb" style="margin-top:10px"></div>
-        </div>
-      `;
-      const inp = container.querySelector('#aInput');
-      const sub = container.querySelector('#aSubmit');
-      const fb = container.querySelector('#aFb');
-      inp.focus();
-      function submit(){
-        const v = parseInt(inp.value, 10);
-        const isOk = !isNaN(v) && v === q.ans;
-        if (isOk){
-          fb.className = 'a-feedback ok';
-          fb.textContent = attempts === 0 ? '✨ Spot on, hero!' : '✨ Got it! On we go!';
-          if (attempts === 0) score++;
-          sub.disabled = true; inp.disabled = true;
-          setTimeout(() => { idx++; next(); }, 900);
-        } else {
-          attempts++;
-          fb.className = 'a-feedback no';
-          if (attempts === 1) fb.textContent = '🤔 Hmm, try again!';
-          else { fb.textContent = `Heroes never give up — the answer is ${q.ans}. Onwards!`; sub.disabled = true; inp.disabled = true; setTimeout(() => { idx++; next(); }, 1500); }
-          inp.value = ''; inp.focus();
+      const scene = scenes[idx % scenes.length];
+      if (grade <= 2){
+        const q = genWordKids(grade);
+        kidsPanel(container, idx, total, scene, q, ok => { if (ok) score++; idx++; nextPanel(); });
+      } else {
+        // Pre-fetch one question at a time as needed (or batch upfront — let's batch)
+        if (!nextPanel._cache){
+          nextPanel._cache = D.getQuestionsForGrade(grade, total);
         }
+        const dq = nextPanel._cache[idx];
+        if (!dq){ idx++; nextPanel(); return; }
+        olderPanel(container, idx, total, scene, dq, ok => { if (ok) score++; idx++; nextPanel(); });
       }
-      sub.onclick = submit;
-      inp.onkeydown = (e) => { if (e.key === 'Enter') submit(); };
     }
-    next();
+    nextPanel();
   };
 })();

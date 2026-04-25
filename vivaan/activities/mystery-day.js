@@ -1,15 +1,13 @@
-/* Sunday — Mystery Day 🔮
-   Hidden picture revealed cell-by-cell as the kid answers questions.
-   Final reveal "What is it?" with an emoji-art image. */
+/* Sunday — Mystery Day 🔮  (v2: dense + grade-band aware)
+   ─────────────────────────────────────────────────────────
+   12 questions: 6 reveal-the-picture (grade-scaled arithmetic, MCQ
+   choices), then 6 from QUIZ_DATA[grade]. Final reveal "What is it?"
+   shows the emoji-art mystery. */
 (function(){
   'use strict';
 
-  // Each mystery is a 5-row × 5-col grid. The "image" is encoded as the
-  // emoji each cell shows when revealed. Total cells = 25; we ask 8
-  // questions and reveal ~3 cells per correct answer (proportional).
-  // Picks rotate weekly.
   const MYSTERIES = [
-    { name:"Dinosaur", revealEmoji:'🦖', grid: [
+    { name:"Dinosaur",  revealEmoji:'🦖', grid: [
       ['·','·','·','🟢','🟢'],
       ['·','·','🟢','🟢','🟢'],
       ['🟢','🟢','🟢','🟢','👁'],
@@ -41,17 +39,24 @@
 
   function rand(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
 
-  function genQ(grade){
+  function genArithQ(grade){
     let a, b, op;
     if (grade <= 2){ a = rand(2, 30); b = rand(1, 15); op = ['+','−','×'][rand(0,2)]; if (op === '−' && b > a) [a,b] = [b,a]; if (op === '×'){ a = rand(2, 9); b = rand(2, 9); } }
     else if (grade <= 4){ a = rand(20, 100); b = rand(2, 30); op = ['+','−','×'][rand(0,2)]; if (op === '−' && b > a) [a,b] = [b,a]; }
-    else { a = rand(50, 400); b = rand(5, 50); op = ['+','−','×','÷'][rand(0,3)]; if (op === '−' && b > a) [a,b] = [b,a]; if (op === '÷'){ const ans = rand(2, 12); a = b * ans; } }
+    else if (grade <= 6){ a = rand(50, 400); b = rand(5, 50); op = ['+','−','×','÷'][rand(0,3)]; if (op === '−' && b > a) [a,b] = [b,a]; if (op === '÷'){ const ans = rand(2, 12); a = b * ans; } }
+    else if (grade <= 8){ a = rand(100, 999); b = rand(10, 100); op = ['+','−','×','÷'][rand(0,3)]; if (op === '−' && b > a) [a,b] = [b,a]; if (op === '÷'){ const ans = rand(2, 25); a = b * ans; } }
+    else {
+      const kind = rand(0, 2);
+      if (kind === 0){ const x = rand(11, 30); return { q:`${x}² = ?`, ans:x*x, choices:null }; }
+      if (kind === 1){ const p = [10,20,25,40,75][rand(0,4)]; const n = rand(40, 400); return { q:`${p}% of ${n} = ?`, ans:Math.round(n*p/100), choices:null }; }
+      a = rand(15, 60); b = rand(11, 19);
+      op = ['×'][0];
+    }
     let ans;
     if (op === '+') ans = a + b;
     else if (op === '−') ans = a - b;
     else if (op === '×') ans = a * b;
     else ans = a / b;
-    // 4 choices; correct + 3 distractors
     const set = new Set([ans]);
     while (set.size < 4){ const d = ans + (rand(0,1) ? 1 : -1) * rand(1, Math.max(2, Math.floor(Math.abs(ans)/3) + 2)); if (d !== ans) set.add(d); }
     const choices = [...set];
@@ -59,29 +64,27 @@
     return { q: `${a} ${op} ${b}`, ans, choices };
   }
 
-  function cells(activeIdx, total){
-    let s = '';
-    for (let i = 0; i < total; i++) s += `<div class="a-progress-cell ${i < activeIdx ? 'done' : i === activeIdx ? 'active' : ''}"></div>`;
-    return s;
+  function ensureChoices(q){
+    if (q.choices && q.choices.length) return q;
+    const ans = q.ans;
+    const set = new Set([ans]);
+    while (set.size < 4){ const d = ans + (rand(0,1) ? 1 : -1) * rand(1, Math.max(2, Math.floor(Math.abs(ans)/3) + 2)); if (d !== ans) set.add(d); }
+    q.choices = [...set]; for (let i = q.choices.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [q.choices[i], q.choices[j]] = [q.choices[j], q.choices[i]]; } return q;
   }
 
   window.MM_ACT_MYSTERY = function(opts){
     const { grade, container, onComplete } = opts;
     const seed = window.MM_DAILY ? window.MM_DAILY.weekSeed() : 1;
     const myst = MYSTERIES[seed % MYSTERIES.length];
-    const totalQ = 8;
+    const totalQ = 12;
     const cellsPerCorrect = Math.ceil(25 / totalQ);
 
-    // Order in which cells are revealed (by index 0..24): center-out spiral-ish
+    // Reveal order — center-out spiral-ish.
     const order = [];
     const center = [2,2];
     const all = [];
     for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++) all.push([r,c]);
-    all.sort((a,b) => {
-      const da = Math.abs(a[0] - center[0]) + Math.abs(a[1] - center[1]);
-      const db = Math.abs(b[0] - center[0]) + Math.abs(b[1] - center[1]);
-      return da - db;
-    });
+    all.sort((a,b) => (Math.abs(a[0]-center[0]) + Math.abs(a[1]-center[1])) - (Math.abs(b[0]-center[0]) + Math.abs(b[1]-center[1])));
     all.forEach(p => order.push(p));
 
     let revealed = new Set();
@@ -89,8 +92,10 @@
 
     container.innerHTML = `
       <div class="a-card" style="background:#1F1437;color:#FFF;border-color:#FFF">
-        <div class="a-progress">${cells(0, totalQ)}</div>
-        <div style="text-align:center;font-size:14px;font-weight:700;opacity:0.85;margin-bottom:6px">🔮 What's hiding?</div>
+        <div class="qb-meta">
+          <span class="qb-badge">🔮 What's hiding?</span>
+          <span class="qb-progress" id="myProg">1 / ${totalQ}</span>
+        </div>
         <div class="mystery-board" id="mBoard"></div>
         <div class="a-q" id="aQ">…</div>
         <div class="a-options" id="aOpts"></div>
@@ -108,7 +113,6 @@
       }
     }
     function findCell(r, c){ return cellEls.find(x => x.r === r && x.c === c); }
-
     function reveal(n){
       let got = 0;
       while (got < n){
@@ -125,14 +129,31 @@
       }
     }
 
+    // Pre-build: 6 from arithmetic gen, 6 from QUIZ_DATA (mcq only)
+    const arithQs = [];
+    for (let i = 0; i < 6; i++) arithQs.push(ensureChoices(genArithQ(grade)));
+    const D = window.MM_DAILY;
+    const dataQs = D ? D.getQuestionsForGrade(grade, 6, { types: ['mcq'] }) : [];
+    // If QUIZ_DATA didn't yield 6 (shouldn't happen for G1, G3-10), pad with arith
+    while (dataQs.length < 6) dataQs.push(ensureChoices(genArithQ(grade)));
+    // For data Qs (grade-correct), normalize to {q, ans, choices} shape:
+    const dataAsArith = dataQs.map(q => {
+      // q is from QUIZ_DATA — has q.o[] with correct at index 0
+      if (q.o && q.o.length){
+        return { q: q.q, ans: q.o[0], choices: q.o.slice() }; // ans is the original correct text
+      }
+      return ensureChoices(q);  // fallback
+    });
+
+    const allQs = arithQs.concat(dataAsArith.slice(0, 6));
+
     function nextQ(){
       if (idx >= totalQ){
-        // Reveal the rest
         reveal(25);
         setTimeout(() => {
           container.innerHTML = `
             <div class="a-card" style="text-align:center;background:#1F1437;color:#FFF;border-color:#FFF">
-              <div style="font-size:14px;font-weight:700;opacity:0.8">🔮 Mystery solved!</div>
+              <div class="qb-badge">🔮 Mystery solved!</div>
               <div style="font-size:80px;line-height:1;margin:14px 0">${myst.revealEmoji}</div>
               <div style="font-size:24px;font-weight:900">It's a ${myst.name}!</div>
               <div style="opacity:0.85;margin-top:6px">You scored ${score}/${totalQ}</div>
@@ -142,23 +163,32 @@
         }, 600);
         return;
       }
-      const q = genQ(grade);
-      container.querySelector('.a-progress').innerHTML = cells(idx, totalQ);
+      const q = allQs[idx];
+      container.querySelector('#myProg').textContent = `${idx + 1} / ${totalQ}`;
       const qEl = container.querySelector('#aQ');
       const opts = container.querySelector('#aOpts');
       const fb = container.querySelector('#aFb');
-      qEl.textContent = `${q.q} = ?`;
+      qEl.textContent = q.q;
       fb.textContent = ''; fb.className = 'a-feedback';
       opts.innerHTML = '';
-      q.choices.forEach(c => {
+      // Display choices; "correct" detection differs: arith q has numeric ans, data q has text ans.
+      const isText = typeof q.ans === 'string';
+      // Shuffle choices
+      const order2 = q.choices.slice();
+      for (let i = order2.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [order2[i], order2[j]] = [order2[j], order2[i]]; }
+      order2.forEach(c => {
         const b = document.createElement('button');
         b.className = 'opt-btn'; b.textContent = c;
         b.onclick = () => {
-          const isOk = c === q.ans;
-          opts.querySelectorAll('button').forEach(x => { x.disabled = true; if (parseInt(x.textContent,10) === q.ans) x.classList.add('correct'); });
+          const isOk = isText ? (String(c) === String(q.ans)) : (parseFloat(c) === q.ans);
+          opts.querySelectorAll('button').forEach(x => {
+            x.disabled = true;
+            const v = isText ? (x.textContent === String(q.ans)) : (parseFloat(x.textContent) === q.ans);
+            if (v) x.classList.add('correct');
+          });
           if (!isOk) b.classList.add('wrong');
           if (isOk){ fb.className='a-feedback ok'; fb.textContent='✨ Reveal!'; reveal(cellsPerCorrect); score++; }
-          else { fb.className='a-feedback no'; fb.textContent=`Answer was ${q.ans}. The mystery hides…`; reveal(1); }
+          else { fb.className='a-feedback no'; fb.textContent=`Answer was ${q.ans}.`; reveal(1); }
           setTimeout(() => { idx++; nextQ(); }, 900);
         };
         opts.appendChild(b);

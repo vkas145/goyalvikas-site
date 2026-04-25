@@ -85,6 +85,22 @@
     box-shadow: 0 6px 0 #2B1B4A;
     color: #2B1B4A;
   }
+  .qb-meta{
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px; gap: 10px;
+  }
+  .qb-badge{
+    font-size: 13px; font-weight: 700; opacity: 0.78;
+  }
+  .qb-progress{
+    font-size: 12px; font-weight: 800; opacity: 0.7;
+    background: rgba(43,27,74,0.08); padding: 4px 10px; border-radius: 999px;
+  }
+  .opt-btn.correct{ background: linear-gradient(135deg,#86EFAC 0%,#22C55E 100%); color: #FFF; }
+  .opt-btn.wrong{ background: linear-gradient(135deg,#FCA5A5 0%,#EF4444 100%); color: #FFF; }
+  .a-submit.correct{ background: #22C55E; }
+  .a-submit.wrong{ background: #EF4444; }
+
   .a-progress{
     display: flex; gap: 5px; margin-bottom: 14px;
   }
@@ -330,16 +346,17 @@
 </div>
 
 <!-- Engine + activities -->
-<script src="/vivaan-quiz-data.js"></script>
-<script src="/vivaan/daily-engine.js"></script>
-<script src="/vivaan/quiz-music.js"></script>
-<script src="/vivaan/activities/number-kingdom.js"></script>
-<script src="/vivaan/activities/shape-safari.js"></script>
-<script src="/vivaan/activities/rainbow-lab.js"></script>
-<script src="/vivaan/activities/math-quest.js"></script>
-<script src="/vivaan/activities/lightning-round.js"></script>
-<script src="/vivaan/activities/builders-workshop.js"></script>
-<script src="/vivaan/activities/mystery-day.js"></script>
+<script src="/vivaan-quiz-data.js?v=2"></script>
+<script src="/vivaan/daily-engine.js?v=2"></script>
+<script src="/vivaan/quiz-music.js?v=2"></script>
+<script src="/vivaan/activities/_qbatch.js?v=1"></script>
+<script src="/vivaan/activities/number-kingdom.js?v=2"></script>
+<script src="/vivaan/activities/shape-safari.js?v=2"></script>
+<script src="/vivaan/activities/rainbow-lab.js?v=2"></script>
+<script src="/vivaan/activities/math-quest.js?v=2"></script>
+<script src="/vivaan/activities/lightning-round.js?v=2"></script>
+<script src="/vivaan/activities/builders-workshop.js?v=2"></script>
+<script src="/vivaan/activities/mystery-day.js?v=2"></script>
 
 <script>
 (function(){
