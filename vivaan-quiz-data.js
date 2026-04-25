@@ -3168,7 +3168,7 @@ beginner:[
 [
 {t:"tally",q:"Tally |||| represents which number?",o:["4","5","3","6"],a:0},
 {t:"tally",q:"Tally |||| | represents?",o:["6","5","7","4"],a:0},
-{t:"tally",q:"How is 5 shown in tally?",o:["||||","|||||","||||","||"],a:0},
+{t:"tally",q:"How is 5 shown in tally?",o:["|||| crossed (4 + slash)","|||||","||||","||"],a:0},
 {t:"tally",type:"tf",q:"Tally marks group in fives.",a:true},
 {t:"tally",type:"tf",q:"|||| stands for 6.",a:false},
 {t:"tally",type:"fillin",q:"Tally |||| || means ___.",blanks:["7"]},
@@ -6220,7 +6220,7 @@ beginner:[
 {t:"faces-shape",q:"All faces of a cuboid are ___.",o:["Rectangles","Triangles","Circles","Pentagons"],a:0},
 {t:"net",type:"tf",q:"A cube net always has exactly 6 squares.",a:true},
 {t:"vertices",type:"tf",q:"A cube has more vertices than faces.",a:true},
-{t:"identify",q:"Which is NOT a face of a cube?",o:["Triangle","Square","Square","Square"],a:0},
+{t:"identify",q:"Which is NOT a face of a cube?",o:["Triangle","Square","Rectangle","Circle"],a:0},
 {t:"count",type:"enterval",q:"Faces of a cube?",a:6},
 {t:"tap",type:"tapall",q:"Tap all solids that have flat faces only.",pool:["Cube","Cuboid","Sphere","Cone"],correct:["Cube","Cuboid"]},
 {t:"fill",type:"fillin",q:"A solid with 6 equal square faces is a ___.",blanks:["cube"]}
@@ -6342,7 +6342,7 @@ beginner:[
 [
 {t:"convert",q:"What is 1/4 as a decimal?",o:["0.25","0.5","0.4","0.14"],a:0},
 {t:"tenth",q:"3 tenths is written as ___.",o:["0.3","0.03","3.0","30"],a:0},
-{t:"hundredth",q:"7/100 as decimal?",o:["0.07","0.7","7.0","0.7"],a:0},
+{t:"hundredth",q:"7/100 as decimal?",o:["0.07","0.7","7.0","0.007"],a:0},
 {t:"compare",q:"Which is bigger: 0.6 or 0.06?",o:["0.6","0.06","Same","Cannot say"],a:0},
 {t:"tf",type:"tf",q:"0.25 is the same as 1/4.",a:true},
 {t:"tf",type:"tf",q:"0.7 has 7 in the tenths place.",a:true},
@@ -6365,7 +6365,7 @@ beginner:[
 ],
 [
 {t:"money",q:"50 paise = Rs ___",o:["0.50","0.05","5.00","0.005"],a:0},
-{t:"money",q:"25 paise as rupees?",o:["0.25","0.025","2.50","0.025"],a:0},
+{t:"money",q:"25 paise as rupees?",o:["₹0.25","₹0.025","₹2.50","₹25.00"],a:0},
 {t:"convert",q:"2/10 = ?",o:["0.2","0.02","2.0","20"],a:0},
 {t:"convert",q:"50/100 = ?",o:["0.5","0.05","5.0","50"],a:0},
 {t:"tf",type:"tf",q:"75 paise = Rs 0.75.",a:true},
@@ -6780,7 +6780,7 @@ pro:[
 {t:"3-digit×2-digit",type:"enterval",q:"125 × 8 = ?",a:1000}
 ],
 [
-{t:"3-digit×2-digit",q:"234 × 21 = ?",o:["4914","4814","4924","4814"],a:0},
+{t:"3-digit×2-digit",q:"234 × 21 = ?",o:["4914","4814","4924","5014"],a:0},
 {t:"3-digit×2-digit",q:"108 × 25 = ?",o:["2700","2600","2800","2500"],a:0},
 {t:"long division",q:"672 ÷ 6 = ?",o:["112","102","122","132"],a:0},
 {t:"remainder",q:"100 ÷ 7 gives remainder?",o:["2","3","1","4"],a:0},

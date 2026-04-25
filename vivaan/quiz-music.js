@@ -13,23 +13,42 @@
   const MUSIC_STORE_KEY = 'vivaan_music';
 
   // ─── Synth voices ─────────────────────────────────────────────
-  const V_KIDS = { osc:'triangle', atk:0.035, rel:0.18, peak:0.32 };
-  const V_BASS = { osc:'sine',     atk:0.020, rel:0.15, peak:0.22 };
+  // Pluck = piano-ish triangle with longer release. Marimba = wooden,
+  // softer attack. Both feel "musical" rather than chiptune-bleepy.
+  const V_PLUCK   = { osc:'triangle', atk:0.004, rel:0.35, peak:0.30 };
+  const V_MARIMBA = { osc:'sine',     atk:0.002, rel:0.55, peak:0.28 };
+  const V_BASS    = { osc:'sine',     atk:0.020, rel:0.18, peak:0.20 };
 
-  // Two upbeat kids tracks (Mario / Cocomelon vibe). Mel + bass are
-  // [midi-pitch, beats] tuples. Track loops while a quiz set is active.
+  // Kids tracks rewritten with proper hook melodies + I-V-vi-IV-ish
+  // chord cycles. Two tracks; chapter index picks one deterministically
+  // so each chapter has a consistent "theme song".
   const TRACKS = [
-    { name:'Starlight Song', bpm:96, lead:V_KIDS, bassV:V_BASS,
-      mel:[[60,1],[60,1],[67,1],[67,1], [69,1],[69,1],[67,2],
-           [65,1],[65,1],[64,1],[64,1], [62,1],[62,1],[60,2]],
-      bass:[[48,2],[55,2], [55,2],[52,2], [53,2],[48,2], [55,2],[48,2]] },
-    { name:'Wheels & Wheels', bpm:104, lead:V_KIDS, bassV:V_BASS,
-      mel:[[60,1],[64,1],[67,1],[72,1], [67,1],[64,1],[60,2],
-           [62,1],[65,1],[69,1],[74,1], [69,1],[65,1],[62,2],
-           [60,1],[64,1],[67,1],[72,1], [65,1],[67,1],[60,2]],
-      bass:[[48,2],[55,2], [50,2],[57,2],
-            [48,2],[55,2], [53,2],[48,2],
-            [48,2],[55,2], [53,2],[48,2]] }
+    { name:'Happy Day', bpm:100, lead:V_PLUCK, bassV:V_BASS,
+      mel:[
+        [60,1],[64,1],[67,1],[72,1],
+        [67,0.5],[64,0.5],[60,1],
+        [62,1],[67,1],
+        [69,1],[65,1],[64,1],[60,1],
+        [67,2],[72,2]
+      ],
+      bass:[
+        [48,2],[55,2], [48,2],[55,2],
+        [57,2],[64,2],
+        [53,2],[55,2]
+      ] },
+    { name:'Skipping Steps', bpm:116, lead:V_MARIMBA, bassV:V_BASS,
+      mel:[
+        [67,0.5],[69,0.5],[72,1],
+        [67,0.5],[69,0.5],[72,1],
+        [74,1],[76,1],[79,2],
+        [76,0.5],[74,0.5],[72,1],
+        [69,0.5],[67,0.5],[64,1],
+        [67,2],[72,2]
+      ],
+      bass:[
+        [48,2],[55,2], [48,2],[55,2],
+        [53,2],[48,2], [55,2],[48,2]
+      ] }
   ];
 
   function pickTrack(chapterNum){
