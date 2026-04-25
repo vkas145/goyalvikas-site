@@ -61,7 +61,6 @@
   .activity-intro{
     text-align: center; padding: 28px 14px 18px;
   }
-  .ai-emoji{ font-size: 64px; line-height: 1; }
   .ai-title{ font-size: 28px; font-weight: 900; margin-top: 10px; letter-spacing: -0.01em; }
   .ai-tagline{ font-size: 16px; opacity: 0.85; margin-top: 6px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.4; }
   .ai-cta{
@@ -81,10 +80,29 @@
     background: #FFF;
     border: 3px solid #2B1B4A;
     border-radius: 22px;
-    padding: 22px 18px;
+    padding: 22px 18px 24px;
     box-shadow: 0 6px 0 #2B1B4A;
     color: #2B1B4A;
+    position: relative;
+    overflow: hidden;
   }
+  /* Top stripe coloured by theme — gives the question card identity per day */
+  .a-card::before{
+    content: '';
+    position: absolute; left: 0; right: 0; top: 0; height: 6px;
+    background: var(--theme-color, #2B1B4A);
+  }
+  body.theme-number-kingdom    .a-card::before{ background: linear-gradient(90deg,#FCD34D,#D97706); }
+  body.theme-shape-safari      .a-card::before{ background: linear-gradient(90deg,#34D399,#059669); }
+  body.theme-rainbow-lab       .a-card::before{ background: linear-gradient(90deg,#F472B6,#7C3AED,#3B82F6,#F59E0B); }
+  body.theme-math-quest        .a-card::before{ background: linear-gradient(90deg,#A78BFA,#7C3AED); }
+  body.theme-lightning-round   .a-card::before{ background: linear-gradient(90deg,#FACC15,#CA8A04); }
+  body.theme-builders-workshop .a-card::before{ background: linear-gradient(90deg,#FB923C,#EA580C); }
+  body.theme-mystery           .a-card::before{ background: linear-gradient(90deg,#7C3AED,#3B0764); }
+
+  /* Subtle animated hero on the intro emoji */
+  .ai-emoji{ font-size: 64px; line-height: 1; animation: floaty 2.4s ease-in-out infinite; }
+  @keyframes floaty{ 0%,100%{ transform: translateY(0) rotate(0); } 50%{ transform: translateY(-6px) rotate(-3deg); } }
   .qb-meta{
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 12px; gap: 10px;
@@ -347,8 +365,8 @@
 
 <!-- Engine + activities -->
 <script src="/vivaan-quiz-data.js?v=2"></script>
-<script src="/vivaan/daily-engine.js?v=2"></script>
-<script src="/vivaan/quiz-music.js?v=2"></script>
+<script src="/vivaan/daily-engine.js?v=3"></script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
 <script src="/vivaan/activities/_qbatch.js?v=1"></script>
 <script src="/vivaan/activities/number-kingdom.js?v=2"></script>
 <script src="/vivaan/activities/shape-safari.js?v=2"></script>
@@ -366,7 +384,7 @@
   const grade = parseInt(url.searchParams.get('grade') || localStorage.getItem('vivaan_grade') || '2', 10);
 
   const themeId = D.todayThemeId();
-  const theme = D.THEMES[themeId];
+  const theme = (D.themeForGrade ? D.themeForGrade(themeId, grade) : D.THEMES[themeId]);
   document.body.classList.add('theme-' + themeId);
   document.getElementById('dayLabel').textContent = `${theme.day} · ${theme.name}`;
   document.getElementById('introEmoji').textContent = theme.emoji;
@@ -439,8 +457,8 @@
     }
 
     const tomId = D.tomorrowThemeId();
-    const tom = D.THEMES[tomId];
-    document.getElementById('csTomorrow').innerHTML = `🌅 Tomorrow: ${tom.emoji} <strong>${tom.name}</strong> — ${tom.tagline}`;
+    const tom = (D.themeForGrade ? D.themeForGrade(tomId, grade) : D.THEMES[tomId]);
+    document.getElementById('csTomorrow').innerHTML = `🌅 Tomorrow: ${tom.emoji} <strong>${tom.name}</strong> · ${tom.tagline}`;
 
     if (pct >= 80) confetti();
   }

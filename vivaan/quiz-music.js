@@ -59,9 +59,10 @@
   // ─── Audio state ──────────────────────────────────────────────
   const M = { ctx:null, master:null, lp:null, active:false, tickHandle:null, nextTime:0, track:null };
 
+  // Default music is OFF (user explicitly preferred quiet — opt-in via toggle).
   function musicPref(){
     const v = localStorage.getItem(MUSIC_STORE_KEY);
-    return v === null ? true : v === '1';
+    return v === '1';
   }
   function setMusicPref(on){ localStorage.setItem(MUSIC_STORE_KEY, on ? '1' : '0'); }
 
@@ -71,14 +72,24 @@
       const Ctx = window.AudioContext || window.webkitAudioContext;
       if (!Ctx) return false;
       M.ctx = new Ctx();
+      // Compressor first to catch any peak stacking before the destination.
+      // This is the main fix for the "breaking" / clipping artifacts kids
+      // hear when multiple notes overlap at chord changes.
+      M.comp = M.ctx.createDynamicsCompressor();
+      M.comp.threshold.value = -18;
+      M.comp.knee.value      = 24;
+      M.comp.ratio.value     = 4;
+      M.comp.attack.value    = 0.005;
+      M.comp.release.value   = 0.180;
       M.master = M.ctx.createGain();
-      M.master.gain.value = 0.13;
+      M.master.gain.value = 0.10;     // a touch quieter — was 0.13
       M.lp = M.ctx.createBiquadFilter();
       M.lp.type = 'lowpass';
-      M.lp.frequency.value = 2400;   // bright for kids band
-      M.lp.Q.value = 0.6;
+      M.lp.frequency.value = 2200;    // warmer — less treble harshness
+      M.lp.Q.value = 0.5;
       M.master.connect(M.lp);
-      M.lp.connect(M.ctx.destination);
+      M.lp.connect(M.comp);
+      M.comp.connect(M.ctx.destination);
       return true;
     } catch(e){ return false; }
   }
@@ -91,29 +102,33 @@
     osc.type = voice.osc;
     osc.frequency.setValueAtTime(freq, start);
     const peak = voice.peak;
-    const atk = Math.min(voice.atk, dur * 0.4);
-    const rel = Math.min(voice.rel, dur * 0.8);
-    g.gain.setValueAtTime(0.0001, start);
+    // Clamp envelopes so attack+release fit inside note duration (avoids
+    // overlapping ramps which were causing pops at note boundaries).
+    const atk = Math.min(voice.atk, dur * 0.3);
+    const rel = Math.min(voice.rel, dur * 0.65);
+    g.gain.setValueAtTime(0, start);                                 // start at 0, not 0.0001
     g.gain.linearRampToValueAtTime(peak, start + atk);
-    const holdEnd = start + Math.max(atk + 0.01, dur - rel);
-    g.gain.setValueAtTime(peak, holdEnd);
-    g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+    const holdEnd = start + Math.max(atk + 0.005, dur - rel);
+    g.gain.linearRampToValueAtTime(peak, holdEnd);                   // smooth hold (no jump)
+    g.gain.linearRampToValueAtTime(0, start + dur);                  // linear ramp to silence (no exponential tail click)
     osc.connect(g);
     g.connect(M.master);
     osc.start(start);
-    osc.stop(start + dur + 0.05);
+    osc.stop(start + dur + 0.02);
   }
 
   function scheduleKick(start){
     const osc = M.ctx.createOscillator();
     const g = M.ctx.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(120, start);
-    osc.frequency.exponentialRampToValueAtTime(40, start + 0.14);
-    g.gain.setValueAtTime(0.28, start);
-    g.gain.exponentialRampToValueAtTime(0.0001, start + 0.2);
+    osc.frequency.setValueAtTime(110, start);
+    osc.frequency.exponentialRampToValueAtTime(45, start + 0.12);
+    // Ramp gain in/out instead of jumping → no transient click.
+    g.gain.setValueAtTime(0, start);
+    g.gain.linearRampToValueAtTime(0.22, start + 0.005);
+    g.gain.linearRampToValueAtTime(0, start + 0.18);
     osc.connect(g); g.connect(M.master);
-    osc.start(start); osc.stop(start + 0.24);
+    osc.start(start); osc.stop(start + 0.20);
   }
 
   // ─── Public: start looping background music ───────────────────
@@ -192,36 +207,36 @@
     } else {
       pattern = [[64,0],[67,0.22,0.7]];
     }
-    const chimeVoice = { osc:'triangle', atk:0.005, rel:0.6, peak:0.38 };
+    const chimeVoice = { osc:'triangle', atk:0.010, peak:0.32 };
     pattern.forEach(([midi, off, scale]) => {
       const peak = (scale != null ? scale : 1) * chimeVoice.peak;
-      const dur = 0.8;
+      const dur = 0.7;
       const start = t0 + off;
       const osc = M.ctx.createOscillator();
       const g = M.ctx.createGain();
       osc.type = chimeVoice.osc;
       osc.frequency.setValueAtTime(midiHz(midi), start);
-      g.gain.setValueAtTime(0.0001, start);
+      g.gain.setValueAtTime(0, start);
       g.gain.linearRampToValueAtTime(peak, start + chimeVoice.atk);
-      g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+      g.gain.linearRampToValueAtTime(0, start + dur);
       osc.connect(g);
       g.connect(M.master);
       osc.start(start);
-      osc.stop(start + dur + 0.05);
+      osc.stop(start + dur + 0.02);
     });
     if (pct >= 80){
       scheduleKick(t0 + 0.02);
-      [91, 93, 96, 98].forEach((midi, i) => {
-        const start = t0 + 0.7 + i * 0.07;
+      [91, 93, 96].forEach((midi, i) => {  // 3 sparkle notes (was 4) — less harsh
+        const start = t0 + 0.7 + i * 0.08;
         const osc = M.ctx.createOscillator();
         const g = M.ctx.createGain();
         osc.type = 'sine';
         osc.frequency.setValueAtTime(midiHz(midi), start);
-        g.gain.setValueAtTime(0.0001, start);
-        g.gain.linearRampToValueAtTime(0.18, start + 0.005);
-        g.gain.exponentialRampToValueAtTime(0.0001, start + 0.4);
+        g.gain.setValueAtTime(0, start);
+        g.gain.linearRampToValueAtTime(0.14, start + 0.010);
+        g.gain.linearRampToValueAtTime(0, start + 0.35);
         osc.connect(g); g.connect(M.master);
-        osc.start(start); osc.stop(start + 0.45);
+        osc.start(start); osc.stop(start + 0.36);
       });
     }
   }

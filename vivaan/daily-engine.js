@@ -11,15 +11,77 @@
   // ─── 7-day theme map ─────────────────────────────────────────
   // Index 0 = Sunday (per Date.getDay()). Sunday is Mystery Day so the
   // table reads naturally Mon→Sun.
-  const THEMES = {
-    'mystery':           { id:'mystery',           day:'Sun', emoji:'🔮', name:"The Big Mystery",      color:'#7C3AED', bg:'linear-gradient(135deg,#3B0764 0%,#581C87 60%,#7C3AED 100%)', sticker:{e:'🔍', n:'Mystery Lens'},  tagline:"Reveal a hidden picture, one answer at a time" },
-    'number-kingdom':    { id:'number-kingdom',    day:'Mon', emoji:'👑', name:"Number Kingdom",       color:'#D97706', bg:'linear-gradient(135deg,#FEF3C7 0%,#FCD34D 60%,#D97706 100%)', sticker:{e:'👑', n:'Golden Crown'}, tagline:"Help the King fix the kingdom's numbers" },
-    'shape-safari':      { id:'shape-safari',      day:'Tue', emoji:'🔷', name:"Shape Safari",          color:'#059669', bg:'linear-gradient(135deg,#D1FAE5 0%,#34D399 60%,#059669 100%)', sticker:{e:'🎩', n:'Safari Hat'},   tagline:"Spot every shape hiding in the jungle" },
-    'rainbow-lab':       { id:'rainbow-lab',       day:'Wed', emoji:'🌈', name:"Rainbow Lab",           color:'#DB2777', bg:'linear-gradient(135deg,#FCE7F3 0%,#F472B6 60%,#DB2777 100%)', sticker:{e:'🎨', n:'Paint Palette'},tagline:"Every right answer paints the picture" },
-    'math-quest':        { id:'math-quest',        day:'Thu', emoji:'📖', name:"Math Quest",            color:'#9333EA', bg:'linear-gradient(135deg,#EDE9FE 0%,#A78BFA 60%,#7C3AED 100%)', sticker:{e:'📜', n:'Quest Scroll'}, tagline:"A new story. You're the hero." },
-    'lightning-round':   { id:'lightning-round',   day:'Fri', emoji:'⚡', name:"Lightning Round",        color:'#EAB308', bg:'linear-gradient(135deg,#FEF9C3 0%,#FACC15 60%,#CA8A04 100%)', sticker:{e:'⚡', n:'Lightning Bolt'},tagline:"Fast play! See how far you can get." },
-    'builders-workshop': { id:'builders-workshop', day:'Sat', emoji:'🏗️', name:"Builder's Workshop",    color:'#EA580C', bg:'linear-gradient(135deg,#FFEDD5 0%,#FB923C 60%,#EA580C 100%)', sticker:{e:'🔨', n:'Builder\'s Hammer'},tagline:"Drag, stack, build the answer" }
+  // Per-band theme variants — each grade band sees a different name,
+  // emoji, and tagline for the same day-of-week, so a Class 10 student
+  // doesn't see "Number Kingdom" with a cartoon king icon.
+  const BAND_VARIANTS = {
+    'mystery': {
+      kids:    { emoji:'🔮', name:"The Big Mystery",     tagline:"Solve to reveal a hidden picture" },
+      primary: { emoji:'🔍', name:"Detective Day",       tagline:"Crack each clue, reveal the mystery" },
+      middle:  { emoji:'🧩', name:"Puzzle Hunt",         tagline:"Each correct answer unlocks a piece" },
+      senior:  { emoji:'🎯', name:"The Final Reveal",    tagline:"Decode the picture, one solution at a time" }
+    },
+    'number-kingdom': {
+      kids:    { emoji:'👑', name:"Number Kingdom",      tagline:"Help the King fix the numbers" },
+      primary: { emoji:'🧮', name:"Number Quest",        tagline:"Master the numbers in your kingdom" },
+      middle:  { emoji:'🔢', name:"Number Lab",          tagline:"Integers, factors, and powers" },
+      senior:  { emoji:'⚙️', name:"Number Theory Trial", tagline:"Real numbers, primes, and proofs" }
+    },
+    'shape-safari': {
+      kids:    { emoji:'🔷', name:"Shape Safari",        tagline:"Spot every shape in the jungle" },
+      primary: { emoji:'📐', name:"Geometry Trail",       tagline:"Sides, angles, and tiles to find" },
+      middle:  { emoji:'🛡️', name:"Geometry Lab",         tagline:"Triangles, polygons, transformations" },
+      senior:  { emoji:'🧭', name:"Theorem Hunt",         tagline:"Similarity, congruence, coordinate proofs" }
+    },
+    'rainbow-lab': {
+      kids:    { emoji:'🌈', name:"Rainbow Lab",          tagline:"Every right answer paints the picture" },
+      primary: { emoji:'🎨', name:"Math Studio",          tagline:"Paint a picture, region by region" },
+      middle:  { emoji:'🧪', name:"Equation Lab",         tagline:"Solve to colour the canvas" },
+      senior:  { emoji:'🧬', name:"Calculation Studio",   tagline:"Each solution unlocks a region" }
+    },
+    'math-quest': {
+      kids:    { emoji:'📖', name:"Story Quest",          tagline:"A new story. You're the hero." },
+      primary: { emoji:'📚', name:"Adventure Saga",       tagline:"Every chapter tests a new skill" },
+      middle:  { emoji:'📜', name:"Math Saga",            tagline:"Word problems woven into a story" },
+      senior:  { emoji:'🏛️', name:"Case Study Day",       tagline:"Real-world maths, scenario by scenario" }
+    },
+    'lightning-round': {
+      kids:    { emoji:'⚡', name:"Lightning Round",       tagline:"Fast play! See how far you go." },
+      primary: { emoji:'🚀', name:"Power Round",          tagline:"Speed and accuracy battle" },
+      middle:  { emoji:'⏱️', name:"Speed Drill",           tagline:"Mental maths against the clock" },
+      senior:  { emoji:'💎', name:"Precision Drill",      tagline:"Rapid-fire board-prep questions" }
+    },
+    'builders-workshop': {
+      kids:    { emoji:'🏗️', name:"Builder's Workshop",   tagline:"Drag, stack, build the answer" },
+      primary: { emoji:'🛠️', name:"Maker's Lab",           tagline:"Build numbers, balance the scale" },
+      middle:  { emoji:'⚙️', name:"Construction Lab",      tagline:"Measure, calculate, design" },
+      senior:  { emoji:'📐', name:"Modeller's Bench",     tagline:"Set up the model, find the answer" }
+    }
   };
+
+  function bandForGrade(g){
+    if (!g || g <= 2) return 'kids';
+    if (g <= 5) return 'primary';
+    if (g <= 8) return 'middle';
+    return 'senior';
+  }
+
+  const THEMES = {
+    'mystery':           { id:'mystery',           day:'Sun', emoji:'🔮', name:"The Big Mystery",      color:'#7C3AED', sticker:{e:'🔍', n:'Mystery Lens'} },
+    'number-kingdom':    { id:'number-kingdom',    day:'Mon', emoji:'👑', name:"Number Kingdom",       color:'#D97706', sticker:{e:'👑', n:'Golden Crown'} },
+    'shape-safari':      { id:'shape-safari',      day:'Tue', emoji:'🔷', name:"Shape Safari",          color:'#059669', sticker:{e:'🎩', n:'Safari Hat'} },
+    'rainbow-lab':       { id:'rainbow-lab',       day:'Wed', emoji:'🌈', name:"Rainbow Lab",           color:'#DB2777', sticker:{e:'🎨', n:'Paint Palette'} },
+    'math-quest':        { id:'math-quest',        day:'Thu', emoji:'📖', name:"Math Quest",            color:'#9333EA', sticker:{e:'📜', n:'Quest Scroll'} },
+    'lightning-round':   { id:'lightning-round',   day:'Fri', emoji:'⚡', name:"Lightning Round",        color:'#EAB308', sticker:{e:'⚡', n:'Lightning Bolt'} },
+    'builders-workshop': { id:'builders-workshop', day:'Sat', emoji:'🏗️', name:"Builder's Workshop",    color:'#EA580C', sticker:{e:'🔨', n:'Builder\'s Hammer'} }
+  };
+
+  // Returns the theme object overlaid with grade-band variant fields.
+  function themeForGrade(themeId, grade){
+    const base = THEMES[themeId]; if (!base) return null;
+    const variant = (BAND_VARIANTS[themeId] || {})[bandForGrade(grade)] || {};
+    return Object.assign({}, base, variant);
+  }
 
   // Sunday=0 → mystery. Spec's array order:
   const THEME_BY_DOW = ['mystery', 'number-kingdom', 'shape-safari', 'rainbow-lab', 'math-quest', 'lightning-round', 'builders-workshop'];
@@ -288,7 +350,8 @@
 
   // ─── Public API ──────────────────────────────────────────────
   window.MM_DAILY = {
-    THEMES,
+    THEMES, BAND_VARIANTS,
+    bandForGrade, themeForGrade,
     todayThemeId, yesterdayThemeId, tomorrowThemeId,
     todayKey, offsetDayKey, weekSeed,
     getStreak, getStamps, getStickers, getDaily,

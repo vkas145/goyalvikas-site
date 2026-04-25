@@ -1847,7 +1847,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Quiz content for Grades 1, 3-10 (Ch 1 only for now) -->
 <script src="/vivaan-quiz-data.js?v=2"></script>
-<script src="/vivaan/daily-engine.js?v=2"></script>
+<script src="/vivaan/daily-engine.js?v=3"></script>
 
 <script>
   // ═══════════════════════════════════════════════════════════════
@@ -2328,9 +2328,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const todayId = D.todayThemeId();
     const yestId  = D.yesterdayThemeId();
     const tomId   = D.tomorrowThemeId();
-    const today   = D.THEMES[todayId];
-    const yest    = D.THEMES[yestId];
-    const tom     = D.THEMES[tomId];
+    // Use grade-band variants so Class 10 sees "Modeller's Bench" instead of
+    // a cartoon "Builder's Workshop" with a 👶 vibe.
+    const today   = D.themeForGrade ? D.themeForGrade(todayId, grade) : D.THEMES[todayId];
+    const yest    = D.themeForGrade ? D.themeForGrade(yestId,  grade) : D.THEMES[yestId];
+    const tom     = D.themeForGrade ? D.themeForGrade(tomId,   grade) : D.THEMES[tomId];
 
     // Today card
     const link = document.getElementById('cardToday');
@@ -2610,9 +2612,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   const MUSIC = { ctx:null, master:null, lp:null, active:false, tickHandle:null, nextTime:0, track:null };
+  // Music defaults to OFF (user prefers quiet — opt-in via toggle).
   function musicPref(){
     const v = localStorage.getItem(MUSIC_STORE_KEY);
-    return v === null ? true : v === '1';
+    return v === '1';
   }
   function setMusicPref(on){ localStorage.setItem(MUSIC_STORE_KEY, on ? '1' : '0'); }
   function ensureAudio(){
@@ -2621,14 +2624,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const Ctx = window.AudioContext || window.webkitAudioContext;
       if (!Ctx) return false;
       MUSIC.ctx = new Ctx();
+      // Compressor → catches peak stacking that was causing audible breakup.
+      MUSIC.comp = MUSIC.ctx.createDynamicsCompressor();
+      MUSIC.comp.threshold.value = -18;
+      MUSIC.comp.knee.value      = 24;
+      MUSIC.comp.ratio.value     = 4;
+      MUSIC.comp.attack.value    = 0.005;
+      MUSIC.comp.release.value   = 0.180;
       MUSIC.master = MUSIC.ctx.createGain();
-      MUSIC.master.gain.value = 0.13;
+      MUSIC.master.gain.value = 0.10;
       MUSIC.lp = MUSIC.ctx.createBiquadFilter();
       MUSIC.lp.type = 'lowpass';
       MUSIC.lp.frequency.value = 2200;
-      MUSIC.lp.Q.value = 0.6;
+      MUSIC.lp.Q.value = 0.5;
       MUSIC.master.connect(MUSIC.lp);
-      MUSIC.lp.connect(MUSIC.ctx.destination);
+      MUSIC.lp.connect(MUSIC.comp);
+      MUSIC.comp.connect(MUSIC.ctx.destination);
       return true;
     } catch(e){ return false; }
   }
@@ -2640,17 +2651,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     osc.type = voice.osc;
     osc.frequency.setValueAtTime(freq, start);
     const peak = voice.peak;
-    const atk = Math.min(voice.atk, dur * 0.4);
-    const rel = Math.min(voice.rel, dur * 0.8);
-    g.gain.setValueAtTime(0.0001, start);
+    const atk = Math.min(voice.atk, dur * 0.3);
+    const rel = Math.min(voice.rel, dur * 0.65);
+    // Linear ramps everywhere — the previous exponential-to-zero tail
+    // was causing audible clicks at note boundaries.
+    g.gain.setValueAtTime(0, start);
     g.gain.linearRampToValueAtTime(peak, start + atk);
-    const holdEnd = start + Math.max(atk + 0.01, dur - rel);
-    g.gain.setValueAtTime(peak, holdEnd);
-    g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+    const holdEnd = start + Math.max(atk + 0.005, dur - rel);
+    g.gain.linearRampToValueAtTime(peak, holdEnd);
+    g.gain.linearRampToValueAtTime(0, start + dur);
     osc.connect(g);
     g.connect(MUSIC.master);
     osc.start(start);
-    osc.stop(start + dur + 0.05);
+    osc.stop(start + dur + 0.02);
   }
 
   // Drum synth for primary (game) band only.
@@ -2658,12 +2671,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const osc = MUSIC.ctx.createOscillator();
     const g = MUSIC.ctx.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(120, start);
-    osc.frequency.exponentialRampToValueAtTime(40, start + 0.14);
-    g.gain.setValueAtTime(0.28, start);
-    g.gain.exponentialRampToValueAtTime(0.0001, start + 0.2);
+    osc.frequency.setValueAtTime(110, start);
+    osc.frequency.exponentialRampToValueAtTime(45, start + 0.12);
+    g.gain.setValueAtTime(0, start);
+    g.gain.linearRampToValueAtTime(0.22, start + 0.005);
+    g.gain.linearRampToValueAtTime(0, start + 0.18);
     osc.connect(g); g.connect(MUSIC.master);
-    osc.start(start); osc.stop(start + 0.24);
+    osc.start(start); osc.stop(start + 0.20);
   }
   function scheduleHat(start){
     const n = Math.floor(MUSIC.ctx.sampleRate * 0.04);
