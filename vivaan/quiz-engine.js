@@ -637,13 +637,21 @@ function showResult(){
   const rMsg=document.getElementById('resMsg');if(rMsg)rMsg.textContent=pct>=90?`GENIUS! ${char.n} is amazed! 🌟`:pct>=70?`Great job! ${char.n} is proud! 🎉`:`Keep practising! ${char.n} believes in you! 💪`;
   const nsb=document.getElementById('nextSetBtn');if(nsb)nsb.style.display=setIdx<SETS[level].length-1?'':'none';
   if(pct>=90)confetti();
+  // Background music → fade + tiered result chime (handled by quiz-music.js)
+  if (window.stopQuizMusic) window.stopQuizMusic(true);
+  if (window.playQuizResultChime) window.playQuizResultChime(pct);
 }
 function retrySet(){
   const rs=document.getElementById('resultScreen');if(rs)rs.classList.remove('show');
   const qb=document.getElementById('quizBody');if(qb)qb.style.display='block';
   startSet();
+  // Resume background music for the new attempt.
+  if (window.startQuizMusic && window.__vivaanMusicChapter) window.startQuizMusic(window.__vivaanMusicChapter());
 }
-function goNextSet(){setIdx++;buildSetRow();startSet();}
+function goNextSet(){
+  setIdx++;buildSetRow();startSet();
+  if (window.startQuizMusic && window.__vivaanMusicChapter) window.startQuizMusic(window.__vivaanMusicChapter());
+}
 
 // ─── Character ────────────────────────────────────────────────
 function setCharNeutral(){
