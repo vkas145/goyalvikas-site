@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Today's Mathemagics · Daily World</title>
+<meta name="description" content="A fresh maths game every day for kids — build streaks, collect stickers, no login.">
+<meta name="theme-color" content="#FF6B6B">
+<link rel="icon" type="image/svg+xml" href="/vivaan/icon.svg">
+<link rel="manifest" href="/vivaan/manifest.json">
+<link rel="canonical" href="https://www.goyalvikas.com/vivaan/daily.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html, body{
+    min-height:100dvh;
+    overscroll-behavior:contain;
+    font-family: 'Nunito','Fredoka',system-ui,-apple-system,sans-serif;
+    color: #2B1B4A;
+    background: #FFF7E6;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust:100%;
+  }
+  body{
+    /* The theme bg is set per-day via JS by adding .theme-{id} to body */
+    transition: background 0.5s ease;
+  }
+  body.theme-number-kingdom    { background: linear-gradient(135deg,#FEF3C7 0%,#FCD34D 60%,#D97706 100%); }
+  body.theme-shape-safari      { background: linear-gradient(135deg,#D1FAE5 0%,#34D399 60%,#059669 100%); }
+  body.theme-rainbow-lab       { background: linear-gradient(135deg,#FCE7F3 0%,#F472B6 60%,#DB2777 100%); }
+  body.theme-math-quest        { background: linear-gradient(135deg,#EDE9FE 0%,#A78BFA 60%,#7C3AED 100%); }
+  body.theme-lightning-round   { background: linear-gradient(135deg,#FEF9C3 0%,#FACC15 60%,#CA8A04 100%); }
+  body.theme-builders-workshop { background: linear-gradient(135deg,#FFEDD5 0%,#FB923C 60%,#EA580C 100%); }
+  body.theme-mystery           { background: linear-gradient(135deg,#3B0764 0%,#581C87 60%,#7C3AED 100%); color:#fff; }
+
+  .top-bar{
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px) saturate(160%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%);
+    border-bottom: 2px solid rgba(43,27,74,0.12);
+    padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  body.theme-mystery .top-bar{ background: rgba(43,27,74,0.85); border-bottom-color: rgba(255,255,255,0.15); }
+  .top-bar a, .top-bar button{
+    background: #FFF; color: #2B1B4A;
+    border: 2px solid #2B1B4A;
+    border-radius: 999px;
+    padding: 6px 14px; font-weight: 800; font-size: 13px;
+    text-decoration: none; cursor: pointer;
+    box-shadow: 0 2px 0 #2B1B4A;
+  }
+  .top-bar .grow{ flex: 1; text-align: center; font-weight: 800; font-size: 14px; opacity: 0.8; }
+  .activity-shell{
+    max-width: 720px; margin: 0 auto;
+    padding: 18px 14px 100px;
+  }
+  .activity-intro{
+    text-align: center; padding: 28px 14px 18px;
+  }
+  .ai-emoji{ font-size: 64px; line-height: 1; }
+  .ai-title{ font-size: 28px; font-weight: 900; margin-top: 10px; letter-spacing: -0.01em; }
+  .ai-tagline{ font-size: 16px; opacity: 0.85; margin-top: 6px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.4; }
+  .ai-cta{
+    margin: 22px auto 0;
+    display: inline-block;
+    background: #2B1B4A; color: #FFF;
+    border: none; padding: 14px 30px;
+    border-radius: 999px;
+    font-weight: 800; font-size: 16px; cursor: pointer;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+    font-family: inherit;
+  }
+  .ai-cta:active{ transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+  body.theme-mystery .ai-cta{ background: #FFF; color: #2B1B4A; }
+
+  .a-card{
+    background: #FFF;
+    border: 3px solid #2B1B4A;
+    border-radius: 22px;
+    padding: 22px 18px;
+    box-shadow: 0 6px 0 #2B1B4A;
+    color: #2B1B4A;
+  }
+  .a-progress{
+    display: flex; gap: 5px; margin-bottom: 14px;
+  }
+  .a-progress-cell{
+    flex:1; height: 6px; border-radius: 999px;
+    background: rgba(43,27,74,0.18);
+  }
+  .a-progress-cell.done{ background: #22C55E; }
+  .a-progress-cell.active{ background: #2B1B4A; }
+  .a-q{
+    font-size: 22px; font-weight: 800; line-height: 1.35;
+    text-align: center; margin: 8px 0 18px; min-height: 60px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .a-options{ display:grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+  @media (max-width:520px){ .a-options{ grid-template-columns: 1fr; } }
+  .opt-btn{
+    background: linear-gradient(180deg,#FFF7E6 0%,#FFECC7 100%);
+    border: 2.5px solid #2B1B4A;
+    border-radius: 16px;
+    padding: 16px 14px;
+    font-weight: 800; font-size: 17px;
+    cursor: pointer; transition: transform 0.1s;
+    box-shadow: 0 4px 0 #2B1B4A;
+    font-family: inherit;
+    color: #2B1B4A;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .opt-btn:hover{ transform: translateY(-2px); }
+  .opt-btn:active{ transform: translateY(2px); box-shadow: 0 2px 0 #2B1B4A; }
+  .opt-btn.correct{ background: linear-gradient(135deg,#86EFAC 0%,#22C55E 100%); color: #FFF; }
+  .opt-btn.wrong{ background: linear-gradient(135deg,#FCA5A5 0%,#EF4444 100%); color: #FFF; }
+  .opt-btn:disabled{ cursor: default; }
+  .a-feedback{
+    margin-top: 14px; padding: 12px;
+    text-align:center; font-weight: 700;
+    border-radius: 14px; min-height: 30px;
+  }
+  .a-feedback.ok{ background: #DCFCE7; color: #166534; }
+  .a-feedback.no{ background: #FEE2E2; color: #991B1B; }
+  .a-next{
+    display: none; margin: 14px auto 0;
+    background: #2B1B4A; color: #FFF;
+    border: none; padding: 12px 28px;
+    border-radius: 999px;
+    font-weight: 800; font-size: 16px;
+    cursor: pointer; font-family: inherit;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.25);
+  }
+  .a-next.show{ display: block; }
+  .a-input-row{ display:flex; gap: 8px; justify-content:center; align-items:center; margin-top: 6px; }
+  .a-input{
+    width: 200px; max-width: 60%;
+    padding: 14px 18px;
+    border: 2.5px solid #2B1B4A;
+    border-radius: 16px;
+    font-size: 22px; font-weight: 800; text-align: center;
+    font-family: inherit;
+    color: #2B1B4A;
+  }
+  .a-input:focus{ outline: 3px solid #FCD34D; outline-offset: 2px; }
+  .a-submit{
+    background: #2B1B4A; color:#FFF;
+    border: none; padding: 14px 22px;
+    border-radius: 16px; font-weight: 800; font-size: 16px;
+    cursor: pointer; font-family: inherit;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+  }
+  .a-tf{ display:flex; gap:14px; justify-content:center; }
+  .a-tf .opt-btn{ min-width: 140px; }
+
+  /* Completion screen */
+  .complete-screen{
+    text-align: center; padding: 28px 14px;
+  }
+  .cs-trophy{ font-size: 96px; line-height: 1; }
+  .cs-title{ font-size: 32px; font-weight: 900; margin-top: 10px; }
+  .cs-msg{ font-size: 18px; opacity: 0.85; margin-top: 8px; max-width: 460px; margin-inline: auto; line-height: 1.4; }
+  .cs-rewards{ margin: 22px auto; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .cs-pill{
+    background: #FFF; color: #2B1B4A;
+    border: 2.5px solid #2B1B4A;
+    padding: 10px 16px; border-radius: 999px;
+    font-weight: 800; font-size: 14px;
+    box-shadow: 0 3px 0 #2B1B4A;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .cs-tomorrow{
+    margin: 18px auto 0; max-width: 420px;
+    background: rgba(255,255,255,0.85);
+    border: 2px dashed rgba(43,27,74,0.4);
+    border-radius: 18px;
+    padding: 14px;
+    font-weight: 700;
+    color: #2B1B4A;
+  }
+  body.theme-mystery .cs-tomorrow{ background: rgba(0,0,0,0.4); border-color: rgba(255,255,255,0.4); color: #FFF; }
+  .cs-actions{ display:flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+  .cs-btn{
+    background: #2B1B4A; color: #FFF;
+    border: none; padding: 12px 22px;
+    border-radius: 999px;
+    font-weight: 800; font-size: 14px;
+    cursor: pointer; text-decoration: none;
+    font-family: inherit;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+  }
+  .cs-btn.alt{ background: #FFF; color: #2B1B4A; box-shadow: 0 3px 0 rgba(0,0,0,0.15); border: 2px solid #2B1B4A; }
+  .cs-confetti{
+    position: fixed; inset: 0; pointer-events: none; z-index: 100;
+  }
+
+  /* Per-activity skins (slight tweaks) — defined in activities/*.css? kept inline here for v1 */
+
+  /* Mystery Day reveal grid */
+  .mystery-board{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    background: #FFF;
+    border: 3px solid #2B1B4A;
+    border-radius: 14px;
+    padding: 6px;
+    margin: 0 auto 14px;
+    aspect-ratio: 5/4;
+    max-width: 300px;
+  }
+  .mb-cell{
+    background: linear-gradient(135deg,#7C3AED,#3B0764);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    color: #FFF;
+    transition: opacity 0.4s;
+  }
+  .mb-cell.revealed{
+    background: #FFF;
+    color: #2B1B4A;
+  }
+
+  /* Builder workshop blocks */
+  .blocks-area{ display:flex; flex-direction:column; gap:10px; align-items:center; margin: 8px 0 14px; }
+  .blocks-target{ font-size: 28px; font-weight: 900; }
+  .blocks-row{ display:flex; gap: 6px; flex-wrap: wrap; justify-content:center; min-height: 56px; padding: 6px; background: rgba(43,27,74,0.08); border-radius: 10px; min-width: 220px; }
+  .block{
+    background: linear-gradient(180deg,#FB923C,#EA580C);
+    color: #FFF;
+    border: 2px solid #2B1B4A;
+    border-radius: 6px;
+    padding: 4px 8px; font-weight: 800; font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 0 #2B1B4A;
+  }
+  .block.tens{ background: linear-gradient(180deg,#60A5FA,#1D4ED8); padding: 4px 16px; }
+  .block.hundreds{ background: linear-gradient(180deg,#A78BFA,#6D28D9); padding: 4px 22px; }
+  .block-row-label{ font-size: 12px; font-weight: 800; text-transform: uppercase; opacity: 0.7; }
+
+  /* Lightning bubbles */
+  .bubble-stage{
+    position: relative;
+    height: 280px;
+    background: rgba(43,27,74,0.06);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 8px 0 12px;
+  }
+  .bubble{
+    position: absolute;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 2px solid #2B1B4A;
+    background: linear-gradient(135deg,#FACC15,#CA8A04);
+    color: #FFF;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+    user-select: none;
+  }
+  .bubble.miss{ background: linear-gradient(135deg,#9CA3AF,#4B5563); }
+
+  /* Color-by-answer (Rainbow Lab) */
+  .paint-grid{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 3px;
+    max-width: 360px;
+    margin: 8px auto 12px;
+    aspect-ratio: 1/1;
+  }
+  .paint-cell{
+    background: #FFF;
+    border: 1px solid #2B1B4A;
+    border-radius: 4px;
+    transition: background 0.4s;
+  }
+  .paint-key{
+    display:flex; gap:6px; flex-wrap:wrap; justify-content:center;
+    margin-bottom: 8px; font-size: 12px; font-weight: 700;
+  }
+  .pk-dot{
+    display:inline-block; width: 14px; height: 14px;
+    border-radius: 50%; margin-right: 4px; vertical-align: middle;
+    border: 1.5px solid #2B1B4A;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="/vivaan/" id="backHome">🏠 Hub</a>
+  <div class="grow" id="dayLabel">Today's World</div>
+  <button id="muteBtn" type="button" title="Toggle music">🎵</button>
+</div>
+
+<div class="activity-shell">
+  <!-- Intro screen (before play starts) -->
+  <div class="activity-intro" id="introScreen">
+    <div class="ai-emoji" id="introEmoji">🌟</div>
+    <h1 class="ai-title" id="introTitle">Today's World</h1>
+    <p class="ai-tagline" id="introTagline">Loading…</p>
+    <button class="ai-cta" id="startBtn" type="button">Start ▶</button>
+  </div>
+
+  <!-- Play surface — populated by activity script -->
+  <div id="playSurface" style="display:none"></div>
+
+  <!-- Completion screen -->
+  <div class="complete-screen" id="completeScreen" style="display:none">
+    <div class="cs-trophy" id="csTrophy">🏆</div>
+    <div class="cs-title" id="csTitle">Brilliant!</div>
+    <div class="cs-msg" id="csMsg">You finished today's world.</div>
+    <div class="cs-rewards" id="csRewards"></div>
+    <div class="cs-tomorrow" id="csTomorrow">🌅 Tomorrow: …</div>
+    <div class="cs-actions">
+      <a class="cs-btn" href="/vivaan/" id="csBackHub">Back to Hub</a>
+      <button class="cs-btn alt" type="button" id="csReplay">Play again</button>
+    </div>
+  </div>
+
+  <canvas class="cs-confetti" id="csConfetti" style="display:none"></canvas>
+</div>
+
+<!-- Engine + activities -->
+<script src="/vivaan-quiz-data.js"></script>
+<script src="/vivaan/daily-engine.js"></script>
+<script src="/vivaan/quiz-music.js"></script>
+<script src="/vivaan/activities/number-kingdom.js"></script>
+<script src="/vivaan/activities/shape-safari.js"></script>
+<script src="/vivaan/activities/rainbow-lab.js"></script>
+<script src="/vivaan/activities/math-quest.js"></script>
+<script src="/vivaan/activities/lightning-round.js"></script>
+<script src="/vivaan/activities/builders-workshop.js"></script>
+<script src="/vivaan/activities/mystery-day.js"></script>
+
+<script>
+(function(){
+  'use strict';
+  const D = window.MM_DAILY;
+  const url = new URL(location.href);
+  const grade = parseInt(url.searchParams.get('grade') || localStorage.getItem('vivaan_grade') || '2', 10);
+
+  const themeId = D.todayThemeId();
+  const theme = D.THEMES[themeId];
+  document.body.classList.add('theme-' + themeId);
+  document.getElementById('dayLabel').textContent = `${theme.day} · ${theme.name}`;
+  document.getElementById('introEmoji').textContent = theme.emoji;
+  document.getElementById('introTitle').textContent = theme.name;
+  document.getElementById('introTagline').textContent = theme.tagline;
+
+  // Map themeId → activity entry function (each activity exports window.MM_ACTIVITY_<id>)
+  const ACTS = {
+    'number-kingdom':    window.MM_ACT_NUMBER_KINGDOM,
+    'shape-safari':      window.MM_ACT_SHAPE_SAFARI,
+    'rainbow-lab':       window.MM_ACT_RAINBOW_LAB,
+    'math-quest':        window.MM_ACT_MATH_QUEST,
+    'lightning-round':   window.MM_ACT_LIGHTNING_ROUND,
+    'builders-workshop': window.MM_ACT_BUILDERS_WORKSHOP,
+    'mystery':           window.MM_ACT_MYSTERY
+  };
+
+  const startBtn = document.getElementById('startBtn');
+  const intro = document.getElementById('introScreen');
+  const surface = document.getElementById('playSurface');
+  const complete = document.getElementById('completeScreen');
+
+  function startPlay(){
+    intro.style.display = 'none';
+    surface.style.display = '';
+    surface.innerHTML = '';
+    const act = ACTS[themeId];
+    if (!act){
+      surface.innerHTML = '<div class="a-card"><div class="a-q">Activity is on its way! Try again tomorrow 🌅</div></div>';
+      return;
+    }
+    act({
+      grade,
+      container: surface,
+      themeId,
+      onComplete: showComplete
+    });
+    // Music: piggyback on existing engine if present.
+    if (window.startQuizMusic) window.startQuizMusic(grade <= 2 ? 1 : 1);
+  }
+
+  function showComplete(result){
+    surface.style.display = 'none';
+    complete.style.display = '';
+    if (window.stopQuizMusic) window.stopQuizMusic(true);
+    const score = result && typeof result.score === 'number' ? result.score : 0;
+    const total = result && typeof result.total === 'number' ? result.total : 1;
+    const pct = Math.round((score / total) * 100);
+
+    const completeRes = D.markCompletedToday(themeId, score, total);
+    if (window.playQuizResultChime) window.playQuizResultChime(pct);
+
+    document.getElementById('csTrophy').textContent = pct >= 80 ? '🏆' : pct >= 50 ? '🥈' : '🥉';
+    const titleMap = { 80:'Brilliant!', 50:'Nice work!', 0:'Good try!' };
+    const titleKey = pct >= 80 ? 80 : pct >= 50 ? 50 : 0;
+    document.getElementById('csTitle').textContent = titleMap[titleKey];
+    document.getElementById('csMsg').textContent = `You scored ${score} out of ${total}.`;
+
+    const rewards = document.getElementById('csRewards');
+    rewards.innerHTML = '';
+    if (completeRes.firstCompletionToday){
+      if (completeRes.stickerAwarded){
+        rewards.innerHTML += `<div class="cs-pill">${completeRes.stickerAwarded.e} New sticker: ${completeRes.stickerAwarded.n}</div>`;
+      }
+      const s = completeRes.streak;
+      const streakLabel = s.count === 1 ? '1 day · keep it going!' : `${s.count}-day streak${s.freezes ? ' · 1 freeze used' : ''}`;
+      rewards.innerHTML += `<div class="cs-pill">🔥 ${streakLabel}</div>`;
+    } else {
+      rewards.innerHTML += `<div class="cs-pill">✨ Nice — already played today!</div>`;
+    }
+
+    const tomId = D.tomorrowThemeId();
+    const tom = D.THEMES[tomId];
+    document.getElementById('csTomorrow').innerHTML = `🌅 Tomorrow: ${tom.emoji} <strong>${tom.name}</strong> — ${tom.tagline}`;
+
+    if (pct >= 80) confetti();
+  }
+
+  startBtn.addEventListener('click', startPlay);
+  document.getElementById('csReplay').addEventListener('click', () => {
+    complete.style.display = 'none';
+    intro.style.display = '';
+  });
+
+  // Music toggle
+  document.getElementById('muteBtn').addEventListener('click', () => {
+    const cur = localStorage.getItem('vivaan_music');
+    const isOn = cur === null ? true : cur === '1';
+    localStorage.setItem('vivaan_music', isOn ? '0' : '1');
+    document.getElementById('muteBtn').textContent = isOn ? '🔇' : '🎵';
+    if (isOn && window.stopQuizMusic) window.stopQuizMusic(true);
+    else if (!isOn && window.startQuizMusic) window.startQuizMusic(1);
+  });
+  // Sync mute button label with stored pref on load
+  (function(){
+    const cur = localStorage.getItem('vivaan_music');
+    const isOn = cur === null ? true : cur === '1';
+    document.getElementById('muteBtn').textContent = isOn ? '🎵' : '🔇';
+  })();
+
+  // ─── Confetti (for 80%+ completion) ───
+  function confetti(){
+    const cv = document.getElementById('csConfetti');
+    cv.style.display = 'block';
+    cv.width = innerWidth; cv.height = innerHeight;
+    const ctx = cv.getContext('2d');
+    const ps = Array.from({length:120}, () => ({
+      x: Math.random()*cv.width, y:-20,
+      r: Math.random()*6+3,
+      c: `hsl(${Math.random()*360},90%,60%)`,
+      vx: (Math.random()-.5)*4,
+      vy: Math.random()*5+2,
+      a: Math.random()*360
+    }));
+    let f = 0;
+    const draw = () => {
+      ctx.clearRect(0,0,cv.width,cv.height);
+      ps.forEach(p => {
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a*Math.PI/180);
+        ctx.fillStyle = p.c; ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);
+        ctx.restore();
+        p.x += p.vx; p.y += p.vy; p.a += 3;
+        if (p.y > cv.height){ p.y = -10; p.x = Math.random()*cv.width; }
+      });
+      if (f++ < 220) requestAnimationFrame(draw);
+      else { ctx.clearRect(0,0,cv.width,cv.height); cv.style.display = 'none'; }
+    };
+    draw();
+  }
+})();
+</script>
+</body>
+</html>

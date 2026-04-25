@@ -409,6 +409,140 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     letter-spacing: .01em;
   }
 
+  /* Daily World hub */
+  .daily-hub{ margin: 18px 0 28px; }
+  .daily-streak-row{
+    display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+    margin-bottom: 14px;
+  }
+  .streak-chip, .stickers-chip{
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    border-radius: var(--radius-pill);
+    padding: 8px 16px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 3px 0 var(--card-border);
+    color: var(--ink);
+  }
+  .streak-chip.cold{ opacity: 0.55; }
+  .stickers-chip{ background:#FFFBEB; }
+  .daily-cards{
+    display: grid;
+    grid-template-columns: 1fr 1.6fr 1fr;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .daily-card{
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    border-radius: var(--radius-card);
+    padding: 18px 14px;
+    box-shadow: 0 6px 0 var(--card-border);
+    text-align: center;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    min-height: 168px;
+    transition: transform 0.18s var(--ease-pop), box-shadow 0.18s;
+  }
+  .daily-card.daily-yesterday, .daily-card.daily-tomorrow{ opacity: 0.78; }
+  .daily-card.daily-today{
+    background: linear-gradient(135deg,#FFF1B8 0%,#FFD48A 100%);
+    border-width: 3px;
+    transform: scale(1.04);
+    box-shadow: 0 8px 0 var(--card-border), 0 0 0 4px rgba(255,255,255,0.6) inset;
+  }
+  .daily-card.daily-today:hover{ transform: scale(1.06); box-shadow: 0 10px 0 var(--card-border), 0 0 0 4px rgba(255,255,255,0.7) inset; }
+  .dc-when{ font-size: 12px; font-weight: 700; opacity: 0.7; letter-spacing: 0.06em; text-transform: uppercase; }
+  .dc-emoji{ font-size: 38px; line-height: 1; }
+  .dc-title{ font-weight: 800; font-size: 16px; }
+  .dc-tagline{ font-size: 12px; opacity: 0.75; line-height: 1.3; max-width: 240px; }
+  .dc-status{ font-size: 12px; font-weight: 600; opacity: 0.7; }
+  .dc-status.done{ color: #059669; opacity: 1; }
+  .dc-cta{
+    margin-top: 4px;
+    background: var(--ink); color: #FFF;
+    border-radius: var(--radius-pill);
+    padding: 7px 18px;
+    font-weight: 800; font-size: 13px;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.15);
+  }
+  .daily-card.daily-today.completed{
+    background: linear-gradient(135deg,#D1FAE5 0%,#86EFAC 100%);
+  }
+  .daily-card.daily-today.completed .dc-cta{ background: #059669; }
+  @media (max-width: 720px){
+    .daily-cards{ grid-template-columns: 1fr; gap: 10px; }
+    .daily-card{ min-height: 140px; padding: 14px 12px; }
+    .daily-card.daily-today{ transform: none; order: -1; }
+    .dc-emoji{ font-size: 32px; }
+  }
+
+  /* Weekly stamps row */
+  .weekly-stamps{
+    margin: 18px auto 0;
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    max-width: 580px;
+  }
+  .ws-cell{
+    flex: 1; min-width: 56px; max-width: 76px;
+    background: var(--card);
+    border: 2px dashed var(--card-border);
+    border-radius: 12px;
+    padding: 8px 4px;
+    text-align: center;
+    opacity: 0.5;
+  }
+  .ws-cell.stamped{
+    border-style: solid;
+    background: linear-gradient(135deg,#FEF3C7 0%,#FCD34D 100%);
+    opacity: 1;
+  }
+  .ws-cell.today{ outline: 3px solid var(--ink); outline-offset: 2px; }
+  .ws-cell .ws-day{ font-size: 10px; font-weight: 800; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.08em; }
+  .ws-cell .ws-mark{ font-size: 22px; line-height: 1.1; margin-top: 2px; }
+
+  /* Sticker collection */
+  .sticker-collection{
+    margin: 22px 0 6px;
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    border-radius: var(--radius-card);
+    padding: 16px 16px 18px;
+    box-shadow: 0 6px 0 var(--card-border);
+  }
+  .sc-head{ display:flex; flex-wrap:wrap; gap:6px 12px; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+  .sc-title{ font-weight: 800; font-size: 16px; }
+  .sc-note{ font-size: 11px; color: var(--muted); font-weight: 600; }
+  .sc-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+    gap: 8px;
+  }
+  .sc-item{
+    aspect-ratio: 1/1;
+    border-radius: 14px;
+    background: linear-gradient(135deg,#FFF7E6 0%,#FFECC7 100%);
+    border: 2px solid var(--card-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 3px 0 var(--card-border);
+    position: relative;
+  }
+  .sc-item .sc-count{
+    position: absolute; bottom: 2px; right: 4px;
+    font-size: 9px; font-weight: 800;
+    background: var(--ink); color: #FFF;
+    padding: 1px 5px; border-radius: 999px;
+  }
+  .sc-item.empty{
+    background: #fff;
+    border-style: dashed;
+    opacity: 0.5;
+    font-size: 18px;
+  }
+
   /* Scoreboard */
   .scoreboard{
     margin: 30px 0 26px;
@@ -1352,6 +1486,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <nav class="grade-bar" id="gradeBar"></nav>
   </section>
 
+  <!-- Daily World hub — visible only after a grade is picked -->
+  <section class="daily-hub" id="dailyHub" aria-label="Today's daily world" style="display:none">
+    <div class="daily-streak-row">
+      <div class="streak-chip" id="streakChip" title="Daily play streak">🔥 <span id="streakNum">0</span>-day streak</div>
+      <div class="stickers-chip" id="stickersChip" title="Stickers collected">⭐ <span id="stickersNum">0</span> stickers</div>
+    </div>
+    <div class="daily-cards">
+      <div class="daily-card daily-yesterday" id="cardYesterday">
+        <div class="dc-when">🌙 Yesterday</div>
+        <div class="dc-emoji" id="dcYestEmoji">🔷</div>
+        <div class="dc-title" id="dcYestTitle">Shape Safari</div>
+        <div class="dc-status" id="dcYestStatus">·</div>
+      </div>
+      <a class="daily-card daily-today" id="cardToday" href="#">
+        <div class="dc-when">☀️ TODAY</div>
+        <div class="dc-emoji" id="dcTodayEmoji">🌈</div>
+        <div class="dc-title" id="dcTodayTitle">Rainbow Lab</div>
+        <div class="dc-tagline" id="dcTodayTagline">Every right answer paints the picture</div>
+        <div class="dc-cta" id="dcTodayCta">Play now ▶</div>
+      </a>
+      <div class="daily-card daily-tomorrow" id="cardTomorrow">
+        <div class="dc-when">🌅 Tomorrow</div>
+        <div class="dc-emoji" id="dcTomEmoji">⚡</div>
+        <div class="dc-title" id="dcTomTitle">Lightning Round</div>
+        <div class="dc-status">🔒 Get ready!</div>
+      </div>
+    </div>
+    <div class="weekly-stamps" id="weeklyStamps" aria-label="This week's stamps"></div>
+    <div class="sticker-collection" id="stickerCollection">
+      <div class="sc-head">
+        <div class="sc-title">⭐ My Sticker Collection</div>
+        <div class="sc-note">Your collection lives in this browser. No account, no servers.</div>
+      </div>
+      <div class="sc-grid" id="scGrid"></div>
+    </div>
+  </section>
+
   <!-- Master Scoreboard -->
   <section class="scoreboard" id="scoreboard">
     <div class="sb-head">
@@ -1503,6 +1674,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Quiz content for Grades 1, 3-10 (Ch 1 only for now) -->
 <script src="/vivaan-quiz-data.js"></script>
+<script src="/vivaan/daily-engine.js"></script>
 
 <script>
   // ═══════════════════════════════════════════════════════════════
@@ -1958,10 +2130,132 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
   }
 
+  // ─── Daily World hub ──────────────────────────────────────
+  function renderDailyHub(){
+    const hub = document.getElementById('dailyHub');
+    if (!hub || !window.MM_DAILY) return;
+    const grade = getGrade();
+    if (!grade) { hub.style.display = 'none'; return; }
+    hub.style.display = '';
+
+    const D = window.MM_DAILY;
+    const todayId = D.todayThemeId();
+    const yestId  = D.yesterdayThemeId();
+    const tomId   = D.tomorrowThemeId();
+    const today   = D.THEMES[todayId];
+    const yest    = D.THEMES[yestId];
+    const tom     = D.THEMES[tomId];
+
+    // Streak chip
+    const streak = D.getStreak();
+    const cn = document.getElementById('streakNum');
+    if (cn) cn.textContent = streak.count || 0;
+    const sc = document.getElementById('streakChip');
+    if (sc) sc.classList.toggle('cold', !streak.count);
+
+    // Stickers chip
+    const sticks = D.getStickers();
+    const sn = document.getElementById('stickersNum');
+    if (sn) sn.textContent = sticks.length;
+
+    // Today card
+    const link = document.getElementById('cardToday');
+    if (link) link.href = `/vivaan/daily.html?grade=${grade}`;
+    setText('dcTodayEmoji', today.emoji);
+    setText('dcTodayTitle', today.name);
+    setText('dcTodayTagline', today.tagline);
+    const ctaBtn = document.getElementById('dcTodayCta');
+    const todayCardEl = document.getElementById('cardToday');
+    if (D.isCompletedToday()){
+      if (ctaBtn) ctaBtn.textContent = 'Play again ↻';
+      if (todayCardEl) todayCardEl.classList.add('completed');
+    } else {
+      if (ctaBtn) ctaBtn.textContent = 'Play now ▶';
+      if (todayCardEl) todayCardEl.classList.remove('completed');
+    }
+
+    // Yesterday card
+    setText('dcYestEmoji', yest.emoji);
+    setText('dcYestTitle', yest.name);
+    const ystatus = document.getElementById('dcYestStatus');
+    if (ystatus){
+      if (D.isCompletedYesterday()){ ystatus.textContent = '✅ Done'; ystatus.classList.add('done'); }
+      else { ystatus.textContent = 'Missed — fresh start today!'; ystatus.classList.remove('done'); }
+    }
+
+    // Tomorrow card
+    setText('dcTomEmoji', tom.emoji);
+    setText('dcTomTitle', tom.name);
+
+    // Weekly stamps row (Mon-Sun, current week)
+    renderWeeklyStamps();
+
+    // Sticker collection grid (counts duplicates → badge number)
+    renderStickerCollection();
+  }
+
+  function setText(id, text){
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+
+  function renderWeeklyStamps(){
+    const D = window.MM_DAILY;
+    const wrap = document.getElementById('weeklyStamps');
+    if (!wrap || !D) return;
+    const stamps = D.getStamps();
+    // Build Mon→Sun keys for the current week.
+    const today = new Date();
+    const dow = today.getDay(); // 0=Sun
+    // Find Monday of this week (treat week as Mon-start).
+    const mondayOffset = dow === 0 ? -6 : 1 - dow;
+    const monday = new Date(today); monday.setDate(today.getDate() + mondayOffset);
+    const dayLabels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    let html = '';
+    for (let i = 0; i < 7; i++){
+      const d = new Date(monday); d.setDate(monday.getDate() + i);
+      const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0');
+      const key = `${y}-${m}-${dd}`;
+      const themeId = stamps[key];
+      const isToday = key === D.todayKey();
+      const stamped = !!themeId;
+      const mark = stamped ? (D.THEMES[themeId] && D.THEMES[themeId].sticker.e) || '⭐' : '·';
+      html += `<div class="ws-cell${stamped?' stamped':''}${isToday?' today':''}">
+        <div class="ws-day">${dayLabels[i]}</div>
+        <div class="ws-mark">${mark}</div>
+      </div>`;
+    }
+    wrap.innerHTML = html;
+  }
+
+  function renderStickerCollection(){
+    const D = window.MM_DAILY;
+    const grid = document.getElementById('scGrid');
+    if (!grid || !D) return;
+    const sticks = D.getStickers();
+    // Count by themeId
+    const counts = {};
+    for (const id of sticks){ counts[id] = (counts[id] || 0) + 1; }
+    let html = '';
+    // Show one cell per known sticker theme; empty placeholder if not yet earned.
+    for (const themeId of ['number-kingdom','shape-safari','rainbow-lab','math-quest','lightning-round','builders-workshop','mystery']){
+      const t = D.THEMES[themeId]; if (!t) continue;
+      const c = counts[themeId] || 0;
+      if (c === 0){
+        html += `<div class="sc-item empty" title="${t.sticker.n} — not yet earned">${t.emoji}</div>`;
+      } else {
+        const badge = c > 1 ? `<span class="sc-count">×${c}</span>` : '';
+        html += `<div class="sc-item" title="${t.sticker.n}">${t.sticker.e}${badge}</div>`;
+      }
+    }
+    grid.innerHTML = html;
+  }
+
   function renderAll(){
     renderGradeBar();
     renderHero();
     renderScoreboard();
+    renderDailyHub();
   }
 
   document.getElementById('sbReset').addEventListener('click', function(){
