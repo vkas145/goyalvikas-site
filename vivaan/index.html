@@ -409,6 +409,74 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     letter-spacing: .01em;
   }
 
+  /* Pre/Post grade view toggling */
+  body.no-grade .post-grade-view{ display: none; }
+  body.has-grade .pre-grade-view{ display: none; }
+
+  /* Motivation block */
+  .motivation{
+    margin: 28px 0 12px;
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    border-radius: var(--radius-card);
+    padding: 22px 24px;
+    box-shadow: 0 6px 0 var(--card-border);
+    color: var(--ink);
+  }
+  .motivation .mot-title{
+    font-size: 22px; font-weight: 800; margin-bottom: 10px;
+  }
+  .motivation p{ margin: 0 0 10px; font-size: 15px; line-height: 1.55; color: var(--ink-2); }
+  .motivation p:last-child{ margin-bottom: 0; }
+
+  /* Privacy snippet */
+  .privacy-snip{
+    margin: 22px 0 32px;
+    background: linear-gradient(135deg,#FEF7E6 0%,#FFE9C7 100%);
+    border: 2px dashed var(--card-border);
+    border-radius: var(--radius-card);
+    padding: 18px 22px;
+    color: var(--ink);
+  }
+  .privacy-snip .ps-title{
+    font-size: 17px; font-weight: 800; margin-bottom: 6px;
+  }
+  .privacy-snip p{ margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
+
+  /* Compact grade indicator (post-grade) */
+  .grade-indicator{
+    margin: 14px 0 18px;
+    display: flex; justify-content: center;
+  }
+  .gi-line{
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center;
+  }
+  .gi-pill{
+    background: var(--card);
+    border: 2.5px solid var(--card-border);
+    border-radius: var(--radius-pill);
+    padding: 7px 16px;
+    font-weight: 800; font-size: 15px;
+    color: var(--ink);
+    box-shadow: 0 3px 0 var(--card-border);
+  }
+  .gi-pill strong{ color: var(--coral); margin-left: 4px; font-size: 17px; }
+  .gi-streak{
+    background: linear-gradient(135deg,#FFEDD5 0%,#FB923C 100%);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+    font-weight: 800; font-size: 13px;
+    color: var(--ink);
+    box-shadow: 0 3px 0 var(--card-border);
+    display: none;  /* shown only when streak > 0 */
+  }
+  .gi-streak.has-streak{ display: inline-block; }
+
+  /* Compact scoreboard (post-grade, smaller than the previous big panel) */
+  .scoreboard.scoreboard-compact{ margin-top: 16px; padding: 14px 16px 12px; }
+  .scoreboard.scoreboard-compact .sb-stats{ font-size: 12px; }
+
   /* Daily World hub */
   .daily-hub{ margin: 18px 0 28px; }
   .daily-streak-row{
@@ -1469,6 +1537,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script></head>
 <body>
 
+<!-- Set initial visibility class before any markup paints, to avoid a
+     flash of both pre-grade and post-grade views during JS bootstrap. -->
+<script>(function(){try{var g=parseInt(localStorage.getItem('vivaan_grade')||'',10);document.body.classList.add(g>=1&&g<=10?'has-grade':'no-grade');}catch(e){document.body.classList.add('no-grade');}})();</script>
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -1497,88 +1569,116 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-badge">✨ Completely Free · No Ads - No login</div>
-    <h1>Maths Quiz for Class 1 to 10 - Chapter Wise, <span class="spark">NCERT Aligned</span></h1>
-    <p class="sub" id="heroSub">No sign-up, no ads — 6,500+ practice questions across every NCERT chapter.</p>
-  </section>
+  <!-- ═══════════════════════════════════════════════════════════
+       PRE-GRADE VIEW · Hero → Grade picker → Motivation → Privacy
+       Toggled in JS via body.no-grade vs body.has-grade
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="pre-grade-view">
 
-  <!-- Grade selector (below hero so it's the primary call-to-action) -->
-  <section class="grade-section" aria-label="Choose your grade">
-    <div class="grade-heading">Pick your grade 🎓</div>
-    <nav class="grade-bar" id="gradeBar"></nav>
-  </section>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">✨ Completely Free · No Ads - No login</div>
+      <h1>Maths Quiz for Class 1 to 10 - Chapter Wise, <span class="spark">NCERT Aligned</span></h1>
+      <p class="sub" id="heroSub">No sign-up, no ads — 6,500+ practice questions across every NCERT chapter.</p>
+    </section>
 
-  <!-- Daily World hub — visible only after a grade is picked -->
-  <section class="daily-hub" id="dailyHub" aria-label="Today's daily world" style="display:none">
-    <div class="daily-streak-row">
-      <div class="streak-chip" id="streakChip" title="Daily play streak">🔥 <span id="streakNum">0</span>-day streak</div>
-      <div class="stickers-chip" id="stickersChip" title="Stickers collected">⭐ <span id="stickersNum">0</span> stickers</div>
-    </div>
-    <div class="daily-cards">
-      <div class="daily-card daily-yesterday" id="cardYesterday">
-        <div class="dc-when">🌙 Yesterday</div>
-        <div class="dc-emoji" id="dcYestEmoji">🔷</div>
-        <div class="dc-title" id="dcYestTitle">Shape Safari</div>
-        <div class="dc-status" id="dcYestStatus">·</div>
-      </div>
-      <a class="daily-card daily-today" id="cardToday" href="#">
-        <div class="dc-when">☀️ TODAY</div>
-        <div class="dc-emoji" id="dcTodayEmoji">🌈</div>
-        <div class="dc-title" id="dcTodayTitle">Rainbow Lab</div>
-        <div class="dc-tagline" id="dcTodayTagline">Every right answer paints the picture</div>
-        <div class="dc-cta" id="dcTodayCta">Play now ▶</div>
-      </a>
-      <div class="daily-card daily-tomorrow" id="cardTomorrow">
-        <div class="dc-when">🌅 Tomorrow</div>
-        <div class="dc-emoji" id="dcTomEmoji">⚡</div>
-        <div class="dc-title" id="dcTomTitle">Lightning Round</div>
-        <div class="dc-status">🔒 Get ready!</div>
-      </div>
-    </div>
-    <div class="weekly-stamps" id="weeklyStamps" aria-label="This week's stamps"></div>
-    <div class="sticker-collection" id="stickerCollection">
-      <div class="sc-head">
-        <div class="sc-title">⭐ My Sticker Collection</div>
-        <div class="sc-note">Your collection lives in this browser. No account, no servers.</div>
-      </div>
-      <div class="sc-grid" id="scGrid"></div>
-    </div>
-  </section>
+    <!-- Grade selector -->
+    <section class="grade-section" aria-label="Choose your grade">
+      <div class="grade-heading">Pick your grade 🎓</div>
+      <nav class="grade-bar" id="gradeBar"></nav>
+    </section>
 
-  <!-- Master Scoreboard -->
-  <section class="scoreboard" id="scoreboard">
-    <div class="sb-head">
-      <div class="sb-title">🏆 My Scoreboard</div>
-      <button class="sb-reset" id="sbReset" type="button">Reset</button>
-    </div>
-    <div class="sb-stats">
-      <div class="sb-stat"><div class="num" id="sbSets">0</div><div class="lbl">Sets Done</div></div>
-      <div class="sb-stat"><div class="num" id="sbCorrect">0</div><div class="lbl">Correct</div></div>
-      <div class="sb-stat"><div class="num" id="sbTotal">0</div><div class="lbl">Questions</div></div>
-      <div class="sb-stat"><div class="num" id="sbPct">0%</div><div class="lbl">Overall</div></div>
-    </div>
-    <div class="sb-progress"><div class="sb-progress-fill" id="sbFill"></div></div>
-    <div class="sb-empty" id="sbEmpty">Start your first quiz to see your stats! 🚀</div>
-  </section>
+    <!-- Motivation -->
+    <section class="motivation" aria-label="Why this exists">
+      <h2 class="mot-title">Why this exists 💛</h2>
+      <p>Mathemagics was built by <strong>Vikas Goyal</strong> for his son <strong>Vivaan</strong> — and shared freely with every kid in India. The promise is simple: NCERT-aligned maths practice, fresh content every day, no ads, no accounts, no tracking.</p>
+      <p>Each day brings a different game built around real grade-level concepts. Streaks, sticker collections, and chapter-wise practice — designed to make 15 minutes of daily maths feel like 15 minutes of play.</p>
+    </section>
 
-  <!-- Mathematics -->
-  <div class="section-head" id="chapterSection">
-    <h2><span class="lead">🔢</span><span id="mathHead">NCERT Mathematics — Chapter-Wise Quiz for Class 1 to 10</span></h2>
-    <button type="button" class="back-to-grades" id="backToGrades" style="display:none;" aria-label="Back to grade picker">🏠 Change grade</button>
+    <!-- More subjects coming soon — teases what's next -->
+    <div class="section-head" style="margin-top:40px;">
+      <h2><span class="lead">📚</span>More Subjects Coming Soon — Hindi, English, EVS</h2>
+    </div>
+    <div class="subjects-grid">
+      <div class="subj-card"><div class="subj-emoji">🔤</div><div class="subj-name">Hindi</div><div class="subj-tag">Launching Soon</div></div>
+      <div class="subj-card"><div class="subj-emoji">📖</div><div class="subj-name">English</div><div class="subj-tag">Launching Soon</div></div>
+      <div class="subj-card"><div class="subj-emoji">🌿</div><div class="subj-name">EVS / Science</div><div class="subj-tag">Launching Soon</div></div>
+      <div class="subj-card"><div class="subj-emoji">🌍</div><div class="subj-name">GK</div><div class="subj-tag">Launching Soon</div></div>
+    </div>
+
+    <!-- Privacy snippet -->
+    <section class="privacy-snip" aria-label="Privacy">
+      <h2 class="ps-title">🔒 Privacy, in one paragraph</h2>
+      <p>We collect <strong>nothing</strong>. No accounts. No cookies for tracking. No servers storing your work. Every score and sticker lives only in this browser. Clear your browser, and it's gone — that's the design. Built free, kept free.</p>
+    </section>
+
   </div>
-  <div class="chapter-grid" id="chapterGrid"></div>
 
-  <!-- More Subjects (below Maths chapters, launching soon) -->
-  <div class="section-head" style="margin-top:40px;">
-    <h2><span class="lead">📚</span>More Subjects Coming Soon — Hindi, English, EVS</h2>
-  </div>
-  <div class="subjects-grid">
-    <div class="subj-card"><div class="subj-emoji">🔤</div><div class="subj-name">Hindi</div><div class="subj-tag">Launching Soon</div></div>
-    <div class="subj-card"><div class="subj-emoji">📖</div><div class="subj-name">English</div><div class="subj-tag">Launching Soon</div></div>
-    <div class="subj-card"><div class="subj-emoji">🌿</div><div class="subj-name">EVS / Science</div><div class="subj-tag">Launching Soon</div></div>
-    <div class="subj-card"><div class="subj-emoji">🌍</div><div class="subj-name">GK</div><div class="subj-tag">Launching Soon</div></div>
+  <!-- ═══════════════════════════════════════════════════════════
+       POST-GRADE VIEW · Daily Activities + Chapter Practice ONLY
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="post-grade-view">
+
+    <!-- Compact grade indicator (below floating "Change grade" pill) -->
+    <section class="grade-indicator" aria-label="Current grade">
+      <div class="gi-line">
+        <span class="gi-pill">Class <strong id="giNum">2</strong></span>
+        <span class="gi-streak" id="giStreak"></span>
+      </div>
+    </section>
+
+    <!-- ─── Section 1 of 2 · DAILY ACTIVITIES ─── -->
+    <section class="daily-hub" id="dailyHub" aria-label="Today's daily world">
+      <div class="section-head" style="margin-bottom:8px;justify-content:flex-start;gap:10px;">
+        <h2><span class="lead">🌟</span>Daily Activities</h2>
+      </div>
+      <div class="daily-cards">
+        <div class="daily-card daily-yesterday" id="cardYesterday">
+          <div class="dc-when">🌙 Yesterday</div>
+          <div class="dc-emoji" id="dcYestEmoji">🔷</div>
+          <div class="dc-title" id="dcYestTitle">Shape Safari</div>
+          <div class="dc-status" id="dcYestStatus">·</div>
+        </div>
+        <a class="daily-card daily-today" id="cardToday" href="#">
+          <div class="dc-when">☀️ TODAY</div>
+          <div class="dc-emoji" id="dcTodayEmoji">🌈</div>
+          <div class="dc-title" id="dcTodayTitle">Rainbow Lab</div>
+          <div class="dc-tagline" id="dcTodayTagline">Every right answer paints the picture</div>
+          <div class="dc-meta" id="dcTodayMeta">~12 min · 12 questions</div>
+          <div class="dc-cta" id="dcTodayCta">Play now ▶</div>
+        </a>
+        <div class="daily-card daily-tomorrow" id="cardTomorrow">
+          <div class="dc-when">🌅 Tomorrow</div>
+          <div class="dc-emoji" id="dcTomEmoji">⚡</div>
+          <div class="dc-title" id="dcTomTitle">Lightning Round</div>
+          <div class="dc-status">🔒 Get ready!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 2 of 2 · CHAPTER PRACTICE ─── -->
+    <div class="section-head" id="chapterSection">
+      <h2><span class="lead">🔢</span><span id="mathHead">NCERT Mathematics — Chapter-Wise Quiz for Class 1 to 10</span></h2>
+      <button type="button" class="back-to-grades" id="backToGrades" style="display:none;" aria-label="Back to grade picker">🏠 Change grade</button>
+    </div>
+    <div class="chapter-grid" id="chapterGrid"></div>
+
+    <!-- Tiny scoreboard summary, in chapter context -->
+    <section class="scoreboard scoreboard-compact" id="scoreboard">
+      <div class="sb-head">
+        <div class="sb-title">🏆 Chapter progress</div>
+        <button class="sb-reset" id="sbReset" type="button">Reset</button>
+      </div>
+      <div class="sb-stats">
+        <div class="sb-stat"><div class="num" id="sbSets">0</div><div class="lbl">Sets</div></div>
+        <div class="sb-stat"><div class="num" id="sbCorrect">0</div><div class="lbl">Correct</div></div>
+        <div class="sb-stat"><div class="num" id="sbTotal">0</div><div class="lbl">Questions</div></div>
+        <div class="sb-stat"><div class="num" id="sbPct">0%</div><div class="lbl">Overall</div></div>
+      </div>
+      <div class="sb-progress"><div class="sb-progress-fill" id="sbFill"></div></div>
+      <div class="sb-empty" id="sbEmpty">Start your first chapter quiz to see stats here.</div>
+    </section>
+
   </div>
 
   <!-- Quiz modal (for non-Grade-2 chapters that have quiz data) -->
@@ -2135,42 +2235,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const brandSub = document.getElementById('brandSub');
     const heroSub  = document.getElementById('heroSub');
     const mathHead = document.getElementById('mathHead');
-    const sb = document.getElementById('scoreboard');
     const backBtn = document.getElementById('backToGrades');
     const floatBack = document.getElementById('floatingBack');
+    const giNum = document.getElementById('giNum');
+
+    // Toggle which view is visible — pre-grade vs post-grade.
+    document.body.classList.toggle('has-grade', !!grade);
+    document.body.classList.toggle('no-grade', !grade);
+
     if (!grade){
-      brandSub.textContent = 'NCERT Grades 1 to 10 · For Kids Love';
-      heroSub.textContent  = 'Pick your grade to begin your Mathemagics journey! 🎓';
-      mathHead.textContent = 'NCERT Mathematics — Chapter-Wise Quiz for Class 1 to 10';
-      if (sb) sb.style.display = 'none';
+      if (brandSub) brandSub.textContent = 'NCERT Grades 1 to 10 · For Kids Love';
+      if (heroSub) heroSub.textContent  = 'Pick your grade to begin your Mathemagics journey! 🎓';
       if (backBtn) backBtn.style.display = 'none';
       if (floatBack) floatBack.classList.remove('visible');
     } else {
-      brandSub.textContent = `Grade ${grade} · For Kids Love`;
-      heroSub.textContent  = grade===2
-        ? 'Quiz aligned to a standard Grade 2 student.'
-        : `NCERT-aligned maths quiz for Grade ${grade}.`;
-      mathHead.textContent = `NCERT Mathematics — Class ${grade} · ${chapters.length} chapters`;
-      if (sb) sb.style.display = '';
+      if (brandSub) brandSub.textContent = `Class ${grade} · For Kids Love`;
+      if (mathHead) mathHead.textContent = `NCERT Class ${grade} · ${chapters.length} chapters`;
+      if (giNum) giNum.textContent = grade;
       if (backBtn) backBtn.style.display = '';
       if (floatBack) floatBack.classList.add('visible');
     }
   }
 
   // ─── Daily World hub ──────────────────────────────────────
+  // Slim version: just Yesterday/Today/Tomorrow cards. Streak shows
+  // separately as a small pill in the grade indicator above.
   function renderDailyHub(){
     const hub = document.getElementById('dailyHub');
     if (!hub) return;
     if (!window.MM_DAILY){
-      // daily-engine.js still loading? retry shortly. (Defensive — script
-      // load order should prevent this, but Netlify edge caches can serve
-      // stale HTML against fresh JS for a brief window.)
       setTimeout(renderDailyHub, 80);
       return;
     }
     const grade = getGrade();
-    if (!grade) { hub.style.display = 'none'; return; }
-    hub.style.display = '';
+    if (!grade) return;  // post-grade view is hidden via body.has-grade
 
     const D = window.MM_DAILY;
     const todayId = D.todayThemeId();
@@ -2180,24 +2278,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const yest    = D.THEMES[yestId];
     const tom     = D.THEMES[tomId];
 
-    // Streak chip
-    const streak = D.getStreak();
-    const cn = document.getElementById('streakNum');
-    if (cn) cn.textContent = streak.count || 0;
-    const sc = document.getElementById('streakChip');
-    if (sc) sc.classList.toggle('cold', !streak.count);
-
-    // Stickers chip
-    const sticks = D.getStickers();
-    const sn = document.getElementById('stickersNum');
-    if (sn) sn.textContent = sticks.length;
-
     // Today card
     const link = document.getElementById('cardToday');
     if (link) link.href = `/vivaan/daily.html?grade=${grade}`;
     setText('dcTodayEmoji', today.emoji);
     setText('dcTodayTitle', today.name);
     setText('dcTodayTagline', today.tagline);
+    setText('dcTodayMeta', `~12 min · grade-${grade} content`);
     const ctaBtn = document.getElementById('dcTodayCta');
     const todayCardEl = document.getElementById('cardToday');
     if (D.isCompletedToday()){
@@ -2221,68 +2308,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     setText('dcTomEmoji', tom.emoji);
     setText('dcTomTitle', tom.name);
 
-    // Weekly stamps row (Mon-Sun, current week)
-    renderWeeklyStamps();
-
-    // Sticker collection grid (counts duplicates → badge number)
-    renderStickerCollection();
+    // Compact streak pill in grade indicator
+    const streak = D.getStreak();
+    const giStreak = document.getElementById('giStreak');
+    if (giStreak){
+      if (streak.count > 0){
+        giStreak.classList.add('has-streak');
+        giStreak.textContent = `🔥 ${streak.count}-day streak${streak.freezes ? ' · ❄️ 1 freeze used' : ''}`;
+      } else {
+        giStreak.classList.remove('has-streak');
+        giStreak.textContent = '';
+      }
+    }
   }
 
   function setText(id, text){
     const el = document.getElementById(id);
     if (el) el.textContent = text;
-  }
-
-  function renderWeeklyStamps(){
-    const D = window.MM_DAILY;
-    const wrap = document.getElementById('weeklyStamps');
-    if (!wrap || !D) return;
-    const stamps = D.getStamps();
-    // Build Mon→Sun keys for the current week.
-    const today = new Date();
-    const dow = today.getDay(); // 0=Sun
-    // Find Monday of this week (treat week as Mon-start).
-    const mondayOffset = dow === 0 ? -6 : 1 - dow;
-    const monday = new Date(today); monday.setDate(today.getDate() + mondayOffset);
-    const dayLabels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-    let html = '';
-    for (let i = 0; i < 7; i++){
-      const d = new Date(monday); d.setDate(monday.getDate() + i);
-      const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0');
-      const key = `${y}-${m}-${dd}`;
-      const themeId = stamps[key];
-      const isToday = key === D.todayKey();
-      const stamped = !!themeId;
-      const mark = stamped ? (D.THEMES[themeId] && D.THEMES[themeId].sticker.e) || '⭐' : '·';
-      html += `<div class="ws-cell${stamped?' stamped':''}${isToday?' today':''}">
-        <div class="ws-day">${dayLabels[i]}</div>
-        <div class="ws-mark">${mark}</div>
-      </div>`;
-    }
-    wrap.innerHTML = html;
-  }
-
-  function renderStickerCollection(){
-    const D = window.MM_DAILY;
-    const grid = document.getElementById('scGrid');
-    if (!grid || !D) return;
-    const sticks = D.getStickers();
-    // Count by themeId
-    const counts = {};
-    for (const id of sticks){ counts[id] = (counts[id] || 0) + 1; }
-    let html = '';
-    // Show one cell per known sticker theme; empty placeholder if not yet earned.
-    for (const themeId of ['number-kingdom','shape-safari','rainbow-lab','math-quest','lightning-round','builders-workshop','mystery']){
-      const t = D.THEMES[themeId]; if (!t) continue;
-      const c = counts[themeId] || 0;
-      if (c === 0){
-        html += `<div class="sc-item empty" title="${t.sticker.n} — not yet earned">${t.emoji}</div>`;
-      } else {
-        const badge = c > 1 ? `<span class="sc-count">×${c}</span>` : '';
-        html += `<div class="sc-item" title="${t.sticker.n}">${t.sticker.e}${badge}</div>`;
-      }
-    }
-    grid.innerHTML = html;
   }
 
   function renderAll(){
