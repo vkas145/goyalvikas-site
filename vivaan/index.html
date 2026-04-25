@@ -253,18 +253,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     box-shadow: 0 5px 0 var(--card-border);
     transform: translateY(-2px);
   }
+  .grade-tab .g-emo{
+    font-size: 24px;
+    line-height: 1;
+    margin-bottom: 2px;
+    transition: transform .25s var(--ease-pop);
+  }
+  .grade-tab:hover .g-emo{ transform: scale(1.18) rotate(-6deg); }
+  .grade-tab.active .g-emo{ transform: scale(1.12); }
   .grade-tab .g-num{
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 700;
     line-height: 1;
     font-family: var(--display);
   }
   .grade-tab .g-label{
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: .1em;
-    opacity: .9;
+    opacity: .85;
   }
   @media (max-width: 600px){
     .grade-section{ margin: 10px auto 28px; }
@@ -413,35 +421,53 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   body.no-grade .post-grade-view{ display: none; }
   body.has-grade .pre-grade-view{ display: none; }
 
-  /* Motivation block */
+  /* Motivation: visual tile grid (no paragraph text) */
   .motivation{
-    margin: 28px 0 12px;
-    background: var(--card);
-    border: 2.5px solid var(--card-border);
-    border-radius: var(--radius-card);
-    padding: 22px 24px;
-    box-shadow: 0 6px 0 var(--card-border);
-    color: var(--ink);
+    margin: 36px 0 28px;
+    text-align: center;
   }
   .motivation .mot-title{
-    font-size: 22px; font-weight: 800; margin-bottom: 10px;
-  }
-  .motivation p{ margin: 0 0 10px; font-size: 15px; line-height: 1.55; color: var(--ink-2); }
-  .motivation p:last-child{ margin-bottom: 0; }
-
-  /* Privacy snippet */
-  .privacy-snip{
-    margin: 22px 0 32px;
-    background: linear-gradient(135deg,#FEF7E6 0%,#FFE9C7 100%);
-    border: 2px dashed var(--card-border);
-    border-radius: var(--radius-card);
-    padding: 18px 22px;
+    font-size: 24px; font-weight: 900;
     color: var(--ink);
+    margin-bottom: 22px;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
   }
-  .privacy-snip .ps-title{
-    font-size: 17px; font-weight: 800; margin-bottom: 6px;
+  .motivation .mot-heart{ display:inline-block; transform: translateY(2px); }
+  .mot-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 720px;
+    margin: 0 auto;
   }
-  .privacy-snip p{ margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
+  .mot-tile{
+    background: var(--mot-bg, #FFF);
+    color: var(--mot-fg, var(--ink));
+    border: 2.5px solid var(--card-border);
+    border-radius: 18px;
+    padding: 18px 8px 16px;
+    box-shadow: 0 4px 0 var(--card-border);
+    transition: transform .18s var(--ease-pop), box-shadow .18s;
+  }
+  .mot-tile:hover{
+    transform: translateY(-3px) rotate(-1deg);
+    box-shadow: 0 7px 0 var(--card-border);
+  }
+  .mot-tile .mot-emoji{
+    font-size: 38px; line-height: 1; margin-bottom: 6px;
+  }
+  .mot-tile .mot-tag{
+    font-size: 13px; font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
+  }
+  @media (max-width: 720px){
+    .mot-grid{ grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .motivation .mot-title{ font-size: 19px; padding: 0 10px; }
+    .mot-tile{ padding: 14px 6px 12px; }
+    .mot-tile .mot-emoji{ font-size: 30px; }
+  }
 
   /* Compact grade indicator (post-grade) */
   .grade-indicator{
@@ -1557,7 +1583,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="brand-logo">🎯</div>
       <div class="brand-lines">
         <div class="l1">Mathemagics</div>
-        <div class="l2" id="brandSub">Grade 2 · For Kids Love</div>
+        <div class="l2" id="brandSub">Class 1 to 10 · NCERT Aligned</div>
       </div>
     </div>
     <div class="hud">
@@ -1577,9 +1603,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- Hero -->
     <section class="hero">
-      <div class="hero-badge">✨ Completely Free · No Ads - No login</div>
-      <h1>Maths Quiz for Class 1 to 10 - Chapter Wise, <span class="spark">NCERT Aligned</span></h1>
-      <p class="sub" id="heroSub">No sign-up, no ads — 6,500+ practice questions across every NCERT chapter.</p>
+      <div class="hero-badge">✨ Completely Free · No Ads · No Login</div>
+      <h1>Maths Fun Activity for Class 1 to 10, NCERT Aligned, <span class="spark">Mathemagics</span></h1>
     </section>
 
     <!-- Grade selector -->
@@ -1588,16 +1613,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <nav class="grade-bar" id="gradeBar"></nav>
     </section>
 
-    <!-- Motivation -->
-    <section class="motivation" aria-label="Why this exists">
-      <h2 class="mot-title">Why this exists 💛</h2>
-      <p>Mathemagics was built by <strong>Vikas Goyal</strong> for his son <strong>Vivaan</strong> — and shared freely with every kid in India. The promise is simple: NCERT-aligned maths practice, fresh content every day, no ads, no accounts, no tracking.</p>
-      <p>Each day brings a different game built around real grade-level concepts. Streaks, sticker collections, and chapter-wise practice — designed to make 15 minutes of daily maths feel like 15 minutes of play.</p>
-    </section>
-
-    <!-- More subjects coming soon — teases what's next -->
-    <div class="section-head" style="margin-top:40px;">
-      <h2><span class="lead">📚</span>More Subjects Coming Soon — Hindi, English, EVS</h2>
+    <!-- More subjects coming soon (right after grades) -->
+    <div class="section-head" style="margin-top:32px;">
+      <h2><span class="lead">📚</span>More Subjects, Launching Soon</h2>
     </div>
     <div class="subjects-grid">
       <div class="subj-card"><div class="subj-emoji">🔤</div><div class="subj-name">Hindi</div><div class="subj-tag">Launching Soon</div></div>
@@ -1606,10 +1624,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="subj-card"><div class="subj-emoji">🌍</div><div class="subj-name">GK</div><div class="subj-tag">Launching Soon</div></div>
     </div>
 
-    <!-- Privacy snippet -->
-    <section class="privacy-snip" aria-label="Privacy">
-      <h2 class="ps-title">🔒 Privacy, in one paragraph</h2>
-      <p>We collect <strong>nothing</strong>. No accounts. No cookies for tracking. No servers storing your work. Every score and sticker lives only in this browser. Clear your browser, and it's gone — that's the design. Built free, kept free.</p>
+    <!-- Motivation: visual icon-card grid (no paragraph text) -->
+    <section class="motivation" aria-label="What makes this special">
+      <h2 class="mot-title">A maths playground, the way kids deserve <span class="mot-heart">💛</span></h2>
+      <div class="mot-grid">
+        <div class="mot-tile" style="--mot-bg:#FFEDD5;--mot-fg:#9A3412">
+          <div class="mot-emoji">🆓</div>
+          <div class="mot-tag">Free Forever</div>
+        </div>
+        <div class="mot-tile" style="--mot-bg:#DCFCE7;--mot-fg:#166534">
+          <div class="mot-emoji">🚫</div>
+          <div class="mot-tag">Zero Ads</div>
+        </div>
+        <div class="mot-tile" style="--mot-bg:#DBEAFE;--mot-fg:#1E40AF">
+          <div class="mot-emoji">🔒</div>
+          <div class="mot-tag">No Login</div>
+        </div>
+        <div class="mot-tile" style="--mot-bg:#FCE7F3;--mot-fg:#9D174D">
+          <div class="mot-emoji">🌅</div>
+          <div class="mot-tag">New Game Daily</div>
+        </div>
+        <div class="mot-tile" style="--mot-bg:#FEF3C7;--mot-fg:#92400E">
+          <div class="mot-emoji">📚</div>
+          <div class="mot-tag">NCERT Aligned</div>
+        </div>
+        <div class="mot-tile" style="--mot-bg:#EDE9FE;--mot-fg:#5B21B6">
+          <div class="mot-emoji">⭐</div>
+          <div class="mot-tag">Build Streaks</div>
+        </div>
+        <div class="mot-tile" style="--mot-bg:#CFFAFE;--mot-fg:#155E75">
+          <div class="mot-emoji">🇮🇳</div>
+          <div class="mot-tag">Made in India</div>
+        </div>
+        <div class="mot-tile" style="--mot-bg:#FEE2E2;--mot-fg:#991B1B">
+          <div class="mot-emoji">💛</div>
+          <div class="mot-tag">For Every Kid</div>
+        </div>
+      </div>
     </section>
 
   </div>
@@ -1770,9 +1821,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- Footer -->
   <footer class="foot">
-    <div class="foot-note">
-      Designed by <a href="https://goyalvikas.com">Goyal Vikas</a> · Only for learning purpose · <strong>For Kids Love</strong>
-    </div>
+    <div class="foot-note"></div>
 
     <div class="foot-privacy">
       <div class="fp-title">🔒 Simple Privacy Policy</div>
@@ -2122,6 +2171,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     return {sets,correct,total,byCh};
   }
 
+  // Per-grade emoji icon (purely decorative, gives the picker visual variety).
+  const GRADE_EMOJI = {
+    1:'🐣', 2:'🐰', 3:'🐯', 4:'🦊', 5:'🐼',
+    6:'🦁', 7:'🐺', 8:'🦉', 9:'🦅', 10:'🚀'
+  };
   function renderGradeBar(){
     const bar = document.getElementById('gradeBar');
     const cur = getGrade();
@@ -2130,7 +2184,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'grade-tab' + (g===cur ? ' active' : '');
-      btn.innerHTML = `<span class="g-num">${g}</span><span class="g-label">Grade</span>`;
+      btn.innerHTML = `<span class="g-emo">${GRADE_EMOJI[g]||'⭐'}</span><span class="g-num">${g}</span><span class="g-label">Class</span>`;
       btn.addEventListener('click', () => setGrade(g));
       bar.appendChild(btn);
     }
@@ -2244,12 +2298,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.body.classList.toggle('no-grade', !grade);
 
     if (!grade){
-      if (brandSub) brandSub.textContent = 'NCERT Grades 1 to 10 · For Kids Love';
+      if (brandSub) brandSub.textContent = 'Class 1 to 10 · NCERT Aligned';
       if (heroSub) heroSub.textContent  = 'Pick your grade to begin your Mathemagics journey! 🎓';
       if (backBtn) backBtn.style.display = 'none';
       if (floatBack) floatBack.classList.remove('visible');
     } else {
-      if (brandSub) brandSub.textContent = `Class ${grade} · For Kids Love`;
+      if (brandSub) brandSub.textContent = `Class ${grade} · NCERT`;
       if (mathHead) mathHead.textContent = `NCERT Class ${grade} · ${chapters.length} chapters`;
       if (giNum) giNum.textContent = grade;
       if (backBtn) backBtn.style.display = '';
