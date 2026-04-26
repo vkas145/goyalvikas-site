@@ -85,23 +85,22 @@
     const QB = window.MM_QBATCH;
 
     if (grade <= 2){
-      // 3 spotter rounds + 9 question batch = 12 total
+      // 4 spotter rounds + 16 question batch = 20 total
       let idx = 0, score = 0;
       function runMechanic(){
-        if (idx >= 3){
-          const qs = D.getQuestionsForGrade(grade, 9);
-          QB.runBatch(container, qs, { themeBadge:'🌴 Trail questions', okMsg:'✅ Spot on, explorer!' })
-            .then(r => onComplete({ score: score + r.score, total: 12 }));
+        if (idx >= 4){
+          const qs = D.getQuestionsForGrade(grade, 16);
+          QB.runBatch(container, qs, { themeBadge:'🌴 Trail questions' })
+            .then(r => onComplete({ score: score + r.score, total: 20 }));
           return;
         }
-        spotterRound(container, idx, 12, grade, ok => { if (ok) score++; idx++; runMechanic(); });
+        spotterRound(container, idx, 20, grade, ok => { if (ok) score++; idx++; runMechanic(); });
       }
       runMechanic();
     } else {
-      const qs = D.getQuestionsForGrade(grade, 12);
+      const qs = D.getQuestionsForGrade(grade, 20);
       const result = await QB.runBatch(container, qs, {
-        themeBadge: '🦁 Safari challenge',
-        okMsg: '✨ Trail blazed!'
+        themeBadge: '🦁 Safari challenge'
       });
       onComplete(result);
     }

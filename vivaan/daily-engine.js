@@ -289,18 +289,21 @@
   // Convert QUIZ_DATA shape (used by other grades) → activity-friendly:
   //   QUIZ_DATA[grade][ch] = { title, beginner:[5×10 questions], pro:[5×10] }
   // Each question is already in {type, q, o, a, blanks, pool, correct, ...} shape.
+  //
+  // For G3-4 we mix beginner+pro (50/50). For G5+ we pull PRO-only — the
+  // beginner sets at higher grades contain intro/recall material that's
+  // way too easy for a daily activity (e.g. "7 × 8 = ?" in Grade 5).
   function flattenQuizData(grade){
     const out = [];
     if (!window.QUIZ_DATA || !window.QUIZ_DATA[grade]) return out;
     const chapters = window.QUIZ_DATA[grade];
+    const tiersToUse = grade >= 5 ? ['pro'] : ['beginner','pro'];
     for (const chKey of Object.keys(chapters)){
       const ch = chapters[chKey];
-      for (const tier of ['beginner','pro']){
+      for (const tier of tiersToUse){
         const sets = ch[tier] || [];
         for (const set of sets){
           for (const q of set){
-            // Activity layer only consumes mcq/tf/fillin/enterval; tapall is
-            // skipped here (specific activities can pull tapall directly).
             if (q.type === 'tapall') continue;
             out.push({...q, _ch: chKey, _tier: tier});
           }

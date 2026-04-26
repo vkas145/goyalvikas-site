@@ -6713,7 +6713,7 @@ beginner:[
 {t:"multiply",q:"123 × 1 = ?",o:["123","12","132","1"],a:0},
 {t:"multiply",type:"tf",q:"Any number × 0 = 0.",a:true},
 {t:"divide",type:"tf",q:"50 ÷ 1 = 50.",a:true},
-{t:"multiply",type:"fillin",q:"7 × 8 = ___.",blanks:["56"]},
+{t:"multiply",type:"fillin",q:"175 × 4 = ___.",blanks:["700"]},
 {t:"facts",type:"tapall",q:"Tap all multiples of 5.",pool:["5","10","12","15","20","17"],correct:["5","10","15","20"]},
 {t:"divide",type:"enterval",q:"24 ÷ 4 = ?",a:6}
 ],
@@ -6747,7 +6747,7 @@ beginner:[
 {t:"divide",q:"60 ÷ 5 = ?",o:["12","10","15","20"],a:0},
 {t:"divide",q:"84 ÷ 7 = ?",o:["12","11","14","13"],a:0},
 {t:"word",q:"5 boxes have 12 pens each. Total pens?",o:["60","50","55","65"],a:0},
-{t:"multiply",type:"tf",q:"7 × 9 = 63.",a:true},
+{t:"multiply",type:"tf",q:"125 × 8 = 1000.",a:true},
 {t:"divide",type:"tf",q:"45 ÷ 5 = 8.",a:false},
 {t:"multiply",type:"fillin",q:"6 × 11 = ___.",blanks:["66"]},
 {t:"multiply",type:"tapall",q:"Tap all multiples of 4.",pool:["4","6","8","10","12","16"],correct:["4","8","12","16"]},

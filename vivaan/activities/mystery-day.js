@@ -76,8 +76,8 @@
     const { grade, container, onComplete } = opts;
     const seed = window.MM_DAILY ? window.MM_DAILY.weekSeed() : 1;
     const myst = MYSTERIES[seed % MYSTERIES.length];
-    const totalQ = 12;
-    const cellsPerCorrect = Math.ceil(25 / totalQ);
+    const totalQ = 20;
+    const cellsPerCorrect = Math.max(1, Math.ceil(25 / totalQ));
 
     // Reveal order — center-out spiral-ish.
     const order = [];
@@ -129,23 +129,22 @@
       }
     }
 
-    // Pre-build: 6 from arithmetic gen, 6 from QUIZ_DATA (mcq only)
+    // 8 from arithmetic gen, 12 from QUIZ_DATA (mcq only) = 20 total
+    const arithCount = grade <= 2 ? 12 : 8;     // younger gets more arith warmup
+    const dataCount  = 20 - arithCount;
     const arithQs = [];
-    for (let i = 0; i < 6; i++) arithQs.push(ensureChoices(genArithQ(grade)));
+    for (let i = 0; i < arithCount; i++) arithQs.push(ensureChoices(genArithQ(grade)));
     const D = window.MM_DAILY;
-    const dataQs = D ? D.getQuestionsForGrade(grade, 6, { types: ['mcq'] }) : [];
-    // If QUIZ_DATA didn't yield 6 (shouldn't happen for G1, G3-10), pad with arith
-    while (dataQs.length < 6) dataQs.push(ensureChoices(genArithQ(grade)));
-    // For data Qs (grade-correct), normalize to {q, ans, choices} shape:
+    const dataQs = D ? D.getQuestionsForGrade(grade, dataCount, { types: ['mcq'] }) : [];
+    while (dataQs.length < dataCount) dataQs.push(ensureChoices(genArithQ(grade)));
     const dataAsArith = dataQs.map(q => {
-      // q is from QUIZ_DATA — has q.o[] with correct at index 0
       if (q.o && q.o.length){
-        return { q: q.q, ans: q.o[0], choices: q.o.slice() }; // ans is the original correct text
+        return { q: q.q, ans: q.o[0], choices: q.o.slice() };
       }
-      return ensureChoices(q);  // fallback
+      return ensureChoices(q);
     });
 
-    const allQs = arithQs.concat(dataAsArith.slice(0, 6));
+    const allQs = arithQs.concat(dataAsArith.slice(0, dataCount));
 
     function nextQ(){
       if (idx >= totalQ){

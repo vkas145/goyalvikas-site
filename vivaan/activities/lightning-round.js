@@ -55,9 +55,9 @@
     return s;
   }
 
-  // Phase 1: bubble pop with 6 questions.
+  // Phase 1: bubble pop with 8 questions (was 6).
   function bubblePhase(container, grade, onDone){
-    const total = 6;
+    const total = 8;
     let idx = 0, score = 0;
 
     container.innerHTML = `
@@ -147,7 +147,7 @@
   async function speedQuizPhase(container, grade, onDone){
     const D = window.MM_DAILY;
     let questions = [];
-    if (D) questions = D.getQuestionsForGrade(grade, 6, { types: ['mcq'] });
+    if (D) questions = D.getQuestionsForGrade(grade, 12, { types: ['mcq'] });
     if (!questions || !questions.length){
       onDone(0, 0); return;
     }

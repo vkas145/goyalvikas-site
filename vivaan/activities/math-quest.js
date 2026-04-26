@@ -158,7 +158,7 @@
   window.MM_ACT_MATH_QUEST = function(opts){
     const { grade, container, onComplete } = opts;
     const D = window.MM_DAILY;
-    const total = 12;
+    const total = 20;
     const scenes = grade <= 2 ? SCENE_EMOJIS_KIDS : SCENE_EMOJIS_OLDER;
 
     let idx = 0, score = 0;

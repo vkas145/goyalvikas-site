@@ -119,27 +119,26 @@
     const QB = window.MM_QBATCH;
 
     if (grade <= 2){
-      // 3 block + 2 balance + 7 question batch = 12 total
+      // 4 block + 3 balance + 13 question batch = 20 total
       let idx = 0, score = 0;
-      const sequence = ['block','block','block','balance','balance'];
+      const sequence = ['block','block','block','block','balance','balance','balance'];
       function runMechanic(){
         if (idx >= sequence.length){
-          const qs = D.getQuestionsForGrade(grade, 7);
-          QB.runBatch(container, qs, { themeBadge:'🏗️ Build the answer', okMsg:'✅ Solid build!' })
-            .then(r => onComplete({ score: score + r.score, total: 12 }));
+          const qs = D.getQuestionsForGrade(grade, 13);
+          QB.runBatch(container, qs, { themeBadge:'🏗️ Build the answer' })
+            .then(r => onComplete({ score: score + r.score, total: 20 }));
           return;
         }
         const handler = ok => { if (ok) score++; idx++; runMechanic(); };
-        if (sequence[idx] === 'block') blockRound(container, idx, 12, grade, handler);
-        else balanceRound(container, idx, 12, grade, handler);
+        if (sequence[idx] === 'block') blockRound(container, idx, 20, grade, handler);
+        else balanceRound(container, idx, 20, grade, handler);
       }
       runMechanic();
     } else {
-      // G3-10: 12 grade-correct questions, themed as construction
-      const qs = D.getQuestionsForGrade(grade, 12);
+      // G3-10: 20 grade-correct questions, themed as construction
+      const qs = D.getQuestionsForGrade(grade, 20);
       const result = await QB.runBatch(container, qs, {
-        themeBadge: '🏗️ Construction challenge',
-        okMsg: '✅ Solid build!'
+        themeBadge: '🏗️ Construction challenge'
       });
       onComplete(result);
     }

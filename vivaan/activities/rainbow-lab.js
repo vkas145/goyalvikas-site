@@ -110,15 +110,24 @@
 
     function next(){
       if (idx >= total){
+        // Picture revealed → bonus round of 8 questions for extra fun (= 20 total)
         container.innerHTML = `
           <div class="a-card" style="text-align:center">
-            <div class="qb-badge">🧪 The scientist beams…</div>
+            <div class="qb-badge">🧪 Picture revealed!</div>
             <div style="font-size:64px;line-height:1;margin:14px 0">${pic.revealEmoji}</div>
             <div style="font-size:24px;font-weight:900">It's a ${pic.name}!</div>
-            <div style="opacity:0.8;margin-top:6px">You painted ${score}/${total} regions correctly.</div>
+            <div style="opacity:0.8;margin-top:8px">${score}/${total} regions painted. 8 bonus questions next…</div>
           </div>
         `;
-        setTimeout(() => onComplete({ score, total }), 1200);
+        setTimeout(() => {
+          const bonusQs = D.getQuestionsForGrade(grade, 8, { types: ['mcq','enterval','fillin','tf'] });
+          if (window.MM_QBATCH && bonusQs.length){
+            window.MM_QBATCH.runBatch(container, bonusQs, { themeBadge:'🧪 Bonus round' })
+              .then(r => onComplete({ score: score + r.score, total: total + r.total }));
+          } else {
+            onComplete({ score, total });
+          }
+        }, 1500);
         return;
       }
       const region = pic.regions[idx];

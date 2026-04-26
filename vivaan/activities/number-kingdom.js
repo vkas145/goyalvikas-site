@@ -120,14 +120,13 @@
     const QB = window.MM_QBATCH;
 
     if (grade <= 2){
-      // 4 mechanic rounds + 8 question batch = 12 total
-      const mechanicTotal = 12;
+      // 5 mechanic rounds + 15 question batch = 20 total
+      const mechanicTotal = 20;
       let idx = 0, score = 0;
       function runMechanic(){
-        if (idx >= 4){
-          // Move to question batch
-          const qs = D.getQuestionsForGrade(grade, 8);
-          QB.runBatch(container, qs, { themeBadge:'👑 Royal questions', okMsg:'✅ The King smiles!' })
+        if (idx >= 5){
+          const qs = D.getQuestionsForGrade(grade, 15);
+          QB.runBatch(container, qs, { themeBadge:'👑 Royal questions' })
             .then(r => onComplete({ score: score + r.score, total: mechanicTotal }));
           return;
         }
@@ -136,11 +135,10 @@
       }
       runMechanic();
     } else {
-      // G3-10: 12 grade-correct questions, themed
-      const qs = D.getQuestionsForGrade(grade, 12);
+      // G3-10: 20 grade-correct questions, themed
+      const qs = D.getQuestionsForGrade(grade, 20);
       const result = await QB.runBatch(container, qs, {
-        themeBadge: '👑 The King\'s trials',
-        okMsg: '✨ Royal answer!'
+        themeBadge: '👑 The King\'s trials'
       });
       onComplete(result);
     }
