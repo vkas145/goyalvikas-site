@@ -9,3 +9,15 @@
   to = "/vivaan/index.html"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/blog"
+  to = "/blog/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/blog/"
+  to = "/blog/index.html"
+  status = 200
+  force = true

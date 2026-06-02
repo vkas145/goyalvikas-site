@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Building a Sales QA Process for BPO and Tele-Sales Teams in India | Vikas Goyal</title>
+<meta name="description" content="How to move beyond 2% call sampling and build a scalable QA system that improves agent behaviour across your entire Indian BPO or tele-sales operation."/>
+<link rel="canonical" href="https://www.goyalvikas.com/blog/sales-qa-process-bpo-india.html"/>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta property="og:title" content="Building a Sales QA Process for BPO and Tele-Sales Teams in India"/>
+<meta property="og:type" content="article"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Building a Sales QA Process for BPO and Tele-Sales Teams in India","author":{"@type":"Person","name":"Vikas Omprakash Goyal","url":"https://www.goyalvikas.com"},"datePublished":"2026-05-22","dateModified":"2026-06-02","url":"https://www.goyalvikas.com/blog/sales-qa-process-bpo-india.html"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0A0B14;--card:#12131F;--border:rgba(255,255,255,0.07);--accent:#FFDC5C;--text:#fff;--sec:#9799B8;--muted:#5C5F7A}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+nav{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.logo{font-weight:800;font-size:18px;color:var(--text)}.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:28px;font-size:14px}.nav-links a{color:var(--sec)}.nav-links a:hover{color:var(--accent)}
+.wrap{max-width:720px;margin:0 auto;padding:60px 24px 100px}
+.tag{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+h1{font-size:clamp(28px,4.5vw,44px);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:18px}
+.meta{font-size:13px;color:var(--muted);margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+h2{font-size:22px;font-weight:700;color:var(--text);margin:40px 0 14px;letter-spacing:-.3px}
+h3{font-size:17px;font-weight:600;color:var(--accent);margin:28px 0 10px}
+p{color:var(--sec);font-size:16px;margin-bottom:18px;line-height:1.75}
+ul,ol{color:var(--sec);font-size:16px;padding-left:22px;margin-bottom:18px}
+li{margin-bottom:8px;line-height:1.65}
+strong{color:var(--text);font-weight:600}
+.callout{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:20px 24px;margin:28px 0}
+.callout p{margin-bottom:0;font-size:15px}
+.back{display:inline-block;margin-top:48px;font-size:14px;font-weight:600;color:var(--accent)}
+footer{text-align:center;padding:40px;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+footer a{color:var(--accent)}
+@media(max-width:600px){nav{padding:16px 20px}.nav-links{display:none}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">Vikas <span>Goyal</span></a>
+  <div class="nav-links"><a href="/">Home</a><a href="/blog/">Blog</a><a href="https://www.boloaurlikho.com" target="_blank">Bolo Aur Likho</a></div>
+</nav>
+<div class="wrap">
+  <div class="tag">Sales Operations</div>
+  <h1>Building a Sales QA Process for BPO and Tele-Sales Teams in India</h1>
+  <div class="meta">By Vikas Goyal &nbsp;·&nbsp; June 2026 &nbsp;·&nbsp; 8 min read</div>
+
+  <p>Every BPO and tele-sales operation in India has a QA team. Most of them are theatre. A team of 5 QA analysts listening to 10 calls a day per analyst, against a floor of 200 reps making 60 calls each — that's 2,000 calls sampled from 12,000 made. The 10,000 calls that were never heard are where mis-selling happens, where compliance gets violated, where the bad habits that kill renewal rates are quietly forming.</p>
+
+  <p>Here is how to build a QA process that actually works — not one that creates the appearance of oversight.</p>
+
+  <h2>Step 1: Define What Good Looks Like — Precisely</h2>
+  <p>Most QA scorecards I've seen in Indian BPOs are vague. "Professional tone" and "customer-friendly communication" are not measurable. Before you can score a call, you need to define, specifically and behaviourally, what good looks like at each stage of the call.</p>
+  <p>A good QA scorecard defines behaviours, not qualities:</p>
+  <ul>
+    <li>Not "professional introduction" — but "Rep stated full name, company name, and purpose of call within first 20 seconds"</li>
+    <li>Not "handled objections well" — but "Rep acknowledged the objection verbally before responding, did not argue, offered a counter-proof point"</li>
+    <li>Not "closed effectively" — but "Rep asked for a specific commitment (date, amount, action) before ending the call"</li>
+  </ul>
+  <p>Behavioural definitions eliminate scorer subjectivity and make calibration possible.</p>
+
+  <h2>Step 2: Calibrate Your Scorers</h2>
+  <p>A QA process is only as consistent as the people running it. Two analysts scoring the same call should arrive within 5 points of each other. If they don't, your scoring rubric is ambiguous and your data is meaningless.</p>
+  <p>Run weekly calibration sessions: all QA analysts score the same 3 calls independently, then review together. Document where scores diverge and resolve the ambiguity in the rubric. After 4–6 weeks of calibration sessions, inter-rater reliability should stabilise.</p>
+
+  <h2>Step 3: Move from Sampling to Coverage</h2>
+  <p>The fundamental limitation of manual QA is sample size. You will never get meaningful statistical coverage by listening to 2% of calls. The solution is to automate the audit layer.</p>
+  <p>AI-powered call analysis tools — like <a href="https://www.boloaurlikho.com" target="_blank">Bolo Aur Likho</a>, built specifically for Indian tele-sales in Hindi, Hinglish, and regional languages — can score 100% of calls automatically against your rubric. This doesn't replace human QA analysts; it changes what they do. Instead of spending 70% of their time listening to calls, analysts spend 70% of their time coaching reps on issues the AI has already surfaced and prioritised.</p>
+
+  <div class="callout">
+    <p><strong>The productivity shift:</strong> A QA analyst who manually reviews 15 calls/day and writes coaching notes covers roughly 300 agent-call-events per month. The same analyst using AI-flagged call review can cover 2,000+ targeted interventions per month — focusing only on calls where specific issues were detected. That's a 6x improvement in coaching throughput with the same headcount.</p>
+  </div>
+
+  <h2>Step 4: Connect QA to Outcomes, Not Just Compliance</h2>
+  <p>The most important evolution in sales QA thinking is the shift from compliance-focused scoring (did the rep follow the script?) to outcome-linked scoring (do higher-scoring calls correlate with higher conversion and lower churn?).</p>
+  <p>Once you have 3+ months of QA data alongside conversion and renewal data, you can run a simple regression to find which QA parameters most strongly predict positive outcomes. In most Indian tele-sales contexts, I've found that:</p>
+  <ul>
+    <li>Discovery quality score predicts conversion more than pitch quality score</li>
+    <li>Objection handling score predicts 60-day retention more than closing technique score</li>
+    <li>Sentiment progression predicts NPS and referral, even when the deal closed</li>
+  </ul>
+  <p>This analysis tells you where to focus coaching resources for maximum business impact.</p>
+
+  <h2>Step 5: Close the Feedback Loop</h2>
+  <p>QA data has no value if it doesn't change behaviour. The loop must close: QA identifies an issue → Team Lead receives a coaching alert → 1:1 coaching session happens within 48 hours → Follow-up call listening verifies improvement → Score is tracked over time. Without the feedback loop, QA is just expensive record-keeping.</p>
+  <p>Build the feedback loop into your operating cadence: weekly QA report to team leads every Monday, coaching sessions by Wednesday, call monitoring of coached reps by Friday. This 5-day cycle is fast enough to catch and correct issues before they become entrenched habits.</p>
+
+  <p>A QA process that genuinely improves agent behaviour is one of the highest-leverage investments in a BPO or tele-sales operation. But it requires the discipline to move from the comfortable theatre of 2% sampling to the accountability of full coverage — and from checking boxes to changing behaviour.</p>
+
+  <a class="back" href="/blog/">← Back to all posts</a>
+</div>
+<footer><a href="/">goyalvikas.com</a> &nbsp;·&nbsp; © 2026 Vikas Omprakash Goyal</footer>
+</body>
+</html>
