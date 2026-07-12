@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Date With Numbers — Turn Any Date Into a Wish</title>
+<meta name="description" content="Enter a date and a name to create a fun, shareable wish card built from real number equations — inspired by the book 'A Date With Numbers' by Vikas Goyal.">
+<link rel="canonical" href="https://www.goyalvikas.com/adatewithnumbers">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.goyalvikas.com/adatewithnumbers">
+<meta property="og:title" content="A Date With Numbers — Turn Any Date Into a Wish">
+<meta property="og:description" content="Every date hides a beautiful equation. Enter a date and a name to create a fun, shareable wish card — inspired by the book by Vikas Goyal.">
+<meta property="og:image" content="https://www.goyalvikas.com/adatewithnumbers/assets/mascot.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/adatewithnumbers/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/adatewithnumbers/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <img src="/adatewithnumbers/assets/mascot.png" alt="" class="header-mascot">
+    <div class="header-text">
+      <p class="eyebrow">A book by Vikas Goyal</p>
+      <h1>A DATE <span>WITH</span> NUMBERS</h1>
+      <p class="tagline">Every date hides a beautiful equation. Find yours, and send it as a wish.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="form-section" class="panel">
+    <form id="wish-form" novalidate>
+
+      <div class="field-group">
+        <label>Date <span class="hint">(day &amp; month only — no year needed)</span></label>
+        <div class="date-row">
+          <select id="day" required aria-label="Day"></select>
+          <select id="month" required aria-label="Month">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="occasion">Occasion</label>
+        <select id="occasion">
+          <option value="Birthday">Birthday</option>
+          <option value="Anniversary">Anniversary</option>
+          <option value="Work Anniversary">Work Anniversary</option>
+          <option value="Engagement">Engagement</option>
+          <option value="Other">Other…</option>
+        </select>
+        <input type="text" id="occasion-custom" placeholder="Type the occasion" maxlength="40" hidden>
+      </div>
+
+      <div class="field-group">
+        <label for="to-name">Wishing whom?</label>
+        <input type="text" id="to-name" placeholder="e.g. Vivaan" maxlength="30" required>
+      </div>
+
+      <div class="field-group">
+        <label for="from-name">Your name <span class="hint">(optional)</span></label>
+        <input type="text" id="from-name" placeholder="e.g. Vikas" maxlength="30">
+      </div>
+
+      <button type="submit" class="btn-primary">Create My Wish ✨</button>
+    </form>
+  </section>
+
+  <section id="result-section" class="panel" hidden>
+    <div class="card-stage">
+      <div id="card" class="card">
+        <div class="card-topline">
+          <img src="/adatewithnumbers/assets/mascot.png" alt="" class="card-mascot">
+          <span class="card-brand">A DATE WITH NUMBERS</span>
+        </div>
+
+        <div class="card-message">
+          <p class="card-wish-line">Wishing you a very happy</p>
+          <h2 id="card-occasion">Birthday</h2>
+          <p id="card-name">Name</p>
+        </div>
+
+        <div class="card-equation">
+          <p id="card-equation-intro" class="equation-intro"></p>
+          <ul id="card-equation-facts"></ul>
+        </div>
+
+        <div class="card-footer">
+          <span id="card-from"></span>
+          <span class="card-credit">from the book <b>A Date With Numbers</b> · Vikas Goyal</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button id="btn-download" class="btn-primary">Download Image</button>
+      <button id="btn-share" class="btn-secondary" hidden>Share</button>
+      <button id="btn-again" class="btn-link">Create Another</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Inspired by <b>A Date With Numbers</b> — 2000+ equations expressing every date of the year, by Vikas Goyal.</p>
+    <p class="fine-print">Questions or ideas? <a href="mailto:vkas145@gmail.com">vkas145@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="/adatewithnumbers/assets/data.js"></script>
+<script src="/adatewithnumbers/assets/equations.js"></script>
+<script src="/adatewithnumbers/app.js"></script>
+</body>
+</html>

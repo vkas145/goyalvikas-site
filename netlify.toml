@@ -21,3 +21,15 @@
   to = "/blog/index.html"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/adatewithnumbers"
+  to = "/adatewithnumbers/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/adatewithnumbers/"
+  to = "/adatewithnumbers/index.html"
+  status = 200
+  force = true
