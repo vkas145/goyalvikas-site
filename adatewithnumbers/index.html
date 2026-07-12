@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" href="/adatewithnumbers/assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/adatewithnumbers/style.css">
 </head>
 <body>
@@ -85,16 +85,20 @@
 
   <section id="result-section" class="panel" hidden>
     <div class="card-stage">
-      <div id="card" class="card">
-        <div class="card-topline">
-          <img src="/adatewithnumbers/assets/mascot.png" alt="" class="card-mascot">
-          <span class="card-brand">A DATE WITH NUMBERS</span>
-        </div>
+      <div id="card" class="card" data-theme="birthday">
+        <div class="card-glow"></div>
+        <div class="card-tag"><span id="card-tag-emoji">🎂</span><span id="card-tag-text">Birthday Wish</span></div>
 
         <div class="card-message">
-          <p class="card-wish-line">Wishing you a very happy</p>
+          <p class="card-wish-line" id="card-leadin">Wishing you a very happy</p>
           <h2 id="card-occasion">Birthday</h2>
           <p id="card-name">Name</p>
+        </div>
+
+        <div class="card-numeral">
+          <span id="card-date-plain"></span>
+          <span class="numeral-arrow">→</span>
+          <span id="card-ddm" class="numeral-ddm"></span>
         </div>
 
         <div class="card-equation">
@@ -104,7 +108,7 @@
 
         <div class="card-footer">
           <span id="card-from"></span>
-          <span class="card-credit">from the book <b>A Date With Numbers</b> · Vikas Goyal</span>
+          <span class="card-callout">✨ every date hides a number story of its own</span>
         </div>
       </div>
     </div>

@@ -10,11 +10,33 @@
   const formSection = document.getElementById('form-section');
   const resultSection = document.getElementById('result-section');
   const cardEl = document.getElementById('card');
+  const cardTagEmojiEl = document.getElementById('card-tag-emoji');
+  const cardTagTextEl = document.getElementById('card-tag-text');
+  const cardLeadinEl = document.getElementById('card-leadin');
   const cardOccasionEl = document.getElementById('card-occasion');
   const cardNameEl = document.getElementById('card-name');
+  const cardDatePlainEl = document.getElementById('card-date-plain');
+  const cardDdmEl = document.getElementById('card-ddm');
   const cardIntroEl = document.getElementById('card-equation-intro');
   const cardFactsEl = document.getElementById('card-equation-facts');
   const cardFromEl = document.getElementById('card-from');
+
+  const MONTH_NAMES = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  // Each preset occasion gets its own visual mood and a lead-in phrase that
+  // reads naturally for that occasion (a birthday and a work anniversary
+  // shouldn't be wished the same way).
+  const OCCASION_THEMES = {
+    'Birthday': { key: 'birthday', emoji: '🎂', leadin: 'Wishing you a very happy' },
+    'Anniversary': { key: 'anniversary', emoji: '💞', leadin: 'Wishing you a very happy' },
+    'Work Anniversary': { key: 'work', emoji: '🏆', leadin: 'Celebrating your' },
+    'Engagement': { key: 'engagement', emoji: '💍', leadin: 'Congratulations on your' },
+  };
+  const DEFAULT_THEME = { key: 'other', emoji: '✨', leadin: 'Celebrating your' };
+
+  function themeFor(occasionSelectValue) {
+    return OCCASION_THEMES[occasionSelectValue] || DEFAULT_THEME;
+  }
 
   const btnDownload = document.getElementById('btn-download');
   const btnShare = document.getElementById('btn-share');
@@ -71,17 +93,25 @@
 
     const facts = getDwnEquation(day, month);
     const ddm = String(day) + String(month);
+    const theme = themeFor(occasionEl.value);
 
+    cardEl.setAttribute('data-theme', theme.key);
+    cardTagEmojiEl.textContent = theme.emoji;
+    cardTagTextEl.textContent = occasion;
+    cardLeadinEl.textContent = theme.leadin;
     cardOccasionEl.textContent = occasion;
     cardNameEl.textContent = toName + '!';
-    cardIntroEl.textContent = `Your date, ${day}/${month}, written as ${ddm}, is one-of-a-kind:`;
+    cardDatePlainEl.textContent = `${day} ${MONTH_NAMES[month]}`;
+    cardDdmEl.textContent = ddm;
+    cardIntroEl.textContent = 'the numbers behind it:';
     cardFactsEl.innerHTML = '';
+    const isBirthday = occasionEl.value === 'Birthday';
     (facts || []).forEach((html) => {
       const li = document.createElement('li');
-      li.innerHTML = html;
+      li.innerHTML = isBirthday ? html : html.replace(/\bbirthdate\b/gi, 'date');
       cardFactsEl.appendChild(li);
     });
-    cardFromEl.textContent = fromName ? `— with love, ${fromName}` : '';
+    cardFromEl.textContent = fromName ? `— ${fromName}` : '';
     cardFromEl.style.display = fromName ? '' : 'none';
 
     formSection.hidden = true;
@@ -98,6 +128,9 @@
   });
 
   async function renderCardToBlob() {
+    if (document.fonts && document.fonts.ready) {
+      try { await document.fonts.ready; } catch (e) { /* ignore */ }
+    }
     const canvas = await html2canvas(cardEl, {
       scale: 2,
       backgroundColor: null,
@@ -108,7 +141,7 @@
 
   function fileNameFor() {
     const toName = (toNameEl.value.trim() || 'wish').replace(/[^a-z0-9]+/gi, '-');
-    return `a-date-with-numbers-${toName}.png`;
+    return `number-wish-${toName}.png`;
   }
 
   btnDownload.addEventListener('click', async () => {
@@ -142,11 +175,11 @@
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
-          title: 'A Date With Numbers',
+          title: 'A Number Wish',
           text: 'Made you a number-wish — check it out!',
         });
       } else {
-        await navigator.share({ title: 'A Date With Numbers', text: 'Made you a number-wish!' });
+        await navigator.share({ title: 'A Number Wish', text: 'Made you a number-wish!' });
       }
     } catch (err) {
       if (err && err.name !== 'AbortError') console.error(err);
