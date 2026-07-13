@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 3: It is Fun • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css?v=3">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/vivaan/" class="back-btn" onclick="try{localStorage.removeItem('vivaan_grade')}catch(e){}">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 3</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER DATA, It is Fun (Unit 2: Welcome to My World)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+const CHAPTER = {key:'ch3', title:'Ch 3: It is Fun'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Poem Facts — Animal Actions ────────────────
+[
+{type:'mcq',topic:'Poem Facts',q:"In the poem 'It is Fun', which animal does the child imagine leaping like?",
+ o:['A lamb','A fish','A horse','A bird'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'Which animal does the child imagine climbing like?',
+ o:['A cat','A frog','A horse','A bird'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'Which animal does the child imagine hopping like?',
+ o:['A frog','A cat','A fish','A horse'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'Which animal does the child imagine swimming like?',
+ o:['A fish','A frog','A bird','A horse'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'Which animal does the child imagine trotting like?',
+ o:['A horse','A lamb','A cat','A fish'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'Which animal does the child imagine flying like?',
+ o:['A bird','A frog','A horse','A cat'],a:0},
+
+{type:'match',topic:'Poem Facts',q:'Match each animal to the action the child imagines doing.',
+ pairs:[
+  {l:'Lamb', r:'Leap'},
+  {l:'Cat', r:'Climb'},
+  {l:'Frog', r:'Hop'},
+  {l:'Fish', r:'Swim'}
+]},
+
+{type:'tapall',topic:'Poem Facts',q:'Tap ALL the animals mentioned in the poem "It is Fun".',
+ pool:['Lamb','Cat','Elephant','Frog','Fish','Tiger','Horse','Bird'],
+ correct:['Lamb','Cat','Frog','Fish','Horse','Bird']},
+
+{type:'typeans',topic:'Poem Facts',q:'Which two-word phrase repeats through the poem, meaning "enjoyable"? (one word)',answer:'fun'},
+
+{type:'tf',topic:'Poem Facts',q:'The child in the poem imagines acting like many different animals. True or False?',answer:true}
+],
+
+// ── Beginner Set 2: New Words & Meanings ───────────────────────
+[
+{type:'mcq',topic:'New Words',q:"'Leap' means...",
+ o:['To jump high or far','To sit down','To sleep','To eat'],a:0},
+
+{type:'mcq',topic:'New Words',q:"'Climb' means...",
+ o:['To go up something using hands and feet','To swim in water','To run fast','To fly in the sky'],a:0},
+
+{type:'mcq',topic:'New Words',q:"'Trot' best describes...",
+ o:['A steady running pace, like a horse','Sleeping quietly','Sitting still','Eating slowly'],a:0},
+
+{type:'mcq',topic:'New Words',q:"If you 'swim', you are...",
+ o:['Moving through water','Moving on land','Sitting on a chair','Climbing a tree'],a:0},
+
+{type:'match',topic:'New Words',q:'Match each new word to its meaning.',
+ pairs:[
+  {l:'leap', r:'jump high or far'},
+  {l:'climb', r:'go up using hands and feet'},
+  {l:'trot', r:'a steady running pace'},
+  {l:'fly', r:'move through the air'}
+]},
+
+{type:'tapall',topic:'New Words',q:'Tap ALL the words that are NEW WORDS (action words) from "It is Fun".',
+ pool:['fun','climb','leap','banana','swim','trot','fly','umbrella'],
+ correct:['fun','climb','leap','swim','trot','fly']},
+
+{type:'classify',topic:'New Words',q:'Sort each action word: is it something a FISH does, or a BIRD does, best?',
+ categories:['Fish Action','Bird Action'],
+ items:[
+  {val:'swim',cat:'Fish Action'},{val:'fly',cat:'Bird Action'},
+  {val:'dive',cat:'Fish Action'},{val:'soar',cat:'Bird Action'},
+  {val:'splash',cat:'Fish Action'},{val:'glide',cat:'Bird Action'}
+]},
+
+{type:'enterval',topic:'New Words',q:'Type the action word: to jump high or far, like a lamb.',
+ answer:'leap'},
+
+{type:'sort',topic:'New Words',q:'Tap these action words in ALPHABETICAL order (A to Z).',
+ items:['trot','leap','climb','fly'],order:'asc'},
+
+{type:'typeans',topic:'New Words',q:'Type the action word that means "to go up something".',answer:'climb'}
+],
+
+// ── Beginner Set 3: Sight Words & Animal Actions ───────────────
+[
+{type:'tapall',topic:'Sight Words',q:"Tap ALL the SIGHT WORDS from this list: this, that, like, to, them, all, none, elephant, jump.",
+ pool:['this','that','like','to','them','all','none','elephant','jump'],
+ correct:['this','that','like','to','them','all','none']},
+
+{type:'fillin',topic:'Sight Words',q:'Choose the missing sight word:',
+ expr:"I can act just ___ them all.",
+ o:['like','to','all','none'],a:0},
+
+{type:'match',topic:'Animal Actions',q:'Match each animal to how it usually moves.',
+ pairs:[
+  {l:'The horse', r:'trots'},
+  {l:'The lamb', r:'leaps'},
+  {l:'The snake', r:'crawls'},
+  {l:'The squirrel', r:'runs'}
+]},
+
+{type:'mcq',topic:'Animal Actions',q:'How does a monkey usually move between branches?',
+ o:['Swings','Swims','Flies','Trots'],a:0},
+
+{type:'tapall',topic:'Animal Actions',q:'Tap ALL the animals that can SWIM well.',
+ pool:['Fish','Duck','Cat (usually not)','Frog','Camel (usually not)','Turtle'],
+ correct:['Fish','Duck','Frog','Turtle']},
+
+{type:'classify',topic:'Animal Actions',q:'Sort each animal: does it usually LIVE ON TREES, or ON THE GROUND?',
+ categories:['Lives on Trees','Lives on Ground'],
+ items:[
+  {val:'Monkey',cat:'Lives on Trees'},{val:'Horse',cat:'Lives on Ground'},
+  {val:'Squirrel',cat:'Lives on Trees'},{val:'Lamb',cat:'Lives on Ground'},
+  {val:'Bird (nesting)',cat:'Lives on Trees'},{val:'Cat',cat:'Lives on Ground'}
+]},
+
+{type:'typeans',topic:'Animal Actions',q:'Type the word: what a snake does to move (starts with c).',answer:'crawls'},
+
+{type:'tf',topic:'Animal Actions',q:'A fish can trot like a horse. True or False?',answer:false},
+
+{type:'mcq',topic:'Sight Words',q:"Which word means 'every one of them'?",
+ o:['All','None','Some','Few'],a:0},
+
+{type:'mcq',topic:'Sight Words',q:"Which word means 'not even one'?",
+ o:['None','All','Many','Some'],a:0}
+],
+
+// ── Beginner Set 4: Phonics — a / an ('i' sound) ───────────────
+[
+{type:'mcq',topic:'a / an',q:"Which word goes before 'inkpot' — 'a' or 'an'?",
+ o:['an','a','both','neither'],a:0},
+
+{type:'mcq',topic:'a / an',q:"Which word goes before 'pin' — 'a' or 'an'?",
+ o:['a','an','both','neither'],a:0},
+
+{type:'fillin',topic:'a / an',q:'Fill in the blank:',
+ expr:'She lives in ___ igloo made of ice.',
+ o:['an','a','the','some'],a:0},
+
+{type:'fillin',topic:'a / an',q:'Fill in the blank:',
+ expr:'He has ___ fish in a bowl.',
+ o:['a','an','the','some'],a:0},
+
+{type:'tapall',topic:'a / an',q:"Tap ALL the words that should use 'an' before them (not 'a').",
+ pool:['inch','pin','igloo','fish','inkpot','ring','ship','ant'],
+ correct:['inch','igloo','inkpot','ant']},
+
+{type:'classify',topic:'a / an',q:"Sort each word: does it take 'a' or 'an' before it?",
+ categories:['Takes A','Takes AN'],
+ items:[
+  {val:'ship',cat:'Takes A'},{val:'inch',cat:'Takes AN'},
+  {val:'ring',cat:'Takes A'},{val:'igloo',cat:'Takes AN'},
+  {val:'pin',cat:'Takes A'},{val:'inkpot',cat:'Takes AN'}
+]},
+
+{type:'typeans',topic:'a / an',q:"Type 'a' or 'an': ___ bin.",answer:'a'},
+
+{type:'typeans',topic:'a / an',q:"Type 'a' or 'an': ___ inch.",answer:'an'},
+
+{type:'tf',topic:'a / an',q:"We say 'an igloo' and 'a fish'. True or False?",answer:true},
+
+{type:'sort',topic:'a / an',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['ship','fish','bin','ant'],order:'asc'}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Poem Detail & Inference ─────────────────────────
+[
+{type:'fillintext',topic:'Poem Facts',q:'Complete the pattern of the poem.',
+ template:'To leap like a ___, to climb like a ___.',
+ blanks:['lamb','cat']},
+
+{type:'fillintext',topic:'Poem Facts',q:'Complete the pattern of the poem.',
+ template:'To hop like a ___, to swim like a ___.',
+ blanks:['frog','fish']},
+
+{type:'fillintext',topic:'Poem Facts',q:'Complete the pattern of the poem.',
+ template:'To trot like a ___, to fly like a ___.',
+ blanks:['horse','bird']},
+
+{type:'mcq',topic:'Poem Facts',q:'How many different animal actions does the child imagine doing in total?',
+ o:['Six','Two','Ten','Four'],a:0},
+
+{type:'match',topic:'Poem Facts',q:'Match each animal to its action, testing your memory of the whole poem.',
+ pairs:[
+  {l:'Lamb', r:'Leap'},
+  {l:'Cat', r:'Climb'},
+  {l:'Frog', r:'Hop'},
+  {l:'Horse', r:'Trot'}
+]},
+
+{type:'tapall',topic:'Poem Facts',q:'Tap ALL the statements that are TRUE about the poem "It is Fun".',
+ pool:['The child imagines acting like animals','The child never wants to move','Fish swim in the poem','Birds fly in the poem','The poem is about cooking','Cats climb in the poem'],
+ correct:['The child imagines acting like animals','Fish swim in the poem','Birds fly in the poem','Cats climb in the poem']},
+
+{type:'mcq',topic:'Inference',q:'Why do you think the poem repeats "It\'s fun to be this, it\'s fun to be that"?',
+ o:['To show how many fun things the child imagines being','Because the poet forgot the words','To make it longer','To confuse the reader'],a:0},
+
+{type:'typeans',topic:'Poem Facts',q:'Type the single word repeated to describe how the child feels about acting like animals.',answer:'fun'},
+
+{type:'tf',topic:'Poem Facts',q:'The child says "I can act just like them all" about the animals. True or False?',answer:true},
+
+{type:'mcq',topic:'Poem Facts',q:'What is the poem mostly about?',
+ o:["A child imagining moving like different animals","A zoo visit","A pet's birthday","A swimming competition"],a:0}
+],
+
+// ── Pro Set 2: Vocabulary in Context ───────────────────────────
+[
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The dancer seemed to ___ across the stage.',
+ o:['leap','trot','sniff','remove'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The pony began to ___ around the field.',
+ o:['trot','swim','fly','climb'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'Kites ___ high in the windy sky.',
+ o:['fly','swim','trot','climb'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'She learned to ___ the tall tree in her garden.',
+ o:['climb','swim','fly','trot'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each action word to the animal most likely to do it.',
+ pairs:[
+  {l:'leap', r:'Lamb'},
+  {l:'trot', r:'Horse'},
+  {l:'swim', r:'Fish'},
+  {l:'fly', r:'Bird'}
+]},
+
+{type:'classify',topic:'Vocabulary',q:'Sort each action word: does it happen mainly in WATER, or in the AIR?',
+ categories:['In Water','In Air'],
+ items:[
+  {val:'swim',cat:'In Water'},{val:'fly',cat:'In Air'},
+  {val:'dive',cat:'In Water'},{val:'soar',cat:'In Air'},
+  {val:'float',cat:'In Water'},{val:'glide',cat:'In Air'}
+]},
+
+{type:'typeans',topic:'Vocabulary',q:'Type the action word meaning "a steady running pace like a horse".',answer:'trot'},
+
+{type:'tapall',topic:'Vocabulary',q:'Tap ALL the words that came from the poem "It is Fun" (sight words AND new words together).',
+ pool:['this','leap','banana','that','trot','purple','like','swim'],
+ correct:['this','leap','that','trot','like','swim']},
+
+{type:'tf',topic:'Vocabulary',q:"'Climb' and 'descend' mean the same thing. True or False?",answer:false},
+
+{type:'mcq',topic:'Vocabulary',q:"Which word best completes: 'The children love to ___ trees in the park.'",
+ o:['climb','swim','fly','trot'],a:0}
+],
+
+// ── Pro Set 3: Animal Actions — Deeper Practice ────────────────
+[
+{type:'match',topic:'Animal Actions',q:'Match each animal to its typical action, going beyond the poem.',
+ pairs:[
+  {l:'Snake', r:'Crawls'},
+  {l:'Squirrel', r:'Runs and climbs'},
+  {l:'Monkey', r:'Swings'},
+  {l:'Duck', r:'Swims and waddles'}
+]},
+
+{type:'classify',topic:'Animal Actions',q:'Sort each animal: can it FLY, or can it NOT fly?',
+ categories:['Can Fly','Cannot Fly'],
+ items:[
+  {val:'Sparrow',cat:'Can Fly'},{val:'Elephant',cat:'Cannot Fly'},
+  {val:'Eagle',cat:'Can Fly'},{val:'Horse',cat:'Cannot Fly'},
+  {val:'Parrot',cat:'Can Fly'},{val:'Lamb',cat:'Cannot Fly'}
+]},
+
+{type:'mcq',topic:'Animal Actions',q:'Which of these animals is BEST known for hopping?',
+ o:['Frog','Fish','Horse','Snake'],a:0},
+
+{type:'tapall',topic:'Animal Actions',q:'Tap ALL the animals that mainly move on LAND (not water or air).',
+ pool:['Horse','Fish','Lamb','Bird','Cat','Eagle'],
+ correct:['Horse','Lamb','Cat']},
+
+{type:'fillintext',topic:'Animal Actions',q:'Fill in the animal actions.',
+ template:'A frog can ___, and a fish can ___.',
+ blanks:['hop','swim']},
+
+{type:'typeans',topic:'Animal Actions',q:'Type the animal that is best known for trotting.',answer:'horse'},
+
+{type:'mcq',topic:'Animal Actions',q:'Why can a fish swim so well?',
+ o:['It has fins and lives in water','It has wings','It has four legs','It has a shell'],a:0},
+
+{type:'tf',topic:'Animal Actions',q:'A cat is well known for climbing trees easily.',answer:true},
+
+{type:'sort',topic:'Animal Actions',q:'Tap these animals in ALPHABETICAL order (A to Z).',
+ items:['horse','frog','cat','bird'],order:'asc'},
+
+{type:'mcq',topic:'Animal Actions',q:'If you wanted to imitate a bird like in the poem, what would you pretend to do?',
+ o:['Fly','Swim','Trot','Crawl'],a:0}
+],
+
+// ── Pro Set 4: Mixed Review ─────────────────────────────────────
+[
+{type:'fillintext',topic:'Mixed Review',q:'Complete the poem pattern from memory.',
+ template:'To leap like a ___, to climb like a ___, to hop like a ___.',
+ blanks:['lamb','cat','frog']},
+
+{type:'mcq',topic:'Mixed Review',q:'Which animal action word means "move through water"?',
+ o:['Swim','Trot','Leap','Climb'],a:0},
+
+{type:'tapall',topic:'Mixed Review',q:'Tap ALL the correct animal-action pairs.',
+ pool:['Lamb leaps','Cat swims','Frog hops','Fish flies','Horse trots','Bird flies'],
+ correct:['Lamb leaps','Frog hops','Horse trots','Bird flies']},
+
+{type:'match',topic:'Mixed Review',q:'Match each new word to its meaning, one more time.',
+ pairs:[
+  {l:'leap', r:'jump high or far'},
+  {l:'trot', r:'steady running pace'},
+  {l:'climb', r:'go up using hands and feet'},
+  {l:'fly', r:'move through the air'}
+]},
+
+{type:'classify',topic:'Mixed Review',q:'Sort each word: SIGHT WORD from the poem, or NEW WORD from the poem?',
+ categories:['Sight Word','New Word'],
+ items:[
+  {val:'this',cat:'Sight Word'},{val:'leap',cat:'New Word'},
+  {val:'that',cat:'Sight Word'},{val:'climb',cat:'New Word'},
+  {val:'like',cat:'Sight Word'},{val:'swim',cat:'New Word'}
+]},
+
+{type:'fillin',topic:'Mixed Review',q:'Choose the correct word:',
+ expr:'I can act just ___ them all.',
+ o:['like','to','all','none'],a:0},
+
+{type:'typeans',topic:'Mixed Review',q:'Type the missing word: an ___, an inkpot, an igloo.',answer:'inch'},
+
+{type:'tf',topic:'Mixed Review',q:'The poem "It is Fun" is about a child imagining being different animals. True or False?',answer:true},
+
+{type:'sort',topic:'Mixed Review',q:'Tap these animal-action words in ALPHABETICAL order (A to Z).',
+ items:['trot','swim','leap','fly'],order:'asc'},
+
+{type:'mcq',topic:'Mixed Review',q:"What is the overall feeling of the poem 'It is Fun'?",
+ o:['Playful and joyful','Sad and quiet','Angry and loud','Scary and dark'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ ENGINE, do not modify below this line
+     ══════════════════════════════════════════════════════════ -->
+<script src="quiz-music.js?v=3"></script>
+<script src="quiz-engine.js?v=3"></script>
+</body>
+</html>

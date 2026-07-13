@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 11: The Smart Monkey • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css?v=3">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/vivaan/" class="back-btn" onclick="try{localStorage.removeItem('vivaan_grade')}catch(e){}">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 11</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER DATA, The Smart Monkey (Unit 4: Life Around Us)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+const CHAPTER = {key:'ch11', title:'Ch 11: The Smart Monkey'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Story Facts ────────────────────────────────
+[
+{type:'mcq',topic:'Story Facts',q:'What are the names of the two friends in the story?',
+ o:['Anju and Farida','Jeet and Babli','Ravi and Meena','Onshangla and Ava'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'Where did Anju and Farida go at the start of the story?',
+ o:['To the market','To school','To the beach','To a farm'],a:0},
+
+{type:'tapall',topic:'Story Facts',q:'Tap ALL the things Anju and Farida bought at the market.',
+ pool:['A bag','A water bottle','A packet of groundnuts','A bottle of juice','A toy car','A book'],
+ correct:['A bag','A water bottle','A packet of groundnuts','A bottle of juice']},
+
+{type:'mcq',topic:'Story Facts',q:'Where did the two friends sit down to rest?',
+ o:['On a bench under a tree','On the ground near a shop','Inside a bus','On a rooftop'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'What animal was sitting on a branch above them?',
+ o:['A monkey','A cat','A bird','A squirrel'],a:0},
+
+{type:'tf',topic:'Story Facts',q:'Anju and Farida noticed the monkey right away.',answer:false},
+
+{type:'mcq',topic:'Story Facts',q:'What food did the monkey take and eat, according to the title\'s hint?',
+ o:['A banana','An apple','Bread','Groundnuts'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'What did the monkey do with the banana before eating it?',
+ o:['Peeled it','Threw it away','Hid it','Buried it'],a:0},
+
+{type:'typeans',topic:'Story Facts',q:'What did the two friends buy along with a bag and water bottle? Name one snack item.',answer:'groundnuts'},
+
+{type:'mcq',topic:'Story Facts',q:'Why is the monkey in the story called "smart"?',
+ o:['Because it cleverly got food while the friends were not looking','Because it can talk','Because it can read','Because it goes to school'],a:0}
+],
+
+// ── Beginner Set 2: New Words & Meanings ───────────────────────
+[
+{type:'mcq',topic:'New Words',q:"'Shopping' means...",
+ o:['Going out to buy things','Going out to play','Going out to sleep','Going out to swim'],a:0},
+
+{type:'mcq',topic:'New Words',q:"'Groundnuts' are...",
+ o:['A type of nut, also called peanuts','A type of fruit','A type of vegetable','A type of drink'],a:0},
+
+{type:'mcq',topic:'New Words',q:"A 'branch' is...",
+ o:['A part of a tree that grows out from the trunk','A part of a river','A type of animal','A kind of bag'],a:0},
+
+{type:'mcq',topic:'New Words',q:"To 'peel' a fruit means to...",
+ o:['Remove its outer skin','Cut it into slices','Cook it','Throw it away'],a:0},
+
+{type:'match',topic:'New Words',q:'Match each new word to its meaning.',
+ pairs:[
+  {l:'shopping', r:'going out to buy things'},
+  {l:'groundnuts', r:'a type of nut, also called peanuts'},
+  {l:'branch', r:'part of a tree'},
+  {l:'peel', r:'remove the outer skin'}
+]},
+
+{type:'tapall',topic:'New Words',q:'Tap ALL the words that are NEW WORDS from "The Smart Monkey".',
+ pool:['shopping','groundnuts','banana','branch','purple','peel','dustbin','empty'],
+ correct:['shopping','groundnuts','branch','peel','dustbin','empty']},
+
+{type:'mcq',topic:'New Words',q:"A 'dustbin' is used for...",
+ o:['Throwing away rubbish','Storing food','Keeping books','Growing plants'],a:0},
+
+{type:'enterval',topic:'New Words',q:'Type the word: a container used to throw away rubbish.',
+ answer:'dustbin'},
+
+{type:'sort',topic:'New Words',q:'Tap these new words in ALPHABETICAL order (A to Z).',
+ items:['peel','groundnuts','dustbin','branch'],order:'asc'},
+
+{type:'typeans',topic:'New Words',q:'Type the word meaning "having nothing inside; not full".',answer:'empty'}
+],
+
+// ── Beginner Set 3: Sight Words & Hygiene ──────────────────────
+[
+{type:'tapall',topic:'Sight Words',q:"Tap ALL the SIGHT WORDS from this list: then, down, on, and, with, in, them, under, nearby, elephant.",
+ pool:['then','down','on','and','with','in','them','under','nearby','elephant'],
+ correct:['then','down','on','and','with','in','them','under','nearby']},
+
+{type:'fillin',topic:'Sight Words',q:'Choose the missing sight word:',
+ expr:'They sat ___ a tree to rest.',
+ o:['under','on','with','then'],a:0},
+
+{type:'mcq',topic:'Hygiene',q:'Why is it important to throw rubbish, like a banana peel, into a dustbin?',
+ o:['To keep the surroundings clean and safe','It is not important at all','Only to make less noise','To feed animals'],a:0},
+
+{type:'mcq',topic:'Hygiene',q:'What might happen if people throw peels and wrappers on the ground?',
+ o:['The place becomes dirty and someone could slip','Nothing happens at all','Trees grow faster','It becomes cleaner'],a:0},
+
+{type:'tapall',topic:'Hygiene',q:'Tap ALL the GOOD hygiene habits.',
+ pool:['Throwing rubbish in a dustbin','Littering on the street','Washing hands before eating','Keeping surroundings clean','Leaving food wrappers on the ground'],
+ correct:['Throwing rubbish in a dustbin','Washing hands before eating','Keeping surroundings clean']},
+
+{type:'classify',topic:'Hygiene',q:'Sort each action: is it a CLEAN habit, or a MESSY habit?',
+ categories:['Clean Habit','Messy Habit'],
+ items:[
+  {val:'Using a dustbin',cat:'Clean Habit'},{val:'Littering outdoors',cat:'Messy Habit'},
+  {val:'Washing hands',cat:'Clean Habit'},{val:'Leaving peels on the ground',cat:'Messy Habit'},
+  {val:'Keeping surroundings tidy',cat:'Clean Habit'},{val:'Throwing wrappers anywhere',cat:'Messy Habit'}
+]},
+
+{type:'typeans',topic:'Hygiene',q:'Type the word for where we should throw rubbish, not on the ground.',answer:'dustbin'},
+
+{type:'tf',topic:'Hygiene',q:'It is fine to throw banana peels anywhere on the ground.',answer:false},
+
+{type:'mcq',topic:'Story Facts',q:'What were Anju and Farida doing when the monkey took the banana?',
+ o:['They did not notice, as they were not looking','They were feeding the monkey on purpose','They were sleeping','They were far away shopping'],a:0},
+
+{type:'mcq',topic:'Sight Words',q:"Which word describes something close by, like the tree the monkey sat in?",
+ o:['Nearby','Far','Down','Then'],a:0}
+],
+
+// ── Beginner Set 4: Animals & Markets ──────────────────────────
+[
+{type:'mcq',topic:'Animals',q:'Where do monkeys often live and move around?',
+ o:['In trees and forests, sometimes near towns','Underwater','In deserts only','In the snow only'],a:0},
+
+{type:'tapall',topic:'Animals',q:'Tap ALL the things monkeys are known for.',
+ pool:['Climbing trees','Swinging from branches','Being clever/mischievous','Living underwater','Eating fruits like bananas','Flying'],
+ correct:['Climbing trees','Swinging from branches','Being clever/mischievous','Eating fruits like bananas']},
+
+{type:'mcq',topic:'Markets',q:'What can you typically buy at a market?',
+ o:['Food, bags, and everyday items','Only toys','Only clothes','Nothing at all'],a:0},
+
+{type:'classify',topic:'Markets',q:'Sort each item: is it something you might buy at a MARKET, or find in a FOREST?',
+ categories:['Bought at a Market','Found in a Forest'],
+ items:[
+  {val:'Water bottle',cat:'Bought at a Market'},{val:'Wild trees',cat:'Found in a Forest'},
+  {val:'Groundnuts (packet)',cat:'Bought at a Market'},{val:'Monkeys (wild)',cat:'Found in a Forest'},
+  {val:'A bag',cat:'Bought at a Market'},{val:'Fallen leaves',cat:'Found in a Forest'}
+]},
+
+{type:'fillintext',topic:'Story Recall',q:'Complete the sentence about the story.',
+ template:'Anju and Farida sat on a ___ under a ___ to rest.',
+ blanks:['bench','tree']},
+
+{type:'typeans',topic:'Animals',q:'Type the animal that took the banana in the story.',answer:'monkey'},
+
+{type:'tf',topic:'Animals',q:'Monkeys can climb trees easily.',answer:true},
+
+{type:'mcq',topic:'Story Recall',q:'What lesson might we learn from "The Smart Monkey" about keeping an eye on our belongings?',
+ o:['It is good to be alert, especially around animals near food','Animals never take food','We should never carry food outside','Monkeys cannot climb trees'],a:0},
+
+{type:'mcq',topic:'Animals',q:'Besides bananas, what other food might monkeys enjoy eating?',
+ o:['Fruits and nuts','Only fish','Only bread','Only ice cream'],a:0},
+
+{type:'sort',topic:'Animals',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['tree','monkey','branch','banana'],order:'asc'}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Story Sequence & Detail ─────────────────────────
+[
+{type:'sort',topic:'Story Sequence',q:'Tap these events in the ORDER they happened.',
+ items:['Anju and Farida went shopping','They bought groundnuts and juice','They sat on a bench to rest','The monkey took and peeled a banana'],order:'asc'},
+
+{type:'mcq',topic:'Story Detail',q:'Who bought the bag, and who bought the water bottle?',
+ o:['Anju bought the bag, Farida bought the water bottle','Farida bought the bag, Anju bought the water bottle','Both bought the same items','Neither bought anything'],a:0},
+
+{type:'fillintext',topic:'Story Detail',q:'Complete the shopping list from the story.',
+ template:'Anju bought a ___. Farida bought a water ___.',
+ blanks:['bag','bottle']},
+
+{type:'tapall',topic:'Story Detail',q:'Tap ALL the TRUE statements about the story.',
+ pool:['Anju and Farida are friends','They went to the market','A monkey sat above them on a branch','They noticed the monkey immediately','The monkey took a banana without them noticing','They shared their food with the monkey on purpose'],
+ correct:['Anju and Farida are friends','They went to the market','A monkey sat above them on a branch','The monkey took a banana without them noticing']},
+
+{type:'mcq',topic:'Inference',q:'Why do you think the story calls the monkey "smart"?',
+ o:['It cleverly took food without being noticed','It could speak English','It went to school','It cooked its own food'],a:0},
+
+{type:'match',topic:'Story Detail',q:'Match each character/animal to what they did in the story.',
+ pairs:[
+  {l:'Anju and Farida', r:'Went shopping and sat to rest'},
+  {l:'The monkey', r:'Took and peeled a banana unnoticed'},
+  {l:'The tree', r:'Gave the monkey a place to sit'},
+  {l:'The bench', r:'Where the friends rested'}
+]},
+
+{type:'typeans',topic:'Story Detail',q:'Type the fruit the monkey took and peeled.',answer:'banana'},
+
+{type:'tf',topic:'Story Detail',q:'Anju and Farida were watching the monkey closely the entire time.',answer:false},
+
+{type:'mcq',topic:'Inference',q:'What could Anju and Farida do differently next time, to avoid losing food to animals?',
+ o:['Keep a closer watch on their food, especially near trees with monkeys','Never buy food again','Never sit under trees','Never go shopping'],a:0},
+
+{type:'mcq',topic:'Story Detail',q:'What was the setting of most of the story?',
+ o:['A market and a spot under a tree','A school classroom','A beach','A train station'],a:0}
+],
+
+// ── Pro Set 2: Vocabulary in Context ───────────────────────────
+[
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'We went ___ for new clothes before the festival.',
+ o:['shopping','peeling','branching','emptying'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'A bird built its nest on a high ___ of the tree.',
+ o:['branch','dustbin','peel','shopping'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'Please ___ the orange before eating it.',
+ o:['peel','shop','branch','empty'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The classroom ___ was full of paper scraps by the end of the day.',
+ o:['dustbin','branch','groundnuts','shopping'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each word to the sentence that uses it correctly.',
+ pairs:[
+  {l:'groundnuts', r:'We snacked on roasted groundnuts.'},
+  {l:'branch', r:'The monkey jumped from one branch to another.'},
+  {l:'peel', r:'She began to peel the banana slowly.'},
+  {l:'empty', r:'The water bottle was completely empty by evening.'}
+]},
+
+{type:'classify',topic:'Vocabulary',q:'Sort each word: is it a FOOD item, or an ACTION?',
+ categories:['Food Item','Action'],
+ items:[
+  {val:'groundnuts',cat:'Food Item'},{val:'peel',cat:'Action'},
+  {val:'banana',cat:'Food Item'},{val:'shopping (to shop)',cat:'Action'},
+  {val:'juice',cat:'Food Item'},{val:'threw',cat:'Action'}
+]},
+
+{type:'typeans',topic:'Vocabulary',q:'Type the word meaning "to remove the outer skin of a fruit".',answer:'peel'},
+
+{type:'tapall',topic:'Vocabulary',q:'Tap ALL the words from "The Smart Monkey" (sight words AND new words together).',
+ pool:['then','shopping','banana','down','branch','purple','on','peel'],
+ correct:['then','shopping','down','branch','on','peel']},
+
+{type:'tf',topic:'Vocabulary',q:'"Empty" means "completely full".',answer:false},
+
+{type:'mcq',topic:'Vocabulary',q:"Which word best completes: 'After the picnic, the basket was ___ of all the snacks.'",
+ o:['empty','shopping','peel','branch'],a:0}
+],
+
+// ── Pro Set 3: Cleanliness & Animal Awareness ──────────────────
+[
+{type:'tapall',topic:'Cleanliness',q:'Tap ALL the good habits for keeping public places clean.',
+ pool:['Using a dustbin for rubbish','Throwing peels on the ground','Picking up litter you see','Leaving wrappers behind','Keeping food covered when not eating'],
+ correct:['Using a dustbin for rubbish','Picking up litter you see','Keeping food covered when not eating']},
+
+{type:'mcq',topic:'Cleanliness',q:'Why should we cover or watch our food carefully in outdoor places?',
+ o:['To keep it safe from animals and dust','Because it looks nicer','Because it is a rule with no reason','Because animals never come near food'],a:0},
+
+{type:'match',topic:'Animal Awareness',q:'Match each situation to the wise thing to do.',
+ pairs:[
+  {l:'Monkeys nearby with food around', r:'Keep food covered and watched'},
+  {l:'Finished eating a snack outdoors', r:'Throw the wrapper in a dustbin'},
+  {l:'See litter on the ground', r:'Pick it up if possible, or tell an adult'},
+  {l:'A wild animal approaches', r:'Stay calm and keep a safe distance'}
+]},
+
+{type:'classify',topic:'Animal Awareness',q:'Sort each animal: is it commonly found NEAR towns/markets in India, or usually only found DEEP in a forest?',
+ categories:['Near Towns/Markets','Deep in Forest'],
+ items:[
+  {val:'Monkey',cat:'Near Towns/Markets'},{val:'Tiger',cat:'Deep in Forest'},
+  {val:'Pigeon',cat:'Near Towns/Markets'},{val:'Wild elephant herd',cat:'Deep in Forest'},
+  {val:'Street dog',cat:'Near Towns/Markets'},{val:'Deer (wild)',cat:'Deep in Forest'}
+]},
+
+{type:'fillintext',topic:'Cleanliness',q:'Complete the cleanliness tip.',
+ template:'Always throw rubbish in a ___, and keep your food ___ near animals.',
+ blanks:['dustbin','covered']},
+
+{type:'typeans',topic:'Animal Awareness',q:'Type the animal well known for cleverly taking food when people are not looking, as in the story.',answer:'monkey'},
+
+{type:'mcq',topic:'Cleanliness',q:'What is one reason littering with peels and wrappers can be unsafe?',
+ o:['People might slip, and it attracts pests','It makes flowers grow faster','It has no effect at all','It helps keep areas clean'],a:0},
+
+{type:'tf',topic:'Cleanliness',q:'Throwing rubbish in a dustbin instead of on the ground helps keep our surroundings clean.',answer:true},
+
+{type:'mcq',topic:'Animal Awareness',q:'What should you do if you see a monkey near your food in a public place?',
+ o:['Stay calm, hold your food securely, and keep a safe distance','Offer it all your food immediately','Scream and run in circles','Try to touch or catch it'],a:0},
+
+{type:'sort',topic:'Cleanliness',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['peel','litter','dustbin','clean'],order:'asc'}
+],
+
+// ── Pro Set 4: Mixed Review ─────────────────────────────────────
+[
+{type:'fillintext',topic:'Mixed Review',q:'Complete using facts from the story.',
+ template:'Anju and Farida went ___. They sat under a tree, and a ___ took their banana.',
+ blanks:['shopping','monkey']},
+
+{type:'mcq',topic:'Mixed Review',q:'What is the main idea of "The Smart Monkey"?',
+ o:['A clever monkey cleverly takes food from two friends who are not paying attention','A monkey learns to read','Two friends go on a long journey','A monkey helps clean the market'],a:0},
+
+{type:'tapall',topic:'Mixed Review',q:'Tap ALL the TRUE statements about the story.',
+ pool:['Anju and Farida went to the market','They bought groundnuts and juice','A monkey sat above them','They watched the monkey the whole time','The monkey peeled and ate a banana','They shared food with the monkey willingly'],
+ correct:['Anju and Farida went to the market','They bought groundnuts and juice','A monkey sat above them','The monkey peeled and ate a banana']},
+
+{type:'match',topic:'Mixed Review',q:'Match each new word to its meaning, one more time.',
+ pairs:[
+  {l:'shopping', r:'going out to buy things'},
+  {l:'groundnuts', r:'a type of nut'},
+  {l:'branch', r:'part of a tree'},
+  {l:'peel', r:'remove the outer skin'}
+]},
+
+{type:'classify',topic:'Mixed Review',q:'Sort each word: SIGHT WORD from the story, or NEW WORD from the story?',
+ categories:['Sight Word','New Word'],
+ items:[
+  {val:'then',cat:'Sight Word'},{val:'shopping',cat:'New Word'},
+  {val:'down',cat:'Sight Word'},{val:'branch',cat:'New Word'},
+  {val:'under',cat:'Sight Word'},{val:'peel',cat:'New Word'}
+]},
+
+{type:'fillin',topic:'Mixed Review',q:'Choose the correct word:',
+ expr:'They sat ___ a tree to rest.',
+ o:['under','on','with','then'],a:0},
+
+{type:'typeans',topic:'Mixed Review',q:'Type the fruit taken by the monkey in the story.',answer:'banana'},
+
+{type:'tf',topic:'Mixed Review',q:'The story teaches us to be more alert around food when animals are nearby, and to keep places clean.',answer:true},
+
+{type:'sort',topic:'Mixed Review',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['tree','monkey','market','bench'],order:'asc'},
+
+{type:'mcq',topic:'Mixed Review',q:"Overall, what is 'The Smart Monkey' mostly about?",
+ o:['Two friends who lose a banana to a clever monkey while shopping','A monkey that goes to school','A trip to the zoo','A monkey that cannot climb trees'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ ENGINE, do not modify below this line
+     ══════════════════════════════════════════════════════════ -->
+<script src="quiz-music.js?v=3"></script>
+<script src="quiz-engine.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 7: This is My Town • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css?v=3">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/vivaan/" class="back-btn" onclick="try{localStorage.removeItem('vivaan_grade')}catch(e){}">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 7</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER DATA, This is My Town (Unit 3: Going Places)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+const CHAPTER = {key:'ch7', title:'Ch 7: This is My Town'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Poem Facts — Nested Places ─────────────────
+[
+{type:'mcq',topic:'Poem Facts',q:"In the poem, what does the town contain?",
+ o:['Streets','Rivers','Mountains','Deserts'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'What does the street contain, according to the poem?',
+ o:['Houses','Shops only','Trees only','Nothing'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'What does the house contain?',
+ o:['Rooms','Streets','Towns','Fields'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'What is in the room, according to the poem?',
+ o:['A bed','A car','A garden','A pond'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'What is on the bed?',
+ o:['A basket','A lamp','A book','A shoe'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'What is in the basket?',
+ o:['Some flowers','Some fruits','Some toys','Some books'],a:0},
+
+{type:'sort',topic:'Poem Facts',q:'Tap these places in the ORDER the poem describes them, from BIGGEST to SMALLEST.',
+ items:['Town','Street','House','Room'],order:'desc'},
+
+{type:'tapall',topic:'Poem Facts',q:'Tap ALL the places or things mentioned in "This is My Town".',
+ pool:['Town','Street','House','Room','Bed','Basket','Flowers','Car'],
+ correct:['Town','Street','House','Room','Bed','Basket','Flowers']},
+
+{type:'tf',topic:'Poem Facts',q:'The poem moves from a big place (town) to smaller and smaller places, ending with flowers.',answer:true},
+
+{type:'typeans',topic:'Poem Facts',q:'What is inside the basket at the very end of the poem? (one word)',answer:'flowers'}
+],
+
+// ── Beginner Set 2: New Words & Sight Words ────────────────────
+[
+{type:'mcq',topic:'New Words',q:"A 'street' is...",
+ o:['A road with houses or shops along it','A type of flower','A kind of fruit','A musical instrument'],a:0},
+
+{type:'mcq',topic:'New Words',q:"A 'basket' is used to...",
+ o:['Hold or carry things','Cook food','Clean the floor','Write letters'],a:0},
+
+{type:'match',topic:'New Words',q:'Match each new word to its meaning.',
+ pairs:[
+  {l:'town', r:'a place with many streets and houses'},
+  {l:'street', r:'a road with houses along it'},
+  {l:'basket', r:'used to hold or carry things'},
+  {l:'flower', r:'the colourful part of a plant'}
+]},
+
+{type:'tapall',topic:'New Words',q:'Tap ALL the words that are NEW WORDS from "This is My Town".',
+ pool:['town','train','banana','street','purple','house','flower','basket'],
+ correct:['town','train','street','house','flower','basket']},
+
+{type:'tapall',topic:'Sight Words',q:"Tap ALL the SIGHT WORDS from this list: in, this, that, there, my, elephant, jump.",
+ pool:['in','this','that','there','my','elephant','jump'],
+ correct:['in','this','that','there','my']},
+
+{type:'fillin',topic:'Sight Words',q:'Choose the missing sight word:',
+ expr:'___ is my town.',
+ o:['This','That','There','My'],a:0},
+
+{type:'classify',topic:'New Words',q:'Sort each word: is it a PLACE, or a THING found inside a place?',
+ categories:['A Place','A Thing'],
+ items:[
+  {val:'town',cat:'A Place'},{val:'basket',cat:'A Thing'},
+  {val:'street',cat:'A Place'},{val:'flower',cat:'A Thing'},
+  {val:'room',cat:'A Place'},{val:'bed',cat:'A Thing'}
+]},
+
+{type:'enterval',topic:'New Words',q:'Type the word: a road with houses or shops along it.',
+ answer:'street'},
+
+{type:'sort',topic:'New Words',q:'Tap these new words in ALPHABETICAL order (A to Z).',
+ items:['town','street','house','basket'],order:'asc'},
+
+{type:'typeans',topic:'New Words',q:'Type the word for a place used to carry or hold things, often woven.',answer:'basket'}
+],
+
+// ── Beginner Set 3: My Town & My Home ──────────────────────────
+[
+{type:'mcq',topic:'My Town',q:'Which of these is usually found in a town?',
+ o:['Streets and houses','Only forests','Only mountains','Only deserts'],a:0},
+
+{type:'tapall',topic:'My Home',q:'Tap ALL the things usually found inside a house.',
+ pool:['Rooms','Bed','Kitchen','Ocean','Door','Volcano'],
+ correct:['Rooms','Bed','Kitchen','Door']},
+
+{type:'mcq',topic:'My Home',q:'Where do people usually sleep in a house?',
+ o:['In a bedroom, on a bed','In the kitchen','On the roof','In the garden only'],a:0},
+
+{type:'classify',topic:'My Town',q:'Sort each word: is it part of a TOWN, or part of a single ROOM?',
+ categories:['Part of a Town','Part of a Room'],
+ items:[
+  {val:'Street',cat:'Part of a Town'},{val:'Bed',cat:'Part of a Room'},
+  {val:'Market',cat:'Part of a Town'},{val:'Basket',cat:'Part of a Room'},
+  {val:'Park',cat:'Part of a Town'},{val:'Table',cat:'Part of a Room'}
+]},
+
+{type:'mcq',topic:'My Home',q:'What might you keep flowers in, at home?',
+ o:['A basket or a vase','A shoe','A hat','A book'],a:0},
+
+{type:'fillintext',topic:'My Town',q:'Complete the description of a town using your own words.',
+ template:'A town has many ___, and each street has ___.',
+ blanks:['streets','houses']},
+
+{type:'typeans',topic:'My Home',q:'Type the word for where you usually sleep at night.',answer:'bed'},
+
+{type:'tf',topic:'My Town',q:'A town usually has more than one street.',answer:true},
+
+{type:'mcq',topic:'My Town',q:'What do we call the place where many towns and villages are found together, larger than a town?',
+ o:['A city or district','A single room','A basket','A flower'],a:0},
+
+{type:'mcq',topic:'My Home',q:"Which of these best describes a 'basket of flowers'?",
+ o:['Flowers placed together in a basket','A basket made of flowers only','A flower shaped like a basket','A basket with no flowers'],a:0}
+],
+
+// ── Beginner Set 4: Nested Structure & Ordering ────────────────
+[
+{type:'sort',topic:'Nested Places',q:'Tap these in order from LARGEST to SMALLEST, as in the poem.',
+ items:['Town','Street','Room','Basket'],order:'desc'},
+
+{type:'mcq',topic:'Nested Places',q:'Which is BIGGER: a town or a street?',
+ o:['A town','A street','They are the same size','Cannot tell'],a:0},
+
+{type:'mcq',topic:'Nested Places',q:'Which is SMALLER: a room or a house?',
+ o:['A room','A house','They are the same size','Cannot tell'],a:0},
+
+{type:'match',topic:'Nested Places',q:'Match each bigger place to what is found inside it, following the poem.',
+ pairs:[
+  {l:'Town', r:'Streets'},
+  {l:'Street', r:'Houses'},
+  {l:'House', r:'Rooms'},
+  {l:'Room', r:'A bed'}
+]},
+
+{type:'fillintext',topic:'Nested Places',q:'Complete the chain from the poem.',
+ template:'In my town there are ___. In my street there are ___.',
+ blanks:['streets','houses']},
+
+{type:'classify',topic:'Nested Places',q:'Sort each item: is it BIGGER than a room, or SMALLER than a room?',
+ categories:['Bigger than a Room','Smaller than a Room'],
+ items:[
+  {val:'House',cat:'Bigger than a Room'},{val:'Basket',cat:'Smaller than a Room'},
+  {val:'Town',cat:'Bigger than a Room'},{val:'Flower',cat:'Smaller than a Room'},
+  {val:'Street',cat:'Bigger than a Room'},{val:'Bed (compared to room)',cat:'Smaller than a Room'}
+]},
+
+{type:'typeans',topic:'Nested Places',q:'Type what is smaller: a house or a room? (one word)',answer:'room'},
+
+{type:'tf',topic:'Nested Places',q:'According to the poem, a basket is bigger than a house.',answer:false},
+
+{type:'mcq',topic:'Nested Places',q:'What is the smallest thing mentioned at the very end of the poem?',
+ o:['Flowers','The town','The street','The house'],a:0},
+
+{type:'sort',topic:'Nested Places',q:'Tap these in order from SMALLEST to LARGEST.',
+ items:['Basket','Bed','Room','House'],order:'asc'}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Poem Structure & Detail ──────────────────────────
+[
+{type:'fillintext',topic:'Poem Facts',q:'Complete the poem\'s nested pattern.',
+ template:'In my house, there are ___. In my room, there is a ___.',
+ blanks:['rooms','bed']},
+
+{type:'fillintext',topic:'Poem Facts',q:'Complete the poem\'s nested pattern.',
+ template:'On the bed, there is a ___. In the basket, there are some ___.',
+ blanks:['basket','flowers']},
+
+{type:'mcq',topic:'Poem Structure',q:'What is special about the STRUCTURE of this poem?',
+ o:['Each place is nested inside a bigger place, one after another','It rhymes only','It has no repeated words','It is written backwards'],a:0},
+
+{type:'mcq',topic:'Poem Structure',q:'How many "nested" places or things does the poem describe in total (town, street, house, room, bed, basket, flowers)?',
+ o:['Seven','Three','Five','Ten'],a:0},
+
+{type:'match',topic:'Poem Structure',q:'Match each level of the poem to the next smaller level inside it.',
+ pairs:[
+  {l:'Town', r:'Street'},
+  {l:'Street', r:'House'},
+  {l:'Room', r:'Bed'},
+  {l:'Bed', r:'Basket'}
+]},
+
+{type:'tapall',topic:'Poem Facts',q:'Tap ALL the statements that are TRUE about "This is My Town".',
+ pool:['The poem starts big and gets smaller','The poem ends with flowers','The town is the smallest thing mentioned','There is a basket on the bed','The poem never mentions a house','There are rooms in the house'],
+ correct:['The poem starts big and gets smaller','The poem ends with flowers','There is a basket on the bed','There are rooms in the house']},
+
+{type:'typeans',topic:'Poem Structure',q:'Type the very FIRST place named in the poem.',answer:'town'},
+
+{type:'tf',topic:'Poem Structure',q:'The poem describes places from the largest (town) down to the smallest (flowers).',answer:true},
+
+{type:'mcq',topic:'Poem Structure',q:'This style of poem, where each line builds on the last, helps children practise...',
+ o:['Understanding how smaller things fit inside bigger things','Counting numbers','Naming colours','Learning about animals'],a:0},
+
+{type:'sort',topic:'Poem Structure',q:'Tap all 7 places/things from the poem in order from LARGEST to SMALLEST.',
+ items:['Town','Street','House','Basket'],order:'desc'}
+],
+
+// ── Pro Set 2: Vocabulary in Context ───────────────────────────
+[
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'Our ___ has many small shops and a big park.',
+ o:['town','basket','flower','bed'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'She placed the ___ of fruits on the table.',
+ o:['basket','street','town','room'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'Every house on our ___ has a small garden.',
+ o:['street','basket','flower','bed'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each word to the sentence that uses it correctly.',
+ pairs:[
+  {l:'town', r:'Our town has a big market and a school.'},
+  {l:'street', r:'Children play cricket on our street.'},
+  {l:'basket', r:'She carried the vegetables in a basket.'},
+  {l:'flower', r:'A red flower bloomed in the garden.'}
+]},
+
+{type:'classify',topic:'Vocabulary',q:'Sort each word by size: does it describe a LARGE area, or a SMALL object?',
+ categories:['Large Area','Small Object'],
+ items:[
+  {val:'town',cat:'Large Area'},{val:'basket',cat:'Small Object'},
+  {val:'street',cat:'Large Area'},{val:'flower',cat:'Small Object'},
+  {val:'city',cat:'Large Area'},{val:'bed',cat:'Small Object'}
+]},
+
+{type:'typeans',topic:'Vocabulary',q:'Type the word for "a road with houses along it".',answer:'street'},
+
+{type:'tapall',topic:'Vocabulary',q:'Tap ALL the words from "This is My Town" (sight words AND new words together).',
+ pool:['this','town','banana','that','basket','purple','my','street'],
+ correct:['this','town','that','basket','my','street']},
+
+{type:'tf',topic:'Vocabulary',q:'"Town" and "street" mean exactly the same thing.',answer:false},
+
+{type:'mcq',topic:'Vocabulary',q:"Which word best completes: 'We walked down the busy ___ near our house.'",
+ o:['street','basket','flower','bed'],a:0},
+
+{type:'fillintext',topic:'Vocabulary',q:'Complete the sentence.',
+ template:'A ___ is bigger than a street, and a street is bigger than a single ___.',
+ blanks:['town','house']}
+],
+
+// ── Pro Set 3: My Neighbourhood — General Awareness ────────────
+[
+{type:'tapall',topic:'Neighbourhood',q:'Tap ALL the places you might find in a typical town.',
+ pool:['School','Market','Hospital','Volcano','Park','Desert'],
+ correct:['School','Market','Hospital','Park']},
+
+{type:'mcq',topic:'Neighbourhood',q:'Why is it useful to know your home address (house, street, town)?',
+ o:['So people can find or reach you if needed','It is not useful at all','Only adults need addresses','Only for sending toys'],a:0},
+
+{type:'match',topic:'Neighbourhood',q:'Match each place to what usually happens there.',
+ pairs:[
+  {l:'School', r:'Children learn'},
+  {l:'Market', r:'People buy and sell things'},
+  {l:'Hospital', r:'Sick people are treated'},
+  {l:'Park', r:'People play and relax'}
+]},
+
+{type:'classify',topic:'Neighbourhood',q:'Sort each place: is it usually a QUIET place, or a BUSY place?',
+ categories:['Usually Quiet','Usually Busy'],
+ items:[
+  {val:'Library',cat:'Usually Quiet'},{val:'Market',cat:'Usually Busy'},
+  {val:'Bedroom at night',cat:'Usually Quiet'},{val:'Bus stand',cat:'Usually Busy'},
+  {val:'A quiet park corner',cat:'Usually Quiet'},{val:'A busy street',cat:'Usually Busy'}
+]},
+
+{type:'fillintext',topic:'Neighbourhood',q:'Complete your own address pattern (like the poem).',
+ template:'I live in a ___, on a ___, in a house.',
+ blanks:['town','street']},
+
+{type:'typeans',topic:'Neighbourhood',q:'Type the word for a place where you can buy vegetables and fruits.',answer:'market'},
+
+{type:'mcq',topic:'Neighbourhood',q:'What should you do if you ever get lost in your town?',
+ o:['Stay calm and ask a trusted adult, like a police officer, for help','Run in any direction','Hide and tell no one','Cry and do nothing'],a:0},
+
+{type:'tf',topic:'Neighbourhood',q:'Knowing your town and street name can help you if you are ever lost.',answer:true},
+
+{type:'mcq',topic:'Neighbourhood',q:'A basket of flowers on a bed, as in the poem, suggests the room is...',
+ o:['Cared for and decorated nicely','Messy and dirty','Empty','Dangerous'],a:0},
+
+{type:'sort',topic:'Neighbourhood',q:'Tap these places in ALPHABETICAL order (A to Z).',
+ items:['school','park','market','hospital'],order:'asc'}
+],
+
+// ── Pro Set 4: Mixed Review ─────────────────────────────────────
+[
+{type:'fillintext',topic:'Mixed Review',q:'Complete the poem pattern from memory.',
+ template:'This is my ___. In my town, there are ___.',
+ blanks:['town','streets']},
+
+{type:'mcq',topic:'Mixed Review',q:'What is inside the basket at the end of the poem?',
+ o:['Flowers','Toys','Books','Fruits'],a:0},
+
+{type:'tapall',topic:'Mixed Review',q:'Tap ALL the correct facts about the poem, in order from big to small.',
+ pool:['Town contains streets','Street contains houses','House contains rooms','Room contains a car','Bed has a basket on it','Basket has flowers in it'],
+ correct:['Town contains streets','Street contains houses','House contains rooms','Bed has a basket on it','Basket has flowers in it']},
+
+{type:'match',topic:'Mixed Review',q:'Match each nested place to what is found inside it, one more time.',
+ pairs:[
+  {l:'Town', r:'Street'},
+  {l:'House', r:'Room'},
+  {l:'Bed', r:'Basket'},
+  {l:'Basket', r:'Flowers'}
+]},
+
+{type:'classify',topic:'Mixed Review',q:'Sort each word: SIGHT WORD from the poem, or NEW WORD from the poem?',
+ categories:['Sight Word','New Word'],
+ items:[
+  {val:'this',cat:'Sight Word'},{val:'town',cat:'New Word'},
+  {val:'my',cat:'Sight Word'},{val:'basket',cat:'New Word'},
+  {val:'in',cat:'Sight Word'},{val:'flower',cat:'New Word'}
+]},
+
+{type:'fillin',topic:'Mixed Review',q:'Choose the correct word:',
+ expr:'This is my ___.',
+ o:['town','basket','flower','bed'],a:0},
+
+{type:'typeans',topic:'Mixed Review',q:'Type what is on the bed, according to the poem.',answer:'basket'},
+
+{type:'tf',topic:'Mixed Review',q:'The poem "This is My Town" moves from a big place to smaller and smaller things.',answer:true},
+
+{type:'sort',topic:'Mixed Review',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['town','street','house','flower'],order:'asc'},
+
+{type:'mcq',topic:'Mixed Review',q:"Overall, what is 'This is My Town' mostly about?",
+ o:['Describing home, from the whole town down to flowers in a basket','A journey by train','A game with friends','A visit to a farm'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ ENGINE, do not modify below this line
+     ══════════════════════════════════════════════════════════ -->
+<script src="quiz-music.js?v=3"></script>
+<script src="quiz-engine.js?v=3"></script>
+</body>
+</html>

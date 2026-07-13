@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 12: Little Drops of Water • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css?v=3">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/vivaan/" class="back-btn" onclick="try{localStorage.removeItem('vivaan_grade')}catch(e){}">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 12</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER DATA, Little Drops of Water (Unit 5: Harmony)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+const CHAPTER = {key:'ch12', title:'Ch 12: Little Drops of Water'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Poem Facts ─────────────────────────────────
+[
+{type:'mcq',topic:'Poem Facts',q:"According to the poem, what do little drops of water and little grains of sand make together?",
+ o:['The mighty ocean and the pleasant land','A small puddle','A single wave','A tiny rock'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'What do "little words of love" and "little acts of kindness" spread, according to the poem?',
+ o:['Smiles and happiness','Sadness and tears','Noise and confusion','Nothing at all'],a:0},
+
+{type:'tf',topic:'Poem Facts',q:'The poem compares small good deeds to tiny drops of water that build something big.',answer:true},
+
+{type:'mcq',topic:'Poem Facts',q:'What big thing do the poem\'s many "little drops of water" make?',
+ o:['The mighty ocean','A tiny cup','A small pond','A single raindrop'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'What do the poem\'s many "little grains of sand" make?',
+ o:['The pleasant land','A single rock','A tiny hill','A glass bottle'],a:0},
+
+{type:'tapall',topic:'Poem Facts',q:'Tap ALL the things mentioned in the poem "Little Drops of Water".',
+ pool:['Drops of water','Grains of sand','Words of love','Acts of kindness','Pieces of gold','Beams of light'],
+ correct:['Drops of water','Grains of sand','Words of love','Acts of kindness']},
+
+{type:'typeans',topic:'Poem Facts',q:'Type the word: many small things joining together to make something huge, like the ___.',answer:'ocean'},
+
+{type:'mcq',topic:'Poem Facts',q:'What is the main message of the poem?',
+ o:['Small good actions add up to make a big, positive difference','Water is more important than kindness','Only big actions matter','Sand is dangerous'],a:0},
+
+{type:'tf',topic:'Poem Facts',q:'The poem suggests that small acts of kindness are not important.',answer:false},
+
+{type:'mcq',topic:'Poem Facts',q:'What feeling does the poem say small acts of kindness can spread?',
+ o:['Happiness','Anger','Fear','Boredom'],a:0}
+],
+
+// ── Beginner Set 2: New Words & Meanings ───────────────────────
+[
+{type:'mcq',topic:'New Words',q:"'Mighty' means...",
+ o:['Very powerful or huge','Very small','Very quiet','Very slow'],a:0},
+
+{type:'mcq',topic:'New Words',q:"'Pleasant' means...",
+ o:['Nice, enjoyable, or agreeable','Unpleasant or bad','Very loud','Very cold'],a:0},
+
+{type:'mcq',topic:'New Words',q:"'Kindness' means...",
+ o:['Being caring and gentle towards others','Being unkind to others','Being very fast','Being very tall'],a:0},
+
+{type:'mcq',topic:'New Words',q:"An 'ocean' is...",
+ o:['A very large body of salt water','A small pond','A type of cloud','A kind of desert'],a:0},
+
+{type:'match',topic:'New Words',q:'Match each new word to its meaning.',
+ pairs:[
+  {l:'mighty', r:'very powerful or huge'},
+  {l:'pleasant', r:'nice and enjoyable'},
+  {l:'kindness', r:'being caring towards others'},
+  {l:'ocean', r:'a very large body of salt water'}
+]},
+
+{type:'tapall',topic:'New Words',q:'Tap ALL the words that are NEW WORDS from "Little Drops of Water".',
+ pool:['mighty','pleasant','banana','kindness','purple','peaceful','ocean','umbrella'],
+ correct:['mighty','pleasant','kindness','peaceful','ocean']},
+
+{type:'mcq',topic:'New Words',q:"'Peaceful' means...",
+ o:['Calm and free from trouble','Very noisy','Very angry','Very fast'],a:0},
+
+{type:'enterval',topic:'New Words',q:'Type the word: very powerful or huge.',
+ answer:'mighty'},
+
+{type:'sort',topic:'New Words',q:'Tap these new words in ALPHABETICAL order (A to Z).',
+ items:['pleasant','ocean','mighty','kindness'],order:'asc'},
+
+{type:'typeans',topic:'New Words',q:'Type the word meaning "a very large body of salt water".',answer:'ocean'}
+],
+
+// ── Beginner Set 3: Kindness in Action ─────────────────────────
+[
+{type:'mcq',topic:'Kindness',q:'Which of these is an example of a "little act of kindness"?',
+ o:['Sharing your lunch with a friend who forgot theirs','Ignoring someone who is hurt','Being rude to a classmate','Refusing to help anyone'],a:0},
+
+{type:'tapall',topic:'Kindness',q:'Tap ALL the examples of kindness.',
+ pool:['Helping an elder cross the road','Sharing your toys','Saying unkind words','Comforting a sad friend','Pushing in a queue','Saying "thank you" and "please"'],
+ correct:['Helping an elder cross the road','Sharing your toys','Comforting a sad friend','Saying "thank you" and "please"']},
+
+{type:'classify',topic:'Kindness',q:'Sort each action: is it a KIND action, or an UNKIND action?',
+ categories:['Kind Action','Unkind Action'],
+ items:[
+  {val:'Sharing food with a friend',cat:'Kind Action'},{val:'Laughing at someone\'s mistake',cat:'Unkind Action'},
+  {val:'Helping someone who fell down',cat:'Kind Action'},{val:'Taking a toy without asking',cat:'Unkind Action'},
+  {val:'Saying kind words',cat:'Kind Action'},{val:'Ignoring someone who needs help',cat:'Unkind Action'}
+]},
+
+{type:'mcq',topic:'Kindness',q:'How does the poem connect small drops of water to small acts of kindness?',
+ o:['Both show how small things can add up to something big and meaningful','They have no connection at all','Water is more important than kindness','Kindness is bigger than the ocean'],a:0},
+
+{type:'fillintext',topic:'Kindness',q:'Complete the sentence about kindness.',
+ template:'Even a ___ act of kindness can make someone feel ___.',
+ blanks:['small','happy']},
+
+{type:'typeans',topic:'Kindness',q:'Type one word describing how kindness makes people feel.',answer:'happy'},
+
+{type:'tf',topic:'Kindness',q:'Small acts of kindness, done often, can make a big positive difference.',answer:true},
+
+{type:'mcq',topic:'Kindness',q:'What could you do today to show a small act of kindness?',
+ o:['Help a friend, share something, or say a kind word','Ignore everyone around you','Keep everything to yourself','Say something unkind'],a:0},
+
+{type:'mcq',topic:'Ocean & Land',q:'What is the ocean mostly made of?',
+ o:['Salt water','Fresh water only','Sand only','Ice only'],a:0},
+
+{type:'sort',topic:'Kindness',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['smile','share','kindness','happiness'],order:'asc'}
+],
+
+// ── Beginner Set 4: Sight Words & Nature Facts ─────────────────
+[
+{type:'mcq',topic:'Nature Facts',q:'What are "grains of sand" usually found near or on?',
+ o:['Beaches and deserts','The moon','Inside houses only','Underwater caves only'],a:0},
+
+{type:'tapall',topic:'Nature Facts',q:'Tap ALL the places where you might find sand.',
+ pool:['A beach','A desert','A riverbank','The middle of the ocean (deep water)','A sandy playground','The sky'],
+ correct:['A beach','A desert','A riverbank','A sandy playground']},
+
+{type:'mcq',topic:'Nature Facts',q:'Which is bigger: a single drop of water, or the whole ocean?',
+ o:['The ocean','A single drop','They are the same size','Cannot tell'],a:0},
+
+{type:'classify',topic:'Nature Facts',q:'Sort each item: is it SMALL and single, or LARGE and made of many small things together?',
+ categories:['Small and Single','Large, Made of Many'],
+ items:[
+  {val:'A drop of water',cat:'Small and Single'},{val:'The ocean',cat:'Large, Made of Many'},
+  {val:'A grain of sand',cat:'Small and Single'},{val:'A beach',cat:'Large, Made of Many'},
+  {val:'One kind word',cat:'Small and Single'},{val:'A lifetime of kindness',cat:'Large, Made of Many'}
+]},
+
+{type:'fillintext',topic:'Poem Facts',q:'Complete the poem\'s comparison.',
+ template:'Just as little drops make the ___, little acts of kindness make the world more ___.',
+ blanks:['ocean','peaceful']},
+
+{type:'typeans',topic:'Nature Facts',q:'Type the word for many drops of water joined together, forming a huge body of salt water.',answer:'ocean'},
+
+{type:'tf',topic:'Nature Facts',q:'A single grain of sand alone can make a whole beach.',answer:false},
+
+{type:'mcq',topic:'Poem Message',q:'What does the poem want children to understand about their own small actions?',
+ o:['Even small good actions matter and can add up to something great','Only adults can do kind things','Small actions never matter','Kindness is only for special occasions'],a:0},
+
+{type:'mcq',topic:'Poem Message',q:'This poem is a song. How might singing it help remember its message?',
+ o:['Songs with rhythm can be fun and easy to remember','Songs make messages harder to understand','Only poems teach lessons, not songs','Songs have no message at all'],a:0},
+
+{type:'sort',topic:'Nature Facts',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['sand','ocean','land','drop'],order:'asc'}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Poem Detail & Message ────────────────────────────
+[
+{type:'fillintext',topic:'Poem Facts',q:'Complete the poem\'s opening lines.',
+ template:'Little drops of ___, little grains of ___.',
+ blanks:['water','sand']},
+
+{type:'fillintext',topic:'Poem Facts',q:'Complete the poem\'s lines about kindness.',
+ template:'Little acts of ___ spread smiles and ___.',
+ blanks:['kindness','happiness']},
+
+{type:'mcq',topic:'Poem Message',q:'The poem uses water drops and sand grains as a METAPHOR for what?',
+ o:['How small good deeds can build up to something big and meaningful','How the ocean was formed scientifically','How deserts are made','How rain falls'],a:0},
+
+{type:'mcq',topic:'Poem Structure',q:'How is the poem structured to show its comparison?',
+ o:['It compares small things in nature (drops, grains) to small acts of love and kindness','It only talks about the ocean','It only talks about kindness with no comparison','It has no structure at all'],a:0},
+
+{type:'match',topic:'Poem Facts',q:'Match each small thing to what it builds, according to the poem.',
+ pairs:[
+  {l:'Drops of water', r:'The mighty ocean'},
+  {l:'Grains of sand', r:'The pleasant land'},
+  {l:'Words of love', r:'Smiles and happiness (with kindness)'},
+  {l:'Acts of kindness', r:'Smiles and happiness'}
+]},
+
+{type:'tapall',topic:'Poem Facts',q:'Tap ALL the TRUE statements about "Little Drops of Water".',
+ pool:['The poem compares small things to big results','Drops of water make an ocean in the poem','The poem says kindness does not matter','Acts of kindness spread happiness','The poem is only about sand','Grains of sand make the land in the poem'],
+ correct:['The poem compares small things to big results','Drops of water make an ocean in the poem','Acts of kindness spread happiness','Grains of sand make the land in the poem']},
+
+{type:'typeans',topic:'Poem Message',q:'Type one word for the feeling that little acts of kindness spread.',answer:'happiness'},
+
+{type:'tf',topic:'Poem Message',q:'The poem teaches that even very small actions can lead to something meaningful and large.',answer:true},
+
+{type:'mcq',topic:'Poem Message',q:'Why might this poem be a good song for children to learn?',
+ o:['It teaches an important value (kindness) in a simple, memorable way','It has no lesson to teach','It is only about geography','It discourages good behaviour'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'What two "big" things are mentioned as being built from "little" things in the first half of the poem?',
+ o:['The mighty ocean and the pleasant land','A house and a school','A mountain and a river','A city and a village'],a:0}
+],
+
+// ── Pro Set 2: Vocabulary in Context ───────────────────────────
+[
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The ___ waves crashed against the rocky shore.',
+ o:['mighty','pleasant','peaceful','kind'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'It was a ___ evening, cool and calm.',
+ o:['pleasant','mighty','peel','shopping'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'Her ___ towards the new student made him feel welcome.',
+ o:['kindness','mighty','ocean','branch'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'After the argument was resolved, the room felt ___ again.',
+ o:['peaceful','mighty','pleasant','ocean'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each word to the sentence that uses it correctly.',
+ pairs:[
+  {l:'mighty', r:'The mighty river flowed powerfully through the valley.'},
+  {l:'pleasant', r:'We had a pleasant walk in the park.'},
+  {l:'kindness', r:'Her kindness touched everyone she met.'},
+  {l:'peaceful', r:'The lake was calm and peaceful at dawn.'}
+]},
+
+{type:'classify',topic:'Vocabulary',q:'Sort each word: does it describe a FEELING/QUALITY, or a PLACE/THING?',
+ categories:['Feeling or Quality','Place or Thing'],
+ items:[
+  {val:'kindness',cat:'Feeling or Quality'},{val:'ocean',cat:'Place or Thing'},
+  {val:'peaceful',cat:'Feeling or Quality'},{val:'land',cat:'Place or Thing'},
+  {val:'pleasant',cat:'Feeling or Quality'},{val:'sand',cat:'Place or Thing'}
+]},
+
+{type:'typeans',topic:'Vocabulary',q:'Type the word meaning "very powerful or huge".',answer:'mighty'},
+
+{type:'tapall',topic:'Vocabulary',q:'Tap ALL the words from "Little Drops of Water" (new words from the poem).',
+ pool:['mighty','banana','pleasant','purple','kindness','umbrella','ocean','peaceful'],
+ correct:['mighty','pleasant','kindness','ocean','peaceful']},
+
+{type:'tf',topic:'Vocabulary',q:'"Pleasant" and "unpleasant" mean the same thing.',answer:false},
+
+{type:'mcq',topic:'Vocabulary',q:"Which word best completes: 'Their small acts of ___ made a big difference to the community.'",
+ o:['kindness','mighty','ocean','sand'],a:0}
+],
+
+// ── Pro Set 3: Kindness & Working Together ─────────────────────
+[
+{type:'tapall',topic:'Kindness in Action',q:'Tap ALL the examples of "little acts of kindness" a child could do at school.',
+ pool:['Sharing a pencil with a classmate','Helping a friend pick up dropped books','Making fun of someone','Comforting a classmate who is upset','Refusing to share anything','Saying good morning to the teacher'],
+ correct:['Sharing a pencil with a classmate','Helping a friend pick up dropped books','Comforting a classmate who is upset','Saying good morning to the teacher']},
+
+{type:'mcq',topic:'Working Together',q:'How is "many drops making an ocean" similar to "many people being kind"?',
+ o:['Both show how small individual contributions add up to something powerful','They are not similar at all','Oceans are unrelated to people','Kindness cannot add up like water'],a:0},
+
+{type:'match',topic:'Kindness in Action',q:'Match each small action to the bigger feeling it can create when repeated by many people.',
+ pairs:[
+  {l:'One kind word', r:'Part of a kinder classroom'},
+  {l:'One helping hand', r:'Part of a caring community'},
+  {l:'One smile', r:'Part of a happier place'},
+  {l:'One act of sharing', r:'Part of a more generous world'}
+]},
+
+{type:'classify',topic:'Kindness in Action',q:'Sort each idea: does it support HARMONY (living peacefully together), or cause CONFLICT?',
+ categories:['Supports Harmony','Causes Conflict'],
+ items:[
+  {val:'Sharing and helping others',cat:'Supports Harmony'},{val:'Fighting over toys',cat:'Causes Conflict'},
+  {val:'Listening to others kindly',cat:'Supports Harmony'},{val:'Saying unkind words',cat:'Causes Conflict'},
+  {val:'Working together peacefully',cat:'Supports Harmony'},{val:'Refusing to cooperate',cat:'Causes Conflict'}
+]},
+
+{type:'fillintext',topic:'Kindness in Action',q:'Complete this idea about kindness and community.',
+ template:'When many people show ___, the whole community can become more ___.',
+ blanks:['kindness','peaceful']},
+
+{type:'typeans',topic:'Kindness in Action',q:'Type the unit theme this chapter belongs to, meaning "living together peacefully" (one word).',answer:'harmony'},
+
+{type:'mcq',topic:'Working Together',q:'Why might the poet compare human kindness to natural things like water and sand?',
+ o:['To show that both nature and people can build something huge from many small parts','Because water and sand are unrelated to kindness','Because the poem is only about geography','Because kindness cannot be compared to anything'],a:0},
+
+{type:'tf',topic:'Working Together',q:'A single act of kindness can inspire others to be kind too, creating a bigger positive effect.',answer:true},
+
+{type:'mcq',topic:'Kindness in Action',q:'What could a whole class do together to show "little acts of kindness" add up?',
+ o:['Each person could do one small kind act, creating a kinder classroom overall','Nothing, since kindness cannot be a group effort','Only the teacher should be kind','Ignore each other completely'],a:0},
+
+{type:'sort',topic:'Kindness in Action',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['smile','share','kind','help'],order:'asc'}
+],
+
+// ── Pro Set 4: Mixed Review ─────────────────────────────────────
+[
+{type:'fillintext',topic:'Mixed Review',q:'Complete the poem pattern from memory.',
+ template:'Little drops of ___, little grains of ___, make the mighty ocean and the pleasant land.',
+ blanks:['water','sand']},
+
+{type:'mcq',topic:'Mixed Review',q:'What do little acts of kindness spread, according to the poem?',
+ o:['Smiles and happiness','Sadness','Confusion','Nothing'],a:0},
+
+{type:'tapall',topic:'Mixed Review',q:'Tap ALL the correct facts about the poem.',
+ pool:['Drops of water make the ocean','Grains of sand make the land','Kindness spreads sadness','Acts of kindness spread happiness','The poem discourages small actions','The poem is about the value of small good deeds'],
+ correct:['Drops of water make the ocean','Grains of sand make the land','Acts of kindness spread happiness','The poem is about the value of small good deeds']},
+
+{type:'match',topic:'Mixed Review',q:'Match each new word to its meaning, one more time.',
+ pairs:[
+  {l:'mighty', r:'very powerful or huge'},
+  {l:'pleasant', r:'nice and enjoyable'},
+  {l:'kindness', r:'being caring towards others'},
+  {l:'peaceful', r:'calm and free from trouble'}
+]},
+
+{type:'classify',topic:'Mixed Review',q:'Sort each word: is it from the FIRST half of the poem (water/sand), or the SECOND half (love/kindness)?',
+ categories:['First Half (Water/Sand)','Second Half (Love/Kindness)'],
+ items:[
+  {val:'ocean',cat:'First Half (Water/Sand)'},{val:'happiness',cat:'Second Half (Love/Kindness)'},
+  {val:'land',cat:'First Half (Water/Sand)'},{val:'smiles',cat:'Second Half (Love/Kindness)'},
+  {val:'sand',cat:'First Half (Water/Sand)'},{val:'kindness',cat:'Second Half (Love/Kindness)'}
+]},
+
+{type:'fillin',topic:'Mixed Review',q:'Choose the correct word:',
+ expr:'Little acts of kindness spread smiles and ___.',
+ o:['happiness','sadness','anger','fear'],a:0},
+
+{type:'typeans',topic:'Mixed Review',q:'Type what many drops of water make together, according to the poem.',answer:'ocean'},
+
+{type:'tf',topic:'Mixed Review',q:'The poem teaches that small good deeds can add up to something big and meaningful.',answer:true},
+
+{type:'sort',topic:'Mixed Review',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['sand','pleasant','ocean','mighty'],order:'asc'},
+
+{type:'mcq',topic:'Mixed Review',q:"Overall, what is 'Little Drops of Water' mostly about?",
+ o:['How small good things, like kindness, add up to something great','How oceans are formed scientifically','A story about a beach holiday','A song about counting numbers'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ ENGINE, do not modify below this line
+     ══════════════════════════════════════════════════════════ -->
+<script src="quiz-music.js?v=3"></script>
+<script src="quiz-engine.js?v=3"></script>
+</body>
+</html>

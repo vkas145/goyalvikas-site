@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 4: Seeing without Seeing • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css?v=3">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/vivaan/" class="back-btn" onclick="try{localStorage.removeItem('vivaan_grade')}catch(e){}">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 4</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER DATA, Seeing without Seeing (Unit 2: Welcome to My World)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+const CHAPTER = {key:'ch4', title:'Ch 4: Seeing without Seeing'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Story Facts ────────────────────────────────
+[
+{type:'mcq',topic:'Story Facts',q:'What is the name of the little girl in the story?',
+ o:['Onshangla','Meenakshi','Babli','Farida'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:"What does Onshangla call her mother in the story?",
+ o:['Ava','Amma','Maa','Mummy'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'Why was Onshangla quiet when she came home from school?',
+ o:['A new boy who cannot see joined her class','She lost her school bag','She failed a test','She was unwell'],a:0},
+
+{type:'tf',topic:'Story Facts',q:'The new boy in class wears black glasses because he cannot see. True or False?',answer:true},
+
+{type:'mcq',topic:'Story Facts',q:'What game did Ava play with Onshangla to help her understand?',
+ o:['A blindfold guessing game','Hide and seek','A drawing game','A running race'],a:0},
+
+{type:'tapall',topic:'Story Facts',q:'Tap ALL the objects Onshangla had to guess while blindfolded.',
+ pool:['A rose','A bell','A glass of orange juice','A shoe','A book','A ball'],
+ correct:['A rose','A bell','A glass of orange juice']},
+
+{type:'mcq',topic:'Story Facts',q:'How did Onshangla know the flower was a rose?',
+ o:['She smelled it','She heard it','She tasted it','Someone told her'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'How did Onshangla know the drink was orange juice, not water?',
+ o:['She tasted it','She smelled it','She heard it','She saw it'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'How did Onshangla recognise the bell?',
+ o:['By its sound','By its smell','By its taste','By its shape only'],a:0},
+
+{type:'tf',topic:'Story Facts',q:'The game taught Onshangla that people who cannot see can still find out about things using their other senses. True or False?',answer:true}
+],
+
+// ── Beginner Set 2: New Words & Meanings ───────────────────────
+[
+{type:'mcq',topic:'New Words',q:"'Quiet' means...",
+ o:['Making very little noise or sound','Very loud','Very fast','Very colourful'],a:0},
+
+{type:'mcq',topic:'New Words',q:"If you 'sniff' something, you...",
+ o:['Smell it by breathing in through your nose','Taste it with your tongue','Touch it with your hands','Look at it closely'],a:0},
+
+{type:'mcq',topic:'New Words',q:"'Remove' means...",
+ o:['To take something off or away','To put something on','To break something','To find something'],a:0},
+
+{type:'mcq',topic:'New Words',q:"'Joy' means...",
+ o:['A feeling of great happiness','A feeling of anger','A feeling of fear','A feeling of tiredness'],a:0},
+
+{type:'match',topic:'New Words',q:'Match each new word to its meaning.',
+ pairs:[
+  {l:'quiet', r:'making little noise'},
+  {l:'sniff', r:'smell by breathing in'},
+  {l:'joy', r:'great happiness'},
+  {l:'remove', r:'take something away'}
+]},
+
+{type:'tapall',topic:'New Words',q:'Tap ALL the words that are NEW WORDS from "Seeing without Seeing".',
+ pool:['quiet','sniff','banana','joy','remove','blink','umbrella','difficulties'],
+ correct:['quiet','sniff','joy','remove','blink','difficulties']},
+
+{type:'mcq',topic:'New Words',q:"'Blink' means...",
+ o:['To close and open your eyes quickly','To run very fast','To shout loudly','To sit down'],a:0},
+
+{type:'enterval',topic:'New Words',q:'Type the word: to close and open your eyes quickly.',
+ answer:'blink'},
+
+{type:'sort',topic:'New Words',q:'Tap these new words in ALPHABETICAL order (A to Z).',
+ items:['sniff','remove','quiet','joy'],order:'asc'},
+
+{type:'typeans',topic:'New Words',q:'Type the word meaning "problems or challenges someone may face".',answer:'difficulties'}
+],
+
+// ── Beginner Set 3: Sight Words & Comprehension ────────────────
+[
+{type:'tapall',topic:'Sight Words',q:"Tap ALL the SIGHT WORDS from this list: is, from, what, on, how, and, it, me, our, some, other, tiger.",
+ pool:['is','from','what','on','how','and','it','me','our','some','other','tiger'],
+ correct:['is','from','what','on','how','and','it','me','our','some','other']},
+
+{type:'fillin',topic:'Sight Words',q:'Choose the missing sight word:',
+ expr:'Did anything happen ___ school today?',
+ o:['in','from','on','of'],a:0},
+
+{type:'mcq',topic:'Comprehension',q:'What lesson does Ava want Onshangla to learn from the game?',
+ o:['That people can find things out using senses other than sight','That games are more fun than school','That flowers always smell nice','That juice is better than water'],a:0},
+
+{type:'mcq',topic:'Comprehension',q:'What does Ava hope Onshangla and her classmates will do for the new boy?',
+ o:['Be friends with him','Ignore him','Avoid speaking to him','Make fun of him'],a:0},
+
+{type:'classify',topic:'Senses',q:'Sort each way of sensing: is it done with the NOSE, or the TONGUE?',
+ categories:['Nose (Smell)','Tongue (Taste)'],
+ items:[
+  {val:'Sniffing a rose',cat:'Nose (Smell)'},{val:'Tasting orange juice',cat:'Tongue (Taste)'},
+  {val:'Smelling food cooking',cat:'Nose (Smell)'},{val:'Tasting sugar',cat:'Tongue (Taste)'},
+  {val:'Smelling perfume',cat:'Nose (Smell)'},{val:'Tasting salt',cat:'Tongue (Taste)'}
+]},
+
+{type:'mcq',topic:'Senses',q:'Besides sight, how many other main senses do people have to explore the world?',
+ o:['Four (hearing, smell, taste, touch)','One','Two','None'],a:0},
+
+{type:'tapall',topic:'Senses',q:'Tap ALL the senses used by Onshangla in the blindfold game.',
+ pool:['Touch','Smell','Taste','Hearing','Sight'],
+ correct:['Touch','Smell','Taste','Hearing']},
+
+{type:'typeans',topic:'Senses',q:'Which sense did Onshangla use to recognise the sound of the bell? (one word)',answer:'hearing'},
+
+{type:'tf',topic:'Comprehension',q:'The story teaches us to be kind and understanding towards people who cannot see. True or False?',answer:true},
+
+{type:'mcq',topic:'Eye Care',q:'Which of these is GOOD for your eyes?',
+ o:['Reading in good light','Staring at the sun','Sitting very close to the TV','Rubbing eyes with dirty hands'],a:0}
+],
+
+// ── Beginner Set 4: Phonics — a / an ('o' sound) ───────────────
+[
+{type:'mcq',topic:'a / an',q:"Which word goes before 'ox' — 'a' or 'an'?",
+ o:['an','a','both','neither'],a:0},
+
+{type:'mcq',topic:'a / an',q:"Which word goes before 'fox' — 'a' or 'an'?",
+ o:['a','an','both','neither'],a:0},
+
+{type:'fillin',topic:'a / an',q:'Fill in the blank:',
+ expr:'I ate ___ orange for breakfast.',
+ o:['an','a','the','some'],a:0},
+
+{type:'fillin',topic:'a / an',q:'Fill in the blank:',
+ expr:'She locked the door with ___ lock.',
+ o:['a','an','the','some'],a:0},
+
+{type:'tapall',topic:'a / an',q:"Tap ALL the words that should use 'an' before them (not 'a').",
+ pool:['ox','fox','otter','dot','orange','top','clock','frock'],
+ correct:['ox','otter','orange']},
+
+{type:'classify',topic:'a / an',q:"Sort each word: does it take 'a' or 'an' before it?",
+ categories:['Takes A','Takes AN'],
+ items:[
+  {val:'top',cat:'Takes A'},{val:'ox',cat:'Takes AN'},
+  {val:'clock',cat:'Takes A'},{val:'otter',cat:'Takes AN'},
+  {val:'frock',cat:'Takes A'},{val:'orange',cat:'Takes AN'}
+]},
+
+{type:'typeans',topic:'a / an',q:"Type 'a' or 'an': ___ dot.",answer:'a'},
+
+{type:'typeans',topic:'a / an',q:"Type 'a' or 'an': ___ otter.",answer:'an'},
+
+{type:'tf',topic:'a / an',q:"We say 'an fox' and 'a orange'. True or False?",answer:false},
+
+{type:'sort',topic:'a / an',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['top','lock','fox','clock'],order:'asc'}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Story Sequence & Detail ─────────────────────────
+[
+{type:'sort',topic:'Story Sequence',q:'Tap these story events in the ORDER they happened (first to last).',
+ items:['Onshangla came home quietly','Ava tied a scarf over her eyes','Onshangla guessed the rose, bell and juice','Ava removed the scarf'],order:'asc'},
+
+{type:'mcq',topic:'Story Detail',q:'What was the FIRST object Ava gave Onshangla to guess?',
+ o:['A rose','A bell','A glass of orange juice','A book'],a:0},
+
+{type:'mcq',topic:'Story Detail',q:'What was the LAST object Ava gave Onshangla to guess?',
+ o:['A glass of orange juice','A rose','A bell','A scarf'],a:0},
+
+{type:'mcq',topic:'Story Detail',q:'What did Onshangla first think the glass held, before tasting it?',
+ o:['Water','Milk','Tea','Orange juice'],a:0},
+
+{type:'tf',topic:'Story Detail',q:'Onshangla shouted with joy when the scarf was removed and she saw Ava again. True or False?',answer:true},
+
+{type:'match',topic:'Story Detail',q:'Match each object to the sense Onshangla used to recognise it.',
+ pairs:[
+  {l:'Rose', r:'Smell'},
+  {l:'Bell', r:'Hearing'},
+  {l:'Orange juice', r:'Taste'},
+  {l:'Ava (after scarf removed)', r:'Sight'}
+]},
+
+{type:'fillintext',topic:'Story Detail',q:'Complete the sequence of the game.',
+ template:'First Onshangla touched the ___, then she smelled the ___.',
+ blanks:['rose','rose']},
+
+{type:'mcq',topic:'Inference',q:'Why did Ava play this particular game with Onshangla?',
+ o:['To help her understand what it might be like for someone who cannot see','To test her memory of colours','To teach her to cook','To make her fall asleep'],a:0},
+
+{type:'typeans',topic:'Story Detail',q:'What does Onshangla call her mother throughout the story?',answer:'ava'},
+
+{type:'tf',topic:'Inference',q:'The story suggests that all children should try to be kind and welcoming to the new boy. True or False?',answer:true}
+],
+
+// ── Pro Set 2: Vocabulary in Context ───────────────────────────
+[
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The library was very ___ so everyone could concentrate.',
+ o:['quiet','joy','blink','sniff'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'Please ___ your shoes before entering the house.',
+ o:['remove','sniff','blink','difficulties'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The dog began to ___ the food to see what it was.',
+ o:['sniff','remove','blink','quiet'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'Winning the race filled her with ___.',
+ o:['joy','difficulties','blink','quiet'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each word to the sentence that uses it correctly.',
+ pairs:[
+  {l:'quiet', r:'The baby is sleeping, so please stay quiet.'},
+  {l:'sniff', r:'The rabbit began to sniff the fresh grass.'},
+  {l:'joy', r:'Their faces were full of joy at the surprise party.'},
+  {l:'remove', r:'Please remove your cap indoors.'}
+]},
+
+{type:'classify',topic:'Vocabulary',q:'Sort each word: does it describe a FEELING, or an ACTION?',
+ categories:['Feeling','Action'],
+ items:[
+  {val:'joy',cat:'Feeling'},{val:'sniff',cat:'Action'},
+  {val:'happiness',cat:'Feeling'},{val:'remove',cat:'Action'},
+  {val:'quietness',cat:'Feeling'},{val:'blink',cat:'Action'}
+]},
+
+{type:'typeans',topic:'Vocabulary',q:'Type the new word meaning "problems someone may face".',answer:'difficulties'},
+
+{type:'tapall',topic:'Vocabulary',q:'Tap ALL the words from "Seeing without Seeing" (sight words AND new words together).',
+ pool:['is','quiet','banana','what','joy','purple','from','sniff'],
+ correct:['is','quiet','what','joy','from','sniff']},
+
+{type:'tf',topic:'Vocabulary',q:"'Quiet' and 'noisy' mean the same thing. True or False?",answer:false},
+
+{type:'mcq',topic:'Vocabulary',q:"Which word best completes: 'She felt great ___ when she saw her friend after a long time.'",
+ o:['joy','difficulties','sniff','remove'],a:0}
+],
+
+// ── Pro Set 3: Senses & Eye Care ────────────────────────────────
+[
+{type:'match',topic:'Senses',q:'Match each sense to the body part mainly used for it.',
+ pairs:[
+  {l:'Sight', r:'Eyes'},
+  {l:'Hearing', r:'Ears'},
+  {l:'Smell', r:'Nose'},
+  {l:'Taste', r:'Tongue'}
+]},
+
+{type:'classify',topic:'Eye Care',q:'Sort each habit: is it GOOD or BAD for your eyes?',
+ categories:['Good for Eyes','Bad for Eyes'],
+ items:[
+  {val:'Reading in good light',cat:'Good for Eyes'},{val:'Staring at the sun',cat:'Bad for Eyes'},
+  {val:'Eating vegetables like carrots',cat:'Good for Eyes'},{val:'Sitting too close to the TV',cat:'Bad for Eyes'},
+  {val:'Sitting straight while reading',cat:'Good for Eyes'},{val:'Playing on a mobile for a long time',cat:'Bad for Eyes'}
+]},
+
+{type:'mcq',topic:'Eye Care',q:'Why should we eat carrots and vegetables regularly?',
+ o:['They are good for our eyes and health','They make us taller instantly','They help us hear better','They help us swim faster'],a:0},
+
+{type:'tapall',topic:'Senses',q:'Tap ALL the things you could identify WITHOUT using your eyes.',
+ pool:['The smell of a flower','The colour of a shirt','The sound of a bell','The taste of juice','The shape of writing on a page','The feel of rough cloth'],
+ correct:['The smell of a flower','The sound of a bell','The taste of juice','The feel of rough cloth']},
+
+{type:'fillintext',topic:'Eye Care',q:'Complete the eye-care tip.',
+ template:'Always read in ___ light, and do not sit too close to the ___.',
+ blanks:['good','TV']},
+
+{type:'typeans',topic:'Senses',q:'Which sense organ do we use to taste food? (one word)',answer:'tongue'},
+
+{type:'mcq',topic:'Senses',q:'People who cannot see well often develop which senses more strongly to help them?',
+ o:['Hearing and touch','None at all','Only taste','Only smell'],a:0},
+
+{type:'tf',topic:'Eye Care',q:'It is good for our eyes to stare directly at the sun.',answer:false},
+
+{type:'mcq',topic:'Senses',q:'What should you do if you see a classmate who cannot see well?',
+ o:['Be kind, helpful, and include them in play','Ignore them','Avoid sitting near them','Laugh at them'],a:0},
+
+{type:'sort',topic:'Senses',q:'Tap these senses in ALPHABETICAL order (A to Z).',
+ items:['taste','smell','sight','hearing'],order:'asc'}
+],
+
+// ── Pro Set 4: Mixed Review ─────────────────────────────────────
+[
+{type:'fillintext',topic:'Mixed Review',q:'Complete using facts from the story.',
+ template:'Onshangla calls her mother ___. Ava gave her a rose, a bell, and a glass of ___ to guess.',
+ blanks:['Ava','orange juice']},
+
+{type:'mcq',topic:'Mixed Review',q:'What is the main lesson of "Seeing without Seeing"?',
+ o:['We can understand the world through many senses, and we should be kind to those who see differently','Only sight matters in life','Games are more important than school','Flowers always smell like roses'],a:0},
+
+{type:'tapall',topic:'Mixed Review',q:'Tap ALL the TRUE statements about the story.',
+ pool:['Onshangla is a little girl','A new boy who cannot see joined the class','Ava is unkind to Onshangla','Onshangla guessed a rose by smell','The bell was recognised by taste','Onshangla felt joy when she saw Ava again'],
+ correct:['Onshangla is a little girl','A new boy who cannot see joined the class','Onshangla guessed a rose by smell','Onshangla felt joy when she saw Ava again']},
+
+{type:'match',topic:'Mixed Review',q:'Match each new word to its meaning, one more time.',
+ pairs:[
+  {l:'quiet', r:'making little noise'},
+  {l:'sniff', r:'smell by breathing in'},
+  {l:'blink', r:'close and open eyes quickly'},
+  {l:'joy', r:'great happiness'}
+]},
+
+{type:'classify',topic:'Mixed Review',q:'Sort each word: SIGHT WORD from the story, or NEW WORD from the story?',
+ categories:['Sight Word','New Word'],
+ items:[
+  {val:'is',cat:'Sight Word'},{val:'quiet',cat:'New Word'},
+  {val:'what',cat:'Sight Word'},{val:'sniff',cat:'New Word'},
+  {val:'from',cat:'Sight Word'},{val:'joy',cat:'New Word'}
+]},
+
+{type:'fillin',topic:'Mixed Review',q:'Choose the correct word:',
+ expr:'Onshangla felt ___ when she saw Ava after the scarf was removed.',
+ o:['joy','quiet','remove','difficulties'],a:0},
+
+{type:'typeans',topic:'Mixed Review',q:'Type the missing word: an ___, an otter, an orange.',answer:'ox'},
+
+{type:'tf',topic:'Mixed Review',q:'The story encourages children to be understanding towards classmates with disabilities. True or False?',answer:true},
+
+{type:'sort',topic:'Mixed Review',q:'Tap these story-related words in ALPHABETICAL order (A to Z).',
+ items:['rose','juice','bell','ava'],order:'asc'},
+
+{type:'mcq',topic:'Mixed Review',q:"Overall, what is 'Seeing without Seeing' mostly about?",
+ o:['Understanding the world through senses and being kind to others','A trip to the market','A birthday celebration','Learning to cook'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ ENGINE, do not modify below this line
+     ══════════════════════════════════════════════════════════ -->
+<script src="quiz-music.js?v=3"></script>
+<script src="quiz-engine.js?v=3"></script>
+</body>
+</html>

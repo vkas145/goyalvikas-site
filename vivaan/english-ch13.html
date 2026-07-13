@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 13: We are all Indians • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css?v=3">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/vivaan/" class="back-btn" onclick="try{localStorage.removeItem('vivaan_grade')}catch(e){}">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 13</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER DATA, We are all Indians (Unit 5: Harmony)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+const CHAPTER = {key:'ch13', title:'Ch 13: We are all Indians'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Story Facts ────────────────────────────────
+[
+{type:'mcq',topic:'Story Facts',q:'Which state does Meenakshi come from in the story?',
+ o:['Tamil Nadu','Gujarat','Punjab','Kerala'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'Which language does Meenakshi speak?',
+ o:['Tamil','Gujarati','Hindi only','Bengali'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:"What is Meenakshi's favourite festival?",
+ o:['Pongal','Diwali','Holi','Onam'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'Which state does Ramu come from?',
+ o:['Gujarat','Tamil Nadu','Kerala','Rajasthan'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'Which language does Ramu speak?',
+ o:['Gujarati','Tamil','Marathi','Telugu'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'Which dance does Ramu like to do?',
+ o:['Garba','Bharatanatyam','Kathak','Bhangra'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'How old is Ramu in the story?',
+ o:['Seven years old','Five years old','Ten years old','Two years old'],a:0},
+
+{type:'match',topic:'Story Facts',q:'Match each child to their home state.',
+ pairs:[
+  {l:'Meenakshi', r:'Tamil Nadu'},
+  {l:'Ramu', r:'Gujarat'}
+]},
+
+{type:'tapall',topic:'Story Facts',q:'Tap ALL the facts that are TRUE about Meenakshi and Ramu.',
+ pool:['Meenakshi speaks Tamil','Ramu speaks Gujarati','Ramu likes Garba dance','Meenakshi is from Gujarat','Ramu is seven years old','Meenakshi\'s favourite festival is Pongal'],
+ correct:['Meenakshi speaks Tamil','Ramu speaks Gujarati','Ramu likes Garba dance','Ramu is seven years old',"Meenakshi's favourite festival is Pongal"]},
+
+{type:'tf',topic:'Story Facts',q:'Meenakshi and Ramu come from the same state and speak the same language.',answer:false}
+],
+
+// ── Beginner Set 2: New Words & Meanings ───────────────────────
+[
+{type:'mcq',topic:'New Words',q:"A 'festival' is...",
+ o:['A special day of celebration','A type of food','A kind of animal','A school subject'],a:0},
+
+{type:'mcq',topic:'New Words',q:"A 'puppet' is...",
+ o:['A toy figure that can be moved by strings or hands','A type of vehicle','A kind of tree','A musical note'],a:0},
+
+{type:'mcq',topic:'New Words',q:"A 'neighbour' is...",
+ o:['Someone who lives near you','A type of food','A distant relative only','A type of festival'],a:0},
+
+{type:'mcq',topic:'New Words',q:"'Fingerprints' are...",
+ o:['The unique patterns on the tips of your fingers','A type of paint','A kind of dance','A festival name'],a:0},
+
+{type:'match',topic:'New Words',q:'Match each new word to its meaning.',
+ pairs:[
+  {l:'festival', r:'a special day of celebration'},
+  {l:'puppet', r:'a toy figure moved by strings or hands'},
+  {l:'neighbour', r:'someone who lives near you'},
+  {l:'fingerprints', r:'unique patterns on your fingertips'}
+]},
+
+{type:'tapall',topic:'New Words',q:'Tap ALL the words that are NEW WORDS from "We are all Indians".',
+ pool:['festival','puppet','banana','travel','purple','painting','neighbour','fingerprints'],
+ correct:['festival','puppet','travel','painting','neighbour','fingerprints']},
+
+{type:'mcq',topic:'New Words',q:"To 'travel' means to...",
+ o:['Go from one place to another','Stay in one place always','Sleep for a long time','Cook food'],a:0},
+
+{type:'enterval',topic:'New Words',q:'Type the word: a special day of celebration.',
+ answer:'festival'},
+
+{type:'sort',topic:'New Words',q:'Tap these new words in ALPHABETICAL order (A to Z).',
+ items:['puppet','painting','neighbour','festival'],order:'asc'},
+
+{type:'typeans',topic:'New Words',q:'Type the word for the unique patterns on your fingertips.',answer:'fingerprints'}
+],
+
+// ── Beginner Set 3: India's States & Languages ─────────────────
+[
+{type:'mcq',topic:'India\'s Diversity',q:'India has many different states, each with its own...',
+ o:['Language, food, and culture','Exact same language everywhere','No differences at all','Only one festival'],a:0},
+
+{type:'tapall',topic:'India\'s Diversity',q:'Tap ALL the languages spoken in different parts of India.',
+ pool:['Tamil','Gujarati','Hindi','English (spoken widely too)','Bengali','Spanish'],
+ correct:['Tamil','Gujarati','Hindi','English (spoken widely too)','Bengali']},
+
+{type:'match',topic:'India\'s Diversity',q:'Match each language to a state where it is commonly spoken.',
+ pairs:[
+  {l:'Tamil', r:'Tamil Nadu'},
+  {l:'Gujarati', r:'Gujarat'},
+  {l:'Bengali', r:'West Bengal'},
+  {l:'Punjabi', r:'Punjab'}
+]},
+
+{type:'mcq',topic:'India\'s Diversity',q:'What is Pongal?',
+ o:['A harvest festival celebrated mainly in Tamil Nadu','A dance from Gujarat','A language','A type of food eaten only in winter'],a:0},
+
+{type:'mcq',topic:'India\'s Diversity',q:'What is Garba?',
+ o:['A traditional dance from Gujarat','A festival from Tamil Nadu','A language','A type of puppet'],a:0},
+
+{type:'classify',topic:'India\'s Diversity',q:'Sort each item: is it a LANGUAGE, or a FESTIVAL/DANCE?',
+ categories:['A Language','A Festival or Dance'],
+ items:[
+  {val:'Tamil',cat:'A Language'},{val:'Pongal',cat:'A Festival or Dance'},
+  {val:'Gujarati',cat:'A Language'},{val:'Garba',cat:'A Festival or Dance'},
+  {val:'Hindi',cat:'A Language'},{val:'Diwali',cat:'A Festival or Dance'}
+]},
+
+{type:'typeans',topic:'India\'s Diversity',q:'Type the name of the harvest festival mentioned as Meenakshi\'s favourite.',answer:'pongal'},
+
+{type:'tf',topic:'India\'s Diversity',q:'India has many states, each with its own language and traditions.',answer:true},
+
+{type:'mcq',topic:'India\'s Diversity',q:'What does the title "We are all Indians" suggest, even though people speak different languages?',
+ o:['Despite our differences, we are united as one country','We should all speak only one language','Different states should not be friends','Festivals are not important'],a:0},
+
+{type:'mcq',topic:'India\'s Diversity',q:'Which of these is a well-known phrase describing India\'s many cultures living together?',
+ o:['Unity in Diversity','Division in Diversity','One Language Only','No Festivals Allowed'],a:0}
+],
+
+// ── Beginner Set 4: Sight Words & Friendship ───────────────────
+[
+{type:'mcq',topic:'Comprehension',q:'What is the main purpose of Meenakshi and Ramu introducing themselves in the story?',
+ o:['To show how children from different states can share and learn about each other','To argue about whose state is better','To test a maths problem','To plan a trip'],a:0},
+
+{type:'fillintext',topic:'Comprehension',q:'Complete Meenakshi\'s introduction.',
+ template:'My name is Meenakshi. I come from ___. I speak ___.',
+ blanks:['Tamil Nadu','Tamil']},
+
+{type:'fillintext',topic:'Comprehension',q:'Complete Ramu\'s introduction.',
+ template:'I am Ramu. I come from ___. I like to dance the ___.',
+ blanks:['Gujarat','Garba']},
+
+{type:'mcq',topic:'Friendship',q:'How can learning about a friend\'s different state and language help you?',
+ o:['It helps you understand and respect different cultures','It has no benefit at all','It makes friendships harder','It is not useful to know'],a:0},
+
+{type:'tapall',topic:'Friendship',q:'Tap ALL the good things about having friends from different parts of India.',
+ pool:['Learning new languages and words','Trying new festival foods','Making fun of differences','Learning new dances and songs','Ignoring their culture','Sharing stories about home'],
+ correct:['Learning new languages and words','Trying new festival foods','Learning new dances and songs','Sharing stories about home']},
+
+{type:'mcq',topic:'Comprehension',q:'If you met a new classmate from a different state, what could you politely ask them, like in the story?',
+ o:['What is your name, and where are you from?','Nothing, ignore them','Only ask about their toys','Tell them to leave'],a:0},
+
+{type:'typeans',topic:'Comprehension',q:'Type the age Ramu says he is, in words or numbers.',answer:'seven'},
+
+{type:'tf',topic:'Friendship',q:'Even though Meenakshi and Ramu are different, they can still be friends and Indians together.',answer:true},
+
+{type:'mcq',topic:'Comprehension',q:"What might Meenakshi ask Ramu back, following the pattern 'How old are you?'",
+ o:['What is your favourite festival?','Where do fish live?','What time is it?','How many wheels does a car have?'],a:0},
+
+{type:'mcq',topic:'India\'s Diversity',q:'What is the overall message of "We are all Indians"?',
+ o:['India is united even though people speak different languages and follow different customs','Everyone in India speaks the same language','States should not be friends with each other','Only one festival is celebrated in all of India'],a:0}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Story Detail & Comparison ────────────────────────
+[
+{type:'match',topic:'Comparison',q:'Match each detail to whether it belongs to Meenakshi or Ramu.',
+ pairs:[
+  {l:'From Tamil Nadu', r:'Meenakshi'},
+  {l:'From Gujarat', r:'Ramu'},
+  {l:'Likes Pongal', r:'Meenakshi'},
+  {l:'Likes Garba dance', r:'Ramu'}
+]},
+
+{type:'classify',topic:'Comparison',q:'Sort each detail: does it belong to Meenakshi, or to Ramu?',
+ categories:['Meenakshi','Ramu'],
+ items:[
+  {val:'Speaks Tamil',cat:'Meenakshi'},{val:'Speaks Gujarati',cat:'Ramu'},
+  {val:'From Tamil Nadu',cat:'Meenakshi'},{val:'From Gujarat',cat:'Ramu'},
+  {val:'Loves Pongal',cat:'Meenakshi'},{val:'Is seven years old',cat:'Ramu'}
+]},
+
+{type:'mcq',topic:'Story Detail',q:'What information does each child share about themselves in the story?',
+ o:['Name, home state, language, and a favourite thing (festival or dance)','Only their name','Only their age','Only their favourite food'],a:0},
+
+{type:'fillintext',topic:'Story Detail',q:'Complete both introductions from the story.',
+ template:'Meenakshi is from ___. Ramu is from ___.',
+ blanks:['Tamil Nadu','Gujarat']},
+
+{type:'tapall',topic:'Story Detail',q:'Tap ALL the TRUE statements comparing Meenakshi and Ramu.',
+ pool:['They speak different languages','They come from different states','They are exactly the same age and state','Both share something they enjoy (festival/dance)','Neither of them has a name','They are both Indian'],
+ correct:['They speak different languages','They come from different states','Both share something they enjoy (festival/dance)','They are both Indian']},
+
+{type:'mcq',topic:'Inference',q:'Why might the story introduce two children from different states instead of just one?',
+ o:['To show the variety and diversity found across India','Because one child was not enough for the story','To confuse the reader','Because Gujarat and Tamil Nadu are the only states in India'],a:0},
+
+{type:'typeans',topic:'Story Detail',q:"Type Ramu's favourite dance.",answer:'garba'},
+
+{type:'tf',topic:'Story Detail',q:'Meenakshi and Ramu both belong to India, despite coming from different states.',answer:true},
+
+{type:'mcq',topic:'Inference',q:'What is the title "We are all Indians" trying to emphasise?',
+ o:['Unity among people despite regional differences','That everyone must speak the same language','That some states are better than others','That festivals should be banned'],a:0},
+
+{type:'mcq',topic:'Story Detail',q:"What question does Meenakshi ask the reader at the end of her introduction?",
+ o:['What is your name?','What is your favourite festival?','Where do you live?','How old are you?'],a:0}
+],
+
+// ── Pro Set 2: Vocabulary in Context ───────────────────────────
+[
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'Diwali is a popular ___ celebrated across India.',
+ o:['festival','puppet','painting','neighbour'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The children enjoyed watching the ___ show at the fair.',
+ o:['puppet','festival','fingerprints','travel'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'Our friendly ___ next door often helps us water the plants.',
+ o:['neighbour','puppet','painting','festival'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'We plan to ___ to Tamil Nadu this summer to visit family.',
+ o:['travel','paint','festival','neighbour'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each word to the sentence that uses it correctly.',
+ pairs:[
+  {l:'festival', r:'Pongal is a harvest festival in Tamil Nadu.'},
+  {l:'neighbour', r:'Our neighbour invited us to their Garba celebration.'},
+  {l:'travel', r:'We travel by train to visit our grandparents.'},
+  {l:'painting', r:'She made a colourful painting of a rangoli.'}
+]},
+
+{type:'classify',topic:'Vocabulary',q:'Sort each word: is it a PERSON, or an EVENT/ACTIVITY?',
+ categories:['A Person','An Event or Activity'],
+ items:[
+  {val:'neighbour',cat:'A Person'},{val:'festival',cat:'An Event or Activity'},
+  {val:'friend',cat:'A Person'},{val:'travel',cat:'An Event or Activity'},
+  {val:'classmate',cat:'A Person'},{val:'painting (the activity)',cat:'An Event or Activity'}
+]},
+
+{type:'typeans',topic:'Vocabulary',q:'Type the word for someone who lives near you.',answer:'neighbour'},
+
+{type:'tapall',topic:'Vocabulary',q:'Tap ALL the words from "We are all Indians" (new words from the story).',
+ pool:['festival','banana','puppet','purple','travel','umbrella','painting','fingerprints'],
+ correct:['festival','puppet','travel','painting','fingerprints']},
+
+{type:'tf',topic:'Vocabulary',q:'"Neighbour" means someone who lives very far away from you.',answer:false},
+
+{type:'mcq',topic:'Vocabulary',q:"Which word best completes: 'Every person has unique ___ on their fingertips.'",
+ o:['fingerprints','festivals','puppets','paintings'],a:0}
+],
+
+// ── Pro Set 3: Unity in Diversity — General Awareness ──────────
+[
+{type:'tapall',topic:'Unity in Diversity',q:'Tap ALL the things that can differ from state to state in India.',
+ pool:['Language','Food','Festivals','Clothing styles','The country itself','Traditional dances'],
+ correct:['Language','Food','Festivals','Clothing styles','Traditional dances']},
+
+{type:'mcq',topic:'Unity in Diversity',q:'What does "Unity in Diversity" mean?',
+ o:['People with different languages and cultures living together as one nation','Everyone must be exactly the same','Only one culture is allowed','States cannot be friends'],a:0},
+
+{type:'match',topic:'Unity in Diversity',q:'Match each Indian festival to a fact about it.',
+ pairs:[
+  {l:'Pongal', r:'A harvest festival, popular in Tamil Nadu'},
+  {l:'Diwali', r:'The festival of lights, celebrated across India'},
+  {l:'Holi', r:'The festival of colours'},
+  {l:'Garba', r:'A traditional dance during Navratri in Gujarat'}
+]},
+
+{type:'classify',topic:'Unity in Diversity',q:'Sort each idea: does it CELEBRATE diversity, or REJECT diversity?',
+ categories:['Celebrates Diversity','Rejects Diversity'],
+ items:[
+  {val:'Learning about other cultures',cat:'Celebrates Diversity'},{val:'Making fun of different languages',cat:'Rejects Diversity'},
+  {val:'Enjoying festivals from other states',cat:'Celebrates Diversity'},{val:'Refusing to be friends with someone different',cat:'Rejects Diversity'},
+  {val:'Respecting different traditions',cat:'Celebrates Diversity'},{val:'Excluding people who speak differently',cat:'Rejects Diversity'}
+]},
+
+{type:'fillintext',topic:'Unity in Diversity',q:'Complete the idea of unity in diversity.',
+ template:'People across India speak different ___, but they are all united as one ___.',
+ blanks:['languages','country']},
+
+{type:'typeans',topic:'Unity in Diversity',q:'Type the name of the country that Meenakshi and Ramu both belong to.',answer:'india'},
+
+{type:'mcq',topic:'Unity in Diversity',q:'Why is it valuable to learn about festivals and languages from different Indian states?',
+ o:['It helps us appreciate and respect our country\'s rich diversity','It is a waste of time','Only people from that state should know about it','It causes arguments'],a:0},
+
+{type:'tf',topic:'Unity in Diversity',q:'Despite having many languages and cultures, India is one united country.',answer:true},
+
+{type:'mcq',topic:'Unity in Diversity',q:'What is a respectful way to react when you meet someone who speaks a different language than you?',
+ o:['Be curious, friendly, and try to learn a little about their culture','Refuse to talk to them','Insist they speak your language only','Avoid them completely'],a:0},
+
+{type:'sort',topic:'Unity in Diversity',q:'Tap these Indian festivals in ALPHABETICAL order (A to Z).',
+ items:['pongal','holi','garba','diwali'],order:'asc'}
+],
+
+// ── Pro Set 4: Mixed Review ─────────────────────────────────────
+[
+{type:'fillintext',topic:'Mixed Review',q:'Complete using facts from the story.',
+ template:'Meenakshi is from ___ and speaks Tamil. Ramu is from ___ and speaks Gujarati.',
+ blanks:['Tamil Nadu','Gujarat']},
+
+{type:'mcq',topic:'Mixed Review',q:'What is the main idea of "We are all Indians"?',
+ o:['Children from different states and languages are all united as Indians','Only one state matters in India','Everyone in India speaks the same language','Festivals should not be celebrated'],a:0},
+
+{type:'tapall',topic:'Mixed Review',q:'Tap ALL the TRUE statements about the story.',
+ pool:['Meenakshi speaks Tamil','Ramu is from Gujarat','Both children are from the same state','Ramu likes the Garba dance','Meenakshi\'s favourite festival is Pongal','The story says India has only one culture'],
+ correct:['Meenakshi speaks Tamil','Ramu is from Gujarat','Ramu likes the Garba dance',"Meenakshi's favourite festival is Pongal"]},
+
+{type:'match',topic:'Mixed Review',q:'Match each new word to its meaning, one more time.',
+ pairs:[
+  {l:'festival', r:'a special day of celebration'},
+  {l:'neighbour', r:'someone who lives near you'},
+  {l:'travel', r:'go from one place to another'},
+  {l:'fingerprints', r:'unique patterns on fingertips'}
+]},
+
+{type:'classify',topic:'Mixed Review',q:'Sort each detail: does it belong to Meenakshi, or to Ramu?',
+ categories:['Meenakshi','Ramu'],
+ items:[
+  {val:'Tamil Nadu',cat:'Meenakshi'},{val:'Gujarat',cat:'Ramu'},
+  {val:'Tamil',cat:'Meenakshi'},{val:'Gujarati',cat:'Ramu'},
+  {val:'Pongal',cat:'Meenakshi'},{val:'Garba',cat:'Ramu'}
+]},
+
+{type:'fillin',topic:'Mixed Review',q:'Choose the correct word:',
+ expr:'My favourite ___ is Pongal.',
+ o:['festival','puppet','painting','neighbour'],a:0},
+
+{type:'typeans',topic:'Mixed Review',q:"Type Ramu's home state.",answer:'gujarat'},
+
+{type:'tf',topic:'Mixed Review',q:'India has many languages and cultures, but all its people are united as Indians.',answer:true},
+
+{type:'sort',topic:'Mixed Review',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['tamil','gujarati','garba','pongal'],order:'asc'},
+
+{type:'mcq',topic:'Mixed Review',q:"Overall, what is 'We are all Indians' mostly about?",
+ o:['Celebrating India\'s diversity of languages, states, and festivals, united as one nation','A cricket match between two states','A cooking competition','A story about pets'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ ENGINE, do not modify below this line
+     ══════════════════════════════════════════════════════════ -->
+<script src="quiz-music.js?v=3"></script>
+<script src="quiz-engine.js?v=3"></script>
+</body>
+</html>

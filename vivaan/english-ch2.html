@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 2: Picture Reading • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css?v=3">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/vivaan/" class="back-btn" onclick="try{localStorage.removeItem('vivaan_grade')}catch(e){}">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 2</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER DATA, Picture Reading (Unit 1: Fun with Friends)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+const CHAPTER = {key:'ch2', title:'Ch 2: Picture Reading'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Story Facts ────────────────────────────────
+[
+{type:'mcq',topic:'Story Facts',q:"In the story, who are the two children playing together on a holiday?",
+ o:['Jeet and Babli','Ravi and Meena','Anju and Farida','Ram and Sita'],a:0},
+
+{type:'tapall',topic:'Story Facts',q:'Tap ALL the games the children played that day.',
+ pool:['Skipping rope','Hide and seek','Bat and ball','Football','Chess','Cricket with a bat and rag ball'],
+ correct:['Skipping rope','Hide and seek','Bat and ball','Cricket with a bat and rag ball']},
+
+{type:'mcq',topic:'Story Facts',q:'Where did the first ball go, causing the game to stop?',
+ o:["Into a neighbour's garden","Into a river","Under a car","Into a well"],a:0},
+
+{type:'tf',topic:'Story Facts',q:'The children could not get the first ball back because the house was locked. True or False?',answer:true},
+
+{type:'mcq',topic:'Story Facts',q:'What materials did the children use to make a new ball?',
+ o:['Rags, paper, wool and string','Plastic and tape','Clay and sticks','Cloth and glue'],a:0},
+
+{type:'mcq',topic:'Story Facts',q:'What did the child shout when the new ball came apart?',
+ o:['OUT! OUT!','GOAL! GOAL!','STOP! STOP!','WOW! WOW!'],a:0},
+
+{type:'fillintext',topic:'Story Facts',q:'Complete the sentence about the story.',
+ template:'The children made a new ball using rags, paper, ___ and ___.',
+ blanks:['wool','string']},
+
+{type:'tf',topic:'Story Facts',q:'The new ball opened up and scattered in the air while they were playing. True or False?',answer:true},
+
+{type:'typeans',topic:'Story Facts',q:'What is the name of the game the children played with a bat and a ball? (two words)',answer:'bat and ball'},
+
+{type:'mcq',topic:'Story Facts',q:'What kind of day was it when the children played all these games?',
+ o:['A holiday','A rainy day','A school day','A birthday'],a:0}
+],
+
+// ── Beginner Set 2: New Words & Meanings ───────────────────────
+[
+{type:'mcq',topic:'New Words',q:"'Skipped' means...",
+ o:['Jumped over a rope repeatedly','Sat quietly','Went to sleep','Ate food'],a:0},
+
+{type:'mcq',topic:'New Words',q:"If you 'threw' a ball, you...",
+ o:['Tossed it through the air','Caught it','Kicked it','Painted it'],a:0},
+
+{type:'mcq',topic:'New Words',q:"A 'courtyard' is...",
+ o:['An open space near or inside a house','A type of ball','A kind of food','A musical instrument'],a:0},
+
+{type:'mcq',topic:'New Words',q:"If friends 'gathered' together, they...",
+ o:['Came together in one place','Ran away from each other','Went to sleep','Fought with each other'],a:0},
+
+{type:'match',topic:'New Words',q:'Match each new word to its meaning.',
+ pairs:[
+  {l:'threw', r:'tossed through the air'},
+  {l:'gathered', r:'came together'},
+  {l:'picked', r:'lifted up with hands'},
+  {l:'brought', r:'carried something along'}
+]},
+
+{type:'tapall',topic:'New Words',q:'Tap ALL the words that are NEW WORDS from "Picture Reading".',
+ pool:['skipped','threw','courtyard','banana','gathered','brought','picked','umbrella'],
+ correct:['skipped','threw','courtyard','gathered','brought','picked']},
+
+{type:'enterval',topic:'New Words',q:'Type the word: to lift something up using your hand.',
+ answer:'picked'},
+
+{type:'sort',topic:'New Words',q:'Tap these new words in ALPHABETICAL order (A to Z).',
+ items:['threw','gathered','courtyard','brought'],order:'asc'},
+
+{type:'mcq',topic:'New Words',q:"Which sentence uses 'gathered' correctly?",
+ o:['The children gathered near the tree to play.','The ball gathered the game.','She gathered to the market.','He gathered fast.'],a:0},
+
+{type:'typeans',topic:'New Words',q:'Type the new word meaning "carried something with you".',answer:'brought'}
+],
+
+// ── Beginner Set 3: Sight Words & Opposites ────────────────────
+[
+{type:'tapall',topic:'Sight Words',q:"Tap ALL the SIGHT WORDS from this list: this, a, how, also, they, after, and, of, tiger, jump.",
+ pool:['this','a','how','also','they','after','and','of','tiger','jump'],
+ correct:['this','a','how','also','they','after','and','of']},
+
+{type:'fillin',topic:'Sight Words',q:'Choose the missing sight word:',
+ expr:'___ were playing many games.',
+ o:['They','It','He','She'],a:0},
+
+{type:'match',topic:'Opposites',q:'Match each word to its opposite.',
+ pairs:[
+  {l:'up', r:'down'},
+  {l:'open', r:'closed'},
+  {l:'hot', r:'cold'},
+  {l:'fat', r:'thin'}
+]},
+
+{type:'mcq',topic:'Opposites',q:'What is the opposite of "small"?',
+ o:['Big','Tiny','Short','Little'],a:0},
+
+{type:'mcq',topic:'Opposites',q:'What is the opposite of "in"?',
+ o:['Out','Inside','Under','Near'],a:0},
+
+{type:'classify',topic:'Opposites',q:'Sort each pair: are the two words OPPOSITES, or the SAME?',
+ categories:['Opposites','Same Meaning'],
+ items:[
+  {val:'up / down',cat:'Opposites'},{val:'big / large',cat:'Same Meaning'},
+  {val:'hot / cold',cat:'Opposites'},{val:'happy / glad',cat:'Same Meaning'},
+  {val:'open / closed',cat:'Opposites'},{val:'small / tiny',cat:'Same Meaning'}
+]},
+
+{type:'typeans',topic:'Opposites',q:'Type the opposite of "fat".',answer:'thin'},
+
+{type:'fillintext',topic:'Sentence Joining',q:'Join the two sentences using "and".',
+ template:'I like mangoes. I like grapes. = I like mangoes ___ grapes.',
+ blanks:['and']},
+
+{type:'mcq',topic:'Sentence Joining',q:'Which word joins two similar sentences together, like "Suresh went to school. Gopal went to school." into one?',
+ o:['and','but','or','so'],a:0},
+
+{type:'tf',topic:'Opposites',q:'"Open" and "closed" are opposites. True or False?',answer:true}
+],
+
+// ── Beginner Set 4: Phonics — a / an ('e' sound) ───────────────
+[
+{type:'mcq',topic:'a / an',q:"Which word goes before 'egg' — 'a' or 'an'?",
+ o:['an','a','both','neither'],a:0},
+
+{type:'mcq',topic:'a / an',q:"Which word goes before 'pen' — 'a' or 'an'?",
+ o:['a','an','both','neither'],a:0},
+
+{type:'fillin',topic:'a / an',q:'Fill in the blank:',
+ expr:'I saw ___ elephant at the zoo.',
+ o:['an','a','the','some'],a:0},
+
+{type:'fillin',topic:'a / an',q:'Fill in the blank:',
+ expr:'She has ___ pencil in her bag.',
+ o:['a','an','the','some'],a:0},
+
+{type:'tapall',topic:'a / an',q:"Tap ALL the words that should use 'an' before them (not 'a').",
+ pool:['egg','pen','engine','bell','elephant','hen','kettle','well'],
+ correct:['egg','engine','elephant']},
+
+{type:'classify',topic:'a / an',q:"Sort each word: does it take 'a' or 'an' before it?",
+ categories:['Takes A','Takes AN'],
+ items:[
+  {val:'hen',cat:'Takes A'},{val:'egg',cat:'Takes AN'},
+  {val:'bell',cat:'Takes A'},{val:'elephant',cat:'Takes AN'},
+  {val:'well',cat:'Takes A'},{val:'engine',cat:'Takes AN'}
+]},
+
+{type:'typeans',topic:'a / an',q:"Type 'a' or 'an': ___ kettle.",answer:'a'},
+
+{type:'typeans',topic:'a / an',q:"Type 'a' or 'an': ___ egg.",answer:'an'},
+
+{type:'tf',topic:'a / an',q:"We say 'a elephant' and 'an hen'. True or False?",answer:false},
+
+{type:'sort',topic:'a / an',q:'Tap these words in ALPHABETICAL order (A to Z).',
+ items:['pen','bell','egg','hen'],order:'asc'}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Story Sequence & Detail ─────────────────────────
+[
+{type:'sort',topic:'Story Sequence',q:'Tap these story events in the ORDER they happened (first to last).',
+ items:['They played hide and seek','Jeet threw the ball','The ball went into a garden','Babli made a new ball'],order:'asc'},
+
+{type:'mcq',topic:'Story Detail',q:'Who hit the ball that went into the neighbouring garden?',
+ o:['Babli','Jeet','Mohit','The teacher'],a:0},
+
+{type:'mcq',topic:'Story Detail',q:"Whose garden did the first ball land in?",
+ o:["Mohit's garden","Babli's garden","Jeet's garden","The school garden"],a:0},
+
+{type:'mcq',topic:'Story Detail',q:'When they played again with the new ball, who threw it and who hit it?',
+ o:['Babli threw it, Jeet hit it','Jeet threw it, Babli hit it','Both threw it together','Neither threw it'],a:0},
+
+{type:'tf',topic:'Story Detail',q:'The story is called "Out! Out!" because that is what Babli shouted at the end. True or False?',answer:true},
+
+{type:'match',topic:'Story Detail',q:'Match each character to what they did in the story.',
+ pairs:[
+  {l:'Jeet', r:'Threw the ball'},
+  {l:'Babli', r:'Made the new ball and caught the rag'},
+  {l:'Mohit', r:"Owned the garden where the ball landed"},
+  {l:'Both children', r:'Played hide and seek and skipping'}
+]},
+
+{type:'fillintext',topic:'Story Detail',q:'Complete the sequence of events.',
+ template:'First they played ___ and hide and seek, then they played ___ and ___.',
+ blanks:['skipping','bat','ball']},
+
+{type:'typeans',topic:'Story Detail',q:'What word did Babli shout twice at the very end of the story?',answer:'out'},
+
+{type:'mcq',topic:'Inference',q:'Why do you think the children decided to make their own ball?',
+ o:['Because their first ball was lost and they wanted to keep playing','Because they did not like the first ball','Because a shopkeeper told them to','Because it was raining'],a:0},
+
+{type:'tf',topic:'Inference',q:'The story shows that children can make their own toys using things around them. True or False?',answer:true}
+],
+
+// ── Pro Set 2: Vocabulary in Context ───────────────────────────
+[
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The players ___ near the coach before the match began.',
+ o:['gathered','threw','picked','skipped'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'He ___ the ball hard towards the goal.',
+ o:['threw','gathered','sniffed','remembered'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'She ___ some flowers for her mother from the garden.',
+ o:['picked','threw','gathered','skipped'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'We played happily in the ___ outside our house.',
+ o:['courtyard','engine','feather','ocean'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each word to the sentence that uses it correctly.',
+ pairs:[
+  {l:'skipped', r:'The girl skipped rope for ten minutes.'},
+  {l:'brought', r:'He brought his lunch box to school.'},
+  {l:'courtyard', r:'The children played in the courtyard.'},
+  {l:'picked', r:'She picked up the fallen toy.'}
+]},
+
+{type:'classify',topic:'Vocabulary',q:'Sort each word: is it an ACTION (verb) or a PLACE/THING (noun)?',
+ categories:['Action','Place or Thing'],
+ items:[
+  {val:'threw',cat:'Action'},{val:'courtyard',cat:'Place or Thing'},
+  {val:'picked',cat:'Action'},{val:'ball',cat:'Place or Thing'},
+  {val:'gathered',cat:'Action'},{val:'string',cat:'Place or Thing'}
+]},
+
+{type:'typeans',topic:'Vocabulary',q:'Type the new word that means "an open space near a house".',answer:'courtyard'},
+
+{type:'tapall',topic:'Vocabulary',q:'Tap ALL the words from "Picture Reading" (sight words AND new words together).',
+ pool:['this','skipped','banana','also','courtyard','purple','they','picked'],
+ correct:['this','skipped','also','courtyard','they','picked']},
+
+{type:'tf',topic:'Vocabulary',q:"'Gathered' means the same as 'scattered'. True or False?",answer:false},
+
+{type:'mcq',topic:'Vocabulary',q:"Which word best completes: 'The teacher ___ all the students in the hall.'",
+ o:['gathered','threw','picked','skipped'],a:0}
+],
+
+// ── Pro Set 3: Opposites & Sentence Skills ─────────────────────
+[
+{type:'match',topic:'Opposites',q:'Match each word to its opposite.',
+ pairs:[
+  {l:'up', r:'down'},
+  {l:'open', r:'closed'},
+  {l:'fat', r:'thin'},
+  {l:'hot', r:'cold'}
+]},
+
+{type:'fillintext',topic:'Opposites',q:'Fill in both opposites.',
+ template:'The opposite of "up" is ___. The opposite of "in" is ___.',
+ blanks:['down','out']},
+
+{type:'classify',topic:'Opposites',q:'Sort each word: does it pair with "small" or with "cold" as an opposite?',
+ categories:['Opposite of Small','Opposite of Cold'],
+ items:[
+  {val:'big',cat:'Opposite of Small'},{val:'hot',cat:'Opposite of Cold'},
+  {val:'large',cat:'Opposite of Small'},{val:'warm',cat:'Opposite of Cold'},
+  {val:'huge',cat:'Opposite of Small'},{val:'boiling',cat:'Opposite of Cold'}
+]},
+
+{type:'mcq',topic:'Sentence Joining',q:'Join: "The cat sat on the mat. The dog sat on the mat." Using "and", this becomes:',
+ o:['The cat and the dog sat on the mat.','The cat sat and the dog on the mat.','The cat, the dog, sat mat.','The mat sat on the cat and dog.'],a:0},
+
+{type:'mcq',topic:'Sentence Joining',q:'Join: "There are tables in my classroom. There are chairs in my classroom." Using "and":',
+ o:['There are tables and chairs in my classroom.','There are tables in my classroom and chairs.','Tables and my classroom has chairs.','My classroom and chairs has tables.'],a:0},
+
+{type:'typeans',topic:'Opposites',q:'Type the opposite of "open".',answer:'closed'},
+
+{type:'tf',topic:'Opposites',q:'"Fat" and "thin" describe the same thing. True or False?',answer:false},
+
+{type:'fillin',topic:'Sentence Joining',q:'Fill in the joining word:',
+ expr:'This ball has yellow dots. This ball ___ has green dots.',
+ o:['also','never','not','under'],a:0},
+
+{type:'mcq',topic:'Sentence Skills',q:'Which sentence correctly uses "also" to add information?',
+ o:['I like mangoes. I also like grapes.','I like mangoes also grapes.','Also I mangoes like.','I mangoes also like.'],a:0},
+
+{type:'sort',topic:'Opposites',q:'Tap these opposite-pairs words in ALPHABETICAL order (A to Z).',
+ items:['thin','open','hot','down'],order:'asc'}
+],
+
+// ── Pro Set 4: Mixed Review ─────────────────────────────────────
+[
+{type:'fillintext',topic:'Mixed Review',q:'Complete using facts from the story.',
+ template:'Jeet and ___ played bat and ball. The new ball was made from rags, paper, wool and ___.',
+ blanks:['Babli','string']},
+
+{type:'mcq',topic:'Mixed Review',q:'What is the main lesson we learn from "Picture Reading"?',
+ o:['We can make our own fun using things around us','We should never play outside','Balls are always easy to find','Gardens are dangerous places'],a:0},
+
+{type:'tapall',topic:'Mixed Review',q:'Tap ALL the TRUE statements about the story.',
+ pool:['Jeet and Babli are friends','The first ball was never lost','They made a new ball themselves','The new ball opened up while playing','It was a school day, not a holiday','Babli shouted "Out! Out!"'],
+ correct:['Jeet and Babli are friends','They made a new ball themselves','The new ball opened up while playing','Babli shouted "Out! Out!"']},
+
+{type:'match',topic:'Mixed Review',q:'Match each new word to its meaning, one more time.',
+ pairs:[
+  {l:'threw', r:'tossed through the air'},
+  {l:'courtyard', r:'open space near a house'},
+  {l:'gathered', r:'came together'},
+  {l:'picked', r:'lifted up with hands'}
+]},
+
+{type:'classify',topic:'Mixed Review',q:'Sort each word: SIGHT WORD from the story, or NEW WORD from the story?',
+ categories:['Sight Word','New Word'],
+ items:[
+  {val:'this',cat:'Sight Word'},{val:'courtyard',cat:'New Word'},
+  {val:'they',cat:'Sight Word'},{val:'gathered',cat:'New Word'},
+  {val:'also',cat:'Sight Word'},{val:'threw',cat:'New Word'}
+]},
+
+{type:'fillin',topic:'Mixed Review',q:'Choose the correct word:',
+ expr:'Babli ___ the ball with rags, paper, wool and string.',
+ o:['made','threw','gathered','sniffed'],a:0},
+
+{type:'typeans',topic:'Mixed Review',q:'Type the missing word: an ___, an engine, an elephant.',answer:'egg'},
+
+{type:'tf',topic:'Mixed Review',q:'The children in the story used old materials to make a new toy. True or False?',answer:true},
+
+{type:'sort',topic:'Mixed Review',q:'Tap these story-related words in ALPHABETICAL order (A to Z).',
+ items:['string','rags','paper','wool'],order:'asc'},
+
+{type:'mcq',topic:'Mixed Review',q:"Overall, what is 'Picture Reading' mostly about?",
+ o:['Two friends who play games and make their own ball','A trip to the zoo','A birthday party','Learning to read a map'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ ENGINE, do not modify below this line
+     ══════════════════════════════════════════════════════════ -->
+<script src="quiz-music.js?v=3"></script>
+<script src="quiz-engine.js?v=3"></script>
+</body>
+</html>

@@ -274,6 +274,46 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     letter-spacing: .1em;
     opacity: .85;
   }
+  /* ── Subject switcher (shown in post-grade view, above chapter grid) ── */
+  .subject-tabs{
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center;
+    margin: 4px auto 18px;
+  }
+  .subject-tab{
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 16px;
+    border-radius: 100px;
+    border: 2px solid var(--card-border, #E4DDF5);
+    background: #FFF;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink, #2B2140);
+    cursor: pointer;
+    transition: all .15s var(--ease-pop, ease);
+  }
+  .subject-tab .st-emo{ font-size: 16px; }
+  .subject-tab:hover:not(:disabled){ transform: translateY(-2px); }
+  .subject-tab.active{
+    background: var(--coral, #FF6B6B);
+    color: #FFF;
+    border-color: var(--card-border, #2B2140);
+  }
+  .subject-tab.soon{
+    opacity: .55;
+    cursor: not-allowed;
+  }
+  .subject-tab .st-soon{
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    background: rgba(0,0,0,0.08);
+    border-radius: 6px;
+    padding: 2px 5px;
+    margin-left: 2px;
+  }
   @media (max-width: 600px){
     .grade-section{ margin: 10px auto 28px; }
     .grade-section .grade-heading{ font-size: 16px; margin-bottom: 12px; }
@@ -998,6 +1038,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     box-shadow: 0 2px 0 var(--card-border);
     letter-spacing: .06em;
   }
+  .subj-card-live{
+    font: inherit;
+    cursor: pointer;
+    border-style: solid;
+    opacity: 1;
+  }
+  .subj-tag-live{ background: var(--green); }
 
   /* Pick-grade empty state */
   .pick-grade-card{
@@ -1619,7 +1666,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="subjects-grid">
       <div class="subj-card"><div class="subj-emoji">🔤</div><div class="subj-name">Hindi</div><div class="subj-tag">Launching Soon</div></div>
-      <div class="subj-card"><div class="subj-emoji">📖</div><div class="subj-name">English</div><div class="subj-tag">Launching Soon</div></div>
+      <button type="button" class="subj-card subj-card-live" id="subjCardEnglish"><div class="subj-emoji">📖</div><div class="subj-name">English</div><div class="subj-tag subj-tag-live">Live for Class 2!</div></button>
       <div class="subj-card"><div class="subj-emoji">🌿</div><div class="subj-name">EVS / Science</div><div class="subj-tag">Launching Soon</div></div>
       <div class="subj-card"><div class="subj-emoji">🌍</div><div class="subj-name">GK</div><div class="subj-tag">Launching Soon</div></div>
     </div>
@@ -1706,6 +1753,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
     </section>
+
+    <!-- ─── Subject switcher (Math is live for every grade; other subjects
+         are live only where noted, else shown as a disabled "Soon" pill) ─── -->
+    <nav class="subject-tabs" id="subjectTabs" aria-label="Choose a subject"></nav>
 
     <!-- ─── Section 2 of 2 · CHAPTER PRACTICE ─── -->
     <div class="section-head" id="chapterSection">
@@ -1869,6 +1920,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     { n:9,  t:'Capacity',              d:'Millilitres, litres & container comparisons',        e:'🥤', color:'yellow', toon:'🐷',  toonName:'Peppa',     toonLine:"Pour it, don't spill it!",       href:'/vivaan/math-ch9.html' },
     { n:10, t:'Time & Calendar',       d:"Clocks, o'clock, half past, days & months",          e:'⏰', color:'grape',  toon:'🦖',  toonName:'George',    toonLine:"Tick-tock, what's the time?",    href:'/vivaan/math-ch10.html' },
     { n:11, t:'Money',                 d:'Indian coins & notes, adding money & change',        e:'💰', color:'green',  toon:'🐼',  toonName:'Panda',     toonLine:"Let's go to the market!",        href:'/vivaan/math-ch11.html' },
+  ];
+
+  // Grade 2 — English (NCERT "Mridang"), 13 chapters across 5 units, each links to /vivaan/english-chN.html
+  const GRADE2_ENGLISH_CHAPTERS = [
+    { n:1,  t:'My Bicycle',              d:'A poem about a bicycle ride — new words, sight words & a/an',      e:'🚲', color:'coral',  toon:'🐻', toonName:'Bear',   toonLine:"Trin trin! Let's ride!",         href:'/vivaan/english-ch1.html' },
+    { n:2,  t:'Picture Reading',         d:'A story about a game of bat-and-ball — reading & vocabulary',      e:'🖼️', color:'sky',    toon:'👧', toonName:'Masha',  toonLine:"Let's read a fun story!",        href:'/vivaan/english-ch2.html' },
+    { n:3,  t:'It is Fun',               d:'A poem about animals — action words & new vocabulary',             e:'🐸', color:'green',  toon:'🐱', toonName:'Tom',    toonLine:'Hop, swim, fly — so much fun!',  href:'/vivaan/english-ch3.html' },
+    { n:4,  t:'Seeing without Seeing',   d:'A story about the senses — reading & new words',                   e:'🌹', color:'grape',  toon:'🐰', toonName:'Bunny',  toonLine:'Can you guess with your eyes closed?', href:'/vivaan/english-ch4.html' },
+    { n:5,  t:'Come Back Soon',          d:'A poem about ways to travel — vocabulary & sight words',           e:'🚌', color:'yellow', toon:'🦁', toonName:'Simba',  toonLine:'Bus, train, boat or plane!',     href:'/vivaan/english-ch5.html' },
+    { n:6,  t:'Between Home and School', d:'A story about a walk to school — vocabulary & comprehension',      e:'🏫', color:'peach',  toon:'🐭', toonName:'Jerry',  toonLine:'What a fun walk to school!',     href:'/vivaan/english-ch6.html' },
+    { n:7,  t:'This is My Town',         d:'A poem about home and town — sight words & vocabulary',            e:'🏘️', color:'sky',    toon:'🐨', toonName:'Koala',  toonLine:'Come see my town!',              href:'/vivaan/english-ch7.html' },
+    { n:8,  t:'A Show of Clouds',        d:'A poem about imagining shapes in the sky — new words',             e:'☁️', color:'coral',  toon:'🦸', toonName:'Super Ishaan', toonLine:'What shape is that cloud?', href:'/vivaan/english-ch8.html' },
+    { n:9,  t:'My Name',                 d:'A story about a forgetful little fly — reading & vocabulary',      e:'🪰', color:'green',  toon:'🐵', toonName:'Monkey', toonLine:"Oh no, what's my name again?",   href:'/vivaan/english-ch9.html' },
+    { n:10, t:'The Crow',                d:'A poem about a crow and peacock feathers — new words',             e:'🐦‍⬛', color:'grape',  toon:'🐧', toonName:'Penguin', toonLine:"Being yourself is best!",       href:'/vivaan/english-ch10.html' },
+    { n:11, t:'The Smart Monkey',        d:'A story about a clever monkey — reading & vocabulary',             e:'🐒', color:'yellow', toon:'🐷', toonName:'Peppa',  toonLine:'Watch out for that monkey!',     href:'/vivaan/english-ch11.html' },
+    { n:12, t:'Little Drops of Water',   d:'A poem/song about kindness — new words & comprehension',           e:'💧', color:'sky',    toon:'🐼', toonName:'Panda',  toonLine:'Little things make big changes!', href:'/vivaan/english-ch12.html' },
+    { n:13, t:'We are all Indians',      d:'A story celebrating India’s many states — vocabulary & GK',    e:'🇮🇳', color:'coral',  toon:'🦖', toonName:'George', toonLine:'So many languages, one India!', href:'/vivaan/english-ch13.html' },
   ];
 
   // Toons cycled across NCERT chapters for other grades
@@ -2058,6 +2126,61 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     10: buildNcertChapters(10),
   };
 
+  // ─── Subjects ──
+  // Math has content for every grade. Other subjects are live only where
+  // noted (currently: English, Grade 2 only) — everywhere else they show
+  // as a disabled "Soon" pill in the subject switcher.
+  const SUBJECTS = [
+    { key:'math',    label:'Math',    emoji:'🔢' },
+    { key:'english', label:'English', emoji:'📖' },
+    { key:'hindi',   label:'Hindi',   emoji:'🔤' },
+    { key:'evs',     label:'EVS',     emoji:'🌿' },
+    { key:'gk',      label:'GK',      emoji:'🌍' },
+  ];
+  const SUBJECT_DATA = {
+    math:    { 2: GRADE2_CHAPTERS },
+    english: { 2: GRADE2_ENGLISH_CHAPTERS },
+  };
+  const SUBJECT_STORE_KEY = 'vivaan_subject';
+  function getSubject(){
+    const s = localStorage.getItem(SUBJECT_STORE_KEY);
+    return SUBJECTS.some(x => x.key===s) ? s : 'math';
+  }
+  function subjectIsLive(subjectKey, grade){
+    return subjectKey === 'math' || !!(SUBJECT_DATA[subjectKey] && SUBJECT_DATA[subjectKey][grade]);
+  }
+  function setSubject(subjectKey, grade){
+    if (!subjectIsLive(subjectKey, grade===undefined ? getGrade() : grade)) return;
+    localStorage.setItem(SUBJECT_STORE_KEY, subjectKey);
+    renderAll();
+  }
+  // Chapters for the current grade+subject. Math keeps using the original
+  // GRADES lookup (NCERT listings for every grade); other subjects fall
+  // back to an empty list — rendered as a "not live yet for this grade" note.
+  function chaptersFor(grade, subjectKey){
+    const subject = subjectKey || getSubject();
+    if (subject === 'math') return GRADES[grade] || [];
+    return (SUBJECT_DATA[subject] && SUBJECT_DATA[subject][grade]) || [];
+  }
+  function renderSubjectTabs(){
+    const nav = document.getElementById('subjectTabs');
+    if (!nav) return;
+    const grade = getGrade();
+    if (!grade){ nav.innerHTML = ''; return; }
+    const cur = getSubject();
+    nav.innerHTML = SUBJECTS.map(s => {
+      const live = subjectIsLive(s.key, grade);
+      const active = live && s.key===cur;
+      const cls = 'subject-tab' + (active?' active':'') + (live?'':' soon');
+      return `<button type="button" class="${cls}" ${live?'':'disabled'} data-subject="${s.key}">
+        <span class="st-emo">${s.emoji}</span>${s.label}${live?'':'<span class="st-soon">Soon</span>'}
+      </button>`;
+    }).join('');
+    nav.querySelectorAll('[data-subject]').forEach(btn => {
+      btn.addEventListener('click', () => setSubject(btn.dataset.subject, grade));
+    });
+  }
+
   const COLOR_VAR = { coral:'--coral', yellow:'--yellow', green:'--green', sky:'--sky', grape:'--grape', peach:'--peach' };
 
   // Does this grade/chapter have inline quiz data? (Grades 1, 3-10, Ch 1 only for now)
@@ -2202,7 +2325,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>`;
       return;
     }
-    const chapters = GRADES[grade] || [];
+    const subject = getSubject();
+    const chapters = chaptersFor(grade, subject);
+    if (chapters.length === 0){
+      grid.innerHTML = `
+        <div class="pick-grade-card" style="grid-column:1/-1;">
+          <div class="pg-emo">🚧</div>
+          <div class="pg-title">Not live for this class yet!</div>
+          <div class="pg-sub">This subject isn't available for Class ${grade} yet — try Math above, or check back soon.</div>
+        </div>`;
+      return;
+    }
     grid.innerHTML = chapters.map(c => {
       const cvar = `var(${COLOR_VAR[c.color]||'--coral'})`;
       const s = scoreBy[`ch${c.n}`];
@@ -2219,7 +2352,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (!playable){
         openTag = `<div class="${className}" style="--accent-ch:${cvar};" role="group" aria-label="Coming soon">`;
         closeTag = '</div>';
-      } else if (grade === 2 && c.href){
+      } else if (c.href){
         openTag = `<a class="${className}" style="--accent-ch:${cvar};" href="${c.href}">`;
         closeTag = '</a>';
       } else {
@@ -2285,7 +2418,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   function renderHero(){
     const grade = getGrade();
-    const chapters = GRADES[grade] || [];
+    const subject = getSubject();
+    const chapters = chaptersFor(grade, subject);
+    const subjectLabel = (SUBJECTS.find(s => s.key===subject) || {}).label || 'Math';
     const brandSub = document.getElementById('brandSub');
     const heroSub  = document.getElementById('heroSub');
     const mathHead = document.getElementById('mathHead');
@@ -2304,7 +2439,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (floatBack) floatBack.classList.remove('visible');
     } else {
       if (brandSub) brandSub.textContent = `Class ${grade} · NCERT`;
-      if (mathHead) mathHead.textContent = `NCERT Class ${grade} · ${chapters.length} chapters`;
+      if (mathHead) mathHead.textContent = chapters.length
+        ? `NCERT ${subjectLabel} · Class ${grade} · ${chapters.length} chapters`
+        : `NCERT ${subjectLabel} · Class ${grade}`;
       if (giNum) giNum.textContent = grade;
       if (backBtn) backBtn.style.display = '';
       if (floatBack) floatBack.classList.add('visible');
@@ -2386,6 +2523,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function renderAll(){
     renderGradeBar();
     renderHero();
+    renderSubjectTabs();
     renderScoreboard();
     renderDailyHub();
   }
@@ -3387,6 +3525,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   (function(){
     const m = (location.hash||'').match(/g(\d{1,2})/i);
     if (m){ const g = parseInt(m[1],10); if (g>=1 && g<=10) localStorage.setItem(GRADE_STORE_KEY, String(g)); }
+  })();
+
+  // Homepage "English" subject card — jump straight into Class 2 English
+  (function(){
+    const btn = document.getElementById('subjCardEnglish');
+    if (btn) btn.addEventListener('click', () => {
+      localStorage.setItem(SUBJECT_STORE_KEY, 'english');
+      setGrade(2);
+    });
   })();
 
   // First-visit prompt

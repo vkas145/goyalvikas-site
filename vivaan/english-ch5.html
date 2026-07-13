@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 5: Come Back Soon • Vivaan's Quiz</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-styles.css?v=3">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/vivaan/" class="back-btn" onclick="try{localStorage.removeItem('vivaan_grade')}catch(e){}">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 5</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER DATA, Come Back Soon (Unit 3: Going Places)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+const CHAPTER = {key:'ch5', title:'Ch 5: Come Back Soon'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Poem Facts — Modes of Transport ────────────
+[
+{type:'tapall',topic:'Poem Facts',q:'Tap ALL the modes of transport mentioned in the poem "Come Back Soon".',
+ pool:['Bus','Train','Boat','Plane','Taxi','Car','Bicycle','Rocket'],
+ correct:['Bus','Train','Boat','Plane','Taxi','Car']},
+
+{type:'mcq',topic:'Poem Facts',q:'How many different ways to travel are mentioned in the poem?',
+ o:['Six','Two','Ten','Three'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'Which of these travels on WATER?',
+ o:['Boat','Bus','Taxi','Car'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'Which of these travels in the AIR?',
+ o:['Plane','Boat','Bus','Train'],a:0},
+
+{type:'classify',topic:'Poem Facts',q:'Sort each mode of transport: does it travel on LAND, WATER, or AIR?',
+ categories:['Land','Water'],
+ items:[
+  {val:'Bus',cat:'Land'},{val:'Boat',cat:'Water'},
+  {val:'Car',cat:'Land'},{val:'Ship',cat:'Water'},
+  {val:'Train',cat:'Land'},{val:'Canoe',cat:'Water'}
+]},
+
+{type:'mcq',topic:'Poem Facts',q:'According to the poem, a journey could be...',
+ o:['Near or far','Only near','Only far','Never happening'],a:0},
+
+{type:'tf',topic:'Poem Facts',q:'The poem talks about many different ways people can travel. True or False?',answer:true},
+
+{type:'match',topic:'Poem Facts',q:'Match each mode of transport to where it mainly travels.',
+ pairs:[
+  {l:'Plane', r:'Air'},
+  {l:'Boat', r:'Water'},
+  {l:'Train', r:'Land (on tracks)'},
+  {l:'Car', r:'Land (on roads)'}
+]},
+
+{type:'typeans',topic:'Poem Facts',q:'Which vehicle travels on tracks and can carry many people at once? (one word)',answer:'train'},
+
+{type:'mcq',topic:'Poem Facts',q:'Which vehicle usually flies high above the clouds?',
+ o:['Plane','Car','Boat','Bus'],a:0}
+],
+
+// ── Beginner Set 2: Vocabulary & Sight Words ───────────────────
+[
+{type:'mcq',topic:'Vocabulary',q:"What does 'maybe' mean?",
+ o:['Perhaps, or possibly','Definitely yes','Definitely no','Right now'],a:0},
+
+{type:'mcq',topic:'Vocabulary',q:"If a place is 'far', it is...",
+ o:['A long distance away','Very close','Right here','Underground'],a:0},
+
+{type:'mcq',topic:'Vocabulary',q:"If a place is 'near', it is...",
+ o:['Close by','A long way away','Impossible to reach','On the moon'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each word to its meaning.',
+ pairs:[
+  {l:'near', r:'close by'},
+  {l:'far', r:'a long distance away'},
+  {l:'travel', r:'to go from one place to another'},
+  {l:'maybe', r:'perhaps'}
+]},
+
+{type:'tapall',topic:'Vocabulary',q:'Tap ALL the words that describe distance.',
+ pool:['near','far','bus','close','banana','distant'],
+ correct:['near','far','close','distant']},
+
+{type:'classify',topic:'Vocabulary',q:'Sort each word: does it mean CLOSE, or does it mean FAR AWAY?',
+ categories:['Means Close','Means Far Away'],
+ items:[
+  {val:'near',cat:'Means Close'},{val:'distant',cat:'Means Far Away'},
+  {val:'nearby',cat:'Means Close'},{val:'faraway',cat:'Means Far Away'},
+  {val:'close',cat:'Means Close'},{val:'remote',cat:'Means Far Away'}
+]},
+
+{type:'typeans',topic:'Vocabulary',q:'Type the opposite of "near".',answer:'far'},
+
+{type:'fillin',topic:'Vocabulary',q:'Fill in the blank:',
+ expr:'We will ___ to our grandmother\'s house by train.',
+ o:['travel','remove','sniff','blink'],a:0},
+
+{type:'sort',topic:'Vocabulary',q:'Tap these transport words in ALPHABETICAL order (A to Z).',
+ items:['train','car','boat','bus'],order:'asc'},
+
+{type:'mcq',topic:'Vocabulary',q:"Which sentence correctly uses the word 'travel'?",
+ o:['We travel to school every day.','We travel is fun car.','Travel we the bus.','Bus the we travel.'],a:0}
+],
+
+// ── Beginner Set 3: Transport Facts ────────────────────────────
+[
+{type:'mcq',topic:'Transport Facts',q:'What do you usually need to buy before boarding a train or plane?',
+ o:['A ticket','A helmet','A map','A torch'],a:0},
+
+{type:'mcq',topic:'Transport Facts',q:'Which vehicle usually has just a driver and a few passengers, and can be booked for a short ride?',
+ o:['Taxi','Train','Plane','Ship'],a:0},
+
+{type:'tapall',topic:'Transport Facts',q:'Tap ALL the vehicles that usually run on ROADS.',
+ pool:['Car','Bus','Taxi','Boat','Plane','Train (on tracks, not roads)'],
+ correct:['Car','Bus','Taxi']},
+
+{type:'mcq',topic:'Transport Facts',q:'Which is the FASTEST way to travel a very long distance, usually?',
+ o:['Plane','Bicycle','Walking','Bullock cart'],a:0},
+
+{type:'classify',topic:'Transport Facts',q:'Sort each vehicle: does it usually carry MANY people, or usually carries FEW people?',
+ categories:['Carries Many','Carries Few'],
+ items:[
+  {val:'Bus',cat:'Carries Many'},{val:'Taxi',cat:'Carries Few'},
+  {val:'Train',cat:'Carries Many'},{val:'Car',cat:'Carries Few'},
+  {val:'Plane',cat:'Carries Many'},{val:'Auto-rickshaw',cat:'Carries Few'}
+]},
+
+{type:'tf',topic:'Transport Facts',q:'A boat is used to travel over water.',answer:true},
+
+{type:'typeans',topic:'Transport Facts',q:'Which vehicle flies in the sky and has wings? (one word)',answer:'plane'},
+
+{type:'mcq',topic:'Transport Facts',q:'Which of these is a public vehicle that follows a fixed route and stops?',
+ o:['Bus','A private car','A bicycle you own','A boat you own'],a:0},
+
+{type:'match',topic:'Transport Facts',q:'Match each vehicle to a good reason to use it.',
+ pairs:[
+  {l:'Plane', r:'To travel very far, quickly'},
+  {l:'Bicycle', r:'To travel short distances, healthily'},
+  {l:'Boat', r:'To cross a river or sea'},
+  {l:'Bus', r:'To travel with many people together'}
+]},
+
+{type:'tf',topic:'Transport Facts',q:'All vehicles in the poem travel only on land.',answer:false}
+],
+
+// ── Beginner Set 4: Sight Words & Rhyme ────────────────────────
+[
+{type:'mcq',topic:'Rhyme',q:'Which word RHYMES with "car"?',
+ o:['Far','Bus','Train','Boat'],a:0},
+
+{type:'mcq',topic:'Rhyme',q:'Which word RHYMES with "plane"?',
+ o:['Train','Bus','Car','Boat'],a:0},
+
+{type:'tapall',topic:'Rhyme',q:'Tap ALL the words that rhyme with "far".',
+ pool:['Car','Star','Bus','Jar','Boat','Tar'],
+ correct:['Car','Star','Jar','Tar']},
+
+{type:'match',topic:'Rhyme',q:'Match each word to a word that rhymes with it.',
+ pairs:[
+  {l:'car', r:'far'},
+  {l:'train', r:'plane'},
+  {l:'boat', r:'coat'},
+  {l:'bus', r:'fuss'}
+]},
+
+{type:'fillin',topic:'Sentence Building',q:'Fill in the blank with the correct word:',
+ expr:'We can go ___ bus or by train.',
+ o:['by','from','at','of'],a:0},
+
+{type:'mcq',topic:'Sentence Building',q:"Which sentence correctly describes travelling by taxi?",
+ o:['We went by taxi to the station.','We went taxi by to the station.','Taxi we went by station the.','By we taxi went.'],a:0},
+
+{type:'typeans',topic:'Rhyme',q:'Type a word that rhymes with "boat" (hint: something you wear).',answer:'coat'},
+
+{type:'classify',topic:'Rhyme',q:'Sort each word: does it rhyme with "car", or with "boat"?',
+ categories:['Rhymes with Car','Rhymes with Boat'],
+ items:[
+  {val:'star',cat:'Rhymes with Car'},{val:'coat',cat:'Rhymes with Boat'},
+  {val:'far',cat:'Rhymes with Car'},{val:'goat',cat:'Rhymes with Boat'},
+  {val:'jar',cat:'Rhymes with Car'},{val:'note',cat:'Rhymes with Boat'}
+]},
+
+{type:'tf',topic:'Rhyme',q:'"Bus" and "fuss" rhyme with each other.',answer:true},
+
+{type:'sort',topic:'Rhyme',q:'Tap these rhyming words in ALPHABETICAL order (A to Z).',
+ items:['tar','star','jar','car'],order:'asc'}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Poem Detail & Inference ─────────────────────────
+[
+{type:'fillintext',topic:'Poem Facts',q:'Complete the pattern from the poem.',
+ template:'Take a bus or take a ___, take a boat or take a ___.',
+ blanks:['train','plane']},
+
+{type:'fillintext',topic:'Poem Facts',q:'Complete the pattern from the poem.',
+ template:'Take a taxi, take a ___.',
+ blanks:['car']},
+
+{type:'mcq',topic:'Poem Facts',q:'What is the tone/feeling of the poem "Come Back Soon"?',
+ o:['Cheerful, about journeys and travel','Sad, about being lost','Angry, about traffic','Scary, about accidents'],a:0},
+
+{type:'mcq',topic:'Poem Facts',q:'The title "Come Back Soon" suggests the poem is about someone...',
+ o:['Going away on a journey and being wished a quick return','Never travelling anywhere','Losing their way','Building a vehicle'],a:0},
+
+{type:'match',topic:'Poem Facts',q:'Match each vehicle in the poem to its typical place of travel.',
+ pairs:[
+  {l:'Bus', r:'Road'},
+  {l:'Train', r:'Railway track'},
+  {l:'Boat', r:'Water'},
+  {l:'Plane', r:'Sky'}
+]},
+
+{type:'tapall',topic:'Poem Facts',q:'Tap ALL the TRUE statements about the poem.',
+ pool:['The poem names six ways to travel','The poem is only about walking','A journey can be near or far','Boats travel on water','The poem never mentions a car','Taxis are mentioned in the poem'],
+ correct:['The poem names six ways to travel','A journey can be near or far','Boats travel on water','Taxis are mentioned in the poem']},
+
+{type:'typeans',topic:'Poem Facts',q:'Type the word describing a journey that is a long distance away.',answer:'far'},
+
+{type:'tf',topic:'Poem Facts',q:'The poem suggests that a journey can be either near or far, depending on where you go.',answer:true},
+
+{type:'mcq',topic:'Poem Facts',q:'Which line pattern does the poem repeat throughout?',
+ o:['Take a ___ or take a ___','Once upon a time','Row row row your boat','Twinkle twinkle little star'],a:0},
+
+{type:'mcq',topic:'Inference',q:'Why might someone say "Come back soon" to a traveller?',
+ o:["Because they will miss them and want them to return quickly","Because they never want to see them again","Because the journey is not real","Because they dislike travelling"],a:0}
+],
+
+// ── Pro Set 2: Vocabulary & Transport Deep Dive ────────────────
+[
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The airport is quite ___ from our house, about two hours away.',
+ o:['far','near','small','loud'],a:0},
+
+{type:'fillin',topic:'Vocabulary',q:'Choose the best word for the blank:',
+ expr:'The bus stop is very ___ to my school, just two minutes away.',
+ o:['near','far','tall','heavy'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each vehicle to a matching fact.',
+ pairs:[
+  {l:'Train', r:'Runs on railway tracks'},
+  {l:'Ship', r:'Carries goods and people across the sea'},
+  {l:'Plane', r:'Has wings and flies in the sky'},
+  {l:'Bicycle', r:'Is pedalled and has no engine'}
+]},
+
+{type:'classify',topic:'Vocabulary',q:'Sort each vehicle: does it need FUEL/ENGINE POWER, or HUMAN POWER (like pedalling)?',
+ categories:['Needs Fuel/Engine','Needs Human Power'],
+ items:[
+  {val:'Car',cat:'Needs Fuel/Engine'},{val:'Bicycle',cat:'Needs Human Power'},
+  {val:'Bus',cat:'Needs Fuel/Engine'},{val:'Rowing boat',cat:'Needs Human Power'},
+  {val:'Train',cat:'Needs Fuel/Engine'},{val:'Rickshaw (cycle)',cat:'Needs Human Power'}
+]},
+
+{type:'tapall',topic:'Vocabulary',q:'Tap ALL the words that describe distance or travel.',
+ pool:['near','far','travel','banana','journey','purple'],
+ correct:['near','far','travel','journey']},
+
+{type:'typeans',topic:'Vocabulary',q:'Type a word meaning "a trip from one place to another".',answer:'journey'},
+
+{type:'mcq',topic:'Vocabulary',q:"Which word means the OPPOSITE of 'far'?",
+ o:['Near','Fast','Big','Loud'],a:0},
+
+{type:'tf',topic:'Vocabulary',q:'"Near" and "close" mean almost the same thing.',answer:true},
+
+{type:'fillintext',topic:'Vocabulary',q:'Complete the sentence.',
+ template:'A place that is a long distance away is called ___, while a place close by is called ___.',
+ blanks:['far','near']},
+
+{type:'mcq',topic:'Vocabulary',q:"Which sentence uses 'maybe' correctly?",
+ o:['Maybe we will go to the zoo tomorrow.','We maybe zoo will go.','Zoo maybe we tomorrow.','Tomorrow maybe zoo go we.'],a:0}
+],
+
+// ── Pro Set 3: Transport & Travel Safety ───────────────────────
+[
+{type:'tapall',topic:'Travel Safety',q:'Tap ALL the SAFE things to do while travelling.',
+ pool:['Wear a seatbelt in a car','Stand while a bus is moving fast','Hold an adult\'s hand in a crowd','Wear a helmet on a bicycle','Lean out of a moving train','Follow the driver\'s instructions'],
+ correct:['Wear a seatbelt in a car',"Hold an adult's hand in a crowd",'Wear a helmet on a bicycle',"Follow the driver's instructions"]},
+
+{type:'mcq',topic:'Travel Safety',q:'Why should you always wear a seatbelt in a car?',
+ o:['To stay safe in case the car stops suddenly','To look stylish','To keep warm','To see better'],a:0},
+
+{type:'match',topic:'Transport Facts',q:'Match each vehicle to where you would typically buy a ticket for it.',
+ pairs:[
+  {l:'Train', r:'Railway station'},
+  {l:'Plane', r:'Airport'},
+  {l:'Bus', r:'Bus stand'},
+  {l:'Boat', r:'Jetty or harbour'}
+]},
+
+{type:'classify',topic:'Transport Facts',q:'Sort each vehicle: is it mainly used for SHORT local trips, or LONG distance trips?',
+ categories:['Short Local Trips','Long Distance Trips'],
+ items:[
+  {val:'Auto-rickshaw',cat:'Short Local Trips'},{val:'Plane',cat:'Long Distance Trips'},
+  {val:'Bicycle',cat:'Short Local Trips'},{val:'Train (express)',cat:'Long Distance Trips'},
+  {val:'Local taxi',cat:'Short Local Trips'},{val:'Ship (across the sea)',cat:'Long Distance Trips'}
+]},
+
+{type:'typeans',topic:'Travel Safety',q:'What should you always wear on a bicycle for safety? (one word)',answer:'helmet'},
+
+{type:'tf',topic:'Travel Safety',q:'It is safe to lean out of a moving train.',answer:false},
+
+{type:'mcq',topic:'Transport Facts',q:'Which of these vehicles usually needs a pilot to operate it?',
+ o:['Plane','Bicycle','Rowing boat','Bullock cart'],a:0},
+
+{type:'fillintext',topic:'Travel Safety',q:'Complete the travel safety tip.',
+ template:'Always wear a ___ in a car, and hold an adult\'s ___ in a crowded place.',
+ blanks:['seatbelt','hand']},
+
+{type:'mcq',topic:'Transport Facts',q:'Which vehicle would be BEST to cross a wide river with no bridge?',
+ o:['Boat','Bicycle','Car','Bus'],a:0},
+
+{type:'sort',topic:'Transport Facts',q:'Tap these vehicles in ALPHABETICAL order (A to Z).',
+ items:['train','plane','car','bus'],order:'asc'}
+],
+
+// ── Pro Set 4: Mixed Review ─────────────────────────────────────
+[
+{type:'fillintext',topic:'Mixed Review',q:'Complete the poem pattern from memory.',
+ template:'Take a bus or take a ___, take a boat or take a ___, take a taxi, take a ___.',
+ blanks:['train','plane','car']},
+
+{type:'mcq',topic:'Mixed Review',q:'Which mode of transport travels on water?',
+ o:['Boat','Plane','Bus','Car'],a:0},
+
+{type:'tapall',topic:'Mixed Review',q:'Tap ALL the correct facts about the poem and transport together.',
+ pool:['The poem mentions six vehicles','Boats fly in the sky','Planes fly in the sky','A journey can be near or far','Trains run on water','Cars run on roads'],
+ correct:['The poem mentions six vehicles','Planes fly in the sky','A journey can be near or far','Cars run on roads']},
+
+{type:'match',topic:'Mixed Review',q:'Match each vehicle to where it travels, one more time.',
+ pairs:[
+  {l:'Boat', r:'Water'},
+  {l:'Plane', r:'Air'},
+  {l:'Train', r:'Railway track'},
+  {l:'Car', r:'Road'}
+]},
+
+{type:'classify',topic:'Mixed Review',q:'Sort each word: does it mean NEAR, or does it mean FAR?',
+ categories:['Near','Far'],
+ items:[
+  {val:'close',cat:'Near'},{val:'distant',cat:'Far'},
+  {val:'nearby',cat:'Near'},{val:'faraway',cat:'Far'},
+  {val:'here',cat:'Near'},{val:'remote',cat:'Far'}
+]},
+
+{type:'fillin',topic:'Mixed Review',q:'Choose the correct word:',
+ expr:'Maybe near or maybe ___.',
+ o:['far','soon','fast','loud'],a:0},
+
+{type:'typeans',topic:'Mixed Review',q:'Type the vehicle that runs on railway tracks.',answer:'train'},
+
+{type:'tf',topic:'Mixed Review',q:'The poem "Come Back Soon" lists many different ways people can travel.',answer:true},
+
+{type:'sort',topic:'Mixed Review',q:'Tap these vehicles in ALPHABETICAL order (A to Z).',
+ items:['taxi','plane','boat','bus'],order:'asc'},
+
+{type:'mcq',topic:'Mixed Review',q:"Overall, what is 'Come Back Soon' mostly about?",
+ o:['Different ways to travel, near or far','Cooking food','Playing games','Reading books'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<!-- ══════════════════════════════════════════════════════════
+     QUIZ ENGINE, do not modify below this line
+     ══════════════════════════════════════════════════════════ -->
+<script src="quiz-music.js?v=3"></script>
+<script src="quiz-engine.js?v=3"></script>
+</body>
+</html>
