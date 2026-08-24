@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 1: Large Numbers Around Us • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">🔢</span> Learn First: Large Numbers<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>Numbers can get really BIG! Let's learn how India names and writes big numbers — lakhs and crores — and how to compare them.</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">💯</span><span class="lc-bite-txt"><b>One Lakh:</b> 1,00,000 — that's a 1 followed by 5 zeroes. It's the smallest 6-digit number.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🏆</span><span class="lc-bite-txt"><b>One Crore:</b> 1,00,00,000 — a 1 followed by 7 zeroes. 100 lakhs make 1 crore!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📍</span><span class="lc-bite-txt"><b>Indian commas:</b> We group digits as 3-2-2-2 from the right: ones-tens-hundreds, then thousands, then lakhs, then crores. Example: 12,78,830.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🌎</span><span class="lc-bite-txt"><b>International system:</b> Uses million (10 lakh) and billion (100 crore), grouped 3-3-3 from the right: 1,278,830.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🎯</span><span class="lc-bite-txt"><b>Rounding:</b> Sometimes an exact number isn't needed — we round to the nearest thousand, lakh or crore to make it easier to talk about.</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>Write "Four lakh seven thousand seven hundred and four" in numbers: that's 4 lakh + 7 thousand + 704 = <b>4,07,704</b></div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 1</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch1', title:'Ch 1: Large Numbers Around Us'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Lakhs & Place Value ────────────────────────
+[
+{type:'mcq',topic:'One Lakh',q:'How many zeroes does 1 lakh have?',
+ o:['5','6','4','7'],a:0},
+
+{type:'typeans',topic:'One Lakh',q:'Write "1 lakh" as a number (use no commas).',answer:'100000'},
+
+{type:'tf',topic:'Place Value',q:'1,00,000 is the smallest 6-digit number. True or False?',answer:true},
+
+{type:'mcq',topic:'Comparison',q:'Which is bigger: 99,999 or 1,00,000?',
+ o:['1,00,000','99,999','They are equal','Cannot tell'],a:0},
+
+{type:'match',topic:'Number Names',q:'Match each number to its Indian number name.',
+ pairs:[
+  {l:'3,00,600', r:'Three lakh six hundred'},
+  {l:'5,04,085', r:'Five lakh four thousand eighty five'},
+  {l:'27,30,000', r:'Twenty seven lakh thirty thousand'}
+]},
+
+{type:'typeans',topic:'Number Names',q:'Write in digits: "Four lakh seven thousand seven hundred and four"',answer:'407704'},
+
+{type:'mcq',topic:'Comparing',q:'Which is greater: 30 thousand or 3 lakhs?',
+ o:['3 lakhs','30 thousand','Equal','Cannot tell'],a:0},
+
+{type:'fillin',topic:'Place Value',q:'Fill in the missing part:',
+ expr:'1 lakh = 100 × ___',
+ o:['1,000','100','10,000','10'],a:0}
+],
+
+// ── Beginner Set 2: Crores & Indian vs International System ────
+[
+{type:'mcq',topic:'One Crore',q:'How many zeroes does 1 crore have?',
+ o:['7','5','6','8'],a:0},
+
+{type:'enterval',topic:'One Crore',q:'Write "1 crore" as a number (no commas).',answer:'10000000',inputmode:'text'},
+
+{type:'mcq',topic:'Lakhs to Crore',q:'How many lakhs make 1 crore?',
+ o:['100','10','1,000','10,000'],a:0},
+
+{type:'tf',topic:'International System',q:'In the American/International system, digits are grouped in 3s from the right (thousand, million, billion). True or False?',answer:true},
+
+{type:'mcq',topic:'Million',q:'1 million equals how many lakhs?',
+ o:['10 lakhs','1 lakh','100 lakhs','5 lakhs'],a:0},
+
+{type:'sort',topic:'Comparing',q:'Tap these numbers from SMALLEST to LARGEST.',
+ items:[45000,450000,4500000],order:'asc'},
+
+{type:'classify',topic:'Indian vs International',q:'Sort each unit by which naming system it belongs to.',
+ categories:['Indian System','International System'],
+ items:[
+  {val:'Lakh',cat:'Indian System'},{val:'Million',cat:'International System'},
+  {val:'Crore',cat:'Indian System'},{val:'Billion',cat:'International System'}
+]},
+
+{type:'mcq',topic:'Comparing',q:'Which is greater: 500 lakhs or 5 million?',
+ o:['500 lakhs','5 million','Equal','Cannot tell'],a:0}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Reading, Writing & Comparing Big Numbers ────────
+[
+{type:'typeans',topic:'Number Formation',q:'Write in digits: "Fifty lakhs five thousand and fifty"',answer:'5005050'},
+
+{type:'typeans',topic:'Number Formation',q:'Write in digits: "Ten lakhs two hundred and thirty-five"',answer:'1000235'},
+
+{type:'mcq',topic:'Nearest Neighbours',q:'What is 6,72,85,183 rounded to the nearest lakh?',
+ o:['6,73,00,000','6,72,00,000','6,72,85,000','6,80,00,000'],a:0},
+
+{type:'mcq',topic:'Nearest Neighbours',q:'What is 6,72,85,183 rounded to the nearest crore?',
+ o:['7,00,00,000','6,00,00,000','6,72,85,000','6,73,00,000'],a:0},
+
+{type:'enterval',topic:'Word Problem',q:"Chintamani's population was 75,000 in 2011. How much LESS than 1 lakh is that? (number only)",
+ answer:'25000'},
+
+{type:'enterval',topic:'Word Problem',q:'Population grew from 75,000 (2011) to 1,06,000 (2024). By how much did it increase?',
+ answer:'31000'},
+
+{type:'mcq',topic:'Comparison',q:'Compare: 640 crore ___ 60 billion',
+ o:['<','>','=','Cannot tell'],a:0},
+
+{type:'tapall',topic:'Rounding',q:'Tap ALL numbers that round to 5,00,00,000 at the nearest lakh.',
+ pool:['4,99,60,000','5,00,30,000','5,10,00,000','4,99,99,999','5,50,00,000'],correct:['4,99,60,000','5,00,30,000','4,99,99,999']}
+],
+
+// ── Pro Set 2: Estimation & Multi-Step Word Problems ────────────
+[
+{type:'mcq',topic:'Estimation',q:'Roughly estimate: 4,63,128 + 4,19,682 is closest to which value?',
+ o:['9,00,000','8,00,000','10,00,000','7,00,000'],a:0},
+
+{type:'typeans',topic:'Exact Calculation',q:'Find the exact value: 4,63,128 + 4,19,682',answer:'882810'},
+
+{type:'typeans',topic:'Exact Calculation',q:'Find the exact value: 14,63,128 − 4,90,020',answer:'973108'},
+
+{type:'mcq',topic:'Multiplication Shortcut',q:'Estu computed 824 × 25 quickly as 824 × 100 ÷ 4. What is the answer?',
+ o:['20,600','20,500','2,060','206,000'],a:0},
+
+{type:'fillin',topic:'Multiplication Shortcut',q:'Complete the shortcut:',
+ expr:'116 × 5 = 116 × 10 ÷ ___',
+ o:['2','5','10','4'],a:0},
+
+{type:'typeans',topic:'Word Problem',q:'A bus carries 50 people. How many people can 1 lakh buses carry? (in lakhs, number only, e.g. 25 for 25 lakh)',answer:'50'},
+
+{type:'mcq',topic:'Digits in Products',q:'Multiplying a 2-digit number by a 2-digit number gives a product with how many digits?',
+ o:['3 or 4 digits','2 or 3 digits','4 or 5 digits','Always 4 digits'],a:0},
+
+{type:'match',topic:'Nearest Neighbours',q:'Match 3,87,69,957 to its nearest neighbour.',
+ pairs:[
+  {l:'Nearest thousand', r:'3,87,70,000'},
+  {l:'Nearest lakh', r:'3,88,00,000'},
+  {l:'Nearest crore', r:'4,00,00,000'}
+]},
+
+{type:'enterval',topic:'Word Problem',q:'A single sheet of paper weighs 5 grams. What is the weight (in kg) of 1 lakh sheets? (number only)',
+ answer:'500'}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

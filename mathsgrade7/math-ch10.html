@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 10: Operations with Integers • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">➕➖</span> Learn First: Integers<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>Integers are whole numbers that can be positive, negative, or zero. Think of a carrom coin sliding left and right on a number line!</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">➡️</span><span class="lc-bite-txt"><b>Number line:</b> Positive numbers move right, negative numbers move left. Adding is just moving along the line!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔄</span><span class="lc-bite-txt"><b>Subtracting = adding the opposite:</b> 7 − 18 is the same as 7 + (−18).</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">✖️</span><span class="lc-bite-txt"><b>Multiplying signs:</b> (+)×(+)=+, (+)×(−)=−, (−)×(+)=−, (−)×(−)=+. Same signs give positive, different signs give negative!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">➗</span><span class="lc-bite-txt"><b>Dividing signs:</b> Follow the SAME rule as multiplication — same signs = positive, different signs = negative.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🌡️</span><span class="lc-bite-txt"><b>Real life:</b> Temperature below zero, money owed (debt), floors below ground level — all use negative numbers!</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>A carrom coin moves +5 units, then −7 units. Final position = 5 + (−7) = <b>−2</b> (2 units to the left of start)</div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 10</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch10', title:'Ch 10: Operations with Integers'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Adding & Subtracting Integers ────────────────
+[
+{type:'enterval',topic:'Adding Integers',q:'A carrom coin moves +5, then −7. Find the final position (5 + (−7)).',answer:'-2',inputmode:'text'},
+
+{type:'typeans',topic:'Adding Integers',q:'Find: (−4) + 6',answer:'2'},
+
+{type:'enterval',topic:'Adding Integers',q:'Find: (−3) + (−5)',answer:'-8',inputmode:'text'},
+
+{type:'mcq',topic:'Subtracting as Adding',q:'7 − 18 can be rewritten as:',
+ o:['7 + (−18)','7 + 18','−7 + 18','−7 − 18'],a:0},
+
+{type:'enterval',topic:'Subtracting Integers',q:'Find: 7 − 18',answer:'-11',inputmode:'text'},
+
+{type:'mcq',topic:'Additive Inverse',q:'What is the additive inverse of −18?',
+ o:['18','−18','0','1/18'],a:0},
+
+{type:'tf',topic:'Number Line',q:'On a number line, moving in the negative direction means moving to the LEFT. True or False?',answer:true},
+
+{type:'typeans',topic:'Word Problem',q:'Temperature was −4°C in the morning and rose by 9°C by noon. What is the noon temperature?',answer:'5'}
+],
+
+// ── Beginner Set 2: Multiplying Integers ─────────────────────────
+[
+{type:'enterval',topic:'Multiplying Integers',q:'Find: 4 × (−2)',answer:'-8',inputmode:'text'},
+
+{type:'enterval',topic:'Multiplying Integers',q:'Find: (−4) × 2',answer:'-8',inputmode:'text'},
+
+{type:'typeans',topic:'Multiplying Integers',q:'Find: (−4) × (−2)',answer:'8'},
+
+{type:'mcq',topic:'Sign Rules',q:'Positive × Positive = ?',
+ o:['Positive','Negative','Zero','Cannot tell'],a:0},
+
+{type:'mcq',topic:'Sign Rules',q:'Negative × Negative = ?',
+ o:['Positive','Negative','Zero','Cannot tell'],a:0},
+
+{type:'mcq',topic:'Sign Rules',q:'Positive × Negative = ?',
+ o:['Negative','Positive','Zero','Cannot tell'],a:0},
+
+{type:'classify',topic:'Sign Rules',q:'Sort each multiplication by its result sign.',
+ categories:['Positive result','Negative result'],
+ items:[
+  {val:'3 × (−2)',cat:'Negative result'},
+  {val:'(−5) × (−2)',cat:'Positive result'},
+  {val:'(−4) × (−1)',cat:'Positive result'},
+  {val:'(−7) × 3',cat:'Negative result'}
+]},
+
+{type:'enterval',topic:'Multiplying Integers',q:'Find: (−7) × 3',answer:'-21',inputmode:'text'}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Sum & Difference Puzzles, Division ────────────────
+[
+{type:'typeans',topic:'Sum & Difference Puzzle',q:'Two numbers sum to 27 and differ by 9. What is the larger number? (Hint: (27+9)/2)',answer:'18'},
+
+{type:'match',topic:'Sum & Difference',q:'Match each pair of numbers (Sum=25 for all) to their difference.',
+ pairs:[
+  {l:'18 and 7', r:'Difference = 11'},
+  {l:'20 and 5', r:'Difference = 15'},
+  {l:'19 and 6', r:'Difference = 13'}
+]},
+
+{type:'typeans',topic:'Sum & Difference Puzzle',q:'Two numbers sum to 0 and differ by 10. What is the larger number?',answer:'5'},
+
+{type:'mcq',topic:'Division of Integers',q:'To find (−100) ÷ 25, we ask "25 × ? = −100". What is the answer?',
+ o:['−4','4','−25','25'],a:0},
+
+{type:'enterval',topic:'Division of Integers',q:'Find: (−72) ÷ 8',answer:'-9',inputmode:'text'},
+
+{type:'typeans',topic:'Division of Integers',q:'Find: (−72) ÷ (−8)',answer:'9'},
+
+{type:'mcq',topic:'Division Sign Rules',q:'Negative ÷ Negative = ?',
+ o:['Positive','Negative','Zero','Cannot tell'],a:0},
+
+{type:'tapall',topic:'Sign Rules',q:'Tap ALL expressions that give a POSITIVE result.',
+ pool:['(-6)×(-3)','8×(-2)','(-20)÷(-4)','15÷(-3)','(-9)×(-9)'],correct:['(-6)×(-3)','(-20)÷(-4)','(-9)×(-9)']}
+],
+
+// ── Pro Set 2: Multi-Step Word Problems ──────────────────────────
+[
+{type:'enterval',topic:'Word Problem',q:'Given 123 × 456 = 56088, find the value of (−123) × 456 (no need to recalculate!).',answer:'-56088',inputmode:'text'},
+
+{type:'typeans',topic:'Word Problem',q:'Using the same fact, find (−123) × (−456).',answer:'56088'},
+
+{type:'enterval',topic:'Word Problem',q:'A submarine is at −250 m (250 m below sea level). It rises by 180 m. What is its new position?',answer:'-70',inputmode:'text'},
+
+{type:'typeans',topic:'Word Problem',q:'A shopkeeper had a debt of ₹500 (−500) and earned ₹1200. What is their balance now?',answer:'700'},
+
+{type:'enterval',topic:'Multi-Step',q:'Find the final position of a coin after these strikes in order: 1, −2, 3, −4. (Add them all)',
+ answer:'-2'},
+
+{type:'mcq',topic:'Reasoning',q:'If a × b is positive and a is negative, what must b be?',
+ o:['Negative','Positive','Zero','Cannot tell'],a:0},
+
+{type:'typeans',topic:'Elevator Word Problem',q:'A lift starts at floor 3, goes down 5 floors, then up 2 floors. What floor is it on now? (basement floors are negative)',answer:'0'},
+
+{type:'tf',topic:'Reasoning',q:'The product of THREE negative integers is always negative.',answer:true},
+
+{type:'enterval',topic:'Division Word Problem',q:'A company lost ₹96,000 (−96000) over 8 equal months. What was the average monthly change?',answer:'-12000',inputmode:'text'}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

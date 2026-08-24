@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 9: Geometric Twins • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">👯</span> Learn First: Congruent Shapes<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>Twins look exactly alike! In geometry, two shapes that are EXACT copies of each other — same shape AND size — are called congruent.</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">🪞</span><span class="lc-bite-txt"><b>Congruent:</b> Two figures that can be placed exactly on top of each other (flipping/rotating is allowed!).</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📐</span><span class="lc-bite-txt"><b>SSS Rule:</b> If two triangles have all 3 matching side lengths, they MUST be congruent — no need to check angles!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔤</span><span class="lc-bite-txt"><b>Matching order matters:</b> Writing △ABC ≅ △XYZ means A matches X, B matches Y, and C matches Z — in that exact order.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🎯</span><span class="lc-bite-txt"><b>Corresponding parts:</b> In congruent triangles, matching sides are equal AND matching angles are equal.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">⭕</span><span class="lc-bite-txt"><b>Other shapes:</b> Two circles are congruent if they have the same radius. Two rectangles are congruent if length AND breadth match.</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>△ABC has sides 4cm, 6cm, 8cm. △PQR has the SAME 3 sides. By the <b>SSS rule</b>, they must be congruent — even without measuring any angles!</div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 9</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch9', title:'Ch 9: Geometric Twins'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: What is Congruence? ──────────────────────────
+[
+{type:'mcq',topic:'Congruence Basics',q:'Two figures that are exact copies — same shape AND size — are called:',
+ o:['Congruent','Similar','Symmetric','Parallel'],a:0},
+
+{type:'tf',topic:'Congruence Basics',q:'You can flip or rotate a figure before checking if it matches another. True or False?',answer:true},
+
+{type:'mcq',topic:'Circles',q:'Two circles are congruent if they have the same:',
+ o:['Radius','Colour','Position','Diameter direction'],a:0},
+
+{type:'mcq',topic:'Rectangles',q:'Two rectangles are congruent if their:',
+ o:['Length AND breadth both match','Only length matches','Only breadth matches','Areas look similar'],a:0},
+
+{type:'tf',topic:'Congruence Basics',q:'Two shapes are congruent only if they are the exact same colour. True or False?',answer:false},
+
+{type:'mcq',topic:'Triangle Congruence',q:'What condition says: if 3 sides of one triangle match 3 sides of another, the triangles are congruent?',
+ o:['SSS','ASA','AAA','SAS'],a:0},
+
+{type:'tf',topic:'Triangle Congruence',q:'For the SSS rule, you do NOT need to check the angles at all. True or False?',answer:true},
+
+{type:'match',topic:'Vocabulary',q:'Match each shape check to what must be equal for congruence.',
+ pairs:[
+  {l:'Two circles', r:'Same radius'},
+  {l:'Two squares', r:'Same side length'},
+  {l:'Two triangles (SSS)', r:'All 3 matching sides equal'}
+]}
+],
+
+// ── Beginner Set 2: Corresponding Parts ──────────────────────────
+[
+{type:'mcq',topic:'Notation',q:'If △ABC ≅ △XYZ, which vertex corresponds to A?',
+ o:['X','Y','Z','None'],a:0},
+
+{type:'mcq',topic:'Notation',q:'If △ABC ≅ △XYZ, which side corresponds to side AB?',
+ o:['XY','YZ','XZ','BC'],a:0},
+
+{type:'tf',topic:'Corresponding Parts',q:'If △ABC ≅ △XYZ, then angle A = angle X. True or False?',answer:true},
+
+{type:'fillin',topic:'Correct Order',q:'If △HEN ≅ △BIG, then vertex E corresponds to:',
+ expr:'E ↔ ___',
+ o:['I','B','G','N'],a:0},
+
+{type:'mcq',topic:'Correct Order',q:'If △ABC ≅ △XYZ, is it correct to write △ACB ≅ △XYZ?',
+ o:['No — the vertex order must match','Yes, order never matters','Yes, if sides are equal','Cannot tell'],a:0},
+
+{type:'classify',topic:'Matching Parts',q:'Given △ABC ≅ △PQR, sort each pair: do they correspond (match up)?',
+ categories:['Corresponding (matches)','Not corresponding'],
+ items:[
+  {val:'A and P',cat:'Corresponding (matches)'},
+  {val:'B and R',cat:'Not corresponding'},
+  {val:'AB and PQ',cat:'Corresponding (matches)'},
+  {val:'BC and PQ',cat:'Not corresponding'}
+]},
+
+{type:'tf',topic:'Superimposing',q:'When two congruent triangles are superimposed correctly, they fit exactly, one over the other. True or False?',answer:true}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Applying SSS & Verifying Congruence ───────────────
+[
+{type:'mcq',topic:'SSS Verification',q:'Triangle 1 has sides 40cm, 60cm, 80cm. Triangle 2 has sides 4cm, 6cm, 8cm. Are they congruent?',
+ o:['No — the actual lengths are different, even though they are proportional','Yes, since the ratios match','Yes, since both are triangles','Cannot tell'],a:0},
+
+{type:'tf',topic:'SSS Verification',q:'A rectangle ABCD is split into triangles ABD and CDB by diagonal BD. Since AB=CD, AD=CB, and BD is shared, these two triangles are congruent by SSS. True or False?',answer:true},
+
+{type:'mcq',topic:'Correct Correspondence',q:'For triangles ABD ≅ CDB (rectangle ABCD split by BD), which correspondence is CORRECT?',
+ o:['A↔C, B↔D, D↔B','A↔D, B↔C, D↔B','A↔B, B↔C, D↔D','A↔C, D↔D, B↔A'],a:0},
+
+{type:'enterval',topic:'Building Triangles',q:'You want to build a triangle congruent to one with sides 5cm, 7cm, 9cm. How many measurements (sides) do you need to take in total?',
+ answer:'3'},
+
+{type:'tf',topic:'Circles Ambiguity',q:'Knowing only that two circles "look similar" (without measuring the radius) is enough to prove congruence. True or False?',answer:false},
+
+{type:'mcq',topic:'Two Circles Intersecting',q:'When constructing a triangle from 3 given side lengths using compass arcs, the two intersection points give:',
+ o:['Two congruent (mirror-image) triangles','Two totally different triangles','No triangle at all','Only one possible point'],a:0},
+
+{type:'enterval',topic:'Word Problem',q:'A triangular flag has sides 30cm, 40cm, 50cm. You make a copy with the same 3 side lengths. By which rule is your copy guaranteed congruent? (Type the 3-letter rule name)',answer:'SSS',inputmode:'text'},
+
+{type:'tf',topic:'Reasoning',q:'Two triangles with the same PERIMETER are always congruent.',answer:false}
+],
+
+// ── Pro Set 2: Word Problems & Reasoning ─────────────────────────
+[
+{type:'mcq',topic:'Word Problem',q:'A carpenter wants an exact copy of a triangular table top with sides 90cm, 120cm, 150cm. What THREE measurements guarantee an exact copy?',
+ o:['The three side lengths only','Just one side and one angle','Only the angles','The perimeter alone'],a:0},
+
+{type:'tf',topic:'Reasoning',q:'If two triangles have all 3 angles equal but different side lengths, they are congruent.',answer:false},
+
+{type:'match',topic:'Recreating Shapes',q:'Match each shape to the minimum measurements needed to recreate it exactly.',
+ pairs:[
+  {l:'Circle', r:'Radius'},
+  {l:'Rectangle', r:'Length and breadth'},
+  {l:'Triangle', r:'All 3 side lengths (SSS)'}
+]},
+
+{type:'enterval',topic:'Word Problem',q:'Two triangular road signs both have sides 60cm, 60cm, 60cm. Are they congruent? Answer 1 for Yes, 0 for No.',
+ answer:'1'},
+
+{type:'mcq',topic:'Reasoning',q:'A signboard symbol has arms AB=4cm, BC=8cm. Without knowing angle ABC, can you build an exact replica?',
+ o:['No — many different shapes share those 2 side lengths','Yes, always','Yes, if you guess the angle','Cannot tell without the actual signboard'],a:0},
+
+{type:'tf',topic:'Reasoning',q:'Fixing 2 sides AND the angle between them is enough info to build an exact copy of a shape. True or False?',answer:true},
+
+{type:'enterval',topic:'Notation Practice',q:'If △HEN ≅ △BIG, then side HE corresponds to side ___ (2 letters)',answer:'BI',inputmode:'text'},
+
+{type:'classify',topic:'Sufficient Info?',q:'Sort: is this enough information to guarantee a unique congruent triangle?',
+ categories:['Enough (unique triangle)','Not enough'],
+ items:[
+  {val:'All 3 side lengths (SSS)',cat:'Enough (unique triangle)'},
+  {val:'Only 2 side lengths, no angle',cat:'Not enough'},
+  {val:'2 sides + the included angle',cat:'Enough (unique triangle)'},
+  {val:'Only 1 side length',cat:'Not enough'}
+]}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

@@ -33,3 +33,15 @@
   to = "/adatewithnumbers/index.html"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/mathsgrade7"
+  to = "/mathsgrade7/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/mathsgrade7/"
+  to = "/mathsgrade7/index.html"
+  status = 200
+  force = true

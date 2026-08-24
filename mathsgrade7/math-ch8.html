@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 8: Working with Fractions • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">🍰</span> Learn First: Working with Fractions<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>Fractions can be multiplied and divided just like whole numbers — multiplying combines parts, and dividing shares them out. Once you learn the "flip and multiply" trick, dividing fractions becomes as easy as multiplying them!</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">🔢</span><span class="lc-bite-txt"><b>Fraction × Whole Number:</b> Multiply the numerator by the whole number, keep the denominator the same. E.g. 3 × 1/4 = 3/4 (same as adding 1/4 three times).</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">✖️</span><span class="lc-bite-txt"><b>Fraction × Fraction:</b> Multiply the numerators together, then multiply the denominators together. a/b × c/d = (a×c)/(b×d).</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">✂️</span><span class="lc-bite-txt"><b>Simplify First:</b> Before multiplying, cancel any common factors between a numerator and a denominator — the numbers get smaller and easier to handle!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔄</span><span class="lc-bite-txt"><b>Reciprocal:</b> Flip a fraction upside-down to get its reciprocal. The reciprocal of 2/3 is 3/2. A fraction times its own reciprocal always equals 1!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">➗</span><span class="lc-bite-txt"><b>Dividing Fractions:</b> To divide by a fraction, don't divide — multiply by its reciprocal instead! a/b ÷ c/d = a/b × d/c. This is the "flip and multiply" trick.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📏</span><span class="lc-bite-txt"><b>Bigger or Smaller?</b> Multiplying by a fraction less than 1 makes a number smaller. Dividing by a fraction less than 1 makes a number bigger!</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>Leena made 5 cups of tea using 1/4 litre of milk in all. How much milk is in each cup? That's 1/4 ÷ 5 = 1/4 × 1/5 = <b>1/20 litre</b> in every cup!</div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 8</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch8', title:'Ch 8: Working with Fractions'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Multiplying Fractions — The Basics ─────────
+[
+{type:'mcq',topic:'Whole × Whole',q:'Aaron walks 3 km every hour. How far does he walk in 5 hours?',
+ o:['15 km','8 km','53 km','35 km'],a:0},
+
+{type:'mcq',topic:'Fraction × Whole',q:"Aaron's pet tortoise walks only 1/4 km every hour. How far can it walk in 3 hours?",
+ o:['3/4 km','3 km','1/4 km','4/3 km'],a:0},
+
+{type:'tf',topic:'Fraction × Whole',q:'3 × 1/4 means adding 1/4 + 1/4 + 1/4, which equals 3/4. True or False?',answer:true},
+
+{type:'fillin',topic:'Fraction × Whole',q:'Fill in the missing product:',
+ expr:'2 × 3/5 = ___',
+ o:['6/5','5/6','2/5','3/10'],a:0},
+
+{type:'mcq',topic:'Word Problem',q:"A farmer distributed 2/3 acre of land to each of her 5 grandchildren. How much land did she give away in all?",
+ o:['3 1/3 acres','2/3 acre','10 acres','5/3 acre'],a:0},
+
+{type:'match',topic:'Fraction × Fraction',q:'Match each multiplication to its product.',
+ pairs:[
+  {l:'1/2 × 1/4', r:'1/8'},
+  {l:'3/4 × 2/5', r:'3/10'},
+  {l:'2 × 1/6', r:'1/3'},
+  {l:'5 × 1/4', r:'5/4'}
+]},
+
+{type:'classify',topic:'Product Size',q:'Sort each product: is it Less than 1, or 1 or more?',
+ categories:['Less than 1','1 or more'],
+ items:[
+  {val:'1/2 × 1/3 = 1/6',cat:'Less than 1'},
+  {val:'3 × 1/2 = 3/2',cat:'1 or more'},
+  {val:'2/3 × 3/4 = 1/2',cat:'Less than 1'},
+  {val:'4 × 3/4 = 3',cat:'1 or more'},
+  {val:'1/5 × 1/2 = 1/10',cat:'Less than 1'}
+]},
+
+{type:'tapall',topic:'Fraction × Whole',q:'Tap ALL whole numbers that give a WHOLE NUMBER answer when multiplied by 1/4.',
+ pool:[8,10,12,15,16,18,20,24],correct:[8,12,16,20,24]},
+
+{type:'typeans',topic:'Word Problem',q:'1 hour of internet time costs Rs 8. How much (in rupees) will 1 1/4 hours of internet cost? [Hint: 5/4 × 8]',answer:'10'}
+],
+
+// ── Beginner Set 2: More Fraction × Fraction & Word Problems ───
+[
+{type:'mcq',topic:'Unit Fractions',q:'What is 1/3 × 1/5?',
+ o:['1/15','1/8','2/15','1/2'],a:0},
+
+{type:'mcq',topic:'Fraction × Fraction',q:'What is 2/3 × 4/5?',
+ o:['8/15','6/8','8/8','2/15'],a:0},
+
+{type:'tf',topic:'Multiplication Rule',q:'When multiplying two fractions, we multiply the numerators together and multiply the denominators together. True or False?',answer:true},
+
+{type:'fillin',topic:'Fraction × Fraction',q:'Fill in the missing product:',
+ expr:'3/5 × 1/2 = ___',
+ o:['3/10','3/7','1/10','5/10'],a:0},
+
+{type:'mcq',topic:'Word Problem',q:'Tenzin drinks 1/2 glass of milk every day. How many glasses does he drink in a week (7 days)?',
+ o:['3 1/2 glasses','7 glasses','1/2 glass','14 glasses'],a:0},
+
+{type:'match',topic:'Simplifying Products',q:'Match each multiplication (using cancellation) to its simplified answer.',
+ pairs:[
+  {l:'12/7 × 5/24', r:'5/14'},
+  {l:'14/15 × 25/42', r:'5/9'},
+  {l:'4/3 × 3/4', r:'1'},
+  {l:'9/2 × 2/3', r:'3'}
+]},
+
+{type:'classify',topic:'Product Size Rule',q:'Sort each multiplication: does it make the number SMALLER or BIGGER?',
+ categories:['Makes it smaller','Makes it bigger'],
+ items:[
+  {val:'Multiply by 1/2',cat:'Makes it smaller'},
+  {val:'Multiply by 3/2',cat:'Makes it bigger'},
+  {val:'Multiply by 1/10',cat:'Makes it smaller'},
+  {val:'Multiply by 5',cat:'Makes it bigger'},
+  {val:'Multiply by 9/10',cat:'Makes it smaller'}
+]},
+
+{type:'tapall',topic:'Fraction × Whole',q:'Tap ALL whole numbers that give a WHOLE NUMBER answer when multiplied by 2/3.',
+ pool:[3,4,6,8,9,10,12,15],correct:[3,6,9,12,15]},
+
+{type:'typeans',topic:'Word Problem',q:'1 hour of internet time costs Rs 8. Using 3/4 × 8, what is the cost (in rupees) of 3/4 hour of internet?',answer:'6'}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Dividing Fractions ───────────────────────────────
+[
+{type:'mcq',topic:'Reciprocal',q:'What is the reciprocal of 3/5?',
+ o:['5/3','3/5','5/8','3/8'],a:0},
+
+{type:'tf',topic:'Division Rule',q:"Dividing by a fraction is the same as multiplying by its reciprocal. True or False?",answer:true},
+
+{type:'mcq',topic:'Dividing Fractions',q:'What is 1 ÷ 2/3?',
+ o:['3/2','2/3','1/2','2'],a:0},
+
+{type:'fillin',topic:'Reciprocal Method',q:'Fill in the reciprocal used to divide:',
+ expr:'1/5 ÷ 1/2 = 1/5 × ___',
+ o:['2/1','1/2','5/1','2/5'],a:0},
+
+{type:'mcq',topic:'Dividing Fractions',q:'What is 2/3 ÷ 3/5?',
+ o:['10/9','6/15','9/10','5/9'],a:0},
+
+{type:'enterval',topic:'Division Word Problem',q:'Four fountains fill a cistern. Fountain C alone can fill it in 1/4 day. How many times can fountain C fill the cistern in ONE full day? [Hint: 1 ÷ 1/4]',
+ answer:'4'},
+
+{type:'match',topic:'Reciprocal Method',q:'Match each division to its reciprocal-multiplication form.',
+ pairs:[
+  {l:'3 ÷ 2/3', r:'3 × 3/2'},
+  {l:'1/5 ÷ 1/2', r:'1/5 × 2/1'},
+  {l:'2/3 ÷ 3/5', r:'2/3 × 5/3'},
+  {l:'6 ÷ 1/4', r:'6 × 4/1'}
+]},
+
+{type:'classify',topic:'Dividend vs Quotient',q:'Sort each division: is the QUOTIENT bigger or smaller than the DIVIDEND?',
+ categories:['Quotient bigger than dividend','Quotient smaller than dividend'],
+ items:[
+  {val:'6 ÷ 1/4 (divisor less than 1)',cat:'Quotient bigger than dividend'},
+  {val:'1/8 ÷ 1/4 (divisor less than 1)',cat:'Quotient bigger than dividend'},
+  {val:'8 ÷ 2 (divisor more than 1)',cat:'Quotient smaller than dividend'},
+  {val:'10 ÷ 5 (divisor more than 1)',cat:'Quotient smaller than dividend'},
+  {val:'6 ÷ 3/2 (divisor more than 1)',cat:'Quotient smaller than dividend'}
+]},
+
+{type:'tapall',topic:'Dividing by a Fraction',q:'Tap ALL numbers that give a WHOLE NUMBER answer when divided by 3/4.',
+ pool:[6,7,9,10,12,14,15,20],correct:[6,9,12,15]},
+
+{type:'sort',topic:'Dividing by Fractions',q:'Here are 4 quotients. Tap them from SMALLEST to LARGEST: 8÷4, 8÷2, 8÷1, 8÷(1/2).',
+ items:[2,4,8,16],order:'asc'}
+],
+
+// ── Pro Set 2: Real-Life Word Problems ──────────────────────────
+[
+{type:'mcq',topic:'Distance & Petrol',q:'A car runs 16 km using 1 litre of petrol. How far will it go using 2 3/4 litres?',
+ o:['44 km','40 km','48 km','35 km'],a:0},
+
+{type:'typeans',topic:'Time Word Problem',q:"Amritpal's train takes 5 hours (300 minutes). His plane takes only 1/3 hour (20 minutes). How many MINUTES faster is the plane?",answer:'280'},
+
+{type:'mcq',topic:'Dividing Fractions',q:'Maria used 1/4 m of lace for each bag from her 8 m of lace. How many bags did she decorate?',
+ o:['32 bags','2 bags','4 bags','16 bags'],a:0},
+
+{type:'tf',topic:'Dividing Fractions',q:'A baker has 5 kg of flour. Each loaf of bread needs 1/6 kg. He can bake 30 loaves. True or False?',answer:true},
+
+{type:'fillin',topic:'Area & Fractions',q:'A rectangle has sides 3 3/4 ft and 9 3/5 ft. Fill in its area:',
+ expr:'Area = ___ sq ft',
+ o:['36','30','40','45'],a:0},
+
+{type:'mcq',topic:'Word Problem',q:'Four saplings stand in a row with a 3/4 m gap between each pair of neighbours (3 gaps in all). What is the distance from the first sapling to the last?',
+ o:['2 1/4 m','3/4 m','3 m','9 m'],a:0},
+
+{type:'match',topic:'Sharing & Land',q:'Match each real-life fraction problem to its answer.',
+ pairs:[
+  {l:'Oil: 5 L shared equally by 3 families for 1 week', r:'5/3 L each'},
+  {l:"Cake: leftover 1/5 of cake shared by 3 friends", r:'1/15 each'},
+  {l:"Land: 1/2 of Somu's remaining 5/6 goes to Krishna", r:'5/12'},
+  {l:"Land: 1/3 of Somu's remaining 5/6 goes to Bora", r:'5/18'}
+]},
+
+{type:'classify',topic:'Choosing the Operation',q:'Sort each word problem by the fraction operation needed: Multiplication or Division?',
+ categories:['Multiplication','Division'],
+ items:[
+  {val:'Car: 16 km/litre, find distance using 2 3/4 litres',cat:'Multiplication'},
+  {val:'Lace: 8 m total, 1/4 m per bag, find number of bags',cat:'Division'},
+  {val:'Flour: 5 kg total, 1/6 kg per loaf, find number of loaves',cat:'Division'},
+  {val:'Rectangle: sides 3 3/4 ft and 9 3/5 ft, find area',cat:'Multiplication'},
+  {val:'Milk: 1/4 litre for 5 cups, find milk per cup',cat:'Division'}
+]},
+
+{type:'tapall',topic:'Dividing by a Fraction',q:'Tap ALL numbers that give a WHOLE NUMBER answer when divided by 3/4 (using a÷3/4 = a×4/3).',
+ pool:[9,10,15,16,18,20,21,25],correct:[9,15,18,21]},
+
+{type:'sort',topic:'Word Problem Answers',q:'Sort these word-problem answers from SMALLEST to LARGEST: bags Maria can decorate (32), loaves the baker can bake (30), pages Mira still has to read (200), minutes the plane saves (280).',
+ items:[32,30,200,280],order:'asc'}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 2: Arithmetic Expressions • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">🧮</span> Learn First: Arithmetic Expressions<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>An expression like 30 + 5 × 4 can be confusing without rules! Let's learn how to read it the correct way, every time.</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">🧩</span><span class="lc-bite-txt"><b>Terms:</b> The parts of an expression separated by a '+' sign. In 12 + 7, the terms are 12 and 7.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">➖</span><span class="lc-bite-txt"><b>Subtraction as a term:</b> 83 − 14 is the same as 83 + (−14). So the terms are 83 and −14.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔒</span><span class="lc-bite-txt"><b>Brackets first:</b> Always solve what's inside the brackets before anything else.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">✖️</span><span class="lc-bite-txt"><b>Multiply/divide before add:</b> In a term like 5 × 4, do the multiplication first — it's a single term, not two.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔄</span><span class="lc-bite-txt"><b>Commutative & Associative:</b> You can swap or regroup terms being added — the answer stays the same!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🎁</span><span class="lc-bite-txt"><b>Distributive property:</b> 3 × (6 + 7) = 3×6 + 3×7 — multiplying a sum is the same as multiplying each part and adding.</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>Mallesh has 30 marbles, Arun has 5 bags of 4 marbles. Total = 30 + (5 × 4) = 30 + 20 = <b>50 marbles</b></div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 2</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch2', title:'Ch 2: Arithmetic Expressions'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Evaluating & Comparing Expressions ─────────
+[
+{type:'typeans',topic:'Evaluating',q:'Find the value of 13 + 2',answer:'15'},
+
+{type:'typeans',topic:'Evaluating',q:'Find the value of 12 × 5',answer:'60'},
+
+{type:'mcq',topic:'Comparing',q:'Compare without complicated calculation: 245 + 289 ___ 246 + 285',
+ o:['<','>','=','Cannot tell'],a:0},
+
+{type:'mcq',topic:'Comparing',q:'Compare: 364 + 587 ___ 363 + 589',
+ o:['<','>','=','Cannot tell'],a:0},
+
+{type:'fillin',topic:'Making Equal',q:'Fill the blank to make both sides equal:',
+ expr:'13 + 4 = ___ + 6',
+ o:['11','13','17','7'],a:0},
+
+{type:'fillin',topic:'Making Equal',q:'Fill the blank to make both sides equal:',
+ expr:'8 × ___ = 64 ÷ 2',
+ o:['4','8','2','16'],a:0},
+
+{type:'sort',topic:'Ordering Expressions',q:'Tap these expressions from SMALLEST to LARGEST value: 5×11, 35+25, 67-20',
+ items:[47,55,60],order:'asc'},
+
+{type:'tf',topic:'Comparing',q:'113 − 25 has the same value as 112 − 24. True or False?',answer:true}
+],
+
+// ── Beginner Set 2: Terms of an Expression ──────────────────────
+[
+{type:'mcq',topic:'What is a Term',q:'In the expression 12 + 7, what are the terms?',
+ o:['12 and 7','12+7 together','Only 12','Only 7'],a:0},
+
+{type:'mcq',topic:'Subtraction as Terms',q:'83 − 14 can be rewritten as 83 + (−14). What are the terms?',
+ o:['83 and −14','83 and 14','Only 83','−14 and −83'],a:0},
+
+{type:'match',topic:'Identifying Terms',q:'Match each expression to its terms.',
+ pairs:[
+  {l:'13 − 2 + 6', r:'13, −2, 6'},
+  {l:'5 + 6 × 3',   r:'5, 6×3'},
+  {l:'−18 − 3',     r:'−18, −3'}
+]},
+
+{type:'tf',topic:'Terms',q:'In 6 × 5 + 3, the whole "6 × 5" counts as ONE single term (no + sign inside it). True or False?',answer:true},
+
+{type:'mcq',topic:'Brackets',q:'What must you evaluate FIRST in 30 + (5 × 4)?',
+ o:['5 × 4 (inside brackets)','30 + 5','4 alone','30 alone'],a:0},
+
+{type:'typeans',topic:'Brackets',q:'Evaluate: 30 + (5 × 4)',answer:'50'},
+
+{type:'typeans',topic:'Word Problem',q:'Irfan buys a ₹15 biscuit packet and a ₹56 dal packet, and pays with a ₹100 note. How much change does he get? Use 100 − (15+56).',answer:'29'},
+
+{type:'mcq',topic:'Brackets & Signs',q:'When removing brackets that come AFTER a minus sign, what happens to the signs of terms inside?',
+ o:['They flip (change sign)','They stay the same','They all become zero','Nothing changes'],a:0}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Commutative, Associative & Distributive Properties ──
+[
+{type:'mcq',topic:'Commutative Property',q:'"Swapping the order of terms does not change the sum" is called the:',
+ o:['Commutative property','Associative property','Distributive property','Multiplicative property'],a:0},
+
+{type:'mcq',topic:'Associative Property',q:'"Grouping terms differently does not change the sum" is called the:',
+ o:['Associative property','Commutative property','Distributive property','Additive property'],a:0},
+
+{type:'typeans',topic:'Distributive Property',q:'Use the distributive property: 3 × (6 + 7) = 3×6 + 3×7. What is the value?',answer:'39'},
+
+{type:'fillin',topic:'Distributive Property',q:'Fill in the blank using the distributive property:',
+ expr:'(8 + 3) × 4 = 8×4 + ___',
+ o:['3×4','8×3','4×4','3+4'],a:0},
+
+{type:'mcq',topic:'Removing Brackets',q:'Simplify without brackets: 100 − (15 + 56)',
+ o:['100 − 15 − 56','100 − 15 + 56','100 + 15 − 56','100 + 15 + 56'],a:0},
+
+{type:'mcq',topic:'Removing Brackets',q:'Simplify without brackets: 28 + (35 − 10)',
+ o:['28 + 35 − 10','28 − 35 + 10','28 − 35 − 10','28 + 35 + 10'],a:0},
+
+{type:'classify',topic:'Same Value?',q:'Sort each pair: do they have the SAME value or DIFFERENT value?',
+ categories:['Same value','Different value'],
+ items:[
+  {val:'(6+10)×2 & 6+(10×2)',cat:'Different value'},
+  {val:'16−(8−3) & (16−8)−3',cat:'Different value'},
+  {val:'27−(18+4) & 27+(−18−4)',cat:'Same value'},
+  {val:'319−537 & −537+319',cat:'Same value'}
+]},
+
+{type:'typeans',topic:'Word Problem',q:'Binu earns ₹20,000/month, spends ₹5,000 rent + ₹5,000 food + ₹2,000 other, every month. How much does she SAVE per month?',answer:'8000'}
+],
+
+// ── Pro Set 2: Multi-Step Word Problems ─────────────────────────
+[
+{type:'typeans',topic:'Word Problem',q:'4 friends order dosas at ₹23 each, plus a ₹5 tip. Total = 4×23+5. What is the total?',answer:'97'},
+
+{type:'typeans',topic:'Word Problem',q:'If 7 friends order the same ₹23 dosas with the same ₹5 tip, what is the total? (7×23+5)',answer:'166'},
+
+{type:'mcq',topic:'Word Problem',q:'Scouts march in 4 rows of 5, Guides in 3 rows of 5. Which expression gives the SAME total as 4×5 + 3×5?',
+ o:['(4+3)×5','4×5×3×5','(4×3)+5','4+5+3+5'],a:0},
+
+{type:'typeans',topic:'Multiplication Shortcut',q:'Using 53×18=954, find 63×18 by adding 10×18 to 954.',answer:'1134'},
+
+{type:'typeans',topic:'Multiplication Shortcut',q:'Find 97×25 using 100×25 − 3×25.',answer:'2425'},
+
+{type:'mcq',topic:'Word Problem',q:'Rahim supplies 9 kg mangoes/day, Shyam supplies 11 kg/day, for 7 days. Total mangoes = 7×(9+11). What is it?',
+ o:['140 kg','126 kg','154 kg','133 kg'],a:0},
+
+{type:'enterval',topic:'Word Problem',q:'A snail climbs 3 cm by day, slips 2 cm by night, net 1 cm/day. Post is 10 cm. On day 8 it climbs the final 3cm to escape early. On which day does it reach the top? (number only)',
+ answer:'8'},
+
+{type:'match',topic:'Equal Expressions',q:'Match each expression to an equal expression (using terms/brackets reasoning, no calculation needed).',
+ pairs:[
+  {l:'83 − 37 − 12', r:'−37 + 83 − 12'},
+  {l:'93 + 37 − 44 + 76', r:'37 + 93 − 44 + 76'},
+  {l:'14 + (12 + 10)', r:'14 + 12 + 10'}
+]},
+
+{type:'tf',topic:'Reasoning',q:'23 − (17 − 9) is EQUAL to 23 − 17 + 9. True or False?',answer:true}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 6: Number Play • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">🧩</span> Learn First: Number Play<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>Numbers can be playful! In this chapter we explore fun patterns — which numbers are even or odd, a famous sequence found in flowers and poetry, and magic squares where every row and column adds up the same.</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">🔢</span><span class="lc-bite-txt"><b>Parity (Even &amp; Odd):</b> Even numbers can be split into pairs with nothing left over. Odd numbers always have one left over.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">➕</span><span class="lc-bite-txt"><b>Adding Evens &amp; Odds:</b> even + even = even, odd + odd = even, but even + odd = odd.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🌻</span><span class="lc-bite-txt"><b>Virahanka-Fibonacci Numbers:</b> In this special sequence 1, 2, 3, 5, 8, 13, 21... each number is the sum of the two numbers before it — it even shows up in flower petals!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">✨</span><span class="lc-bite-txt"><b>Magic Squares:</b> In a 3×3 grid filled with the numbers 1 to 9, every row, column and diagonal can add up to the same "magic sum" — which is always 15.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">✖️</span><span class="lc-bite-txt"><b>Multiplying Evens &amp; Odds:</b> even × even = even, odd × odd = odd, but even × odd = even.</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>What comes next in 1, 2, 3, 5, 8, 13, ___? Add the last two numbers: 8 + 13 = 21. Answer: <b>21</b></div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 6</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch6', title:'Ch 6: Number Play'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Odd & Even Sums ───────────────
+[
+{type:'mcq',topic:'Parity Basics',q:'What do we call numbers that can be arranged in pairs with no leftovers?',
+ o:['Even numbers','Odd numbers','Prime numbers','Square numbers'],a:0},
+
+{type:'tf',topic:'Parity Basics',q:'7 is an odd number. True or False?',answer:true},
+
+{type:'mcq',topic:'Adding Parity',q:'even + even = ?',
+ o:['Even','Odd','Sometimes even, sometimes odd','Zero'],a:0},
+
+{type:'mcq',topic:'Adding Parity',q:'odd + odd = ?',
+ o:['Even','Odd','Sometimes even, sometimes odd','Zero'],a:0},
+
+{type:'mcq',topic:'Adding Parity',q:'even + odd = ?',
+ o:['Odd','Even','Sometimes even, sometimes odd','Zero'],a:0},
+
+{type:'classify',topic:'Odd & Even',q:'Sort each number into the correct group.',
+ categories:['ODD','EVEN'],
+ items:[
+  {val:'17',cat:'ODD'},{val:'24',cat:'EVEN'},
+  {val:'31',cat:'ODD'},{val:'46',cat:'EVEN'},
+  {val:'59',cat:'ODD'},{val:'80',cat:'EVEN'}
+]},
+
+{type:'fillin',topic:'Adding Parity',q:'Find the sum:',
+ expr:'15 + 23 = ___',
+ o:['38','37','39','36'],a:0},
+
+{type:'tapall',topic:'Odd & Even',q:'Tap ALL the EVEN numbers.',
+ pool:[21,34,47,58,63,72,85,96],correct:[34,58,72,96]},
+
+{type:'enterval',topic:'Adding Parity',q:'The sum of two odd numbers is always even. Add 9 and 15 to check. Type the sum.',
+ answer:'24'},
+
+{type:'typeans',topic:'Adding Parity',q:'What number is 2 more than 37 (the next odd number)?',answer:'39'}
+],
+
+// ── Beginner Set 2: Virahanka-Fibonacci Sequence ─────
+[
+{type:'mcq',topic:'Fibonacci Pattern',q:'What is the next number in this pattern? 1, 2, 3, 5, 8, ___',
+ o:['13','12','11','10'],a:0},
+
+{type:'tf',topic:'Fibonacci Pattern',q:'In the Virahanka (Fibonacci) sequence, each number is found by adding the two numbers before it. True or False?',answer:true},
+
+{type:'mcq',topic:'Fibonacci Pattern',q:'What comes next after 21 in 1, 2, 3, 5, 8, 13, 21, ___?',
+ o:['34','33','35','32'],a:0},
+
+{type:'fillin',topic:'Fibonacci Pattern',q:'Add these two Virahanka numbers to find the next one:',
+ expr:'13 + 21 = ___',
+ o:['34','33','35','32'],a:0},
+
+{type:'enterval',topic:'Fibonacci Pattern',q:'The sequence is 1, 2, 3, 5, 8, 13, 21, 34, 55... What is the next number after 55?',
+ answer:'89'},
+
+{type:'typeans',topic:'Fibonacci Pattern',q:'Add two Virahanka numbers: 5 + 8 = ?',answer:'13'},
+
+{type:'mcq',topic:'Fibonacci Pattern',q:'A daisy flower has petals that follow the Virahanka sequence. Which of these could be its petal count?',
+ o:['13','12','14','11'],a:0},
+
+{type:'tf',topic:'Fibonacci Pattern',q:'The Virahanka sequence was first discovered by ancient Indian scholars studying poetry rhythms. True or False?',answer:true},
+
+{type:'sort',topic:'Fibonacci Pattern',q:'Tap these Virahanka numbers from SMALLEST to LARGEST.',
+ items:[13,3,21,8],order:'asc'},
+
+{type:'classify',topic:'Fibonacci Pattern',q:'Sort each number based on whether it appears in the Virahanka sequence 1, 2, 3, 5, 8, 13, 21, 34...',
+ categories:['Is a Virahanka number','Is NOT a Virahanka number'],
+ items:[
+  {val:'8',cat:'Is a Virahanka number'},{val:'10',cat:'Is NOT a Virahanka number'},
+  {val:'13',cat:'Is a Virahanka number'},{val:'9',cat:'Is NOT a Virahanka number'},
+  {val:'21',cat:'Is a Virahanka number'},{val:'6',cat:'Is NOT a Virahanka number'}
+]}
+]
+
+], // end beginner
+
+pro: [
+
+// ── Pro Set 1: Magic Squares & Parity of Products ────
+[
+{type:'mcq',topic:'Magic Squares',q:'In a 3×3 magic square using the numbers 1-9, what must the MAGIC SUM (every row, column and diagonal) equal?',
+ o:['15','9','45','20'],a:0},
+
+{type:'tf',topic:'Magic Squares',q:'In a 1-9 magic square, the number 5 must sit at the very centre. True or False?',answer:true},
+
+{type:'mcq',topic:'Multiplying Parity',q:'even × even = ?',
+ o:['Even','Odd','Zero','Cannot say'],a:0},
+
+{type:'mcq',topic:'Multiplying Parity',q:'odd × odd = ?',
+ o:['Odd','Even','Zero','Cannot say'],a:0},
+
+{type:'mcq',topic:'Multiplying Parity',q:'even × odd = ?',
+ o:['Even','Odd','Zero','Cannot say'],a:0},
+
+{type:'fillin',topic:'Magic Squares',q:'Complete this magic square row (magic sum = 15):',
+ expr:'2 + 7 + ___ = 15',
+ o:['6','5','7','8'],a:0},
+
+{type:'enterval',topic:'Magic Squares',q:'In a 3×3 magic square using 1-9, what is the sum of ALL nine numbers from 1 to 9? Type the number.',
+ answer:'45'},
+
+{type:'typeans',topic:'Magic Squares',q:"A magic square row has the numbers 8 and 3, plus one more number. The magic sum is 15. What is the missing number?",answer:'4'},
+
+{type:'tapall',topic:'Magic Squares',q:'In a 1-9 magic square, only ONE number can go at the centre (it must be 5). Tap ALL the numbers below that CANNOT be at the centre.',
+ pool:[1,4,5,8,9],correct:[1,4,8,9]},
+
+{type:'classify',topic:'Multiplying Parity',q:'Sort each multiplication by whether its product is EVEN or ODD.',
+ categories:['Product is EVEN','Product is ODD'],
+ items:[
+  {val:'4×6',cat:'Product is EVEN'},{val:'3×5',cat:'Product is ODD'},
+  {val:'2×9',cat:'Product is EVEN'},{val:'7×7',cat:'Product is ODD'},
+  {val:'6×6',cat:'Product is EVEN'},{val:'9×3',cat:'Product is ODD'}
+]}
+],
+
+// ── Pro Set 2: Number Puzzles & Word Problems ─────────
+[
+{type:'mcq',topic:'Parity Puzzles',q:'A light bulb is OFF. If you toggle its switch 7 times (an odd number), what is its final state?',
+ o:['ON','OFF','Cannot say','Broken'],a:0},
+
+{type:'mcq',topic:'Parity Puzzles',q:'A light bulb is ON. If you toggle its switch 10 times (an even number), what is its final state?',
+ o:['ON','OFF','Cannot say','Broken'],a:0},
+
+{type:'tf',topic:'Parity Puzzles',q:'The sum of any two consecutive numbers (like 7 and 8) is always odd. True or False?',answer:true},
+
+{type:'mcq',topic:'Parity Puzzles',q:'Two friends were born exactly one year apart. Can the sum of their ages be 112, an even number?',
+ o:['No, consecutive ages always add to an odd number','Yes, always','Only if both are even','Only if both are odd'],a:0},
+
+{type:'fillin',topic:'Expressions & Parity',q:'Complete the rule:',
+ expr:'The expression 2n + 1 always gives a(n) ___ number',
+ o:['odd','even','prime','negative'],a:0},
+
+{type:'enterval',topic:'Parity Puzzles',q:'What is the parity of the sum 1+2+3+...+100? Type EVEN or ODD.',
+ answer:'even'},
+
+{type:'mcq',topic:'Grid Puzzles',q:'A grid has 15 rows and 13 columns (both odd numbers). Is the number of small squares odd or even?',
+ o:['Odd','Even','Cannot tell','Zero'],a:0},
+
+{type:'mcq',topic:'Grid Puzzles',q:'A grid has 12 rows and 7 columns. Is the number of small squares odd or even?',
+ o:['Even','Odd','Cannot tell','Zero'],a:0},
+
+{type:'sort',topic:'Fibonacci Pattern',q:'Tap these Virahanka numbers from SMALLEST to LARGEST.',
+ items:[34,5,55,2],order:'asc'},
+
+{type:'match',topic:'Parity Rules',q:'Match each parity rule to its result.',
+ pairs:[
+  {l:'even + even', r:'even'},
+  {l:'odd + odd',    r:'even'},
+  {l:'even + odd',   r:'odd'},
+  {l:'odd × odd',    r:'odd'}
+]}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

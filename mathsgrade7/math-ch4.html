@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 4: Expressions Using Letter-Numbers • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">🔤</span> Learn First: Letter-Numbers<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>What if a number keeps changing, or we don't know it yet? We use a LETTER to stand in for it — that's the first step into algebra!</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">🔡</span><span class="lc-bite-txt"><b>Letter-number:</b> A letter (like a, n, x) used to represent a number that can change or is unknown.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📝</span><span class="lc-bite-txt"><b>Algebraic expression:</b> A math phrase built with letter-numbers, like a + 3 or 2 × n.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">✖️</span><span class="lc-bite-txt"><b>Dropping the × sign:</b> We write 4 × n as just 4n — number first, then the letter, no × symbol needed.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔁</span><span class="lc-bite-txt"><b>Substituting:</b> To find the value, just replace the letter with a number. If a = 23, then a + 3 = 23 + 3 = 26.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📐</span><span class="lc-bite-txt"><b>Formulas:</b> Expressions that describe a general rule, like "perimeter of a square = 4 × side".</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>Shabnam is 3 years older than Aftab (age = a). If a = 23, Shabnam's age = a + 3 = 23 + 3 = <b>26 years</b></div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 4</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch4', title:'Ch 4: Expressions Using Letter-Numbers'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Forming Simple Expressions ──────────────────
+[
+{type:'mcq',topic:'Letter-Numbers',q:'A letter used to represent a number in maths (like a, n, x) is called a:',
+ o:['Letter-number','Digit','Operator','Fraction'],a:0},
+
+{type:'mcq',topic:'Forming Expressions',q:'Shabnam is 3 years older than Aftab (age = a). Which expression gives Shabnam\'s age?',
+ o:['a + 3','a − 3','3a','a ÷ 3'],a:0},
+
+{type:'typeans',topic:'Substituting',q:"If a = 23 (Aftab's age), find Shabnam's age using a + 3.",answer:'26'},
+
+{type:'mcq',topic:'Dropping ×',q:'How do we usually write 4 × n in algebra?',
+ o:['4n','n4','4 n (with a space)','4×n, always keep the sign'],a:0},
+
+{type:'typeans',topic:'Substituting',q:'Find the value of 7k when k = 4.',answer:'28'},
+
+{type:'typeans',topic:'Substituting',q:'Find the value of 5m + 3 when m = 2.',answer:'13'},
+
+{type:'mcq',topic:'Formulas',q:'The perimeter of a square with side q is given by the formula:',
+ o:['4q','q + 4','4 + q','q ÷ 4'],a:0},
+
+{type:'typeans',topic:'Formulas',q:'A square has side 7 cm. Using perimeter = 4q, find its perimeter.',answer:'28'}
+],
+
+// ── Beginner Set 2: More Expressions & Patterns ──────────────────
+[
+{type:'mcq',topic:'Matchstick Pattern',q:'Each "L" shape uses 2 matchsticks. If n = number of Ls, the total matchsticks needed is:',
+ o:['2n','n + 2','n ÷ 2','2 + n + 2'],a:0},
+
+{type:'typeans',topic:'Matchstick Pattern',q:'Using total = 2n, how many matchsticks for 45 Ls?',answer:'90'},
+
+{type:'match',topic:'Word to Expression',q:'Match each phrase to its algebraic expression (use x for "a number").',
+ pairs:[
+  {l:'5 more than a number', r:'x + 5'},
+  {l:'4 less than a number', r:'x − 4'},
+  {l:'2 less than 13 times a number', r:'13x − 2'}
+]},
+
+{type:'mcq',topic:'Multiples Pattern',q:'The sequence 4, 8, 12, 16, 20... has nth term:',
+ o:['4n','n + 4','4 + n','n × n'],a:0},
+
+{type:'typeans',topic:'Multiples Pattern',q:'Using nth term = 4n, find the 29th term.',answer:'116'},
+
+{type:'tf',topic:'Formulas',q:'The formula for a regular pentagon\'s perimeter (side = s) is 5s. True or False?',answer:true},
+
+{type:'typeans',topic:'Word Problem',q:'A coconut costs ₹35, jaggery ₹60/kg. Cost formula = 35c + 60j. Find total for c=8 coconuts, j=9 kg jaggery.',answer:'820'},
+
+{type:'mcq',topic:'Formulas',q:'A regular hexagon has 6 equal sides of length s. Its perimeter formula is:',
+ o:['6s','s + 6','6 + s','s ÷ 6'],a:0}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Evaluating Expressions & Word Problems ────────────
+[
+{type:'typeans',topic:'Substituting',q:'If s = 20 (Shabnam\'s age), find Aftab\'s age using a = s − 3.',answer:'17'},
+
+{type:'typeans',topic:'Evaluating',q:'Find the value of 23 − 10 − 2 using terms (23 + (−10) + (−2)).',answer:'11'},
+
+{type:'typeans',topic:'Evaluating',q:'Find the value of 68 − (18 + 13).',answer:'37'},
+
+{type:'mcq',topic:'Pipe Word Problem',q:'Munirathna has a 20 m pipe and joins another of length k metres. Total length expression is:',
+ o:['20 + k','20k','20 − k','k − 20'],a:0},
+
+{type:'mcq',topic:'Grinding Word Problem',q:'A mill takes 10 seconds to start, then 8 seconds per kg to grind y kg. Which expression gives total time?',
+ o:['10 + 8y','(10+8)×y','10×8×y','10y + 8'],a:0},
+
+{type:'typeans',topic:'Notes Word Problem',q:'Krithika has 6 notes of ₹100, 4 notes of ₹20, 3 notes of ₹5. Total = 6×100+4×20+3×5. Find the total.',answer:'695'},
+
+{type:'fillin',topic:'Mind the Mistake',q:'If a = −4, find the CORRECT value of 10 − a (careful with signs!):',
+ expr:'10 − (−4) = ___',
+ o:['14','6','−14','−6'],a:0},
+
+{type:'mcq',topic:'Mind the Mistake',q:'If d = 6, what is the CORRECT value of 3d?',
+ o:['18','9','36','63'],a:0}
+],
+
+// ── Pro Set 2: Formulas, Calendars & Multi-Letter Expressions ────
+[
+{type:'typeans',topic:'Calendar Pattern',q:'In a calendar, the date directly below w is w+7. If w=10, what is the date below it?',answer:'17'},
+
+{type:'typeans',topic:'Calendar Pattern',q:'In a calendar, the date just before w is w−1. If w=15, what date is just before it?',answer:'14'},
+
+{type:'mcq',topic:'Multi-letter Expressions',q:'"8 times x, plus 3 times y" is written as:',
+ o:['8x + 3y','8x × 3y','x8 + y3','8 + x + 3 + y'],a:0},
+
+{type:'typeans',topic:'Multi-letter Expressions',q:'Find the value of 8x + 3y when x=2 and y=5.',answer:'31'},
+
+{type:'typeans',topic:'Multi-letter Expressions',q:'Find the value of 15j − 2k when j=3 and k=4.',answer:'37'},
+
+{type:'mcq',topic:'Equilateral Triangle',q:'An equilateral triangle has all sides equal to t. Its perimeter formula is:',
+ o:['3t','t + 3','3 + t','t ÷ 3'],a:0},
+
+{type:'classify',topic:'Word to Expression',q:'Sort each phrase by its matching type of expression.',
+ categories:['Addition form (x+num)','Subtraction form (numx − num)'],
+ items:[
+  {val:'"7 more than a number"',cat:'Addition form (x+num)'},
+  {val:'"13 less than 2 times a number"',cat:'Subtraction form (numx − num)'},
+  {val:'"9 more than a number"',cat:'Addition form (x+num)'},
+  {val:'"5 less than 6 times a number"',cat:'Subtraction form (numx − num)'}
+]},
+
+{type:'typeans',topic:'Word Problem',q:'Cost of coconuts + jaggery = 35c + 60j. Find the cost for 7 coconuts and 4 kg jaggery.',answer:'485'}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 7: A Tale of Three Intersecting Lines • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">🔺</span> Learn First: Triangles<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>A triangle is the simplest closed shape — just 3 corners (vertices) and 3 sides. Let's meet its rules and its different types!</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">📛</span><span class="lc-bite-txt"><b>Naming:</b> A triangle with corners A, B, C is written △ABC. The corners can be named in any order.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📏</span><span class="lc-bite-txt"><b>Triangle Inequality:</b> A triangle can only be built if EVERY side is shorter than the sum of the other two sides. If not, the sides just won't meet up!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📐</span><span class="lc-bite-txt"><b>Angle Sum Property:</b> The three angles inside ANY triangle always add up to exactly 180°. Always. No exceptions!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔻</span><span class="lc-bite-txt"><b>By sides:</b> Equilateral = all 3 sides equal. Isosceles = 2 sides equal. Scalene = all 3 sides different.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📊</span><span class="lc-bite-txt"><b>By angles:</b> Acute = all angles under 90°. Right = one angle exactly 90°. Obtuse = one angle over 90°.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📉</span><span class="lc-bite-txt"><b>Altitude:</b> A straight, perpendicular "height line" from a corner down to the opposite side.</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>Can sides 3 cm, 4 cm, 8 cm form a triangle? Check: is 8 &lt; 3+4? No, 8 &gt; 7. So <b>no triangle is possible</b>. But 3 cm, 4 cm, 5 cm works because 5 &lt; 3+4 (and every other pair checks out too)!</div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 7</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch7', title:'Ch 7: A Tale of Three Intersecting Lines'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Parts & Types of Triangles ───────────────
+[
+{type:'mcq',topic:'Parts of a Triangle',q:'How many vertices (corners) does a triangle have?',
+ o:['3','4','2','5'],a:0},
+
+{type:'mcq',topic:'Parts of a Triangle',q:'A triangle has how many sides?',
+ o:['3','4','2','6'],a:0},
+
+{type:'tf',topic:'Naming Triangles',q:'A triangle with corners P, Q, R can be written as △PQR or △QRP — the order of letters does not matter. True or False?',answer:true},
+
+{type:'match',topic:'Types by Sides',q:'Match each triangle type to its definition.',
+ pairs:[
+  {l:'Equilateral', r:'All 3 sides equal'},
+  {l:'Isosceles',    r:'Exactly 2 sides equal'},
+  {l:'Scalene',      r:'All 3 sides different'}
+]},
+
+{type:'mcq',topic:'Types by Sides',q:'A triangle has sides 5 cm, 5 cm, 5 cm. What type is it?',
+ o:['Equilateral','Isosceles','Scalene','Right-angled'],a:0},
+
+{type:'mcq',topic:'Types by Sides',q:'A triangle has sides 4 cm, 4 cm, 7 cm. What type is it?',
+ o:['Isosceles','Equilateral','Scalene','None of these'],a:0},
+
+{type:'classify',topic:'Types by Angles',q:'Sort each triangle by its largest angle.',
+ categories:['Acute (all < 90°)','Right (one = 90°)','Obtuse (one > 90°)'],
+ items:[
+  {val:'Angles 60°,60°,60°',cat:'Acute (all < 90°)'},
+  {val:'Angles 90°,45°,45°',cat:'Right (one = 90°)'},
+  {val:'Angles 120°,30°,30°',cat:'Obtuse (one > 90°)'},
+  {val:'Angles 50°,60°,70°',cat:'Acute (all < 90°)'},
+  {val:'Angles 100°,40°,40°',cat:'Obtuse (one > 90°)'}
+]},
+
+{type:'tf',topic:'Altitude',q:'The altitude of a triangle is a line from a vertex straight down to the opposite side, meeting it at a right angle. True or False?',answer:true}
+],
+
+// ── Beginner Set 2: Angle Sum Property ────────────────────────
+[
+{type:'mcq',topic:'Angle Sum Property',q:'The three angles of ANY triangle always add up to what?',
+ o:['180°','360°','90°','270°'],a:0},
+
+{type:'enterval',topic:'Angle Sum Property',q:'A triangle has angles 60° and 70°. What is the third angle? (in degrees, number only)',
+ answer:'50'},
+
+{type:'enterval',topic:'Angle Sum Property',q:'A triangle has angles 90° and 35°. What is the third angle?',
+ answer:'55'},
+
+{type:'mcq',topic:'Angle Sum Property',q:'A triangle has angles 45° and 45°. What is the third angle?',
+ o:['90°','80°','100°','45°'],a:0},
+
+{type:'tf',topic:'Angle Sum Property',q:'A triangle can have angles 90°, 90°, and 0°. True or False?',answer:false},
+
+{type:'fillin',topic:'Angle Sum Property',q:'Fill in the missing angle:',
+ expr:'55° + 65° + ___ = 180°',
+ o:['60°','70°','50°','65°'],a:0},
+
+{type:'mcq',topic:'Right Triangles',q:'A right-angled triangle has one angle of 90°. If another angle is 40°, what is the third?',
+ o:['50°','60°','40°','90°'],a:0},
+
+{type:'typeans',topic:'Equal Angles',q:'If all three angles of a triangle are equal, what must each one measure? (number of degrees)',answer:'60'}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Triangle Inequality ─────────────────────────────
+[
+{type:'tf',topic:'Triangle Inequality',q:'Sides 3 cm, 4 cm and 8 cm CAN form a triangle. True or False?',answer:false},
+
+{type:'mcq',topic:'Triangle Inequality',q:'Why can sides 2 cm, 3 cm, 6 cm NOT form a triangle?',
+ o:['Because 2 + 3 < 6','Because 2 + 6 < 3','Because 3 + 6 < 2','They can form a triangle'],a:0},
+
+{type:'classify',topic:'Triangle Inequality',q:'Sort each set of lengths: can they form a triangle or not?',
+ categories:['Triangle possible','Not possible'],
+ items:[
+  {val:'5, 5, 8',cat:'Triangle possible'},
+  {val:'1, 1, 5',cat:'Not possible'},
+  {val:'10, 20, 25',cat:'Triangle possible'},
+  {val:'3, 6, 9',cat:'Not possible'},
+  {val:'24, 26, 28',cat:'Triangle possible'}
+]},
+
+{type:'mcq',topic:'Triangle Inequality',q:'Sides 1, 100, 100. Is a triangle possible?',
+ o:['Yes, since 1 < 100+100 and 100 < 1+100','No, 1 is too small','No, both 100s are equal','Cannot tell'],a:0},
+
+{type:'tapall',topic:'Triangle Inequality',q:'Tap ALL sets of lengths that CAN form a triangle.',
+ pool:['5,5,8','10,20,35','12,20,40','7,10,15','2,4,8'],correct:['5,5,8','7,10,15']},
+
+{type:'enterval',topic:'Triangle Inequality',q:'Two sides of a triangle are 5 cm and 5 cm. Which of these could NOT be the third side: 1 cm, 4 cm, or 10 cm? Type just the number.',
+ answer:'10',hint:'The third side must be less than 5+5=10'},
+
+{type:'mcq',topic:'Triangle Inequality',q:'A triangle has sides 12 cm, 14 cm and 18 cm. Check: is this possible?',
+ o:['Yes — every side is less than the sum of the other two','No — 12+14 is less than 18','No — all sides look different','Cannot tell without construction'],a:0},
+
+{type:'match',topic:'Triangle Inequality',q:'Match each side-set to whether a triangle is possible.',
+ pairs:[
+  {l:'3, 4, 5', r:'Possible'},
+  {l:'1, 2, 10', r:'Not possible'},
+  {l:'6, 6, 6', r:'Possible'},
+  {l:'2, 2, 5', r:'Not possible'}
+]}
+],
+
+// ── Pro Set 2: Angle Sum, Exterior Angles & Construction Logic ──
+[
+{type:'mcq',topic:'Two Angles',q:'A triangle is being formed with two given angles. If their sum is 190°, is a triangle possible?',
+ o:['No, since sum must be less than 180°','Yes, always possible','Only if the side is very long','Cannot tell'],a:0},
+
+{type:'tf',topic:'Two Angles',q:'Two angles of 90° and 85° can be two angles of the same triangle. True or False?',answer:false},
+
+{type:'enterval',topic:'Two Angles',q:'Two angles of a triangle are 36° and 72°. What is the third angle? (number only)',
+ answer:'72'},
+
+{type:'mcq',topic:'Exterior Angle',q:'In a triangle, ∠A = 50° and ∠B = 60°. The exterior angle at C (extending side BC) equals?',
+ o:['110°','70°','120°','180°'],a:0},
+
+{type:'fillin',topic:'Exterior Angle',q:'An exterior angle and its adjacent interior angle always add up to:',
+ expr:'exterior angle + interior angle = ___',
+ o:['180°','90°','360°','270°'],a:0},
+
+{type:'sort',topic:'Angle Comparison',q:'These are the LARGEST angle in 3 different triangles. Tap them from SMALLEST to LARGEST.',
+ items:[95,60,140],order:'asc'},
+
+{type:'classify',topic:'Two Angles → Triangle Possible?',q:'For each pair of angles, sort: can they be two angles of a triangle?',
+ categories:['Possible (sum < 180°)','Not possible (sum ≥ 180°)'],
+ items:[
+  {val:'70°, 30°',cat:'Possible (sum < 180°)'},
+  {val:'35°, 150°',cat:'Not possible (sum ≥ 180°)'},
+  {val:'90°, 85°',cat:'Possible (sum < 180°)'},
+  {val:'50°, 150°',cat:'Not possible (sum ≥ 180°)'}
+]},
+
+{type:'typeans',topic:'Word Problem',q:'A triangular park has two corner angles of 42° and 88°. What is the third angle, in degrees?',answer:'50'},
+
+{type:'mcq',topic:'Right Triangle Special Case',q:'A right-angled triangle has one 90° angle. The other two angles must add up to:',
+ o:['90°','180°','45° each always','270°'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

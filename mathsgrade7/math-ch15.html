@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 15: Finding the Unknown • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">⚖️</span> Learn First: Solving Equations<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>Imagine a weighing scale that's perfectly balanced. If you remove the same weight from BOTH sides, it stays balanced! That's the secret to solving equations.</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">🟰</span><span class="lc-bite-txt"><b>Equation:</b> A statement that two expressions are EQUAL, like 2n + 1 = 99.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔎</span><span class="lc-bite-txt"><b>Solving:</b> Finding the value of the letter-number that makes both sides equal.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🎲</span><span class="lc-bite-txt"><b>Trial and error:</b> Guess a value, check it, adjust, and try again — works but can be slow.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">⚖️</span><span class="lc-bite-txt"><b>Balance trick:</b> Do the SAME operation to both sides (add, subtract, multiply, divide) — the equation stays true!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔄</span><span class="lc-bite-txt"><b>Undo it:</b> To remove "+ 5" from one side, subtract 5 from BOTH sides. To remove "× 3", divide both sides by 3.</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>Solve 2n + 1 = 99. Subtract 1 from both sides: 2n = 98. Divide both sides by 2: <b>n = 49</b></div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 15</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch15', title:'Ch 15: Finding the Unknown'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: What is an Equation? ─────────────────────────
+[
+{type:'mcq',topic:'Equations',q:'A statement that two expressions are EQUAL is called a(n):',
+ o:['Equation','Inequality','Formula','Fraction'],a:0},
+
+{type:'mcq',topic:'Weighing Scale',q:'On a balanced weighing scale, if you remove the same weight from both plates, it:',
+ o:['Stays balanced','Tips to one side','Becomes heavier','Breaks'],a:0},
+
+{type:'typeans',topic:'Weighing Scale',q:'3 bread slices (2 units each) balance 2 eggs (e each). So 6 = 2e. Find e.',answer:'3'},
+
+{type:'mcq',topic:'LHS & RHS',q:'In the equation 3x + 4 = 7, which part is the LHS (Left Hand Side)?',
+ o:['3x + 4','7','x','3x'],a:0},
+
+{type:'typeans',topic:'Solving by Trial',q:'Solve by trying values: x + 5 = 12. What is x?',answer:'7'},
+
+{type:'typeans',topic:'Solving by Trial',q:'Solve: 3x = 21. What is x?',answer:'7'},
+
+{type:'tf',topic:'Solving Equations',q:'"Solving" an equation means finding the value that makes LHS = RHS.',answer:true},
+
+{type:'typeans',topic:'Matchstick Pattern',q:'The nth matchstick shape uses 2n+1 sticks. How many sticks for position n=5?',answer:'11'}
+],
+
+// ── Beginner Set 2: Balance Method Basics ────────────────────────
+[
+{type:'mcq',topic:'Balance Method',q:'To solve x + 5 = 12, what should you do to BOTH sides to isolate x?',
+ o:['Subtract 5','Add 5','Multiply by 5','Divide by 5'],a:0},
+
+{type:'typeans',topic:'Balance Method',q:'Solve using the balance method: x + 5 = 12 (subtract 5 from both sides).',answer:'7'},
+
+{type:'mcq',topic:'Balance Method',q:'To solve 3x = 21, what should you do to BOTH sides?',
+ o:['Divide by 3','Multiply by 3','Add 3','Subtract 3'],a:0},
+
+{type:'typeans',topic:'Balance Method',q:'Solve: 3x = 21',answer:'7'},
+
+{type:'fillin',topic:'Inverse Operations',q:'To undo "+7" on one side, you must do this to both sides:',
+ expr:'___ 7',
+ o:['Subtract','Add','Multiply by','Divide by'],a:0},
+
+{type:'fillin',topic:'Inverse Operations',q:'To undo "×4" on one side, you must do this to both sides:',
+ expr:'___ by 4',
+ o:['Divide','Multiply','Add','Subtract'],a:0},
+
+{type:'typeans',topic:'Weighing Scale',q:'4 + 2y = 16. Subtract 4 from both sides: 2y = 12. Find y.',answer:'6'},
+
+{type:'tf',topic:'Balance Method',q:'Doing the SAME operation to both sides of a true equation keeps it true.',answer:true}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Multi-Step Equations ──────────────────────────────
+[
+{type:'typeans',topic:'Multi-Step',q:'Solve: 2n + 1 = 99 (subtract 1, then divide by 2).',answer:'49'},
+
+{type:'typeans',topic:'Multi-Step',q:'Solve: 5x − 4 = 26 (add 4, then divide by 5).',answer:'6'},
+
+{type:'typeans',topic:'Multi-Step',q:'Solve: 3y + 7 = 25',answer:'6'},
+
+{type:'typeans',topic:'Multi-Step',q:'Solve: 4a − 3 = 17',answer:'5'},
+
+{type:'mcq',topic:'Order of Steps',q:'To solve 2n + 1 = 99, which step should you do FIRST?',
+ o:['Subtract 1 from both sides','Divide both sides by 2','Multiply both sides by 2','Add 1 to both sides'],a:0},
+
+{type:'tf',topic:'Reasoning',q:'The equation 2n + 1 = 99 could have MORE THAN ONE correct solution for n.',answer:false},
+
+{type:'match',topic:'Undoing Operations',q:'Match each operation in the equation to the step needed to undo it.',
+ pairs:[
+  {l:'"+ 7" on the LHS', r:'Subtract 7 from both sides'},
+  {l:'"× 5" on the LHS', r:'Divide both sides by 5'},
+  {l:'"− 3" on the LHS', r:'Add 3 to both sides'}
+]},
+
+{type:'typeans',topic:'Shortcut Reasoning',q:'If 14593 − 1459 + 145 × 14 + 88 = 13353, find 14593 − 1459 + 145 × 14 (just subtract 88 from 13353).',answer:'13265'}
+],
+
+// ── Pro Set 2: Word Problems & Weighing Scale Puzzles ────────────
+[
+{type:'typeans',topic:'Word Problem',q:'A number, when 8 is added to it, gives 20. Find the number.',answer:'12'},
+
+{type:'typeans',topic:'Word Problem',q:'Three times a number, minus 5, equals 16. Find the number.',answer:'7'},
+
+{type:'typeans',topic:'Word Problem',q:"Jasmine's matchstick shape uses exactly 15 sticks (2n+1=15). Find its position number n.",answer:'7'},
+
+{type:'mcq',topic:'Weighing Scale Puzzle',q:'On a scale, 2 identical sacks + a 4kg weight balance a 16kg weight. Which equation represents this?',
+ o:['2s + 4 = 16','2s − 4 = 16','s + 4 = 16','4s = 16'],a:0},
+
+{type:'typeans',topic:'Weighing Scale Puzzle',q:'Solve 2s + 4 = 16 for s (the sack weight).',answer:'6'},
+
+{type:'enterval',topic:'Word Problem',q:'A rope is cut so that 5 times its length minus 2 metres equals 33 metres. Find the length (5x−2=33).',
+ answer:'7'},
+
+{type:'tf',topic:'Reasoning',q:'When solving an equation, you can perform DIFFERENT operations on the LHS and RHS and still keep it balanced.',answer:false},
+
+{type:'typeans',topic:'Multi-Step Word Problem',q:'Twice a number plus 9 equals 35. Find the number.',answer:'13'},
+
+{type:'mcq',topic:'Checking Solutions',q:'After solving 3x + 7 = 25 and getting x=6, how do you CHECK your answer?',
+ o:['Substitute x=6 back: 3(6)+7=25 ✓','Just trust the calculation','Guess a different number','No need to check'],a:0}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

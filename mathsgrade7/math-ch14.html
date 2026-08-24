@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 14: Constructions and Tilings • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">📏</span> Learn First: Constructions & Tiling<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>With just a compass and ruler, we can draw perfect shapes — and we can also figure out puzzles about covering floors with tiles!</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">➗</span><span class="lc-bite-txt"><b>Bisect:</b> To divide something into two EQUAL parts.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📐</span><span class="lc-bite-txt"><b>Perpendicular bisector:</b> A line that cuts another line exactly in half AND crosses it at 90°.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🧭</span><span class="lc-bite-txt"><b>How to construct it:</b> From both endpoints, draw equal-radius arcs above and below the line — where the arcs cross gives you 2 points on the bisector!</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📎</span><span class="lc-bite-txt"><b>Angle bisector:</b> A ray that splits an angle into two EQUAL angles.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🧩</span><span class="lc-bite-txt"><b>Tiling:</b> Covering a grid completely using tiles with no gaps or overlaps. A grid with an ODD number of squares can never be tiled by 2×1 dominoes (each domino covers exactly 2 squares)!</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>A 5×7 grid has 35 squares (odd). Since each 2×1 tile covers 2 squares, you can NEVER tile it completely — <b>35 is odd, so it can't split into pairs!</b></div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 14</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch14', title:'Ch 14: Constructions and Tilings'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Bisectors & Basic Constructions ──────────────
+[
+{type:'mcq',topic:'Bisecting',q:'To "bisect" something means to divide it into:',
+ o:['Two equal parts','Three equal parts','Any number of parts','Half and double'],a:0},
+
+{type:'mcq',topic:'Perpendicular Bisector',q:'A perpendicular bisector of a line segment:',
+ o:['Cuts it in half AND crosses at 90°','Just cuts it in half, any angle','Just crosses at 90°, anywhere','Is parallel to it'],a:0},
+
+{type:'tf',topic:'Construction Tools',q:'A perpendicular bisector can be constructed exactly using only a compass and an unmarked ruler.',answer:true},
+
+{type:'mcq',topic:'Construction Steps',q:'To construct a perpendicular bisector of XY, what do you draw first?',
+ o:['Equal-radius arcs from X and Y','A random straight line','A circle around X only','A square around XY'],a:0},
+
+{type:'tf',topic:'Angle Bisector',q:'An angle bisector splits an angle into two EQUAL smaller angles.',answer:true},
+
+{type:'mcq',topic:'Regular Polygons',q:'A regular polygon has:',
+ o:['Equal sides AND equal angles','Only equal sides','Only equal angles','No particular pattern'],a:0},
+
+{type:'match',topic:'Regular Polygons',q:'Match each regular polygon to its number of sides.',
+ pairs:[
+  {l:'Equilateral triangle', r:'3 sides'},
+  {l:'Square', r:'4 sides'},
+  {l:'Regular pentagon', r:'5 sides'}
+]},
+
+{type:'tf',topic:'Symmetry',q:'The perpendicular bisector of a line segment is also a line of symmetry for that segment.',answer:true}
+],
+
+// ── Beginner Set 2: Tiling Basics ────────────────────────────────
+[
+{type:'mcq',topic:'Tiling',q:'"Tiling" a grid means covering it completely with tiles, with:',
+ o:['No gaps and no overlaps','Some small gaps allowed','Overlapping tiles allowed','Only half the grid covered'],a:0},
+
+{type:'typeans',topic:'Tiling',q:'How many unit squares does a 4×6 grid have?',answer:'24'},
+
+{type:'mcq',topic:'Domino Tiles',q:'Each 2×1 tile (domino) covers exactly how many unit squares?',
+ o:['2','1','4','3'],a:0},
+
+{type:'tf',topic:'Tiling',q:'A 4×6 grid (24 squares) CAN be tiled exactly using 2×1 dominoes, since 24 is even.',answer:true},
+
+{type:'typeans',topic:'Tiling',q:'How many unit squares does a 5×7 grid have?',answer:'35'},
+
+{type:'tf',topic:'Tiling',q:'A 5×7 grid (35 squares) CANNOT be tiled using 2×1 dominoes, because 35 is odd.',answer:true},
+
+{type:'classify',topic:'Tileable or Not',q:'Sort each grid by whether it CAN be tiled exactly with 2×1 dominoes (needs an EVEN number of squares).',
+ categories:['Tileable (even squares)','Not tileable (odd squares)'],
+ items:[
+  {val:'4×4 grid (16 squares)',cat:'Tileable (even squares)'},
+  {val:'3×3 grid (9 squares)',cat:'Not tileable (odd squares)'},
+  {val:'6×2 grid (12 squares)',cat:'Tileable (even squares)'},
+  {val:'5×5 grid (25 squares)',cat:'Not tileable (odd squares)'}
+]},
+
+{type:'mcq',topic:'Tiling Reasoning',q:'Why is having an EVEN total number of squares a NECESSARY condition for domino tiling?',
+ o:['Because each domino covers exactly 2 squares, so total squares used must be a multiple of 2','Because even numbers look nicer','Because odd numbers are prime','There is no real reason'],a:0}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Constructions Reasoning ───────────────────────────
+[
+{type:'mcq',topic:'Congruence in Construction',q:'To prove AB is the perpendicular bisector of XY, we show which triangles are congruent?',
+ o:['△AOX and △AOY','△ABX and △ABY only','△AXY and △BXY','No triangles needed'],a:0},
+
+{type:'tf',topic:'Congruence Reasoning',q:'If △AOX ≅ △AOY, then OX = OY and ∠AOX = ∠AOY, since they are corresponding parts.',answer:true},
+
+{type:'enterval',topic:'Angle Reasoning',q:'∠AOX and ∠AOY together form a straight angle (180°) and are equal to each other. What is each angle?',
+ answer:'90'},
+
+{type:'tf',topic:'Reasoning',q:'Any point equidistant from X and Y must lie on the perpendicular bisector of XY.',answer:true},
+
+{type:'mcq',topic:'Eye Construction',q:'In the "Eyes" construction, points A and B (centres of the arcs) must satisfy AX=AY=BX=BY. What line do A and B lie on?',
+ o:['The perpendicular bisector of XY','A random diagonal','The line XY itself','A circle around X'],a:0},
+
+{type:'typeans',topic:'Regular Polygon',q:'A regular hexagon has how many equal sides?',answer:'6'},
+
+{type:'match',topic:'SAS Reasoning',q:'Match each construction fact to its purpose.',
+ pairs:[
+  {l:'AX=AY, BX=BY, AB common', r:'Proves △ABX ≅ △ABY (SSS)'},
+  {l:'∠AOX + ∠AOY = 180° and equal', r:'Proves each angle = 90°'},
+  {l:'O is midpoint of XY', r:'Confirms bisection'}
+]}
+],
+
+// ── Pro Set 2: Tiling Puzzles & Multi-Step Reasoning ─────────────
+[
+{type:'typeans',topic:'Tiling Puzzle',q:'A grid has 8 rows and 9 columns. How many unit squares does it have?',answer:'72'},
+
+{type:'tf',topic:'Tiling Puzzle',q:'An 8×9 grid (72 squares, even) CAN potentially be tiled with 2×1 dominoes.',answer:true},
+
+{type:'mcq',topic:'Tiling Puzzle',q:'A grid has 5 rows and 3 columns, with ONE unit square removed (14 squares left). Can it be tiled with dominoes?',
+ o:['Maybe — 14 is even, so it is possible (needs checking the exact shape)','No, since 14 is even it is definitely impossible','Yes, always, regardless of shape','Cannot tell without more information — wait, 14 is even so it MIGHT work'],a:0},
+
+{type:'enterval',topic:'Tiling Reasoning',q:'A 7×7 grid has how many unit squares? Is this odd or even? (Type the number of squares)',
+ answer:'49'},
+
+{type:'tf',topic:'Tiling Reasoning',q:'A 7×7 grid (49 squares, odd) can NEVER be completely tiled with 2×1 dominoes.',answer:true},
+
+{type:'mcq',topic:'General Rule',q:'For an m×n grid where BOTH m and n are even, can it always be tiled with dominoes (covering each column with vertical tiles)?',
+ o:['Yes','No','Only sometimes','Never'],a:0},
+
+{type:'typeans',topic:'Tiling Puzzle',q:'A 10×10 grid has how many unit squares?',answer:'100'},
+
+{type:'tf',topic:'Reasoning',q:'If a grid has an odd number of squares, NO domino tiling of the WHOLE grid is possible, no matter how you arrange the tiles.',answer:true}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

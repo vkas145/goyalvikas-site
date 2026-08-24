@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 13: Connecting the Dots • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">📊</span> Learn First: Data & Averages<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>How do we figure things out from numbers, like "who batted better" or "where are onions cheaper"? That's statistical thinking!</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">❓</span><span class="lc-bite-txt"><b>Statistical question:</b> A question you answer by COLLECTING DATA, like "How tall are Grade 7 students?"</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">💬</span><span class="lc-bite-txt"><b>Statistical statement:</b> A claim or summary based on numbers, like "Prices rose by ₹5 this month."</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">⚖️</span><span class="lc-bite-txt"><b>Average (Mean):</b> Add up all the values, then divide by how many values there are.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🍬</span><span class="lc-bite-txt"><b>Fair-share idea:</b> The average is what everyone would get if the total was shared out EQUALLY.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📈</span><span class="lc-bite-txt"><b>Min, Max & Range:</b> The range = biggest value − smallest value. It shows how spread out the data is.</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>Hibiscus blooms over 5 days: 2, 7, 9, 4, 3. Total = 25. Average = 25 ÷ 5 = <b>5 flowers/day</b></div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 13</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch13', title:'Ch 13: Connecting the Dots'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Statistical Questions vs Statements ──────────
+[
+{type:'mcq',topic:'Statistical Questions',q:'Which of these IS a statistical question?',
+ o:['How tall are Grade 7 students in our school?','What is 5+3?','Is Delhi the capital of India?','What is your name?'],a:0},
+
+{type:'classify',topic:'Question or Statement',q:'Sort each sentence: Statistical Question or Statistical Statement?',
+ categories:['Statistical Question','Statistical Statement'],
+ items:[
+  {val:'How old are the dogs on this street?',cat:'Statistical Question'},
+  {val:"The village population dropped by 100 last decade.",cat:'Statistical Statement'},
+  {val:'What fraction of students like hiking?',cat:'Statistical Question'},
+  {val:'David spends about 7 hours daily at school.',cat:'Statistical Statement'}
+]},
+
+{type:'tf',topic:'Statistical Questions',q:'"Do you like reading?" (a yes/no personal question) is a statistical question requiring data collection to answer generally. True or False?',answer:false},
+
+{type:'mcq',topic:'Vocabulary',q:'The study of collecting, organising, analysing and presenting data is called:',
+ o:['Statistics','Algebra','Geometry','Arithmetic'],a:0},
+
+{type:'typeans',topic:'Average (Mean)',q:'Find the average of: 6, 2, 9, 5, 4, 6, 3, 5 (sum=40, divide by 8)',answer:'5'},
+
+{type:'mcq',topic:'Average (Mean)',q:'The formula for Mean is:',
+ o:['Sum of values ÷ Number of values','Sum of values × Number of values','Largest value − Smallest value','Number of values ÷ Sum of values'],a:0},
+
+{type:'typeans',topic:'Average (Mean)',q:'Hibiscus blooms over 5 days: 2, 7, 9, 4, 3. Find the average.',answer:'5'},
+
+{type:'tf',topic:'Fair Share',q:'The average can be thought of as "fair share" — what everyone would get if the total was split equally.',answer:true}
+],
+
+// ── Beginner Set 2: Comparing Data, Min/Max/Range ────────────────
+[
+{type:'typeans',topic:'Fair Share',q:"Shreyas's group of 5 collected 3+8+10+5+4=30 guavas. How many guavas does each person get if shared equally?",answer:'6'},
+
+{type:'typeans',topic:'Fair Share',q:"Parag's group of 6 also collected 30 guavas (5+4+6+3+4+8). How many guavas does each person get?",answer:'5'},
+
+{type:'mcq',topic:'Comparing Groups',q:"Whose group gets MORE guavas per person: Shreyas's group (6 each) or Parag's group (5 each)?",
+ o:["Shreyas's group",'Parag\'s group','Equal','Cannot tell'],a:0},
+
+{type:'mcq',topic:'Range',q:'The RANGE of a dataset is:',
+ o:['Maximum value − Minimum value','Maximum value + Minimum value','The average value','The total of all values'],a:0},
+
+{type:'typeans',topic:'Range',q:'Onion prices in Yahapur: min=24, max=59. Find the range.',answer:'35'},
+
+{type:'sort',topic:'Ordering Data',q:'Tap these ball-bounce counts from SMALLEST to LARGEST: 9, 2, 6',
+ items:[2,6,9],order:'asc'},
+
+{type:'tf',topic:'Comparing Data',q:'A dataset with a SMALLER range has values that are more spread out than one with a LARGER range.',answer:false},
+
+{type:'mcq',topic:'Comparing Totals',q:"Yahapur's total onion price over months is 458, Wahapur's is 450. Which has the higher TOTAL?",
+ o:['Yahapur','Wahapur','Equal','Cannot tell'],a:0}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Working with Real Datasets ────────────────────────
+[
+{type:'typeans',topic:'Mean Word Problem',q:'School enrolment over 6 years: 1555, 1670, 1750, 2013, 2040, 2126. Find the mean (sum=11154, ÷6).',answer:'1859'},
+
+{type:'mcq',topic:'Data Comparison',q:"Two players: Shubman's total is 128 runs, Yashasvi's total is 175 runs, but they played different numbers of matches. What should you compare instead of totals?",
+ o:['Their averages (mean runs per match)','Only their totals','Only their highest score','Nothing, totals are enough'],a:0},
+
+{type:'typeans',topic:'Mean Word Problem',q:'Shubman scored 128 runs in 4 matches. Find his batting average.',answer:'32'},
+
+{type:'classify',topic:'Comparing Onion Prices',q:'Sort each comparison method by what it tells you.',
+ categories:['About the spread (range)','About the typical value (average)'],
+ items:[
+  {val:'Difference between highest and lowest price',cat:'About the spread (range)'},
+  {val:'Total price divided by number of months',cat:'About the typical value (average)'},
+  {val:'Yahapur range = 59−24 = 35',cat:'About the spread (range)'},
+  {val:'Wahapur range = 60−17 = 43',cat:'About the spread (range)'}
+]},
+
+{type:'tf',topic:'Reasoning',q:"Just because Wahapur has the single HIGHEST price (60) doesn't necessarily mean it's costlier overall — the average could tell a different story.",answer:true},
+
+{type:'mcq',topic:'Dot Plots',q:'A dot plot is used to show:',
+ o:['Data points as dots along a number line','Only the average of data','Only the maximum value','A pie-shaped chart'],a:0},
+
+{type:'typeans',topic:'Word Problem',q:'Nikhil ran a race 3 times: 17s, 16s, 18s. Find his average time.',answer:'17'},
+
+{type:'tf',topic:'Reasoning',q:'A single very high or very low value (outlier) can pull the average away from most of the typical values.',answer:true}
+],
+
+// ── Pro Set 2: Multi-Step Reasoning ──────────────────────────────
+[
+{type:'typeans',topic:'Multi-Step',q:'A shop had daily sales of ₹200, ₹250, ₹300, ₹150, ₹100 over 5 days. Find the average daily sale.',answer:'200'},
+
+{type:'mcq',topic:'Reasoning',q:'If Vishal argues "Wahapur is costlier since it has 3 months in the 50s", is this a strong statistical argument?',
+ o:['No — it ignores the overall totals and averages','Yes, this is the best method','Yes, since 50 is a round number','Cannot tell'],a:0},
+
+{type:'enterval',topic:'Range Word Problem',q:'Wahapur onion prices range from ₹17 to ₹60. Find the range.',answer:'43'},
+
+{type:'match',topic:'Statistics Vocabulary',q:'Match each term to its meaning.',
+ pairs:[
+  {l:'Mean', r:'Sum ÷ count'},
+  {l:'Range', r:'Max − Min'},
+  {l:'Statistical question', r:'Answered by collecting data'}
+]},
+
+{type:'typeans',topic:'Fair Share Word Problem',q:'6 friends collected 42 seashells in total. If shared equally, how many does each friend get?',answer:'7'},
+
+{type:'tf',topic:'Reasoning',q:'Comparing only the MAXIMUM value of two datasets is always enough to say which is "better" overall.',answer:false},
+
+{type:'typeans',topic:'Mean Word Problem',q:'Test scores: 80, 90, 70, 85, 75. Find the mean.',answer:'80'},
+
+{type:'classify',topic:'Statistical Question Check',q:'Sort each question: Statistical or Not?',
+ categories:['Statistical','Not statistical'],
+ items:[
+  {val:'What is the typical rainfall in Barmer each year?',cat:'Statistical'},
+  {val:'What is 7 + 5?',cat:'Not statistical'},
+  {val:'How many bricks are approximately in this wall?',cat:'Statistical'},
+  {val:'Is water made of hydrogen and oxygen?',cat:'Not statistical'}
+]}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

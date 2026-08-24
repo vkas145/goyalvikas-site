@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 5: Parallel and Intersecting Lines • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">📐</span> Learn First: Lines & Angles<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>When two lines cross, they make angles — and those angles follow secret rules! Let's uncover them.</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">✖️</span><span class="lc-bite-txt"><b>Intersecting lines:</b> Lines that cross at one point, forming 4 angles.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📏</span><span class="lc-bite-txt"><b>Linear pair:</b> Two angles next to each other on a straight line — they always add up to 180°.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🦋</span><span class="lc-bite-txt"><b>Vertically opposite angles:</b> The angles across from each other when two lines cross — they're always EQUAL.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">⊥</span><span class="lc-bite-txt"><b>Perpendicular lines:</b> Lines that cross to make all 4 angles equal — each one is a right angle (90°).</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🚃</span><span class="lc-bite-txt"><b>Parallel lines:</b> Lines that never meet, no matter how far you extend them — like railway tracks.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🚧</span><span class="lc-bite-txt"><b>Transversal:</b> A line that crosses two other lines, forming 8 angles. If corresponding angles are equal, the two lines are parallel!</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>Two lines cross. One angle is 120°. Its linear-pair neighbour = 180° − 120° = <b>60°</b>, and the angle vertically opposite to 120° is also <b>120°</b></div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 5</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch5', title:'Ch 5: Parallel and Intersecting Lines'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Intersecting Lines & Angle Pairs ─────────────
+[
+{type:'mcq',topic:'Intersecting Lines',q:'When two straight lines cross at one point, how many angles are formed?',
+ o:['4','2','3','8'],a:0},
+
+{type:'mcq',topic:'Linear Pair',q:'Two angles on a straight line, next to each other, always add up to:',
+ o:['180°','360°','90°','100°'],a:0},
+
+{type:'enterval',topic:'Linear Pair',q:'One angle in a linear pair is 120°. What is the other angle? (number only)',
+ answer:'60'},
+
+{type:'tf',topic:'Vertically Opposite',q:'Vertically opposite angles (formed by two crossing lines) are always equal. True or False?',answer:true},
+
+{type:'enterval',topic:'Vertically Opposite',q:'Two lines cross. One angle is 75°. What is the angle vertically OPPOSITE to it? (number only)',
+ answer:'75'},
+
+{type:'mcq',topic:'Perpendicular Lines',q:'When two lines cross so that all 4 angles are equal, each angle measures:',
+ o:['90°','45°','180°','60°'],a:0},
+
+{type:'match',topic:'Vocabulary',q:'Match each term to its meaning.',
+ pairs:[
+  {l:'Perpendicular lines', r:'Cross at 90°'},
+  {l:'Parallel lines', r:'Never meet'},
+  {l:'Linear pair', r:'Adjacent angles adding to 180°'}
+]},
+
+{type:'tf',topic:'Parallel Lines',q:'Parallel lines meet if extended far enough. True or False?',answer:false}
+],
+
+// ── Beginner Set 2: Angle Puzzles ────────────────────────────────
+[
+{type:'enterval',topic:'Angle Puzzle',q:'Two lines cross forming angles a, b, c, d in order around the point. If a = 65°, what is b? (linear pair, number only)',
+ answer:'115'},
+
+{type:'enterval',topic:'Angle Puzzle',q:'Continuing: if b = 115°, what is c (vertically opposite to a)? (number only)',
+ answer:'65'},
+
+{type:'mcq',topic:'Perpendicular',q:'Lines l and m are perpendicular. What is the angle between them?',
+ o:['90°','45°','180°','0°'],a:0},
+
+{type:'classify',topic:'Lines Around Us',q:'Sort each real-world example as Parallel or Perpendicular.',
+ categories:['Parallel','Perpendicular'],
+ items:[
+  {val:'Railway tracks',cat:'Parallel'},
+  {val:'Wall meeting the floor',cat:'Perpendicular'},
+  {val:'Lines on ruled notebook paper',cat:'Parallel'},
+  {val:'Corner of a book page',cat:'Perpendicular'}
+]},
+
+{type:'tf',topic:'Angle Sum',q:'The four angles formed at an intersection of two lines always add up to 360°. True or False?',answer:true},
+
+{type:'enterval',topic:'Angle Puzzle',q:'Two lines cross. One angle is 42°. What is its linear pair neighbour?',
+ answer:'138'},
+
+{type:'mcq',topic:'Notation',q:'In geometry diagrams, an arrow mark (>) on two lines usually shows they are:',
+ o:['Parallel','Perpendicular','Equal in length','Intersecting'],a:0},
+
+{type:'typeans',topic:'Angle Puzzle',q:'Two lines cross forming 4 angles. Two of them are 130° each (vertically opposite). What is each of the other two angles?',answer:'50'}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Transversals & Corresponding Angles ───────────────
+[
+{type:'mcq',topic:'Transversal',q:'A line that crosses two other lines is called a:',
+ o:['Transversal','Perpendicular','Diagonal','Bisector'],a:0},
+
+{type:'mcq',topic:'Transversal',q:'When a transversal crosses 2 lines, how many angles are formed in total?',
+ o:['8','4','6','2'],a:0},
+
+{type:'mcq',topic:'Transversal',q:'A transversal crossing two lines forms at most how many DISTINCT angle measures?',
+ o:['4','8','2','6'],a:0},
+
+{type:'mcq',topic:'Corresponding Angles',q:'If corresponding angles formed by a transversal are EQUAL, what can we conclude about the two lines?',
+ o:['They are parallel','They are perpendicular','They intersect somewhere','Nothing can be concluded'],a:0},
+
+{type:'tf',topic:'Corresponding Angles',q:'When a transversal crosses a pair of PARALLEL lines, corresponding angles are always equal. True or False?',answer:true},
+
+{type:'enterval',topic:'Corresponding Angles',q:'A transversal crosses two parallel lines. One corresponding angle is 72°. What is its pair? (number only)',
+ answer:'72'},
+
+{type:'mcq',topic:'Vertically Opposite via Transversal',q:'A transversal crossing 2 lines forms 4 pairs of vertically opposite angles. In each pair, the angles are:',
+ o:['Equal','Supplementary (sum to 180°)','Always 90°','Unrelated'],a:0},
+
+{type:'match',topic:'Angle Types',q:'Match the description to the correct angle relationship.',
+ pairs:[
+  {l:'Angles on a straight line', r:'Linear pair, sum 180°'},
+  {l:'Angles across an intersection', r:'Vertically opposite, equal'},
+  {l:'Same-position angles across a transversal', r:'Corresponding, equal if lines parallel'}
+]}
+],
+
+// ── Pro Set 2: Multi-Step Angle & Line Reasoning ─────────────────
+[
+{type:'enterval',topic:'Multi-Step',q:'Two lines cross. Angle a = 3x and its linear pair b = 2x. If a + b = 180°, what is a? (Hint: 5x=180, x=36)',
+ answer:'108'},
+
+{type:'tf',topic:'Reasoning',q:'If two lines are perpendicular to the SAME third line, they must be parallel to each other. True or False?',answer:true},
+
+{type:'mcq',topic:'Reasoning',q:'A transversal crosses two lines. One pair of corresponding angles measures 80° and 85°. Are the lines parallel?',
+ o:['No, since 80° ≠ 85°','Yes, since both are acute','Yes, since they sum to 165°','Cannot tell'],a:0},
+
+{type:'enterval',topic:'Angle Puzzle',q:'Two lines cross. One angle is (2y). Its linear pair is (y+30). If 2y + y + 30 = 180, find y first, then find the value of 2y.',
+ answer:'100',hint:'3y+30=180, so y=50, and 2y=100'},
+
+{type:'classify',topic:'Real World',q:'Sort each pair of lines: PARALLEL or check for TRANSVERSAL relationship.',
+ categories:['Parallel pair','Transversal crossing both'],
+ items:[
+  {val:'Two rails of a railway track',cat:'Parallel pair'},
+  {val:'A sleeper (wooden bar) across both rails',cat:'Transversal crossing both'},
+  {val:'Opposite edges of a notebook',cat:'Parallel pair'},
+  {val:'A diagonal line drawn across ruled paper',cat:'Transversal crossing both'}
+]},
+
+{type:'mcq',topic:'Reasoning',q:'Lines l and m are crossed by transversal t. All 8 angles formed are either 70° or 110°. What can we conclude?',
+ o:['l and m are parallel','l and m are perpendicular','l and m intersect each other','Nothing about l and m'],a:0},
+
+{type:'typeans',topic:'Word Problem',q:'A ladder leans on a wall, making a 65° angle with the ground. What angle does it make with the wall (assuming wall is perpendicular to ground, so together the two angles + 90° = 180°)?',answer:'25'},
+
+{type:'tf',topic:'Reasoning',q:'If corresponding angles are NOT equal, the two lines definitely intersect if extended far enough. True or False?',answer:true}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>

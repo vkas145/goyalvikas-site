@@ -1,0 +1,88 @@
+/* ══════════════════════════════════════════════════════════════
+   Grade 7 Maths — "Learn First" intro card
+   Additive styles only; relies on tokens defined in /vivaan/quiz-styles.css
+   (loaded before this file on every chapter page).
+   ══════════════════════════════════════════════════════════════ */
+
+.learn-card{
+  background: var(--card);
+  border: 3px solid var(--card-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 6px 0 var(--card-border);
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+.learn-card summary{
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+}
+.learn-card summary::-webkit-details-marker{ display:none; }
+.learn-card summary .lc-emo{ font-size: 22px; }
+.learn-card summary .lc-caret{
+  margin-left: auto;
+  transition: transform .2s var(--ease-pop);
+  color: var(--muted);
+}
+.learn-card[open] summary .lc-caret{ transform: rotate(90deg); }
+.learn-card summary .lc-hint{
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+}
+.lc-body{ padding: 0 18px 18px; }
+.lc-body p{ margin: 0 0 10px; line-height: 1.55; color: var(--ink-2); font-size: 15px; }
+.lc-body p:last-child{ margin-bottom: 0; }
+.lc-bites{ display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+.lc-bite{
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--bg);
+  border: 2px solid var(--card-border);
+  border-radius: 16px;
+  padding: 10px 12px;
+}
+.lc-bite .lc-bite-emo{ font-size: 20px; line-height: 1.3; flex-shrink: 0; }
+.lc-bite .lc-bite-txt{ font-size: 14.5px; line-height: 1.5; color: var(--ink); }
+.lc-bite .lc-bite-txt b{ color: var(--ink); }
+.lc-example{
+  background: #FFF7E6;
+  border: 2px dashed var(--card-border);
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.lc-example b{ color: var(--coral); }
+.lc-example .lc-ex-tag{
+  display:inline-block; font-size:11px; font-weight:900; letter-spacing:.03em;
+  text-transform:uppercase; color: var(--grape); margin-bottom: 4px;
+}
+.lc-start-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  background: var(--green);
+  border: 2.5px solid var(--card-border);
+  border-radius: var(--radius-pill);
+  padding: 9px 16px;
+  box-shadow: 0 4px 0 var(--card-border);
+}

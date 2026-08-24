@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 3: A Peek Beyond the Point • Grade 7 Maths</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N5BNNVFL');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vivaan/quiz-styles.css?v=3">
+<link rel="stylesheet" href="/mathsgrade7/learn-card.css">
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5BNNVFL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="topnav">
+    <a href="/mathsgrade7/" class="back-btn">&larr; Home</a>
+    <div class="topnav-title" id="navTitle"></div>
+    <div class="timer-pill">⏱ <span id="timerDisplay">0:00</span></div>
+  </div>
+
+  <details class="learn-card">
+    <summary><span class="lc-emo">🔟</span> Learn First: Decimals<span class="lc-hint">tap to open</span><span class="lc-caret">›</span></summary>
+    <div class="lc-body">
+      <p>What happens when a length is BETWEEN two whole numbers, like between 2 cm and 3 cm? We split the gap into smaller equal parts — that's a decimal!</p>
+      <div class="lc-bites">
+        <div class="lc-bite"><span class="lc-bite-emo">➗</span><span class="lc-bite-txt"><b>Tenths:</b> Split 1 unit into 10 equal parts. Each part is one-tenth, written 0.1.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔬</span><span class="lc-bite-txt"><b>Hundredths:</b> Split each tenth into 10 more parts — now you have hundredths, written 0.01.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">🔟</span><span class="lc-bite-txt"><b>10 of one = 1 of the next:</b> 10 hundredths = 1 tenth, just like 10 tenths = 1 whole unit.</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">📖</span><span class="lc-bite-txt"><b>Reading them:</b> 2.7 is "two and seven-tenths". 4.45 is "four and forty-five hundredths".</span></div>
+        <div class="lc-bite"><span class="lc-bite-emo">➕</span><span class="lc-bite-txt"><b>Adding/subtracting:</b> Line up the decimal points, then add/subtract tenths with tenths, hundredths with hundredths — carrying/borrowing just like whole numbers!</span></div>
+      </div>
+      <div class="lc-example"><span class="lc-ex-tag">Try this</span>Sonu's lower arm is 2.7 units, upper arm is 3.6 units. Total = (2+3) + (7+6) tenths = 5 + 13 tenths = 5 + 1.3 = <b>6.3 units</b></div>
+      <a class="lc-start-btn" href="#qcard">Start the challenge ↓</a>
+    </div>
+  </details>
+
+  <div class="level-row">
+    <div class="level-toggle">
+      <button class="lvl-btn beg active" id="btnBeg" onclick="switchLevel('beginner')">⭐ Beginner</button>
+      <button class="lvl-btn pro" id="btnPro" onclick="switchLevel('pro')">🔥 Pro</button>
+    </div>
+  </div>
+  <div class="set-row" id="setRow"></div>
+  <div class="quiz-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div style="flex:1;min-width:0">
+      <div class="qcard" id="qcard">
+        <div class="card-meta">
+          <span class="topic-tag" id="topicTag">Topic</span>
+          <span class="score-badge">✅ <span id="liveScore">0</span> / <span id="totalQ">10</span></span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar" id="pbar" style="width:0%"></div></div>
+        <div id="quizBody">
+          <div class="qnum" id="qnum">Question 1</div>
+          <div class="qtext" id="qtext"></div>
+          <div id="interactionArea"></div>
+          <div class="char-panel">
+            <div class="char-emo" id="charEmo"></div>
+            <div class="char-text">
+              <div class="cname" id="charName"></div>
+              <div class="cmood neutral" id="charMood">Waiting...</div>
+              <div class="cmsg" id="charMsg">Give it your best! 💪</div>
+            </div>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+        </div>
+        <div class="result-screen" id="resultScreen">
+          <span class="res-char" id="resChar"></span>
+          <div style="font-size:48px;margin:6px 0" id="resTrophy"></div>
+          <div class="res-score"><span id="resScore">0</span><span style="font-size:16px;color:#b0aed0"> / <span id="resTotalQ">10</span></span></div>
+          <div class="res-stars" id="resStars"></div>
+          <div class="res-msg" id="resMsg"></div>
+          <div class="res-time" id="resTime"></div>
+          <div class="res-btns">
+            <button class="res-btn retry" onclick="retrySet()">🔄 Try Again</button>
+            <button class="res-btn next" id="nextSetBtn" onclick="goNextSet()">Next Set →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">🏆 Scores</button>
+<div class="modal-ov" id="modalOv">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">🏆 My Scores, Ch 3</div>
+    <div class="modal-lvl-row" id="modalFilters"></div>
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const CHAPTER = {key:'g7ch3', title:'Ch 3: A Peek Beyond the Point'};
+
+const SETS = {
+beginner: [
+
+// ── Beginner Set 1: Tenths & Reading Decimals ───────────────────
+[
+{type:'mcq',topic:'Tenths',q:'A unit is split into 10 equal parts. Each part is called:',
+ o:['One-tenth','One-hundredth','One-half','One-fifth'],a:0},
+
+{type:'enterval',topic:'Reading Decimals',q:'Write "two and seven-tenths" as a decimal number.',answer:'2.7',inputmode:'text'},
+
+{type:'mcq',topic:'Reading Decimals',q:'How do we read 4.5?',
+ o:['Four and five-tenths','Forty-five','Four point fifty','Four and five ones'],a:0},
+
+{type:'tf',topic:'Tenths',q:'10 one-tenths make exactly 1 whole unit. True or False?',answer:true},
+
+{type:'sort',topic:'Ordering Decimals',q:'Tap these decimals from SMALLEST to LARGEST: 1.9, 3.0, 0.9',
+ items:[0.9,1.9,3.0],order:'asc'},
+
+{type:'mcq',topic:'Comparing',q:'Which is greater: 2.7 or 2.07?',
+ o:['2.7','2.07','They are equal','Cannot tell'],a:0},
+
+{type:'fillin',topic:'Place Value',q:'Fill the blank:',
+ expr:'3.4 = 3 + 4 × ___',
+ o:['one-tenth (0.1)','one-hundredth (0.01)','1','10'],a:0},
+
+{type:'enterval',topic:'Reading Decimals',q:'Write "41 and one-tenth" as a decimal.',answer:'41.1',inputmode:'text'}
+],
+
+// ── Beginner Set 2: Hundredths & Place Value ─────────────────────
+[
+{type:'mcq',topic:'Hundredths',q:'If we split one-tenth into 10 more equal parts, each new part is called:',
+ o:['One-hundredth','One-tenth','One-thousandth','One-fifth'],a:0},
+
+{type:'mcq',topic:'Hundredths',q:'How many hundredths make one whole unit?',
+ o:['100','10','1000','50'],a:0},
+
+{type:'tf',topic:'Hundredths',q:'10 one-hundredths make exactly 1 one-tenth. True or False?',answer:true},
+
+{type:'enterval',topic:'Reading Decimals',q:'Write "four and forty-five hundredths" as a decimal.',answer:'4.45',inputmode:'text'},
+
+{type:'match',topic:'Place Value',q:'Match each decimal place to its value.',
+ pairs:[
+  {l:'Tenths place', r:'1/10 of a unit'},
+  {l:'Hundredths place', r:'1/100 of a unit'},
+  {l:'Thousandths place', r:'1/1000 of a unit'}
+]},
+
+{type:'mcq',topic:'Comparing',q:'Which is greater: 0.45 or 0.5?',
+ o:['0.5','0.45','Equal','Cannot tell'],a:0},
+
+{type:'classify',topic:'Ordering',q:'Sort each decimal: is it less than 1, or 1 or more?',
+ categories:['Less than 1','1 or more'],
+ items:[
+  {val:'0.9',cat:'Less than 1'},{val:'1.1',cat:'1 or more'},
+  {val:'0.05',cat:'Less than 1'},{val:'2.0',cat:'1 or more'}
+]},
+
+{type:'typeans',topic:'Place Value',q:'How many zeroes come right after the decimal point in one-thousandth, written as 0.001? (count the zeroes before the 1, as a number)',answer:'2'}
+]
+
+],
+
+pro: [
+
+// ── Pro Set 1: Adding & Subtracting Decimals ─────────────────────
+[
+{type:'enterval',topic:'Adding Decimals',q:'Find the sum: 2.7 + 3.6',answer:'6.3',inputmode:'text'},
+
+{type:'enterval',topic:'Adding Decimals',q:'Find the sum: 15.34 + 2.68',answer:'18.02',inputmode:'text'},
+
+{type:'enterval',topic:'Subtracting Decimals',q:'Find the difference: 25.9 − 6.47',answer:'19.43',inputmode:'text'},
+
+{type:'enterval',topic:'Subtracting Decimals',q:'Find the difference: 15.34 − 2.68',answer:'12.66',inputmode:'text'},
+
+{type:'mcq',topic:'Adding Decimals',q:'When adding decimals, what must you line up first?',
+ o:['The decimal points','The first digits','The last digits','Nothing, just add'],a:0},
+
+{type:'fillin',topic:'Regrouping',q:'Fill the blank: since 10 hundredths = 1 tenth,',
+ expr:'0.9 + 0.13 = 0.9 + 0.1 + ___ = 1.03',
+ o:['0.03','0.3','0.13','0.9'],a:0},
+
+{type:'enterval',topic:'Word Problem',q:"A screw is 2.7 cm and another is 3.2 cm. What is the total length if joined end to end?",answer:'5.9',inputmode:'text'},
+
+{type:'tf',topic:'Subtracting',q:'25.9 − 6.47 requires borrowing because 9 hundredths (.90) is less than 47 hundredths in the ones place comparison. True or False?',answer:true}
+],
+
+// ── Pro Set 2: Multi-Step & Comparison Word Problems ─────────────
+[
+{type:'sort',topic:'Ordering Decimals',q:'Tap from SMALLEST to LARGEST: 3.45, 3.05, 3.5',
+ items:[3.05,3.45,3.5],order:'asc'},
+
+{type:'mcq',topic:'Comparing',q:'Compare: 5.87 ___ 5.7',
+ o:['>','<','=','Cannot tell'],a:0},
+
+{type:'enterval',topic:'Fish Word Problem',q:'A Celestial Pearl Danio is 2.4 cm and a Philippine Goby is 0.9 cm. What is the DIFFERENCE in their lengths?',answer:'1.5',inputmode:'text'},
+
+{type:'enterval',topic:'Honeybee Word Problem',q:"A honeybee's head is 1.5 mm, thorax is 1.7 mm, abdomen is 3.0 mm. What is its TOTAL length?",answer:'6.2',inputmode:'text'},
+
+{type:'mcq',topic:'Place Value System',q:'Why do we split units into 10 parts (tenths, hundredths) instead of, say, 4 parts?',
+ o:['Because our place value system is based on 10','Because 4 is too small','Because rulers only allow it','There is no reason'],a:0},
+
+{type:'fillin',topic:'Pattern',q:'Continue the pattern:',
+ expr:'4, 4.3, 4.6, ___',
+ o:['4.9','5.0','4.8','5.6'],a:0},
+
+{type:'enterval',topic:'Finger Word Problem',q:"Sishya's hand is 12.4 units and her palm is 6.7 units. What is the length of her middle finger (hand − palm)?",answer:'5.7',inputmode:'text'},
+
+{type:'match',topic:'Equal Values',q:'Match each way of writing a number to its decimal form.',
+ pairs:[
+  {l:'1 unit + 1 tenth + 4 hundredths', r:'1.14'},
+  {l:'18 units + 2 hundredths', r:'18.02'},
+  {l:'6 units + 3 tenths', r:'6.3'}
+]},
+
+{type:'enterval',topic:'Word Problem',q:'A pencil is 3.4 units long. If it is cut exactly in half, what is the length of each piece? (number only)',
+ answer:'1.7'}
+]
+
+] // end pro
+}; // end SETS
+</script>
+<script src="/vivaan/quiz-music.js?v=3"></script>
+<script src="/vivaan/quiz-engine.js?v=3"></script>
+</body>
+</html>
