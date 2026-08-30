@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>How to Audit Your Website for AI Search Readiness (India Edition) | Vikas Goyal</title>
+<meta name="description" content="A step-by-step checklist for Indian B2B marketers to audit whether their website is structured well enough to be read, understood, and cited by AI search tools."/>
+<link rel="canonical" href="https://www.goyalvikas.com/blog/ai-search-readiness-audit-india.html"/>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta property="og:title" content="How to Audit Your Website for AI Search Readiness (India Edition)"/>
+<meta property="og:type" content="article"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Audit Your Website for AI Search Readiness (India Edition)","author":{"@type":"Person","name":"Vikas Omprakash Goyal","url":"https://www.goyalvikas.com"},"datePublished":"2026-08-30","dateModified":"2026-08-30","url":"https://www.goyalvikas.com/blog/ai-search-readiness-audit-india.html","keywords":"AI search readiness audit India, website audit for AI search, GEO audit checklist India, AEO audit India, is my website AI ready"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I check if AI crawlers can access my website?","acceptedAnswer":{"@type":"Answer","text":"Check your robots.txt file and server logs for entries related to GPTBot, PerplexityBot, Google-Extended, and ClaudeBot. Many websites block these by default from earlier AI-scraping concerns, which removes them from citation consideration entirely."}},{"@type":"Question","name":"How long does an AI search readiness audit take?","acceptedAnswer":{"@type":"Answer","text":"For a typical Indian B2B website with 50 to 150 pages, a manual audit covering crawlability, content structure, schema, and authorship signals can usually be completed in one to two working days, starting with the highest-traffic and highest-intent pages."}},{"@type":"Question","name":"What is the single highest-impact fix from an AI readiness audit?","acceptedAnswer":{"@type":"Answer","text":"Restructuring existing high-authority content so the direct answer appears in the first two to three sentences of each section is usually the highest-impact, lowest-effort fix, since it improves both AEO and GEO performance without requiring any new content."}}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>:root{--bg:#0A0B14;--card:#12131F;--border:rgba(255,255,255,0.07);--accent:#FFDC5C;--text:#fff;--sec:#9799B8;--muted:#5C5F7A}*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}nav{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}.logo{font-weight:800;font-size:18px;color:var(--text)}.logo span{color:var(--accent)}.nav-links{display:flex;gap:28px;font-size:14px}.nav-links a{color:var(--sec)}.nav-links a:hover{color:var(--accent)}.wrap{max-width:720px;margin:0 auto;padding:60px 24px 100px}.tag{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}h1{font-size:clamp(28px,4.5vw,44px);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:18px}.meta{font-size:13px;color:var(--muted);margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid var(--border)}h2{font-size:22px;font-weight:700;color:var(--text);margin:40px 0 14px;letter-spacing:-.3px}h3{font-size:17px;font-weight:600;color:var(--accent);margin:28px 0 10px}p{color:var(--sec);font-size:16px;margin-bottom:18px;line-height:1.75}ul,ol{color:var(--sec);font-size:16px;padding-left:22px;margin-bottom:18px}li{margin-bottom:8px;line-height:1.65}strong{color:var(--text);font-weight:600}.callout{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:20px 24px;margin:28px 0}.callout p{margin-bottom:0;font-size:15px}.related{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 28px;margin:48px 0 0}.related h3{font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px}.related ul li{margin-bottom:10px}.related ul li a{font-size:14px;font-weight:600;color:var(--accent)}.back{display:inline-block;margin-top:48px;font-size:14px;font-weight:600;color:var(--accent)}footer{text-align:center;padding:40px;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}footer a{color:var(--accent)}@media(max-width:600px){nav{padding:16px 20px}.nav-links{display:none}}</style>
+</head>
+<body>
+<nav><a href="/" class="logo">Vikas <span>Goyal</span></a><div class="nav-links"><a href="/">Home</a><a href="/blog/">Blog</a><a href="https://www.boloaurlikho.com" target="_blank">Bolo Aur Likho</a></div></nav>
+<div class="wrap">
+  <div class="tag">AI Search Audit</div>
+  <h1>How to Audit Your Website for AI Search Readiness (India Edition)</h1>
+  <div class="meta">By Vikas Goyal &nbsp;·&nbsp; August 2026 &nbsp;·&nbsp; 7 min read</div>
+
+  <p>Most website audits in India still check for the same things they checked five years ago: page speed, mobile responsiveness, broken links, and keyword placement. A useful audit in 2026 needs an additional layer that checks whether a page can be cleanly read, understood, and confidently reused by an AI system. Here is the checklist version of that layer.</p>
+
+  <h2>1. Crawlability for AI Bots Specifically</h2>
+  <p>Check your robots.txt and server logs for whether GPTBot, PerplexityBot, Google-Extended, and ClaudeBot are being allowed or blocked. Many Indian websites blocked these crawlers reflexively during early AI-scraping concerns and never revisited the decision, which silently removes them from consideration for citation entirely, regardless of content quality.</p>
+
+  <h2>2. Answer Extractability</h2>
+  <p>For your 10 most important pages, ask: if a model read only the first three sentences of each major section, would it get a correct, complete answer? If the real answer is buried two paragraphs down after scene-setting and context, restructure it so the direct answer leads.</p>
+
+  <h2>3. Structured Data Coverage</h2>
+  <p>Audit which pages carry Article, FAQPage, HowTo, Organization, and Product schema versus which have none. Free schema testing tools can validate implementation; the gap analysis (which page types are missing schema entirely) usually matters more than fixing minor errors in schema that already exists.</p>
+
+  <h2>4. Authorship and Credibility Signals</h2>
+  <p>Check whether content is attributed to a named person with a linked bio, versus an anonymous "Team" or "Admin" byline. Verify that name, title, and company details are consistent across your website, LinkedIn, and any third-party directories, since inconsistency undermines the credibility signal even when each individual instance is accurate.</p>
+
+  <h2>5. Content Freshness Signals</h2>
+  <p>Check whether pages display a visible last-updated date, and whether that date is actually accurate relative to when the content was last substantively revised (not just a template that auto-updates on every deploy). This matters disproportionately for pricing, regulatory, and comparison content, where generative engines actively favour more recent information.</p>
+
+  <h2>6. Entity Clarity</h2>
+  <p>Check whether your company, product names, and key terms are used consistently across the site, or whether inconsistent naming (a product called three slightly different things across different pages) makes it harder for a model to confidently connect mentions of your brand across sources.</p>
+
+  <h2>7. Duplicate and Thin Content</h2>
+  <p>The same technical SEO issue that has always hurt rankings also confuses AI extraction: near-duplicate pages targeting slightly different keywords dilute which version a model treats as authoritative, and thin pages provide too little substance to be confidently cited over a more complete competitor page.</p>
+
+  <div class="callout">
+    <p><strong>How to run this without new tooling:</strong> most of this audit can be done manually with your existing CMS, robots.txt, and a schema validator over one to two working days for a typical Indian B2B site of 50 to 150 pages. Start with your highest-traffic and highest-intent pages rather than attempting full-site coverage in the first pass.</p>
+  </div>
+
+  <div class="related">
+    <h3 style="margin-top:0;">Related reading</h3>
+    <ul style="list-style:none;padding:0;margin:0;">
+      <li><a href="/blog/generative-engine-optimisation-consultant-india.html">What a Generative Engine Optimisation (GEO) Consultant Actually Does in India</a></li>
+      <li><a href="/blog/ai-search-brand-visibility-india.html">Brand Visibility in AI Search: A Playbook for Indian B2B Companies</a></li>
+      <li><a href="/blog/answer-engine-optimisation-services-india.html">Answer Engine Optimisation (AEO) Services for B2B Brands in India</a></li>
+    </ul>
+  </div>
+
+  <a class="back" href="/blog/">Back to all posts</a>
+</div>
+<footer><a href="/">goyalvikas.com</a> &nbsp;·&nbsp; 2026 Vikas Omprakash Goyal</footer>
+</body>
+</html>

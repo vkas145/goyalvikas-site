@@ -134,7 +134,7 @@ input[type="text"]:focus, select:focus {
   margin-top: 8px;
 }
 
-.btn-primary, .btn-secondary, .btn-link {
+.btn-primary, .btn-link {
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 15px;
@@ -152,13 +152,6 @@ input[type="text"]:focus, select:focus {
 }
 .btn-primary:hover { opacity: 0.88; }
 .btn-primary:active { transform: translateY(1px); }
-
-.btn-secondary {
-  background: #fff;
-  color: var(--ink);
-  border-color: var(--line);
-}
-.btn-secondary:hover { border-color: var(--accent); }
 
 .btn-link {
   background: transparent;
@@ -322,6 +315,43 @@ input[type="text"]:focus, select:focus {
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.action-row:last-child { margin-bottom: 0; margin-top: 4px; }
+
+.share-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.btn-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.08s ease, opacity 0.15s ease;
+}
+.btn-icon:hover { transform: translateY(-1px); opacity: 0.92; }
+.btn-icon:active { transform: translateY(0); }
+
+.icon-whatsapp { background: #25D366; }
+.icon-instagram { background: radial-gradient(circle at 30% 110%, #FDCB52, #F7521E 34%, #C13584 62%, #4A54D6 100%); }
+.icon-facebook { background: #1877F2; }
+.icon-more { background: var(--ink); }
+
+.share-hint {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0 0 14px;
 }
 
 /* ---------- Occasion themes ---------- */

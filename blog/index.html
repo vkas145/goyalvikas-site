@@ -31,7 +31,18 @@ nav{padding:20px 40px;display:flex;justify-content:space-between;align-items:cen
 .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
 h1{font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-1.2px;line-height:1.08;margin-bottom:16px}
 .sub{font-size:17px;color:var(--sec);line-height:1.65;max-width:680px}
-.grid{max-width:900px;margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.filter-bar{max-width:900px;margin:0 auto;padding:0 24px 8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filter-bar::-webkit-scrollbar{display:none}
+.filter-inner{display:flex;gap:10px;flex-wrap:nowrap;padding-bottom:4px}
+.filter-pill{flex:0 0 auto;background:var(--card);border:1px solid var(--border);color:var(--sec);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:9px 16px;border-radius:100px;cursor:pointer;white-space:nowrap;transition:border-color .15s,color .15s,background .15s}
+.filter-pill:hover{color:var(--text);border-color:rgba(255,220,92,.35)}
+.filter-pill.active{background:var(--accent);border-color:var(--accent);color:#0A0B14}
+.filter-pill.active .pill-count{color:#0A0B14;opacity:.65}
+.pill-count{opacity:.55;font-weight:500;margin-left:2px}
+.empty-state{max-width:900px;margin:0 auto;padding:40px 24px;color:var(--muted);font-size:14px;text-align:center}
+.grid{max-width:900px;margin:0 auto;padding:24px 24px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.card.hidden{display:none}
+@media(max-width:600px){.filter-bar{padding:0 20px 8px}}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;transition:border-color .2s,transform .2s}
 .card:hover{border-color:rgba(255,220,92,.3);transform:translateY(-2px)}
 .card-tag{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
@@ -59,282 +70,836 @@ footer a{color:var(--accent)}
   <p class="sub">14 years at Naukri and IndiaMART. Practical notes on scaling B2B SMB sales, building tele-sales operations, and leading growth teams in India.</p>
 </div>
 
-<div class="grid">
-  <div class="card">
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-pill active" data-filter="all">All Posts <span class="pill-count">129</span></button>
+    <button class="filter-pill" data-filter="gtm-sales-strategy">GTM &amp; Sales Strategy <span class="pill-count">18</span></button>
+    <button class="filter-pill" data-filter="sales-ops-leadership">Sales Operations &amp; Leadership <span class="pill-count">32</span></button>
+    <button class="filter-pill" data-filter="ai-marketing-sales">AI in B2B Marketing &amp; Sales <span class="pill-count">10</span></button>
+    <button class="filter-pill" data-filter="seo-geo-aeo">SEO, GEO &amp; AEO <span class="pill-count">13</span></button>
+    <button class="filter-pill" data-filter="chatgpt-ads">ChatGPT Ads <span class="pill-count">9</span></button>
+    <button class="filter-pill" data-filter="digital-performance">Digital &amp; Performance Marketing <span class="pill-count">17</span></button>
+    <button class="filter-pill" data-filter="content-brand">Content, Brand &amp; Thought Leadership <span class="pill-count">16</span></button>
+    <button class="filter-pill" data-filter="industry-playbooks">Industry Playbooks <span class="pill-count">14</span></button>
+  </div>
+</div>
+
+<div class="empty-state" id="emptyState" style="display:none;">No posts in this category yet.</div>
+<div class="grid" id="postsGrid">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">GTM Strategy</div>
     <h2>B2B SMB GTM Strategy in India: A Framework That Works at Scale</h2>
     <p>Why most GTM playbooks fail in India's SMB market — and what actually works when you're selling to 63 million small businesses.</p>
     <a class="card-link" href="/blog/b2b-smb-gtm-strategy-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Sales Model</div>
     <h2>Inside Sales vs Field Sales in India: Which Model Wins for B2B?</h2>
     <p>The cost, scale, and culture tradeoffs between inside and field sales — and when to use each for Indian B2B.</p>
     <a class="card-link" href="/blog/inside-sales-vs-field-sales-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Tele-Sales</div>
     <h2>How to Scale a Tele-Sales Team from 50 to 500 in India</h2>
     <p>The hiring, training, and operations playbook for building a high-volume tele-sales engine that doesn't break at scale.</p>
     <a class="card-link" href="/blog/scale-tele-sales-team-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Process Excellence</div>
     <h2>Lean Six Sigma for Sales Teams: Eliminating Waste and Boosting Conversion</h2>
     <p>How a Black Belt methodology applies to tele-sales floors — and which tools actually move the conversion needle.</p>
     <a class="card-link" href="/blog/lean-six-sigma-sales-team.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="ai-marketing-sales">
     <div class="card-tag">AI in Sales</div>
     <h2>AI-Powered Lead Qualification: How Indian Sales Teams Can 3x Conversion</h2>
     <p>Intent scoring, ICP matching, and AI-led routing — a practical guide for Indian B2B sales leaders who are done guessing.</p>
     <a class="card-link" href="/blog/ai-lead-qualification-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Revenue Model</div>
     <h2>Transitioning from Transactional to Subscription: A B2B Playbook for India</h2>
     <p>Lessons from driving subscription transformation on two of India's largest B2B platforms — what works and what breaks.</p>
     <a class="card-link" href="/blog/b2b-subscription-model-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Call Quality</div>
     <h2>Call Quality Monitoring for Inside Sales Teams: What to Measure and Why</h2>
     <p>The 8 metrics every inside sales manager in India should track — and how AI is changing the QA game for good.</p>
     <a class="card-link" href="/blog/call-quality-monitoring-inside-sales.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Operations</div>
     <h2>Building a Sales QA Process for BPO and Tele-Sales Teams in India</h2>
     <p>How to move beyond 2% call sampling and build a QA system that actually improves agent behaviour at scale.</p>
     <a class="card-link" href="/blog/sales-qa-process-bpo-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Leadership</div>
     <h2>P&amp;L Ownership for Sales Leaders: A Practical Guide for Indian B2B</h2>
     <p>What it really means to own a P&amp;L, and the mindset shift every sales leader in India needs to make the jump.</p>
     <a class="card-link" href="/blog/pl-ownership-sales-leader-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">GTM Playbook</div>
     <h2>The GTM Playbook for Selling to Indian SMBs</h2>
     <p>Segmentation, messaging, pricing, and channel — the complete framework for winning India's 63 million SMB market.</p>
     <a class="card-link" href="/blog/gtm-playbook-indian-smb.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="digital-performance">
     <div class="card-tag">Analytics</div>
     <h2>Data-Driven Sales Leadership: How to Use Numbers to Build Winning Teams</h2>
     <p>The dashboards, ratios, and leading indicators every B2B sales leader in India should have on their desk every morning.</p>
     <a class="card-link" href="/blog/data-driven-sales-leadership.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Communication</div>
     <h2>Why Hinglish Is the Secret Weapon for Indian Tele-Sales Teams</h2>
     <p>The science and strategy behind language-switched selling — and how smart teams use it to cut objections in half.</p>
     <a class="card-link" href="/blog/hinglish-sales-communication-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Compliance</div>
     <h2>BFSI Inside Sales Compliance in India: What Every Sales Manager Must Know</h2>
     <p>RBI, SEBI, IRDAI — the regulatory landscape for BFSI tele-sales, and how to build a compliant floor without killing conversion.</p>
     <a class="card-link" href="/blog/bfsi-inside-sales-compliance-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Tele-Sales</div>
     <h2>How to Write a Sales Script That Actually Works for Indian Tele-Sales</h2>
     <p>The anatomy of a high-converting tele-sales script for Indian markets — with objection handling built in from line one.</p>
     <a class="card-link" href="/blog/sales-script-indian-tele-sales.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Career</div>
     <h2>14 Years, Two Giants: What Naukri and IndiaMART Taught Me About B2B Sales</h2>
     <p>Personal lessons from scaling SMB sales on two of India's largest platforms — the hard ones you won't find in any MBA case study.</p>
     <a class="card-link" href="/blog/naukri-indiamart-smb-lessons.html">Read →</a>
   </div>
-
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Compensation</div>
     <h2>Sales Compensation Plan Design for Indian Tele-Sales Teams</h2>
     <p>Fixed-variable mix, quota setting, accelerators, clawbacks, and the manager pay structures that drive the right behaviours at scale.</p>
     <a class="card-link" href="/blog/sales-compensation-plan-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Revenue Operations</div>
     <h2>Revenue Operations in India: How to Build RevOps for B2B Growth</h2>
     <p>Aligning sales, marketing, and customer success under one operational and data infrastructure to drive predictable revenue.</p>
     <a class="card-link" href="/blog/revenue-operations-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Forecasting</div>
     <h2>B2B Sales Forecasting in India: A Framework That Actually Works</h2>
     <p>Pipeline coverage, stage weighting, rep-level accuracy, and the signals that predict whether you will hit the quarter.</p>
     <a class="card-link" href="/blog/sales-forecasting-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Enablement</div>
     <h2>Sales Enablement for Indian B2B Teams</h2>
     <p>Building content, training cadences, and onboarding systems that shorten ramp time and improve conversion across the funnel.</p>
     <a class="card-link" href="/blog/sales-enablement-india-b2b.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Hiring</div>
     <h2>How to Hire Top Sales Talent in India: A Leader's Playbook</h2>
     <p>Scorecards, role-play assessments, the numbers conversation, and the red flags most hiring managers miss in Indian sales interviews.</p>
     <a class="card-link" href="/blog/hire-sales-talent-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Pricing Strategy</div>
     <h2>B2B Pricing Strategy for Indian Markets</h2>
     <p>Value-based pricing, tier design, price anchoring in sales conversations, and how to raise prices without losing customers.</p>
     <a class="card-link" href="/blog/b2b-pricing-strategy-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="industry-playbooks">
     <div class="card-tag">Edtech Sales</div>
     <h2>Edtech Inside Sales in India: Converting High-Intent Leads at Scale</h2>
     <p>Speed to lead, the counsellor model, discovery questions, objection handling, and compliance standards for edtech inside sales.</p>
     <a class="card-link" href="/blog/edtech-inside-sales-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Outbound Sales</div>
     <h2>Outbound Sales Strategy for Indian B2B</h2>
     <p>Building a cold outreach engine with tight ICP definition, multi-touch sequencing, and the metrics that tell you when to scale.</p>
     <a class="card-link" href="/blog/outbound-sales-strategy-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Account Management</div>
     <h2>Key Account Management in Indian B2B</h2>
     <p>Account plan design, QBR structure, stakeholder expansion, and the metrics that tell you if your KAM programme is working.</p>
     <a class="card-link" href="/blog/key-account-management-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Technology</div>
     <h2>CRM Strategy for Indian B2B Sales Teams</h2>
     <p>The three jobs a CRM must do, the five fields that matter most, and how to drive adoption without making the tool a reporting burden.</p>
     <a class="card-link" href="/blog/crm-strategy-india-sales.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Cold Calling</div>
     <h2>The Cold Calling Playbook for Indian B2B Sales</h2>
     <p>Opening structures, objection handling, call timing windows, and why cold calling is still working in India in 2026.</p>
     <a class="card-link" href="/blog/cold-calling-india-b2b.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">WhatsApp Sales</div>
     <h2>How to Use WhatsApp for B2B Sales in India</h2>
     <p>Strategy, templates, opt-in requirements, and what never to do when using WhatsApp as a B2B sales channel.</p>
     <a class="card-link" href="/blog/whatsapp-b2b-sales-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Territory Planning</div>
     <h2>Sales Territory Planning for Indian B2B Teams</h2>
     <p>Designing territories by geography, vertical, account size, and revenue potential to balance opportunity across your team.</p>
     <a class="card-link" href="/blog/sales-territory-planning-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Analytics</div>
     <h2>Win-Loss Analysis for Indian B2B Sales Teams</h2>
     <p>A structured framework for learning from every deal — the seven questions, the patterns worth tracking, and turning insights into action.</p>
     <a class="card-link" href="/blog/win-loss-analysis-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales and Marketing</div>
     <h2>Sales and Marketing Alignment in Indian B2B</h2>
     <p>Shared definitions, joint accountability metrics, and the weekly meeting format that makes alignment structural rather than aspirational.</p>
     <a class="card-link" href="/blog/sales-marketing-alignment-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Executive Sales</div>
     <h2>How to Sell to CXOs in Indian Companies</h2>
     <p>Getting access, speaking the language of business outcomes, navigating hierarchy, and the preparation standard for executive meetings.</p>
     <a class="card-link" href="/blog/selling-to-cxo-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Leadership</div>
     <h2>Sales Team Restructuring in India</h2>
     <p>The four signals that a restructure is warranted, how to execute without triggering attrition, and the 90-day stabilisation plan.</p>
     <a class="card-link" href="/blog/sales-team-restructuring-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Culture</div>
     <h2>How to Build a High-Performance Sales Culture in India</h2>
     <p>Radical transparency, accountability without fear, specific recognition, and the manager behaviours that culture cascades from.</p>
     <a class="card-link" href="/blog/sales-culture-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Advisory</div>
     <h2>When to Hire a B2B Sales Consultant in India</h2>
     <p>The four situations where consulting adds real value, what a good engagement looks like, and how to evaluate a practitioner versus an advisor.</p>
     <a class="card-link" href="/blog/b2b-sales-consultant-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Operations</div>
     <h2>Sales Review Cadence for Indian B2B Teams</h2>
     <p>The daily, weekly, monthly, and quarterly review formats that produce decisions rather than just reports.</p>
     <a class="card-link" href="/blog/sales-review-cadence-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="industry-playbooks">
     <div class="card-tag">NBFC Sales</div>
     <h2>NBFC Sales Team Management in India</h2>
     <p>Balancing RBI compliance with conversion targets, structuring NBFC sales incentives, and managing the NPA-lag accountability problem.</p>
     <a class="card-link" href="/blog/nbfc-sales-team-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Growth Strategy</div>
     <h2>Referral Sales Programmes for Indian B2B Companies</h2>
     <p>The lowest CAC channel most companies ignore. Design, incentives, timing, and the industry cluster advantage in Indian B2B referrals.</p>
     <a class="card-link" href="/blog/referral-sales-programme-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="industry-playbooks">
     <div class="card-tag">Customer Success</div>
     <h2>Building a Customer Success Team for Indian SMBs</h2>
     <p>Onboarding architecture, health scoring, the expansion conversation timing, and CS team structure for high-volume SMB subscriptions.</p>
     <a class="card-link" href="/blog/customer-success-india-smb.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Channel Sales</div>
     <h2>Channel Sales Strategy for Indian B2B</h2>
     <p>When channel makes sense, partner selection criteria, enablement investment, commission design, and preventing channel conflict.</p>
     <a class="card-link" href="/blog/channel-sales-strategy-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Velocity</div>
     <h2>Shortening the B2B Sales Cycle in India</h2>
     <p>Where Indian B2B sales cycles get stuck and the four levers that compress them without creating pressure that destroys trust.</p>
     <a class="card-link" href="/blog/b2b-sales-cycle-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="industry-playbooks">
     <div class="card-tag">D2C Sales</div>
     <h2>D2C Inside Sales in India: Converting Digital Leads into Offline Revenue</h2>
     <p>Why high-ticket D2C brands need inside sales, the call model, speed to lead, and how assisted sales reduces return rates.</p>
     <a class="card-link" href="/blog/d2c-inside-sales-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Management</div>
     <h2>Managing a Hybrid Sales Team in India</h2>
     <p>What changes in remote and hybrid sales management, what must not change, and the technology stack that makes it work.</p>
     <a class="card-link" href="/blog/hybrid-sales-team-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="gtm-sales-strategy">
     <div class="card-tag">Lead Generation</div>
     <h2>Outbound Lead Generation for Indian B2B</h2>
     <p>Data sourcing from MCA, GST, IndiaMART, and EXIM data. Qualification frameworks and the daily prospecting habits that build pipeline.</p>
     <a class="card-link" href="/blog/outbound-lead-generation-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="industry-playbooks">
     <div class="card-tag">Insurance Sales</div>
     <h2>Insurance Tele-Sales in India: What Converts and What Creates Risk</h2>
     <p>IRDAI compliance, the persistency metric, what actually converts in insurance conversations, and building a responsible selling culture.</p>
     <a class="card-link" href="/blog/insurance-tele-sales-india.html">Read →</a>
   </div>
-  <div class="card">
+  <div class="card" data-category="sales-ops-leadership">
     <div class="card-tag">Sales Training</div>
     <h2>Building a Sales Academy for Indian Tele-Sales Operations</h2>
     <p>Four-stage curriculum design, certification standards, team lead development tracks, and how to select the right trainers.</p>
     <a class="card-link" href="/blog/sales-academy-tele-sales-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="ai-marketing-sales">
+    <div class="card-tag">AI Marketing Strategy</div>
+    <h2>AI in B2B Marketing Strategy for India: A Practical Framework for 2026</h2>
+    <p>How Indian B2B companies are integrating AI across their marketing stack to generate better pipeline and reduce cost per qualified lead.</p>
+    <a class="card-link" href="/blog/ai-b2b-marketing-strategy-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="gtm-sales-strategy">
+    <div class="card-tag">Account-Based Marketing</div>
+    <h2>Account-Based Marketing with AI in India</h2>
+    <p>How Indian B2B companies use AI to run ABM programmes that reach specific high-value accounts with personalised messaging at scale.</p>
+    <a class="card-link" href="/blog/account-based-marketing-ai-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="ai-marketing-sales">
+    <div class="card-tag">AI Chatbot</div>
+    <h2>AI Chatbots for B2B Lead Capture in India</h2>
+    <p>How Indian B2B companies deploy AI chatbots to qualify leads around the clock and hand off warm, briefed prospects to sales reps.</p>
+    <a class="card-link" href="/blog/ai-chatbot-lead-capture-india-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Competitive Intelligence</div>
+    <h2>AI-Powered Competitor Intelligence for Indian B2B</h2>
+    <p>How Indian B2B teams use AI to monitor competitor moves, pricing changes, and positioning shifts continuously, not just annually.</p>
+    <a class="card-link" href="/blog/ai-competitor-intelligence-india-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="ai-marketing-sales">
+    <div class="card-tag">AI Segmentation</div>
+    <h2>AI Customer Segmentation for B2B India</h2>
+    <p>Moving beyond firmographics to behavioural clustering that predicts conversion and retention for Indian B2B customer bases.</p>
+    <a class="card-link" href="/blog/ai-customer-segmentation-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="ai-marketing-sales">
+    <div class="card-tag">AI Demand Generation</div>
+    <h2>AI-Powered Demand Generation for Indian B2B</h2>
+    <p>How Indian B2B companies use AI to identify in-market buyers, prioritise outreach, and build a pipeline engine that scales.</p>
+    <a class="card-link" href="/blog/ai-demand-generation-india-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="ai-marketing-sales">
+    <div class="card-tag">AI Email Marketing</div>
+    <h2>AI Email Marketing for B2B India</h2>
+    <p>Personalisation, sequencing, and deliverability at scale — how Indian B2B marketing teams are using AI to improve email performance.</p>
+    <a class="card-link" href="/blog/ai-email-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Marketing Analytics</div>
+    <h2>AI Marketing Analytics for Indian B2B</h2>
+    <p>Moving from vanity metrics to revenue attribution — how Indian B2B teams use AI analytics to measure what actually drives revenue.</p>
+    <a class="card-link" href="/blog/ai-marketing-analytics-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="ai-marketing-sales">
+    <div class="card-tag">AI Personalisation</div>
+    <h2>AI Personalisation for B2B Outreach in India</h2>
+    <p>Scaling 1-to-1 personalisation at 1-to-many cost, and the line between personalisation and surveillance that Indian buyers notice.</p>
+    <a class="card-link" href="/blog/ai-personalisation-b2b-outreach-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">AI SEO Strategy</div>
+    <h2>AI for B2B SEO and Content Strategy in India</h2>
+    <p>Using AI to identify high-intent keyword opportunities, build topical authority, and rank for searches that drive pipeline.</p>
+    <a class="card-link" href="/blog/ai-seo-content-strategy-india-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="chatgpt-ads">
+    <div class="card-tag">ChatGPT Ads</div>
+    <h2>ChatGPT Ads Launch in India: What B2B Marketers Need to Know</h2>
+    <p>OpenAI has launched ChatGPT Ads in India for Free and Go tier users, with self-serve tools arriving September 4. Here's what to know before testing it.</p>
+    <a class="card-link" href="/blog/chatgpt-ads-india-b2b-marketers-guide.html">Read →</a>
+  </div>
+  <div class="card" data-category="chatgpt-ads">
+    <div class="card-tag">ChatGPT Ads Setup</div>
+    <h2>How to Set Up a ChatGPT Ads Manager Campaign in India: Step-by-Step</h2>
+    <p>A practical walkthrough for your first campaign once self-serve access opens on September 4, 2026.</p>
+    <a class="card-link" href="/blog/chatgpt-ads-manager-setup-guide-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="chatgpt-ads">
+    <div class="card-tag">ChatGPT Ads Budget</div>
+    <h2>ChatGPT Ads Cost in India: Budgets, Bidding, and What to Expect</h2>
+    <p>What we know about pricing at launch — the daily budget floor, the bidding model, and how to budget a first test.</p>
+    <a class="card-link" href="/blog/chatgpt-ads-cost-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="chatgpt-ads">
+    <div class="card-tag">ChatGPT Ads Strategy</div>
+    <h2>Should B2B Companies in India Advertise on ChatGPT? A Decision Framework</h2>
+    <p>A simple fit test for whether your buyer is even reachable on this channel today — and which categories should wait.</p>
+    <a class="card-link" href="/blog/should-b2b-companies-advertise-on-chatgpt-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="chatgpt-ads">
+    <div class="card-tag">Channel Comparison</div>
+    <h2>ChatGPT Ads vs Google Ads vs LinkedIn Ads for B2B in India</h2>
+    <p>How the three stack up on targeting, cost, format, and fit — and a practical way to allocate budget across them.</p>
+    <a class="card-link" href="/blog/chatgpt-ads-vs-google-ads-linkedin-ads-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="chatgpt-ads">
+    <div class="card-tag">ChatGPT Ads Targeting</div>
+    <h2>How ChatGPT Ad Targeting Works: A Guide for Indian Advertisers</h2>
+    <p>Context-based, not profile-based — what that means for your campaign brief, creative, and landing pages.</p>
+    <a class="card-link" href="/blog/chatgpt-ad-targeting-explained-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="chatgpt-ads">
+    <div class="card-tag">ChatGPT Ads Copy</div>
+    <h2>Writing Ad Copy for ChatGPT Ads: What Works Differently in India</h2>
+    <p>Why copy that wins on Google and LinkedIn can misfire here, and three copy patterns worth testing instead.</p>
+    <a class="card-link" href="/blog/chatgpt-ads-copywriting-guide-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">GEO &amp; Paid AI</div>
+    <h2>ChatGPT Ads and GEO: How Paid and Organic AI Visibility Now Work Together</h2>
+    <p>The rented path and the owned path to AI visibility, and how a mature strategy uses both together.</p>
+    <a class="card-link" href="/blog/chatgpt-ads-geo-strategy-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="chatgpt-ads">
+    <div class="card-tag">ChatGPT Ads SaaS</div>
+    <h2>ChatGPT Ads for B2B SaaS Companies in India: Early Playbook</h2>
+    <p>Why self-serve SaaS is the best-fit category at launch, and a three-campaign starting structure.</p>
+    <a class="card-link" href="/blog/chatgpt-ads-b2b-saas-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="chatgpt-ads">
+    <div class="card-tag">ChatGPT Ads Operations</div>
+    <h2>Agencies vs Self-Serve: How B2B Marketers in India Should Manage ChatGPT Ad Campaigns</h2>
+    <p>WPP and Omnicom are OpenAI's first agency partners for India — here's how to decide who should run your campaigns.</p>
+    <a class="card-link" href="/blog/chatgpt-ads-agency-vs-self-serve-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">GEO &amp; AEO Strategy</div>
+    <h2>SEO, GEO &amp; AEO Consultant for B2B Marketing Consultants in India</h2>
+    <p>Why B2B marketing consultants in India now need Generative and Answer Engine Optimisation working alongside SEO — and how to build a client program around all three.</p>
+    <a class="card-link" href="/blog/seo-geo-aeo-consultant-b2b-marketing-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">GEO Consulting</div>
+    <h2>What a Generative Engine Optimisation (GEO) Consultant Actually Does in India</h2>
+    <p>What a GEO engagement actually delivers, how it differs from a traditional SEO retainer, and what to ask before hiring one.</p>
+    <a class="card-link" href="/blog/generative-engine-optimisation-consultant-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">AEO Services</div>
+    <h2>Answer Engine Optimisation (AEO) Services for B2B Brands in India</h2>
+    <p>What AEO services actually include: question inventories, direct-answer content, structured data, and format-specific optimisation.</p>
+    <a class="card-link" href="/blog/answer-engine-optimisation-services-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">AI Citations</div>
+    <h2>How B2B Brands in India Can Get Cited in ChatGPT and Perplexity Answers</h2>
+    <p>A practical, step-by-step process for getting cited in AI-generated answers, and how to track it without dedicated tooling.</p>
+    <a class="card-link" href="/blog/how-to-rank-in-chatgpt-perplexity-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">AI Overviews</div>
+    <h2>Google AI Overviews: A B2B Strategy Guide for Indian Marketers</h2>
+    <p>Which B2B queries get an AI Overview, how it changes the click-through math, and three ways to respond.</p>
+    <a class="card-link" href="/blog/google-ai-overviews-b2b-strategy-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">GEO &amp; AEO Strategy</div>
+    <h2>SEO vs GEO vs AEO Explained: What B2B Marketers in India Need to Know</h2>
+    <p>A clear comparison table and priority framework for explaining SEO, GEO, and AEO to a client or a CFO.</p>
+    <a class="card-link" href="/blog/seo-vs-geo-vs-aeo-explained-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">B2B SaaS SEO</div>
+    <h2>SEO Consultant for B2B SaaS Companies in India</h2>
+    <p>The content hierarchy that actually drives trials, SaaS-specific technical SEO, and where GEO and AEO fit in.</p>
+    <a class="card-link" href="/blog/b2b-saas-seo-consultant-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">AI Brand Visibility</div>
+    <h2>Brand Visibility in AI Search: A Playbook for Indian B2B Companies</h2>
+    <p>How to measure your share of voice inside AI-generated answers, and why it's becoming a board-level marketing metric.</p>
+    <a class="card-link" href="/blog/ai-search-brand-visibility-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">AI Search Audit</div>
+    <h2>How to Audit Your Website for AI Search Readiness (India Edition)</h2>
+    <p>A 7-point checklist covering crawlability, answer extractability, structured data, and credibility signals.</p>
+    <a class="card-link" href="/blog/ai-search-readiness-audit-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">Hiring Guide</div>
+    <h2>GEO/AEO Consultant vs SEO Agency in India: Which Does a B2B Company Need?</h2>
+    <p>A decision framework for choosing between a retained SEO agency, an independent specialist, or both.</p>
+    <a class="card-link" href="/blog/geo-aeo-consultant-vs-seo-agency-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="industry-playbooks">
+    <div class="card-tag">IT Services Marketing</div>
+    <h2>Content Strategy for Indian IT Services Companies to Win in AI Search</h2>
+    <p>Why enterprise-vendor longlisting is now an AI search problem, and the content that actually earns a place on it.</p>
+    <a class="card-link" href="/blog/it-services-b2b-content-ai-search-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="ai-marketing-sales">
+    <div class="card-tag">AI Social Selling</div>
+    <h2>AI-Powered Social Selling on LinkedIn for Indian B2B Teams</h2>
+    <p>How Indian B2B leaders use AI to identify warm prospects, craft personalised outreach, and publish thought leadership at scale.</p>
+    <a class="card-link" href="/blog/ai-social-selling-linkedin-india-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="ai-marketing-sales">
+    <div class="card-tag">Conversational AI</div>
+    <h2>Conversational AI for B2B Sales in India</h2>
+    <p>Chatbots, voice AI, and the human handoff — how Indian B2B companies deploy conversational AI across web, WhatsApp, and calls.</p>
+    <a class="card-link" href="/blog/conversational-ai-b2b-sales-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="ai-marketing-sales">
+    <div class="card-tag">Generative AI</div>
+    <h2>Generative AI for B2B Sales Content in India</h2>
+    <p>What Indian sales teams should automate and what to keep human when using generative AI for case studies, proposals, and decks.</p>
+    <a class="card-link" href="/blog/generative-ai-b2b-sales-content-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="industry-playbooks">
+    <div class="card-tag">Marketplace Growth</div>
+    <h2>Growing Two-Sided Marketplaces in India: Lessons from Naukri and IndiaMART</h2>
+    <p>How two-sided marketplaces balance supply and demand in India, with lessons from scaling recruiter and buyer-seller marketplaces at Naukri and IndiaMART.</p>
+    <a class="card-link" href="/blog/two-sided-marketplace-marketing-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Employer Branding</div>
+    <h2>Employer Branding on Job Portals: What Makes Companies Stand Out on Naukri</h2>
+    <p>What separates high-performing employer brands on Indian job portals from the rest, drawn from years running recruiter-facing products at Naukri.</p>
+    <a class="card-link" href="/blog/employer-branding-strategy-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Trust Marketing</div>
+    <h2>Trust and Verification as a Marketing Lever: The IndiaMART TrustSEAL Playbook</h2>
+    <p>How verification badges and trust signals like IndiaMART's TrustSEAL convert browsing B2B buyers into paying customers.</p>
+    <a class="card-link" href="/blog/trust-verification-marketing-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="seo-geo-aeo">
+    <div class="card-tag">Marketplace SEO</div>
+    <h2>Marketplace SEO: How Buyer Search Behaviour Works on Platforms Like IndiaMART</h2>
+    <p>How B2B buyers search on marketplace platforms, and what that means for how sellers should structure listings for discovery.</p>
+    <a class="card-link" href="/blog/marketplace-seo-listings-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="gtm-sales-strategy">
+    <div class="card-tag">Buyer Behaviour</div>
+    <h2>How Indian B2B Buyers Actually Search Online: Lessons from Naukri and IndiaMART Data</h2>
+    <p>Search behaviour patterns of Indian B2B buyers and recruiters, and what marketers get wrong about how these audiences actually look for solutions.</p>
+    <a class="card-link" href="/blog/how-b2b-buyers-search-online-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="industry-playbooks">
+    <div class="card-tag">Classifieds Marketing</div>
+    <h2>Marketing Classifieds and Listings Platforms in India</h2>
+    <p>The unique marketing challenges of classifieds and listings platforms in India, from supply acquisition to buyer trust to monetisation timing.</p>
+    <a class="card-link" href="/blog/classifieds-listings-marketing-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="industry-playbooks">
+    <div class="card-tag">Marketplace Strategy</div>
+    <h2>Balancing Supply and Demand in Marketplace Marketing</h2>
+    <p>Why marketplace marketing is really two marketing functions in one, and how to sequence supply and demand growth without starving either side.</p>
+    <a class="card-link" href="/blog/marketplace-supply-demand-marketing.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Recruitment Marketing</div>
+    <h2>Recruitment Marketing: What Naukri Taught Me About Hiring as a Funnel</h2>
+    <p>Treating recruitment as a marketing funnel, not an HR process, and what running a recruitment platform at scale teaches about candidate acquisition.</p>
+    <a class="card-link" href="/blog/employer-brand-recruitment-marketing.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Conversion Strategy</div>
+    <h2>Freemium to Paid Conversion: What Actually Moves Indian SMBs to Upgrade</h2>
+    <p>What drives Indian SMB customers from free to paid tiers, and the conversion triggers that matter more than feature gating.</p>
+    <a class="card-link" href="/blog/freemium-to-paid-conversion-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="industry-playbooks">
+    <div class="card-tag">Renewal Marketing</div>
+    <h2>Subscription Renewal Marketing: Lessons from Running Renewals at Scale</h2>
+    <p>How to build a renewal marketing motion for B2B subscriptions in India that doesn't rely on last-minute discounting.</p>
+    <a class="card-link" href="/blog/subscription-renewal-marketing-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Performance Marketing</div>
+    <h2>Performance Marketing for B2B in India: Google Ads and Beyond</h2>
+    <p>A practical framework for running performance marketing for B2B companies in India across search, display, and social.</p>
+    <a class="card-link" href="/blog/performance-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">LinkedIn Ads</div>
+    <h2>LinkedIn Ads for B2B in India: Budgets, Targeting, and What Actually Converts</h2>
+    <p>How Indian B2B marketers should budget, target, and structure LinkedIn ad campaigns to generate real pipeline, not just impressions.</p>
+    <a class="card-link" href="/blog/linkedin-ads-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Google Ads</div>
+    <h2>Google Ads for B2B Companies in India: A Practical Playbook</h2>
+    <p>Keyword strategy, bidding, and landing page design for Google Ads campaigns that actually generate qualified B2B pipeline in India.</p>
+    <a class="card-link" href="/blog/google-ads-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Retargeting</div>
+    <h2>Retargeting and Remarketing for B2B in India</h2>
+    <p>How to build a retargeting strategy for long B2B sales cycles in India without wasting spend on already-converted or dead leads.</p>
+    <a class="card-link" href="/blog/retargeting-remarketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Attribution</div>
+    <h2>Marketing Attribution for B2B in India: Getting Beyond Last-Click</h2>
+    <p>Why last-click attribution misleads Indian B2B marketing teams, and the multi-touch models that better reflect long sales cycles.</p>
+    <a class="card-link" href="/blog/marketing-attribution-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">CRO</div>
+    <h2>Conversion Rate Optimization for B2B Websites in India</h2>
+    <p>A systematic approach to CRO for B2B websites in India, from form friction to trust signals to page speed on regional networks.</p>
+    <a class="card-link" href="/blog/conversion-rate-optimization-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Website UX</div>
+    <h2>Website UX as a Marketing Lever for B2B Conversion</h2>
+    <p>Why website UX decisions are marketing decisions, and the specific UX patterns that move Indian B2B visitors toward a lead form.</p>
+    <a class="card-link" href="/blog/website-ux-marketing-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="gtm-sales-strategy">
+    <div class="card-tag">Lead Scoring</div>
+    <h2>Defining and Scoring Marketing Qualified Leads for Indian B2B</h2>
+    <p>How to build an MQL definition and lead scoring model that sales actually trusts, for Indian B2B pipeline handoffs.</p>
+    <a class="card-link" href="/blog/marketing-qualified-leads-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Funnel Marketing</div>
+    <h2>Funnel Marketing for B2B in India: Top, Middle, and Bottom Done Right</h2>
+    <p>A stage-by-stage framework for funnel marketing in Indian B2B, matching content and channel to buyer intent at each stage.</p>
+    <a class="card-link" href="/blog/funnel-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Instagram Marketing</div>
+    <h2>Instagram Marketing for B2B in India: An Underused Channel</h2>
+    <p>Why Instagram works for B2B brand building in India when used correctly, and the content formats that actually earn attention.</p>
+    <a class="card-link" href="/blog/instagram-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Content Marketing</div>
+    <h2>Building a Content Marketing Calendar for B2B Teams in India</h2>
+    <p>A practical system for planning, producing, and repurposing B2B content across a quarter without burning out a small team.</p>
+    <a class="card-link" href="/blog/content-marketing-calendar-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Video Marketing</div>
+    <h2>Video Marketing for B2B in India: What Works Beyond the Explainer</h2>
+    <p>The video formats that actually move B2B buyers in India, beyond the generic product explainer video.</p>
+    <a class="card-link" href="/blog/video-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">YouTube Marketing</div>
+    <h2>YouTube Marketing for B2B in India: Building a Long-Term Asset</h2>
+    <p>Why YouTube is an underrated long-term marketing asset for Indian B2B companies, and how to build a channel that compounds.</p>
+    <a class="card-link" href="/blog/youtube-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Influencer Marketing</div>
+    <h2>Influencer and Creator Marketing for B2B in India</h2>
+    <p>How Indian B2B companies are working with LinkedIn creators and niche influencers to build trust and reach that ads cannot buy.</p>
+    <a class="card-link" href="/blog/influencer-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Brand Marketing</div>
+    <h2>Brand Marketing for B2B Companies in India: Why It Still Matters</h2>
+    <p>Why brand investment pays off even in performance-obsessed B2B marketing teams, and how to make the case internally.</p>
+    <a class="card-link" href="/blog/brand-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Thought Leadership</div>
+    <h2>Thought Leadership Marketing: Turning Executives into a Growth Channel</h2>
+    <p>How to build an executive thought leadership programme that generates real pipeline, not just vanity engagement.</p>
+    <a class="card-link" href="/blog/thought-leadership-marketing-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Case Study Marketing</div>
+    <h2>Case Study Marketing: Turning Customer Wins into a Sales Weapon</h2>
+    <p>How to structure, produce, and deploy B2B case studies so they actually shorten sales cycles instead of sitting unread.</p>
+    <a class="card-link" href="/blog/case-study-marketing-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Event Marketing</div>
+    <h2>Event and Trade Show Marketing for B2B in India</h2>
+    <p>How to get ROI from trade shows and industry events in India, from pre-event outreach to post-event follow-up.</p>
+    <a class="card-link" href="/blog/event-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Community Marketing</div>
+    <h2>Community-Led Marketing for B2B in India</h2>
+    <p>How Indian B2B companies are building owned communities that reduce dependence on paid acquisition over time.</p>
+    <a class="card-link" href="/blog/community-marketing-b2b-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Vernacular Marketing</div>
+    <h2>Vernacular Marketing in India: Why English-Only Campaigns Leave Money on the Table</h2>
+    <p>The business case for vernacular language marketing in India, and how to do it without losing brand consistency.</p>
+    <a class="card-link" href="/blog/vernacular-marketing-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">MarTech</div>
+    <h2>Building a Martech Stack for Indian B2B Companies</h2>
+    <p>A practical, cost-conscious martech stack for growth-stage Indian B2B companies, and the sequencing of what to buy first.</p>
+    <a class="card-link" href="/blog/martech-stack-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">MarTech Integration</div>
+    <h2>Integrating Martech and Salestech: Closing the Handoff Gap</h2>
+    <p>Why the gap between marketing and sales tools quietly kills pipeline, and how to integrate the two stacks properly.</p>
+    <a class="card-link" href="/blog/martech-salestech-integration-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="sales-ops-leadership">
+    <div class="card-tag">Marketing Org</div>
+    <h2>Structuring a Marketing Team for a Growth-Stage Indian B2B Company</h2>
+    <p>How to structure a lean but effective marketing team as an Indian B2B company scales from early to growth stage.</p>
+    <a class="card-link" href="/blog/marketing-team-structure-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="sales-ops-leadership">
+    <div class="card-tag">Marketing Leadership</div>
+    <h2>The Evolving Role of the CMO in Indian B2B Companies</h2>
+    <p>How the CMO mandate is shifting in Indian B2B companies, from brand custodian to revenue owner.</p>
+    <a class="card-link" href="/blog/cmo-role-india-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="sales-ops-leadership">
+    <div class="card-tag">Marketing Budget</div>
+    <h2>Marketing Budget Allocation for Indian B2B: A Practical Framework</h2>
+    <p>A framework for allocating a B2B marketing budget across brand, demand generation, and retention in the Indian market.</p>
+    <a class="card-link" href="/blog/marketing-budget-allocation-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Marketing Analytics</div>
+    <h2>Marketing Analytics Dashboards: What Indian B2B Leaders Should Track Weekly</h2>
+    <p>The core weekly marketing metrics Indian B2B leaders should actually look at, and the vanity metrics to ignore.</p>
+    <a class="card-link" href="/blog/marketing-analytics-dashboards-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="sales-ops-leadership">
+    <div class="card-tag">Marketing Careers</div>
+    <h2>Building a Marketing Career in Indian B2B: What I Look for When Hiring</h2>
+    <p>What separates marketers who grow fast in Indian B2B companies from those who plateau, from someone who has hired dozens.</p>
+    <a class="card-link" href="/blog/marketing-career-path-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="sales-ops-leadership">
+    <div class="card-tag">Marketing Skilling</div>
+    <h2>Digital Marketing Skilling: Building Teams That Can Keep Up</h2>
+    <p>How Indian B2B marketing teams should structure ongoing skilling as tools and channels change faster than training programmes can.</p>
+    <a class="card-link" href="/blog/digital-marketing-skilling-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="sales-ops-leadership">
+    <div class="card-tag">Agency vs In-House</div>
+    <h2>Performance Marketing Agency vs In-House: Making the Right Call</h2>
+    <p>A decision framework for when Indian B2B companies should use a performance marketing agency versus building in-house.</p>
+    <a class="card-link" href="/blog/performance-agency-vs-inhouse-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="sales-ops-leadership">
+    <div class="card-tag">Marketing Compliance</div>
+    <h2>The DPDP Act and What It Means for Marketing Teams in India</h2>
+    <p>A practical explainer for Indian B2B marketers on what the Digital Personal Data Protection Act changes for consent, data, and campaigns.</p>
+    <a class="card-link" href="/blog/dpdp-act-marketing-compliance.html">Read →</a>
+  </div>
+  <div class="card" data-category="gtm-sales-strategy">
+    <div class="card-tag">Growth Motion</div>
+    <h2>Product-Led vs Sales-Led Growth: Choosing the Right Motion for Indian B2B</h2>
+    <p>How to decide between product-led and sales-led growth motions for a B2B company in the Indian market, and when to blend both.</p>
+    <a class="card-link" href="/blog/plg-vs-sales-led-growth-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="industry-playbooks">
+    <div class="card-tag">SaaS Marketing</div>
+    <h2>SaaS Marketing in India: A Different Playbook from the West</h2>
+    <p>Why SaaS marketing playbooks built for the US market often fail in India, and what actually works for Indian SaaS buyers.</p>
+    <a class="card-link" href="/blog/saas-marketing-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Rebranding</div>
+    <h2>Rebranding a B2B Company in India: What to Protect, What to Change</h2>
+    <p>A framework for rebranding an established B2B company in India without losing the trust equity built over years.</p>
+    <a class="card-link" href="/blog/rebranding-strategy-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="content-brand">
+    <div class="card-tag">Recession Marketing</div>
+    <h2>Marketing During a Downturn: What to Cut and What to Protect</h2>
+    <p>A framework for prioritising marketing spend during a downturn, informed by scaling growth budgets through uneven markets.</p>
+    <a class="card-link" href="/blog/marketing-during-downturn-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="industry-playbooks">
+    <div class="card-tag">Tier 2/3 Marketing</div>
+    <h2>Marketing to Tier 2 and Tier 3 India: A Different Buyer, A Different Playbook</h2>
+    <p>How marketing to Tier 2 and Tier 3 Indian markets differs from metro-first playbooks, from language to trust to channel mix.</p>
+    <a class="card-link" href="/blog/tier2-tier3-marketing-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">First-Party Data</div>
+    <h2>First-Party Data Strategy for Indian B2B Marketers Post-Cookie</h2>
+    <p>How Indian B2B marketing teams should build first-party data assets as third-party cookies and easy ad targeting disappear.</p>
+    <a class="card-link" href="/blog/first-party-data-strategy-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="industry-playbooks">
+    <div class="card-tag">Churn Prevention</div>
+    <h2>Churn Prevention Marketing for B2B Subscriptions in India</h2>
+    <p>How marketing, not just customer success, can reduce churn in Indian B2B subscription businesses through timing and messaging.</p>
+    <a class="card-link" href="/blog/churn-prevention-marketing-b2b.html">Read →</a>
+  </div>
+  <div class="card" data-category="digital-performance">
+    <div class="card-tag">Cohort Analysis</div>
+    <h2>Cohort-Based Marketing Analysis for Indian B2B Subscriptions</h2>
+    <p>Why cohort analysis reveals what monthly dashboards hide, and how to use it to guide B2B marketing decisions in India.</p>
+    <a class="card-link" href="/blog/cohort-based-marketing-analysis-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="industry-playbooks">
+    <div class="card-tag">SMB Marketing</div>
+    <h2>Marketing to Family-Run SMBs in India: A Different Sales Psychology</h2>
+    <p>Why marketing to India's family-run SMB businesses requires a different trust-building approach than marketing to professional buyers.</p>
+    <a class="card-link" href="/blog/family-business-smb-marketing-india.html">Read →</a>
+  </div>
+  <div class="card" data-category="gtm-sales-strategy">
+    <div class="card-tag">Outbound Compliance</div>
+    <h2>Marketing Consent and Outbound Communication Rules for Indian B2B</h2>
+    <p>What Indian B2B marketers need to know about TRAI, DND, and consent rules before running outbound calls, SMS, or WhatsApp campaigns.</p>
+    <a class="card-link" href="/blog/marketing-consent-outbound-india.html">Read →</a>
   </div>
 </div>
 
 <footer>
   <a href="/">goyalvikas.com</a> &nbsp;·&nbsp; © 2026 Vikas Omprakash Goyal
 </footer>
+<script>
+(function(){
+  var pills = document.querySelectorAll('.filter-pill');
+  var cards = document.querySelectorAll('#postsGrid .card');
+  var emptyState = document.getElementById('emptyState');
+
+  function applyFilter(filter){
+    var visible = 0;
+    cards.forEach(function(card){
+      var show = filter === 'all' || card.getAttribute('data-category') === filter;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    emptyState.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  pills.forEach(function(pill){
+    pill.addEventListener('click', function(){
+      pills.forEach(function(p){ p.classList.remove('active'); });
+      pill.classList.add('active');
+      applyFilter(pill.getAttribute('data-filter'));
+      var params = new URLSearchParams(window.location.search);
+      if (pill.getAttribute('data-filter') === 'all') { params.delete('category'); }
+      else { params.set('category', pill.getAttribute('data-filter')); }
+      var newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+      window.history.replaceState(null, '', newUrl);
+    });
+  });
+
+  var initial = new URLSearchParams(window.location.search).get('category');
+  if (initial) {
+    var match = document.querySelector('.filter-pill[data-filter="' + initial + '"]');
+    if (match) match.click();
+  }
+})();
+</script>
 </body>
 </html>

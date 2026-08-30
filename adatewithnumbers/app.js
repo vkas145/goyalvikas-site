@@ -39,8 +39,14 @@
   }
 
   const btnDownload = document.getElementById('btn-download');
+  const btnWhatsapp = document.getElementById('btn-whatsapp');
+  const btnInstagram = document.getElementById('btn-instagram');
+  const btnFacebook = document.getElementById('btn-facebook');
   const btnShare = document.getElementById('btn-share');
   const btnAgain = document.getElementById('btn-again');
+  const shareHintEl = document.getElementById('share-hint');
+
+  const PAGE_URL = 'https://www.goyalvikas.com/adatewithnumbers';
 
   const DAYS_IN_MONTH = { 1: 31, 2: 29, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31 };
 
